@@ -77,7 +77,7 @@
 #contact-form {
   width: 90%;
   max-width: 1000px;
-  margin: 8rem auto;
+  margin: 1rem auto 5rem;
   padding: 3rem 2.5rem;
   background: #fff;
   border-radius: var(--radius-lg);

@@ -4,7 +4,7 @@
 
 .section-asymetrique {
   max-width: 1200px;
-  margin: 5rem auto;
+  margin: 0 auto;
   padding: 0 1.5rem;
   position: relative;
 }
@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -50,8 +50,14 @@
   border-radius: var(--radius-lg);
   transition: transform 0.4s ease-out, filter 0.4s ease-out;
   will-change: transform;
-  filter: blur(5px);
 }
+
+
+.bloc-1 img {
+  flex: 0 0 30%;
+  width: 30%;
+}
+
 
 .section-asymetrique img:not(.django-logo) {
   box-shadow: var(--shadow-lg);
@@ -106,11 +112,16 @@
 .section-asymetrique .bloc-1,
 .section-asymetrique .bloc-3 {
   transform: translateX(-20px);
+  margin-bottom: 4rem;
 }
 
 .section-asymetrique .bloc-2,
 .section-asymetrique .bloc-right {
   transform: translateX(20px);
+}
+
+.section-asymetrique .bloc-2 {
+  margin-bottom: 4rem;
 }
 
 /* Hover effects pour les blocs */

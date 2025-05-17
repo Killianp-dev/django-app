@@ -4,6 +4,7 @@
 
 .hero {
   background-image: url('../../ressources/hero.jpg');
+  margin-bottom: 1rem;
   position: relative;
   width: 100%;
   height: 80vh;
@@ -20,6 +21,7 @@
 }
 
 /* Couche floutée + assombrie (évite de flouter le texte) */
+/*
 .hero::before {
   content: "";
   position: absolute;
@@ -32,6 +34,7 @@
   transform: scale(1.05);
   z-index: 0;
 }
+*/
 
 /* Overlay pour le texte */
 .hero__overlay {
@@ -64,3 +67,4 @@
 .home-page main#blog {
   margin-top: 0;
 }
+
