@@ -359,8 +359,8 @@
   }
 
   .hero-btn {
-        padding: 0.9rem 1rem;
-        font-size: 0.9rem;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.7rem;
   }
   .section-asymetrique img {
         width: 50%;
@@ -368,12 +368,12 @@
   }
 
   .parallax span {
-    font-size: 1rem;
+    font-size: 0.9rem;
     opacity: .9;
   }
 
   .parallax p > span {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   .parallax p {
