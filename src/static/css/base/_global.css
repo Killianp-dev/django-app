@@ -1,0 +1,131 @@
+/* ==================================================
+   MISE EN PAGE GLOBALE
+   ================================================= */
+
+body {
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Conteneur générique des pages liste & blog */
+#blog,
+.content {
+  max-width: 1000px;
+  margin: calc(var(--navbar-height) + 40px) auto 0;
+  padding: 40px 20px;
+  text-align: center;
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+}
+
+/* Titre de page générique */
+#blog h1,
+.content h1,
+.page-title {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.page-title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0 0 2rem;
+  color: var(--color-dark);
+}
+
+/* Conteneur principal */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+}
+
+/* En-tête de page */
+.page-header {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 3rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.page-header .page-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+  text-align: center;
+}
+
+.page-description {
+  font-size: 1.1rem;
+  color: var(--color-grey);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Séparateur horizontal stylisé */
+.section-divider {
+  position: relative;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: "";
+  height: 1px;
+  background: linear-gradient(to var(--direction, right), transparent, rgba(0, 0, 0, 0.3), transparent);
+  flex-grow: 1;
+}
+
+.section-divider::before {
+  --direction: right;
+  margin-right: 15px;
+}
+
+.section-divider::after {
+  --direction: left;
+  margin-left: 15px;
+}
+
+.section-divider .divider-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.section-divider .divider-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: #333;
+}
+
+.section-divider:hover .divider-icon {
+  transform: rotate(180deg);
+}
+
+/* Animation avec GSAP */
+.section-divider.animated .divider-line {
+  width: 0;
+  transition: width 1s ease;
+}
+
+.section-divider.animated.reveal .divider-line {
+  width: 100%;
+}

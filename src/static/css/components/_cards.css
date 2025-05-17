@@ -1,0 +1,315 @@
+/* ==================================================
+   CARTES D'ARTICLE
+   ================================================= */
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+.card {
+  flex: 1 1 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+  position: relative;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Indicateur visuel pour les cartes cliquables */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card:hover::before {
+  border-color: var(--color-primary);
+  opacity: 0.2;
+}
+
+.card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-image {
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+  transition: transform .4s, filter .4s;
+}
+
+.card:hover .card-image img {
+  transform: scale(1.08);
+  filter: brightness(.9);
+}
+
+.card-content {
+  padding: 1.5rem;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  margin-bottom: .5rem;
+  color: var(--color-dark);
+}
+
+.card-meta {
+  font-size: .875rem;
+  color: var(--color-grey);
+  margin-bottom: 1rem;
+}
+
+.card-excerpt {
+  text-align: left;
+}
+
+/* Actions communes */
+.card-actions,
+.article-actions,
+.form-actions {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.card-actions {
+  padding: 0 1.5rem 1.5rem;
+}
+
+/* Cartes d'articles dans le blog */
+.post-card {
+  background-color: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s, border-color .2s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Indicateur visuel pour les cartes cliquables */
+.post-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.post-card:hover::before {
+  border-color: var(--color-primary);
+  opacity: 1;
+}
+
+.post-image {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.post-card:hover .post-image img {
+  transform: scale(1.05);
+}
+
+.post-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-category {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.post-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+  color: var(--color-dark);
+}
+
+.post-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.post-title a:hover {
+  color: var(--color-primary);
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--color-grey);
+  margin-bottom: 1rem;
+}
+
+.post-author {
+  margin-right: 1rem;
+  font-weight: 500;
+}
+
+.post-date {
+  font-style: italic;
+}
+
+.post-excerpt {
+  margin-bottom: 1.5rem;
+  color: #555;
+  line-height: 1.7;
+  flex-grow: 1;
+}
+
+.read-more {
+  display: inline-block;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+  margin-top: auto;
+}
+
+.read-more:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+/* Article principal en une */
+.featured-post {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  background-color: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s, border-color .2s;
+  cursor: pointer;
+}
+
+.featured-post:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Indicateur visuel pour la carte featured-post cliquable */
+.featured-post::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.featured-post:hover::before {
+  border-color: var(--color-primary);
+  opacity: 1;
+}
+
+.featured-post .post-image {
+  height: 100%;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.featured-post .post-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.featured-post:hover .post-image img {
+  transform: scale(1.05);
+}
+
+.featured-post .post-content {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featured-post .post-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-dark);
+  transition: color 0.3s ease;
+}
+
+.featured-post:hover .post-title {
+  color: var(--color-primary);
+}
+
+.featured-post .post-excerpt {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #555;
+  line-height: 1.7;
+}

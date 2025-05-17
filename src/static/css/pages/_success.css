@@ -1,0 +1,55 @@
+/* ==================================================
+   SUCCESS PAGE
+   ================================================= */
+
+.success-card {
+  margin: 80px 20px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+  text-align: center;
+  padding: 3rem 2.5rem;
+  animation: pop-in .5s cubic-bezier(.18, 1.4, .46, 1);
+}
+
+/* icône circle + check */
+.icon-success {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 1.5rem;
+}
+
+.icon-success .circle {
+  fill: none;
+  stroke: #28a745;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 285;
+  stroke-dashoffset: 285;
+  animation: dash-in 1.2s ease forwards;
+}
+
+.icon-success .check {
+  fill: none;
+  stroke: #28a745;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: dash-in 0.8s 0.5s ease forwards;
+}
+
+/* textes */
+.success-card h1 {
+  font-size: 2.4rem;
+  color: #28a745;
+  margin-bottom: .8rem;
+}
+
+.success-card p {
+  font-size: 1.15rem;
+  color: #444;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}

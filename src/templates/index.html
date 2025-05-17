@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}TechNews - Développement, IA & Innovation{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
+{% block nav %}
+        <nav class="nav-menu">
+            <ul class="nav-links">
+                <li>
+                    <a href="#hero">
+                        Accueil
+                    </a>
+                </li>
+                <li>
+                    <a href="#projets">
+                        Projets
+                    </a>
+                </li>
+                <li>
+                    <a href="#latest-posts">
+                        Blog
+                    </a>
+                </li>
+                <li>
+                    <a href="#form">
+                        Contact
+                    </a>
+                </li>
+            </ul>
+        </nav>
+{% endblock %}
+
+{% block content %}
+<section class="hero" id="hero">
+    <div class="hero__overlay">
+        <h1 class="hero__title">TechNews - Votre Hub Tech</h1>
+        <p class="hero__subtitle">
+            Intelligence Artificielle, Développement Web, Innovation Technologique</p>
+
+        <div class="hero__actions">
+            <a href="#projets" class="hero-btn">Explorer les projets</a>
+            <a href="{% url 'blog:home' %}" class="hero-btn">
+                Derniers articles
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Séparateur horizontal -->
+<div class="section-divider" id="projets">
+    <div class="divider-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path>
+        </svg>
+    </div>
+</div>
+
+<!-- Section asymétrique -->
+<section class="section-asymetrique" id="asym">
+    <h2>Mes Projets Open Source</h2>
+
+    <div class="bloc-left bloc-1">
+        <div class="bloc-txt-left">
+            <h3>Système d'Authentification Django</h3>
+            <p>
+                🔒 Système d'authentification prêt à l'emploi avec Django 5.1.3 et django-allauth 65.0.0.
+                Gestion complète des utilisateurs avec connexion sociale, récupération de mot de passe et profils personnalisés.
+                Sécurisé et testé pour une intégration rapide dans vos projets.
+            </p>
+            <a href="https://github.com/Killianp-dev/users" target="_blank">
+                <button type="button">Explorer le projet</button>
+            </a>
+        </div>
+        <img src="{% static 'ressources/djangoallauth.logo.png' %}"
+             alt="Interface du blog Django" class="django-logo">
+    </div>
+
+    <div class="bloc-2">
+        <div class="bloc-txt-2">
+            <h3>Blog Django Reference</h3>
+            <p>
+                🚀 Un backend prêt à l'emploi pour un blog construit avec Django 5 et Python 3.12.
+                Architecture moderne avec gestion complète des articles, catégories et utilisateurs.
+                Interface d'administration personnalisée et optimisée pour la production.
+            </p>
+            <a href="https://github.com/Killianp-dev/blog-django-ref" target="_blank">
+                <button class="btn-bloc-left" type="button">Explorer le projet</button>
+            </a>
+        </div>
+        <img src="{% static 'ressources/3.jpg' %}" alt="Système d'authentification">
+    </div>
+
+    <div class="bloc-left bloc-3">
+        <div class="bloc-txt-left">
+            <h3>Auto-Save System</h3>
+            <p>
+                🖥️ Système de sauvegarde automatique prêt à l'emploi avec sauvegardes quotidiennes, hebdomadaires et mensuelles.
+                Gestion intelligente de l'espace disque avec suppression automatique des anciennes sauvegardes.
+                Script Python configurable pour s'adapter à tous vos besoins de backup.
+            </p>
+            <a href="https://github.com/Killianp-dev/auto-save" target="_blank">
+                <button class="btn-bloc-left" type="button">Explorer le projet</button>
+            </a>
+        </div>
+        <img src="{% static 'ressources/autosave.jpg' %}" alt="Système de sauvegarde automatique">
+    </div>
+    <div class="bloc-right bloc-4">
+        <div class="bloc-txt-right">
+            <h3>AuCoffre Notifier</h3>
+            <p>
+                🪙💰 Un outil Python pour récupérer la liste des produits depuis AuCoffre.com.
+                Extraction du premium (%) et détection du label LSP, avec envoi d'alertes via Pushover.
+                Automatisez votre veille sur les métaux précieux avec ce notificateur intelligent.
+            </p>
+            <a href="https://github.com/Killianp-dev/aucoffre-notifier" target="_blank">
+                <button class="btn-bloc-right" type="button">Explorer le projet</button>
+            </a>
+        </div>
+        <img src="{% static 'ressources/aucoffre.svg' %}"
+             alt="Interface du notificateur AuCoffre">
+    </div>
+
+    <div class="ligne-gauche"></div>
+    <div class="ligne-milieu"></div>
+    <div class="ligne-droite"></div>
+</section>
+
+<!-- Séparateur horizontal avec une icône différente -->
+<div class="section-divider">
+    <div class="divider-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
+        </svg>
+    </div>
+</div>
+
+<!-- Section parallax -->
+<section class="parallax" id="contact">
+    <p>L'Innovation au Service du Code</p>
+    <span>Explorez l'univers de la tech moderne</span>
+</section>
+
+<!-- Séparateur horizontal avec une icône différente -->
+<div class="section-divider" id="latest-posts">
+    <div class="divider-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+            <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path>
+        </svg>
+    </div>
+</div>
+
+<!-- Section des derniers articles avec carousel -->
+<section class="latest-posts">
+  <div class="container">
+    <div class="news__header">
+      <h2 class="news__title">Articles Récents</h2>
+      <p class="news__subtitle">Les dernières tendances en IA, développement et innovation technologique</p>
+    </div>
+
+    {% if latest_posts %}
+    {% if latest_posts|length > 3 %}
+    <!-- Carousel pour plus de 3 articles -->
+    <div class="carousel">
+      <div class="carousel__container">
+        <div class="carousel__track">
+          {% for post in latest_posts %}
+          <div class="carousel__slide">
+            <article class="card">
+              {% if post.thumbnail %}
+                <div class="card__image">
+                  <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+                </div>
+              {% else %}
+                <div class="card__image">
+                  <img src="{% static 'ressources/' %}{% cycle '1' '2' '3' '4' '5' %}.jpg" alt="{{ post.title }}">
+                </div>
+              {% endif %}
+              <div class="card__content">
+                <h3 class="card__title">{{ post.title }}</h3>
+                <p class="card__meta">
+                  <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
+                  <span class="card__author">Par {{ post.author_or_default }}</span>
+                </p>
+                <p class="card__excerpt">{{ post.content|truncatewords:25 }}</p>
+                <a href="{% url 'blog:detail' post.slug %}" class="btn btn--primary">Lire l'article</a>
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Boutons de navigation -->
+      <button class="carousel__button carousel__button--prev" aria-label="Précédent">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+        </svg>
+      </button>
+      <button class="carousel__button carousel__button--next" aria-label="Suivant">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+        </svg>
+      </button>
+
+      <!-- Indicateurs (points) -->
+      <div class="carousel__nav"></div>
+    </div>
+    {% else %}
+    <!-- Grille statique pour 3 articles ou moins -->
+    <div class="news__grid">
+      {% for post in latest_posts %}
+      <article class="card">
+        {% if post.thumbnail %}
+          <div class="card__image">
+            <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+          </div>
+        {% else %}
+          <div class="card__image">
+            <img src="{% static 'ressources/' %}{{ forloop.counter }}.jpg" alt="{{ post.title }}">
+          </div>
+        {% endif %}
+        <div class="card__content">
+          <h3 class="card__title">{{ post.title }}</h3>
+          <p class="card__meta">
+            <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
+            <span class="card__author">Par {{ post.author_or_default }}</span>
+          </p>
+          <p class="card__excerpt">{{ post.content|truncatewords:25 }}</p>
+          <a href="{% url 'blog:detail' post.slug %}" class="btn btn--primary">Lire l'article</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% else %}
+      <p class="news__empty">Les articles arrivent bientôt ! Restez connecté pour découvrir nos prochaines publications.</p>
+    {% endif %}
+
+    <div class="news__more">
+      <a href="{% url 'blog:home' %}" class="btn btn--outline">Explorer tous les articles</a>
+    </div>
+  </div>
+</section>
+
+<!-- Séparateur horizontal avec une icône différente -->
+<div class="section-divider" id="form">
+    <div class="divider-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"></path>
+        </svg>
+    </div>
+</div>
+
+<!-- Section formulaire -->
+<section id="contact-form">
+    <h2>Collaborons Ensemble</h2>
+    <p style="text-align: center; margin-bottom: 2rem; color: #666;">
+        Une idée de projet ? Une question technique ? N'hésitez pas à me contacter pour discuter de vos besoins.
+    </p>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+            {{ form.name.label_tag }}<br>
+            {{ form.name }}{{ form.name.errors }}
+        </div>
+        <div>
+            {{ form.email.label_tag }}<br>
+            {{ form.email }}{{ form.email.errors }}
+        </div>
+        <div>
+            {{ form.message.label_tag }}<br>
+            {{ form.message }}{{ form.message.errors }}
+        </div>
+        <button type="submit">Envoyer le message</button>
+    </form>
+</section>
+
+{% endblock %}

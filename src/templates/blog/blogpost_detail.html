@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block body_class %}article-page{% endblock %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<main id="blog">
+  <article class="article">
+    {% if post.thumbnail %}
+    <figure class="article-image">
+      <img src="{{ post.thumbnail.url }}" alt="Image de l’article : {{ post.title }}">
+    </figure>
+    {% endif %}
+
+    <header class="article-header">
+      <h1 class="article-title">{{ post.title }}</h1>
+      <p class="article-meta">
+        Publié par <span class="article-author">{{ post.author_or_default }}</span>
+        — {{ post.created_on|date:"j F Y" }}
+      </p>
+    </header>
+
+    <section class="article-body">
+      {{ post.content|linebreaks|safe }}
+    </section>
+
+    {% if request.user.is_staff %}
+    <footer class="article-actions">
+      <a href="{% url 'blog:edit' slug=post.slug %}" class="btn">Éditer</a>
+      <a href="{% url 'blog:delete' slug=post.slug %}" class="btn-delete">Supprimer</a>
+    </footer>
+    {% endif %}
+  </article>
+</main>
+{% endblock %}

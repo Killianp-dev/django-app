@@ -1,0 +1,123 @@
+/* ==================================================
+   SECTION « ASYMÉTRIQUE »
+   ================================================= */
+
+.section-asymetrique {
+  max-width: 1200px;
+  margin: 5rem auto;
+  padding: 0 1.5rem;
+  position: relative;
+}
+
+.section-asymetrique h2 {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  color: var(--color-dark);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Blocs principaux - structure commune */
+.section-asymetrique .bloc-1,
+.section-asymetrique .bloc-2,
+.section-asymetrique .bloc-3,
+.section-asymetrique .bloc-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 5rem;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+  transition: transform 0.4s ease-out;
+}
+
+/* Inversion du flux pour alterner visuel */
+.section-asymetrique .bloc-2,
+.section-asymetrique .bloc-right {
+  flex-direction: row-reverse;
+}
+
+/* Images */
+.section-asymetrique img {
+  flex: 0 0 40%;
+  height: auto;
+  width: 40%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  transition: transform 0.4s ease-out, filter 0.4s ease-out;
+  will-change: transform;
+  filter: blur(5px);
+}
+
+.section-asymetrique img:not(.django-logo) {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Zones de texte */
+.section-asymetrique .bloc-txt-left,
+.section-asymetrique .bloc-txt-2,
+.section-asymetrique .bloc-txt-right {
+  flex: 1 1 55%;
+  min-width: 50%;
+  padding: 0 20px;
+  text-align: center;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Titres et paragraphes */
+.section-asymetrique h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  color: var(--color-dark);
+}
+
+.section-asymetrique p {
+  margin-bottom: 1.2rem;
+  color: #444;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Décoration : fines lignes verticales derrière les blocs */
+.section-asymetrique .ligne-gauche,
+.section-asymetrique .ligne-milieu,
+.section-asymetrique .ligne-droite {
+  position: absolute;
+  top: -150px;
+  bottom: -150px;
+  width: 1px;
+  background: #e0e0e0;
+  z-index: -1;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.section-asymetrique .ligne-gauche { left: 15%; }
+.section-asymetrique .ligne-milieu { left: 50%; }
+.section-asymetrique .ligne-droite { right: 15%; }
+
+/* Légère translation pour renforcer l'asymétrie (desktop uniquement) */
+.section-asymetrique .bloc-1,
+.section-asymetrique .bloc-3 {
+  transform: translateX(-20px);
+}
+
+.section-asymetrique .bloc-2,
+.section-asymetrique .bloc-right {
+  transform: translateX(20px);
+}
+
+/* Hover effects pour les blocs */
+.section-asymetrique .bloc-1:hover,
+.section-asymetrique .bloc-2:hover,
+.section-asymetrique .bloc-3:hover,
+.section-asymetrique .bloc-right:hover {
+  transform: translateY(-5px);
+}
+

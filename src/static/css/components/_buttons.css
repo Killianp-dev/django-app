@@ -1,0 +1,252 @@
+/* ==================================================
+   BOUTONS
+   ================================================= */
+
+.btn,
+.btn-secondary,
+.btn-delete,
+.btn-add {
+  display: inline-block;
+  padding: .5rem 1rem;
+  font-size: .9rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s;
+}
+
+.btn {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn:hover {
+  background: var(--color-primary-hover);
+}
+
+.btn-secondary {
+  background: var(--color-secondary);
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary-hover);
+}
+
+.btn-delete {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background: var(--color-danger-hover);
+}
+
+.btn-add {
+  background: var(--color-success);
+  color: #fff;
+  padding: .6rem 1.2rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-add:hover {
+  background: var(--color-success-hover);
+}
+
+/* Styles des boutons hero */
+.hero-btn {
+  background: linear-gradient(to right, rgb(0, 175, 228) 50%, rgb(0, 195, 255) 50%, rgb(111, 222, 255));
+  background-size: 200%;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin: 0 .5rem;
+  padding: 0.9rem 2.2rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: 999px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  text-align: center;
+  color: #fdfdfd;
+  transition: var(--transition-normal);
+  will-change: transform, opacity;
+}
+
+.hero-btn:nth-child(2) {
+  background: linear-gradient(to right, rgb(175, 175, 175) 50%, rgb(221, 221, 221) 50%, rgb(201, 201, 201));
+  background-size: 200%;
+  color: #fff;
+}
+
+.hero-btn:hover {
+  background-position: 100%;
+  border: none;
+  color: rgb(255, 255, 255);
+}
+
+/* Effet de surbrillance au survol des boutons du hero */
+.hero-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(-25deg);
+  transition: all 0.5s ease;
+}
+
+.hero-btn:hover::after {
+  left: 100%;
+}
+
+/* Boutons de section */
+.section-asymetrique button,
+.section-asymetrique .btn-bloc-right {
+  display: inline-block;
+  padding: .75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--color-primary);
+  color: #fff;
+  transition: background .2s, transform .15s;
+}
+
+.section-asymetrique button:hover,
+.section-asymetrique .btn-bloc-right:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Effet de brillance sur les boutons au scroll */
+.section-asymetrique button,
+.section-asymetrique .btn-bloc-right {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-asymetrique button::before,
+.section-asymetrique .btn-bloc-right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.section-asymetrique button:hover::before,
+.section-asymetrique .btn-bloc-right:hover::before {
+  left: 100%;
+}
+
+/* Bouton "Lire l'article" */
+.btn.btn--primary {
+  align-self: flex-start;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn.btn--primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Effet de surbrillance au survol du bouton */
+.btn.btn--primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: skewX(-25deg);
+  transition: all 0.5s ease;
+}
+
+.btn.btn--primary:hover::after {
+  left: 100%;
+}
+
+/* Bouton "Voir tous les articles" */
+.btn.btn--outline {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition-normal);
+}
+
+.btn.btn--outline:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Bouton d'envoi de formulaire */
+#contact-form button[type="submit"] {
+  display: inline-block;
+  padding: .75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: var(--color-primary);
+  color: #fff;
+  transition: background .2s, transform .15s;
+}
+
+#contact-form button[type="submit"]:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+#contact-form button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Bouton retour (success page) */
+.btn-return {
+  display: inline-block;
+  padding: .75rem 2rem;
+  background: #28a745;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+}
+
+.btn-return:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-return:active {
+  transform: translateY(0);
+}

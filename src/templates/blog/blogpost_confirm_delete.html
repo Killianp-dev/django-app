@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Supprimer un article</title>
+{% endblock %}
+
+{% block content %}
+<main id="blog">
+  <h1 class="page-title">Supprimer un article</h1>
+
+  <article class="form-article">
+    <p>Êtes-vous sûr de vouloir supprimer « <strong>{{ post }}</strong> » ?</p>
+
+    <form method="POST" class="form" style="margin-top:1.5rem;">
+      {% csrf_token %}
+      <div class="form-actions">
+        <input type="submit" value="Oui, supprimer" class="btn btn-delete">
+        <a href="{% url 'blog:detail' slug=post.slug %}" class="btn-secondary">
+          Annuler
+        </a>
+      </div>
+    </form>
+  </article>
+</main>
+{% endblock %}

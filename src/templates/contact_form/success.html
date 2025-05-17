@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Message envoyé – MySite{% endblock %}
+{% block body_class %}success-page{% endblock %}
+
+{% block content %}
+<section class="content">
+    <div class="success-card">
+        <svg class="icon-success" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <circle class="circle" cx="60" cy="60" r="54" />
+            <path class="check" d="M30 60l20 20 40-45" />
+        </svg>
+
+        <h1>Message envoyé avec succès !</h1>
+
+        <p>Votre message a bien été transmis. Je vous répondrai dans les plus brefs délais.</p>
+
+        <a href="{% url 'index' %}" class="btn-return">Retour à l'accueil</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Actualités</h1>
+    <p class="page-description">Les dernières nouvelles et articles de notre rédaction</p>
+</div>
+
+<div class="container">
+    <div class="blogpost-grid">
+        {% if object_list %}
+            {% with featured_post=object_list.0 %}
+            <!-- Article à la une -->
+            <article class="featured-post">
+                <div class="post-image">
+                    {% if featured_post.thumbnail %}
+                        <img src="{{ featured_post.thumbnail.url }}" alt="{{ featured_post.title }}">
+                    {% else %}
+                        <img src="/static/ressources/1.jpg" alt="{{ featured_post.title }}">
+                    {% endif %}
+                </div>
+                <div class="post-content">
+                    <span class="post-category">À la une</span>
+                    <h2 class="post-title">
+                        <a href="{% url 'blog:detail' featured_post.slug %}">{{ featured_post.title }}</a>
+                    </h2>
+                    <div class="post-meta">
+                        <span class="post-author">Par {{ featured_post.author }}</span>
+                        <span class="post-date">{{ featured_post.created_at|date:"d F Y" }}</span>
+                    </div>
+                    <div class="post-excerpt">
+                        {{ featured_post.content|truncatewords:50 }}
+                    </div>
+                    <a href="{% url 'blog:detail' featured_post.slug %}" class="read-more">Lire l'article complet</a>
+                </div>
+            </article>
+            {% endwith %}
+
+            <!-- Articles secondaires -->
+            {% for post in object_list|slice:"1:" %}
+            <article class="post-card">
+                <div class="post-image">
+                    {% if post.thumbnail %}
+                        <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+                    {% else %}
+                        <img src="/static/ressources/{{ forloop.counter|add:1 }}.jpg" alt="{{ post.title }}">
+                    {% endif %}
+                </div>
+                <div class="post-content">
+                    <span class="post-category">Article</span>
+                    <h2 class="post-title">
+                        <a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a>
+                    </h2>
+                    <div class="post-meta">
+                        <span class="post-author">Par {{ post.author }}</span>
+                        <span class="post-date">{{ post.created_at|date:"d F Y" }}</span>
+                    </div>
+                    <div class="post-excerpt">
+                        {{ post.content|truncatewords:25 }}
+                    </div>
+                    <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus</a>
+                </div>
+            </article>
+            {% endfor %}
+        {% else %}
+            <div class="no-posts">
+                <p>Aucun article n'a été publié pour le moment.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Premier</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <span class="current">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Dernier &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if user.is_staff %}
+    <div class="admin-actions">
+        <a href="{% url 'blog:create' %}" class="btn-add">Nouvel article</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

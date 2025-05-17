@@ -1,0 +1,28 @@
+{% comment %}
+Formulaire d'article réutilisable pour création et édition.
+Rôle : éliminer la duplication de code côté templates.
+Utilisation :
+{% include 'partials/blogpost_form.html' with submit_label='Créer' %}
+{% endcomment %}
+
+<article class="form-article">
+  <form method="POST" enctype="multipart/form-data" class="form">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group{% if field.errors %} has-error{% endif %}">
+      {{ field.label_tag }}
+      {{ field }}
+      {% if field.help_text %}
+      <small class="help-text">{{ field.help_text }}</small>
+      {% endif %}
+      {% for error in field.errors %}
+      <span class="error">{{ error }}</span>
+      {% endfor %}
+    </div>
+    {% endfor %}
+    <div class="form-actions">
+      <input type="submit" value="{{ submit_label }}" class="btn">
+      <a href="{% url 'blog:home' %}" class="btn-secondary">Annuler</a>
+    </div>
+  </form>
+</article>

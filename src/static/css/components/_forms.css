@@ -1,0 +1,148 @@
+/* ==================================================
+   FORMULAIRES
+   ================================================= */
+
+/* FORMULAIRE D'ÉDITION */
+.form-article {
+  max-width: 800px;
+  margin: 2rem auto 4rem;
+  padding: 2rem 2.5rem;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .06);
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: .35rem;
+  color: var(--color-dark);
+}
+
+.form-group input[type=text],
+.form-group input[type=url],
+.form-group input[type=file],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: .65rem .85rem;
+  font-size: 1rem;
+  border: 1px solid #d0d7de;
+  border-radius: var(--radius-md);
+  background: #fafafa;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.form-group textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, .15);
+  background: #fff;
+}
+
+/* Aide & erreurs */
+.help {
+  display: block;
+  margin-top: .25rem;
+  font-size: .85rem;
+  color: var(--color-grey);
+}
+
+.error {
+  display: block;
+  margin-top: .25rem;
+  font-size: .85rem;
+  color: #e74c3c;
+}
+
+.has-error input,
+.has-error textarea,
+.has-error select {
+  border-color: #e74c3c;
+}
+
+/* FORMULAIRE DE CONTACT */
+#contact-form {
+  width: 90%;
+  max-width: 1000px;
+  margin: 8rem auto;
+  padding: 3rem 2.5rem;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  text-align: left;
+}
+
+/* — Titre — */
+#contact-form > h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: var(--color-dark);
+}
+
+/* — Groupes de champs — */
+#contact-form form > div {
+  margin-bottom: 1.75rem;
+}
+
+/* Labels */
+#contact-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: .4rem;
+  color: var(--color-dark);
+}
+
+/* Champs */
+#contact-form .form-control {
+  width: 100%;
+  padding: .7rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #d0d7de;
+  border-radius: var(--radius-md);
+  background: #fafafa;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+#contact-form .form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, .15);
+  background: #fff;
+}
+
+/* Zones de texte un peu plus hautes */
+#contact-form textarea.form-control {
+  min-height: 160px;
+  resize: vertical;
+}
+
+/* Messages d'erreur Django */
+#contact-form .errorlist {
+  margin-top: .35rem;
+  list-style: none;
+  font-size: .85rem;
+  color: var(--color-danger);
+}
+
+#contact-form .errorlist li::before {
+  content: "⚠ ";
+}
+
+/* — État invalide — */
+#contact-form .has-error .form-control {
+  border-color: var(--color-danger);
+}

@@ -1,0 +1,31 @@
+/* ==================================================
+   FICHIER PRINCIPAL CSS
+   Importe tous les modules CSS
+   ================================================= */
+
+/* 1. Base - Reset, variables et styles globaux */
+@import url('./base/_variables.css');
+@import url('./base/_reset.css');
+@import url('./base/_global.css');
+
+/* 2. Components - Éléments réutilisables */
+@import url('./components/_navbar.css');
+@import url('./components/_buttons.css');
+@import url('./components/_cards.css');
+@import url('./components/_footer.css');
+@import url('./components/_forms.css');
+
+/* 3. Sections - Sections spécifiques de la page */
+@import url('./sections/_hero.css');
+@import url('./sections/_asymetric.css');
+@import url('./sections/_parallax.css');
+@import url('./sections/_carousel.css');
+@import url('./sections/_blog.css');
+
+/* 4. Pages - Styles spécifiques à certaines pages */
+@import url('./pages/_article.css');
+@import url('./pages/_success.css');
+
+/* 5. Utilities - Animations et responsive */
+@import url('./utilities/_animations.css');
+@import url('./utilities/_responsive.css');

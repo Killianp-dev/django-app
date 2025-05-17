@@ -1,0 +1,22 @@
+/* ==================================================
+   RESET & TYPOGRAPHIE
+   ================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Règle globale pour le défilement doux */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pour assurer la compatibilité avec Safari et les navigateurs plus anciens */
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

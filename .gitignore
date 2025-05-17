@@ -1,0 +1,78 @@
+# Environnement virtuel
+env/
+venv/
+ENV/
+
+# Fichiers Python compilés
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Fichiers médias et uploads
+src/mediafiles/
+media/
+
+# Fichiers statiques collectés
+staticfiles/
+
+# Fichiers locaux spécifiques
+tree.txt
+run_livereload.sh
+run_server.sh
+
+# Fichiers de logs
+*.log
+logs/
+
+# Fichiers de base de données SQLite
+*.sqlite3
+db.sqlite3
+
+# Fichiers de configuration système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers créés par les IDE
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+*.swo
+.project
+.pydevproject
+
+# Fichiers de tests ou caches
+.cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Fichiers de packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Fichiers de configuration ou secrets potentiels
+.env
+*.env
+.secret_key
+*.bak
+local_settings.py
+
+# Fichiers générés par Django
+*.pot
+*.mo
+*.pyc
+__pycache__/
+
+# Migrations spécifiques (optionnel)
+# */migrations/*.py
+# !*/migrations/__init__.py

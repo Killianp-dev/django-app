@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Éditer un article</title>
+{% endblock %}
+
+{% block content %}
+<main id="blog">
+  <h1 class="page-title">Éditer un article</h1>
+</main>
+{% include 'partials/blogpost_form.html' with submit_label='Enregistrer' %}
+{% endblock %}

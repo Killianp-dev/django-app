@@ -1,0 +1,51 @@
+/* ==================================================
+   SECTION PARALLAX
+   ================================================= */
+
+.parallax {
+  position: relative;
+  height: 50vh;
+  background-image: url("../../ressources/1.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Voile sombre pour la lisibilité du texte */
+.parallax::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.parallax p,
+.parallax span {
+  position: relative;
+  z-index: 1;
+}
+
+.parallax p {
+  margin-bottom: 12px;
+  font-weight: 700;
+  letter-spacing: 8px;
+}
+
+.parallax span {
+  font-size: 1.2rem;
+  opacity: .9;
+}
+
+.parallax p > span {
+  font-size: 32px;
+}
+

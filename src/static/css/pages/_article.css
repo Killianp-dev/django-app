@@ -1,0 +1,70 @@
+/* ==================================================
+   PAGE ARTICLE
+   ================================================= */
+
+.article {
+  max-width: 1200px;
+  margin: 2rem auto 4rem;
+  padding: 2rem 2.5rem;
+  text-align: left;
+  line-height: 1.75;
+}
+
+.article-image img {
+  width: 85%;
+  max-height: 450px;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  margin: 0 auto 3rem;
+  display: block;
+}
+
+.article-title {
+  font-size: 2.1rem;
+  line-height: 1.3;
+  color: var(--color-dark);
+  margin-bottom: .5rem;
+}
+
+.article-meta {
+  font-size: .9rem;
+  color: var(--color-grey);
+  margin-bottom: 2rem;
+}
+
+.article-body p {
+  margin-bottom: 1.2rem;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.article-body h2,
+.article-body h3,
+.article-body h4 {
+  margin: 2.2rem 0 1rem;
+  color: var(--color-dark);
+  line-height: 1.3;
+}
+
+.article-actions {
+  margin-top: 3rem;
+}
+
+/* MODIFIEURS DE PAGE */
+/*  ➜ quand <body class="article-page"> est présent */
+.article-page #blog {
+  max-width: 1200px;
+  text-align: left;
+}
+
+.article-page .article {
+  max-width: none;
+}
+
+/* Confort de lecture sur très grands écrans */
+@media(min-width:1600px) {
+  .article-page #blog {
+    max-width: 75%;
+  }
+}
