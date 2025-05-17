@@ -21,7 +21,7 @@
 }
 
 /* Couche floutée + assombrie (évite de flouter le texte) */
-/*
+
 .hero::before {
   content: "";
   position: absolute;
@@ -30,11 +30,11 @@
   right: -10px;
   bottom: -10px;
   background: inherit;
-  filter: blur(2px) brightness(.8);
+  filter: blur(6px) brightness(.8);
   transform: scale(1.05);
   z-index: 0;
 }
-*/
+
 
 /* Overlay pour le texte */
 .hero__overlay {
