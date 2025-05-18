@@ -358,10 +358,17 @@
         font-size: 1rem;
   }
 
+.hero__actions {
+    display: flex;
+    justify-content: center;
+}
+
   .hero-btn {
-        padding: 0.7rem 0.9rem;
-        font-size: 0.7rem;
+        padding: 13px 14.2px;
+        font-size: 14.7px;
+        white-space: nowrap;
   }
+
   .section-asymetrique img {
         width: 50%;
         height: auto;
@@ -380,8 +387,37 @@
     letter-spacing: 1px;
     margin: 0 1rem 0.5rem;
   }
+    footer {
+    font-size: 15px;
+  }
 
 }
+
+/* Mobile très très petit - ajustements supplémentaires */
+@media (max-width: 400px) {
+    .hero__title {
+        font-size: 1.4rem;
+  }
+
+  .hero__subtitle {
+        font-size: 0.9rem;
+  }
+
+  .hero-btn {
+        padding: 13px 14.2px;
+        font-size: 13px;
+        white-space: nowrap;
+  }
+
+  .carousel__indicator {
+        display: none;
+  }
+
+  footer {
+    font-size: 15px;
+  }
+}
+
 
 /* Blog responsive */
 @media (max-width: 1024px) {
