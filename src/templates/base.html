@@ -11,58 +11,59 @@
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-    <!-- Barre de navigation -->
-    <header class="navbar">
-        <div class="logo">
-            <a href="{% url 'index' %}">TechNews</a>
-        </div>
-{% block nav %}
-        <nav class="nav-menu">
-            <ul class="nav-links">
-                <li>
-                    <a href="{% url 'index' %}">
-                        Accueil
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'index' %}">
-                        Projets
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'blog:home' %}">
-                        Blog
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'index' %}">
-                        Contact
-                    </a>
-                </li>
-            </ul>
-        </nav>
-{% endblock %}
+<!-- Barre de navigation -->
+<header class="navbar">
+    <div class="logo">
+        <a href="{% url 'index' %}">TechNews</a>
+    </div>
+    {% block nav %}
+    <nav class="nav-menu">
+        <ul class="nav-links">
+            <li>
+                <a href="{% url 'index' %}">
+                    Accueil
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'index' %}">
+                    Projets
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'blog:home' %}">
+                    Blog
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'index' %}">
+                    Contact
+                </a>
+            </li>
+        </ul>
+    </nav>
+    {% endblock %}
 
-        <div class="hamburger">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-    </header>
+    <div class="hamburger">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+</header>
 
-    <!-- Contenu principal -->
-    {% block content %}{% endblock %}
+<!-- Contenu principal -->
+{% block content %}{% endblock %}
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2025 TechNews — Tous droits réservés —
-            <a href="mailto:contact@ai-technews.fr"><strong>contact@ai-technews.fr</strong></a>
-        </p>
-    </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="{% static 'js/app.js' %}"></script>
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; 2025 TechNews — Tous droits réservés —
+        <a href="mailto:contact@ai-technews.fr"><strong>contact@ai-technews.fr</strong></a>
+    </p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="{% static 'js/app.js' %}"></script>
 </body>
 
 </html>

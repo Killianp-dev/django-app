@@ -252,6 +252,7 @@
     </div>
 </div>
 
+
 <!-- Section formulaire -->
 <section id="contact-form">
     <h2>Collaborons Ensemble</h2>
@@ -268,6 +269,10 @@
         <div>
             {{ form.email.label_tag }}<br>
             {{ form.email }}{{ form.email.errors }}
+        </div>
+        <div>
+            {{ form.subject.label_tag }}<br>
+            {{ form.subject }}{{ form.subject.errors }}
         </div>
         <div>
             {{ form.message.label_tag }}<br>
