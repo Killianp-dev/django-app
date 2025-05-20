@@ -416,6 +416,16 @@
   footer {
     font-size: 15px;
   }
+
+    .section-asymetrique h2 > span {
+      font-size: 1.8rem;
+    }
+
+  .bloc-txt-left button {
+    z-index: 1000;
+  }
+
+
 }
 
 

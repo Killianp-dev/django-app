@@ -58,7 +58,7 @@
 
 <!-- Section asymétrique -->
 <section class="section-asymetrique" id="asym">
-    <h2>Mes Projets Open Source</h2>
+    <h2>Les Projets</h2>
 
     <div class="bloc-left bloc-1">
         <img src="{% static 'ressources/djangoallauth.logo.png' %}" alt="Interface du blog Django" class="django-logo">
@@ -183,7 +183,7 @@
                   <span class="card__author">Par {{ post.author_or_default }}</span>
                 </p>
                 <p class="card__excerpt">{{ post.content|truncatewords:25 }}</p>
-                <a href="{% url 'blog:detail' post.slug %}" class="btn btn--primary">Lire l'article</a>
+                <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus...</a>
               </div>
             </article>
           </div>
