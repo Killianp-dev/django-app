@@ -22,7 +22,7 @@
     </header>
 
     <section class="article-body">
-      {{ post.content|linebreaks|safe }}
+      {{ post.content|safe }}
     </section>
 
     {% if request.user.is_staff %}

@@ -1,10 +1,3 @@
-{% comment %}
-Formulaire d'article réutilisable pour création et édition.
-Rôle : éliminer la duplication de code côté templates.
-Utilisation :
-{% include 'partials/blogpost_form.html' with submit_label='Créer' %}
-{% endcomment %}
-
 <article class="form-article">
   <form method="POST" enctype="multipart/form-data" class="form">
     {% csrf_token %}
