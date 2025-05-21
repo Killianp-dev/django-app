@@ -182,7 +182,7 @@
                   <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
                   <span class="card__author">Par {{ post.author_or_default }}</span>
                 </p>
-                <p class="card__excerpt">{{ post.content|truncatewords:25 }}</p>
+                <p class="card__excerpt">{{ post.content|safe|truncatewords:25 }}</p>
                 <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus...</a>
               </div>
             </article>
