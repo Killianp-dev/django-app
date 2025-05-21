@@ -12,12 +12,18 @@
       <div class="article-meta">
         <span class="article-author">Par {{ post.author_or_default }}</span>
         <span class="article-date">{{ post.created_on|date:"j F Y" }}</span>
+        {% if post.reading_time %}
+        <span class="article-reading-time">{{ post.reading_time }} min de lecture</span>
+        {% endif %}
       </div>
     </header>
 
     {% if post.thumbnail %}
     <figure class="article-image">
       <img src="{{ post.thumbnail.url }}" alt="Image de l'article : {{ post.title }}">
+      {% if post.caption %}
+      <figcaption>{{ post.caption }}</figcaption>
+      {% endif %}
     </figure>
     {% endif %}
 

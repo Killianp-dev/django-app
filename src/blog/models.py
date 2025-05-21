@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+import re
+from math import ceil
 
 # Return the user model
 User = get_user_model()
@@ -15,6 +17,7 @@ class BlogPost(models.Model):
     published = models.BooleanField(default=False, verbose_name="Publié")
     content = models.TextField(blank=True, verbose_name="Contenu")
     thumbnail = models.ImageField(blank=True, upload_to='blog')
+    caption = models.CharField(max_length=255, blank=True, verbose_name="Légende de l'image")
 
     class Meta:
         ordering = ['-created_on']  # the last published article comes first
@@ -32,7 +35,27 @@ class BlogPost(models.Model):
     def author_or_default(self):
         return self.author.username if self.author else "auteur inconnu"
 
+    @property
+    def reading_time(self):
+        """
+        Calcule le temps de lecture approximatif en minutes.
+        Basé sur une moyenne de 200 mots par minute.
+        """
+        if not self.content:
+            return None
+            
+        # Retire les balises HTML
+        text_only = re.sub(r'<[^>]+>', '', self.content)
+        
+        # Calcule le nombre de mots
+        word_count = len(text_only.split())
+        
+        # Calcule le temps de lecture (arrondi au supérieur)
+        reading_time = ceil(word_count / 200)
+        
+        return reading_time
+
     def get_absolute_url(self):
-        return reverse('blog:home')
+        return reverse('blog:detail', kwargs={'slug': self.slug})
 
 
