@@ -161,29 +161,29 @@
     {% if latest_posts %}
     {% if latest_posts|length > 3 %}
     <!-- Carousel pour plus de 3 articles -->
-    <div class="carousel">
+    <div class="carousel" aria-roledescription="carousel" aria-label="Articles récents">
       <div class="carousel__container">
-        <div class="carousel__track">
+        <div class="carousel__track" role="region" aria-live="polite">
           {% for post in latest_posts %}
-          <div class="carousel__slide">
+          <div class="carousel__slide" role="group" aria-roledescription="slide" aria-label="Article {{ forloop.counter }} sur {{ latest_posts|length }}">
             <article class="card">
               {% if post.thumbnail %}
                 <div class="card__image">
-                  <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+                  <img loading="lazy" src="{{ post.thumbnail.url }}" alt="{{ post.title }}" width="400" height="250">
                 </div>
               {% else %}
                 <div class="card__image">
-                  <img src="{% static 'ressources/' %}{% cycle '1' '2' '3' '4' '5' %}.jpg" alt="{{ post.title }}">
+                  <img loading="lazy" src="{% static 'ressources/' %}{% cycle '1' '2' '3' '4' '5' %}.jpg" alt="{{ post.title }}" width="400" height="250">
                 </div>
               {% endif %}
               <div class="card__content">
-                <h3 class="card__title">{{ post.title }}</h3>
-                <p class="card__meta">
-                  <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
+                <h3 class="card__title"><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h3>
+                <div class="card__meta">
                   <span class="card__author">Par {{ post.author_or_default }}</span>
-                </p>
-                <p class="card__excerpt">{{ post.content|safe|truncatewords:25 }}</p>
-                <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus...</a>
+                  <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
+                </div>
+                <div class="card__excerpt">{{ post.content|safe|truncatewords:25 }}</div>
+                <a href="{% url 'blog:detail' post.slug %}" class="read-more" aria-label="Lire l'article: {{ post.title }}">Lire plus</a>
               </div>
             </article>
           </div>
@@ -192,19 +192,19 @@
       </div>
 
       <!-- Boutons de navigation -->
-      <button class="carousel__button carousel__button--prev" aria-label="Précédent">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <button class="carousel__button carousel__button--prev" aria-label="Voir l'article précédent">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
         </svg>
       </button>
-      <button class="carousel__button carousel__button--next" aria-label="Suivant">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <button class="carousel__button carousel__button--next" aria-label="Voir l'article suivant">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
         </svg>
       </button>
 
       <!-- Indicateurs (points) -->
-      <div class="carousel__nav"></div>
+      <div class="carousel__nav" role="tablist" aria-label="Navigation par points"></div>
     </div>
     {% else %}
     <!-- Grille statique pour 3 articles ou moins -->
@@ -221,13 +221,13 @@
           </div>
         {% endif %}
         <div class="card__content">
-          <h3 class="card__title">{{ post.title }}</h3>
-          <p class="card__meta">
-            <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
+          <h3 class="card__title"><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h3>
+          <div class="card__meta">
             <span class="card__author">Par {{ post.author_or_default }}</span>
-          </p>
-          <p class="card__excerpt">{{ post.content|truncatewords:25 }}</p>
-          <a href="{% url 'blog:detail' post.slug %}" class="btn btn--primary">Lire l'article</a>
+            <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
+          </div>
+          <div class="card__excerpt">{{ post.content|safe|truncatewords:25 }}</div>
+          <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus</a>
         </div>
       </article>
       {% endfor %}

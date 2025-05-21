@@ -56,15 +56,19 @@
 
 .carousel__track {
   display: flex;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1.0);
   will-change: transform;
   width: 100%;
   padding: 0;
 }
 
+.carousel__track.is-transitioning {
+  pointer-events: none;
+}
+
 .carousel__slide {
   flex: 0 0 auto;
-  padding: 0 15px;
+  padding: 0 10px;
   box-sizing: border-box;
   height: 100%;
   display: flex;
@@ -143,25 +147,25 @@
   transform: scale(1.2);
 }
 
-/* Style des cartes du carousel */
+/* Style des cartes du carousel - Adapté du style post-card */
 .carousel .card {
-  display: flex;
-  flex-direction: column;
   background-color: #fff;
   border-radius: var(--radius-lg);
-  overflow: hidden;
   box-shadow: var(--shadow-md);
-  transition: var(--transition-normal);
-  width: 100%;
-  height: 450px;
-  will-change: transform, box-shadow;
-  margin: 0;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 500px; /* Hauteur fixe pour toutes les cartes */
+  display: flex;
+  flex-direction: column;
   position: relative;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0; /* Élimine tout espace blanc rémanent */
+  padding: 0; /* Supprime tout padding */
 }
 
 .carousel .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -185,90 +189,217 @@
 /* Image de la carte */
 .carousel .card__image {
   position: relative;
+  height: 220px;
+  min-height: 220px; /* Hauteur minimum fixe pour toutes les images */
   overflow: hidden;
-  height: 180px;
-  min-height: 180px;
-  width: 100%;
-  display: block;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Empêche l'image de se réduire */
+  width: 100%; /* S'assure que l'image occupe toute la largeur */
+  padding: 0; /* Supprime tout padding */
+  margin: 0; /* Supprime toute marge */
+  display: block; /* Assure un affichage en bloc */
+  line-height: 0; /* Élimine l'espace de ligne */
+  font-size: 0; /* Garantit qu'il n'y a pas d'espace blanc */
 }
 
 .carousel .card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  display: block;
-  margin: 0;
-  padding: 0;
-  transition: transform 0.6s ease, filter 0.6s ease;
+  object-position: center; /* Centre l'image */
+  transition: transform 0.6s ease;
+  transform: scale(1.05); /* Léger zoom par défaut pour éviter les bordures blanches */
+  display: block; /* Élimine les espaces entre images */
+  margin: 0; /* Supprime toute marge */
+  padding: 0; /* Supprime tout padding */
+  vertical-align: top; /* Élimine l'espace en bas des images */
 }
 
 .carousel .card:hover .card__image img {
-  transform: scale(1.1);
-  filter: brightness(0.85);
-}
-
-/* Animation au survol - overlay avec gradient */
-.carousel .card__image::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 60%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.carousel .card:hover .card__image::after {
-  opacity: 1;
+  transform: scale(1.15); /* Zoom plus important au survol */
 }
 
 /* Contenu de la carte */
 .carousel .card__content {
-  padding: 1.25rem;
+  padding: 1.75rem;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  width: 100%;
-  overflow-y: auto;
-  max-height: 270px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden; /* Assure que le contenu ne déborde pas */
+  font-size: 1rem;
 }
 
 .carousel .card__title {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: var(--color-dark);
-  transition: color 0.3s ease;
+  font-family: var(--font-heading, 'Times New Roman', serif);
+  font-size: 1.5rem;
   line-height: 1.3;
+  margin-bottom: 0.8rem;
+  color: var(--color-dark);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* Permet le retour à la ligne */
+  height: auto; /* Hauteur automatique */
+  min-height: 2rem; /* Hauteur minimum */
+  max-height: 3.9rem; /* Environ 3 lignes */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limite à 3 lignes */
+  -webkit-box-orient: vertical;
 }
 
-.carousel .card:hover .card__title {
+.carousel .card__title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.carousel .card__title a:hover {
   color: var(--color-primary);
 }
 
 .carousel .card__meta {
+  display: flex;
+  align-items: center;
   font-size: 0.85rem;
   color: var(--color-grey);
-  margin-bottom: 0.75rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  height: 1.5rem; /* Hauteur fixe pour les métadonnées */
+  flex-shrink: 0; /* Empêche la réduction */
+}
+
+.carousel .card__author {
+  font-weight: 500;
+}
+
+.carousel .card__date {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.carousel .card__date::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--color-grey);
 }
 
 .carousel .card__excerpt {
-  margin-bottom: 1.25rem;
-  line-height: 1.5;
-  color: #444;
+  margin-bottom: 1.5rem;
+  color: #555;
+  line-height: 1.7;
   flex-grow: 1;
-  text-align: left;
   font-size: 0.95rem;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 5; /* Réduit pour donner plus d'espace au titre */
   -webkit-box-orient: vertical;
+  height: auto; /* Hauteur automatique */
+  max-height: 160px; /* Hauteur maximum */
+}
+
+.carousel .read-more {
+  display: inline-block;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  margin-top: auto;
+  padding: 0.5rem 0;
+  position: relative;
+  flex-shrink: 0; /* Empêche la réduction */
+}
+
+.carousel .read-more::after {
+  content: '';
+  position: absolute;
+  bottom: 0.3rem;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: width 0.3s;
+}
+
+.carousel .read-more:hover::after {
+  width: 100%;
+}
+
+/* Appliquer les mêmes styles aux cartes dans la grille statique */
+.news__grid .card {
+  height: 500px; /* Même hauteur fixe que les cartes du carousel */
+  display: flex;
+  flex-direction: column;
+  font-size: 0; /* Élimine tout espace blanc rémanent */
+}
+
+.news__grid .card__image {
+  height: 220px;
+  min-height: 220px;
+  flex-shrink: 0;
+  width: 100%; /* S'assure que l'image occupe toute la largeur */
+  padding: 0; /* Supprime tout padding */
+  margin: 0; /* Supprime toute marge */
+  display: block; /* Assure un affichage en bloc */
+  line-height: 0; /* Élimine l'espace de ligne */
+  font-size: 0; /* Garantit qu'il n'y a pas d'espace blanc */
+}
+
+.news__grid .card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center; /* Centre l'image */
+  transition: transform 0.6s ease;
+  transform: scale(1.05); /* Léger zoom par défaut pour éviter les bordures blanches */
+  display: block; /* Élimine les espaces entre images */
+  margin: 0; /* Supprime toute marge */
+  padding: 0; /* Supprime tout padding */
+  vertical-align: top; /* Élimine l'espace en bas des images */
+}
+
+.news__grid .card:hover .card__image img {
+  transform: scale(1.15); /* Zoom plus important au survol */
+}
+
+.news__grid .card__content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: 1rem;
+}
+
+.news__grid .card__excerpt {
+  flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  height: auto;
+  max-height: 160px;
+}
+
+.news__grid .card__title {
+  height: auto;
+  min-height: 2rem;
+  max-height: 3.9rem;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.news__grid .card__meta {
+  height: auto;
+  min-height: 1.5rem;
+  flex-shrink: 0;
 }
 
 /* Bouton "Voir tous les articles" */
@@ -320,6 +451,22 @@
   }
 }
 
+/* Animation pour transition fluide des slides */
+@keyframes slideTransition {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.carousel__slide.active {
+  animation: slideTransition 0.3s forwards;
+}
+
 /* ==================================================
    MEDIA QUERIES - DESKTOP
    ================================================= */
@@ -335,5 +482,318 @@
   .carousel__slide {
     flex: 0 0 33.333%;
     max-width: 33.333%;
+  }
+}
+
+/* Responsive pour cartes d'articles */
+@media (max-width: 576px) {
+  .carousel .card,
+  .news__grid .card {
+    max-width: 100%;
+    height: 450px; /* Hauteur réduite pour petits écrans */
+    /* Éliminer tout espace blanc résiduel */
+    padding: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-lg);
+    overflow: hidden;
+  }
+  
+  /* Éliminer la marge en haut des images sur mobile */
+  .carousel .card__image,
+  .news__grid .card__image {
+    margin: 0;
+    padding: 0;
+    display: block;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    font-size: 0;
+    line-height: 0;
+    max-height: 180px;
+    min-height: 180px;
+  }
+  
+  /* S'assurer que l'image touche les bords sans espaces */
+  .carousel .card__image img,
+  .news__grid .card__image img {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    display: block;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    object-position: center;
+    font-size: 0;
+    line-height: 0;
+  }
+  
+  /* Ajuster correctement le contenu des cartes */
+  .carousel .card__content,
+  .news__grid .card__content {
+    border-top: none;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+  
+  .carousel .card:hover,
+  .news__grid .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .carousel .card__title,
+  .news__grid .card__title {
+    font-size: 1.3rem;
+  }
+  
+  .carousel .card__excerpt,
+  .news__grid .card__excerpt {
+    -webkit-line-clamp: 3;
+    height: auto;
+    max-height: 100px; /* Hauteur réduite pour petits écrans */
+  }
+  
+  .carousel .card__meta,
+  .news__grid .card__meta {
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    height: auto;
+    margin-bottom: 0.8rem;
+  }
+  
+  /* Conserver le style texte pour le lien "Lire plus" même sur petits écrans */
+  .carousel .read-more,
+  .news__grid .read-more {
+    display: inline-block;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    margin-top: auto;
+    padding: 0.5rem 0;
+    position: relative;
+    background-color: transparent;
+    border-radius: 0;
+    text-align: left;
+  }
+  
+  .carousel .read-more:hover,
+  .news__grid .read-more:hover {
+    background-color: transparent;
+    color: var(--color-primary-dark, #0056b3);
+  }
+  
+  .carousel .read-more::after,
+  .news__grid .read-more::after {
+    content: '';
+    position: absolute;
+    bottom: 0.3rem;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width 0.3s;
+    display: block;
+  }
+  
+  .carousel .read-more:hover::after,
+  .news__grid .read-more:hover::after {
+    width: 100%;
+  }
+}
+
+/* Optimisations pour très petits écrans */
+@media (max-width: 400px) {
+  .carousel .card,
+  .news__grid .card {
+    border-radius: var(--radius-md);
+    height: 420px;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .carousel .card__content,
+  .news__grid .card__content {
+    padding: 1.25rem;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border-top: none;
+  }
+  
+  .carousel .card__image,
+  .news__grid .card__image {
+    max-height: 180px;
+    min-height: 180px;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    line-height: 0;
+    font-size: 0;
+  }
+  
+  .carousel .card__image img,
+  .news__grid .card__image img {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    line-height: 0;
+    font-size: 0;
+  }
+  
+  .carousel .card__excerpt,
+  .news__grid .card__excerpt {
+    height: auto;
+    max-height: 80px;
+  }
+}
+
+/* S'assurer que toutes les cartes n'ont pas d'espace en haut de l'image */
+.carousel .card,
+.news__grid .card,
+.post-card,
+.featured-post {
+  font-size: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+/* Restaurer la taille de police pour le contenu */
+.carousel .card__content,
+.news__grid .card__content,
+.post-content,
+.featured-post .post-content {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Correctif global pour supprimer tout espace en haut des images */
+.carousel .card__image,
+.news__grid .card__image,
+.post-image,
+.card-image,
+.featured-post .post-image {
+  margin-top: -1px !important; /* Force la suppression de tout espace résiduel */
+  padding-top: 0 !important;
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+}
+
+/* S'assurer que les images sont parfaitement alignées */
+.carousel .card__image img,
+.news__grid .card__image img,
+.post-image img,
+.card-image img,
+.featured-post .post-image img {
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  position: relative; /* Permet de positionner l'image précisément */
+  top: 0; /* Aligne parfaitement l'image en haut */
+}
+
+/* Responsive pour cartes d'articles */
+@media (max-width: 576px) {
+  /* Traitement spécifique pour mobile : éliminer tout espace entre les éléments */
+  .carousel .card,
+  .news__grid .card {
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+    display: block;
+    border-radius: var(--radius-lg);
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  /* S'assurer que les images sont directement collées au bord supérieur */
+  .carousel .card__image,
+  .news__grid .card__image {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 0;
+    font-size: 0;
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+    display: block;
+    overflow: hidden;
+    transform: translateZ(0); /* Optimisation pour le rendu */
+  }
+  
+  /* Ajuster parfaitement les images au conteneur */
+  .carousel .card__image img,
+  .news__grid .card__image img {
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 0;
+    transform: translateZ(0); /* Optimisation pour le rendu */
+    backface-visibility: hidden; /* Évite les artefacts de rendu */
+  }
+}
+
+/* Solution radicale: correctif universel pour supprimer tout espace en haut des images */
+.carousel .card::before,
+.news__grid .card::before,
+.post-card::before,
+.card::before,
+.featured-post::before {
+  content: "";
+  display: block;
+  height: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+.carousel .card,
+.news__grid .card,
+.post-card,
+.card,
+.featured-post {
+  font-size: 0;
+  overflow: visible;
+}
+
+/* Correctif pour forcer l'image à monter et couvrir tout espace résiduel */
+.carousel .card__image,
+.news__grid .card__image,
+.post-image,
+.card-image,
+.featured-post .post-image {
+  transform: translateY(-5px); /* Force le déplacement vers le haut pour couvrir tout espace */
+  margin-bottom: -5px; /* Compense le déplacement */
+  position: relative;
+  z-index: 2; /* S'assure que l'image est au-dessus */
+}
+
+@media (max-width: 576px) {
+  /* Solution spécifique mobile */
+  .carousel .card__image,
+  .news__grid .card__image,
+  .post-image,
+  .card-image,
+  .featured-post .post-image {
+    transform: translateY(-5px); /* Force le déplacement vers le haut pour couvrir tout espace */
+    margin-bottom: -5px; /* Compense le déplacement */
+  }
+  
+  /* Garantit qu'aucun espace n'existe entre l'élément précédent et l'image */
+  .carousel .card__image::before,
+  .news__grid .card__image::before,
+  .post-image::before,
+  .card-image::before,
+  .featured-post .post-image::before {
+    content: "";
+    display: block;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
   }
 }

@@ -139,6 +139,9 @@
     const isActive = hamburger.classList.toggle('active');
     navMenu.classList.toggle('active');
     hamburger.setAttribute('aria-expanded', isActive);
+    
+    // Prevent background scrolling when menu is open
+    document.body.style.overflow = isActive ? 'hidden' : '';
   }
 
   function closeMobileMenu() {
@@ -146,12 +149,29 @@
       hamburger.classList.remove('active');
       navMenu.classList.remove('active');
       hamburger.setAttribute('aria-expanded', 'false');
+      
+      // Re-enable scrolling
+      document.body.style.overflow = '';
     }
   }
 
   function initMobileMenu() {
-    hamburger?.addEventListener('click', toggleMobileMenu);
-    navLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+    if (hamburger) {
+      hamburger.addEventListener('click', toggleMobileMenu);
+    }
+    
+    navLinks.forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+    
+    // Close menu on click outside
+    document.addEventListener('click', (e) => {
+      if (hamburger?.classList.contains('active') && 
+          !hamburger.contains(e.target) && 
+          !navMenu.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
   }
 
   // ===== Accessibility =====
@@ -507,11 +527,18 @@
     let slidesToShow = 0;
     const slideCount = slides.length;
     let autoplayInterval = null;
-    let resizeTimer;
+    let isDragging = false;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let animationID = 0;
+    let lastX = 0;
 
     // Get number of slides to show based on screen width
     function getSlideCount() {
-      return window.innerWidth < 992 ? 1 : 3;
+      if (window.innerWidth < 576) return 1;
+      if (window.innerWidth < 992) return 1;
+      return 3;
     }
 
     // Calculate and set slide width
@@ -534,6 +561,29 @@
       return Math.max(0, slideCount - slidesToShow);
     }
 
+    // Update active slide class
+    function updateActiveSlide() {
+      const visibleSlideIndices = [];
+      const startIdx = currentIndex;
+      
+      // Add active class to visible slides
+      for (let i = 0; i < slidesToShow; i++) {
+        const slideIdx = startIdx + i;
+        if (slideIdx < slideCount) {
+          visibleSlideIndices.push(slideIdx);
+        }
+      }
+      
+      // Update classes for all slides
+      slides.forEach((slide, idx) => {
+        if (visibleSlideIndices.includes(idx)) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+    }
+
     // Update carousel layout on resize
     function updateCarouselLayout() {
       const newSlidesToShow = calculateSlideWidth();
@@ -551,6 +601,8 @@
 
       updateButtonsVisibility();
       goToSlide(currentIndex, false);
+      updateActiveSlide();
+      truncateTitles();
     }
 
     // Create navigation dots
@@ -582,6 +634,7 @@
         
         dot.addEventListener('click', () => {
           goToSlide(i);
+          stopAutoplay();
         });
 
         dotsContainer.appendChild(dot);
@@ -601,22 +654,44 @@
       }
     }
 
+    // Smooth scroll animation
+    function smoothScroll(offset, duration = 300) {
+      const start = parseFloat(getComputedStyle(carouselTrack).transform.split(',')[4]) || 0;
+      
+      // Use FLIP animation technique (First, Last, Invert, Play)
+      // This helps browser optimize the animation
+      carouselTrack.style.willChange = 'transform';
+      
+      // Use optimized animation with transform instead of step function
+      carouselTrack.style.transition = `transform ${duration}ms cubic-bezier(0.25, 0.1, 0.25, 1.0)`;
+      carouselTrack.style.transform = `translateX(${offset}px)`;
+      
+      // Clean up after animation completes
+      setTimeout(() => {
+        carouselTrack.style.willChange = 'auto';
+      }, duration);
+    }
+
     // Go to specific slide
     function goToSlide(index, animate = true) {
       const maxIndex = getMaxIndex();
       currentIndex = Math.max(0, Math.min(index, maxIndex));
 
-      carouselTrack.style.transition = animate ? 'transform 0.5s ease-in-out' : 'none';
-      
       const offset = -currentIndex * slideWidth;
-      carouselTrack.style.transform = `translateX(${offset}px)`;
-
-      if (!animate) {
-        carouselTrack.offsetHeight; // Force reflow
-        carouselTrack.style.transition = 'transform 0.5s ease-in-out';
+      
+      if (animate) {
+        smoothScroll(offset);
+      } else {
+        // Force a browser reflow by accessing offsetHeight
+        // This ensures the style changes are applied immediately
+        carouselTrack.style.transition = 'none';
+        carouselTrack.style.transform = `translateX(${offset}px)`;
+        carouselTrack.offsetHeight;
+        carouselTrack.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
       }
 
       updateDots();
+      updateActiveSlide();
     }
 
     // Update dots active state
@@ -632,22 +707,48 @@
       });
     }
 
-    // Next slide
+    // Next slide - optimized for performance
     function nextSlide() {
       const maxIndex = getMaxIndex();
-      goToSlide(currentIndex >= maxIndex ? 0 : currentIndex + 1);
+      const nextIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+      
+      // Use CSS classes instead of inline styles for better performance
+      const slidesToMove = slidesToShow === 1 || nextIndex === 0 ? 1 : slidesToShow;
+      
+      // Apply classes for transition
+      carouselTrack.classList.add('is-transitioning');
+      
+      // Go to next slide without waiting
+      goToSlide(nextIndex);
+      
+      // Remove transitioning class after animation completes
+      setTimeout(() => {
+        carouselTrack.classList.remove('is-transitioning');
+      }, 300);
     }
 
-    // Previous slide
+    // Previous slide - optimized for performance
     function prevSlide() {
       const maxIndex = getMaxIndex();
-      goToSlide(currentIndex === 0 ? maxIndex : currentIndex - 1);
+      const prevIndex = currentIndex === 0 ? maxIndex : currentIndex - 1;
+      
+      // Apply classes for transition
+      carouselTrack.classList.add('is-transitioning');
+      
+      // Go to previous slide without waiting
+      goToSlide(prevIndex);
+      
+      // Remove transitioning class after animation completes
+      setTimeout(() => {
+        carouselTrack.classList.remove('is-transitioning');
+      }, 300);
     }
 
     // Start autoplay
     function startAutoplay() {
       stopAutoplay();
-      autoplayInterval = setInterval(nextSlide, 5000);
+      // Augmenter le délai pour une meilleure UX
+      autoplayInterval = setInterval(nextSlide, 8000);
     }
 
     // Stop autoplay
@@ -658,17 +759,70 @@
       }
     }
 
-    // Handle touch swipe
-    function handleSwipe(startX, endX) {
-      const swipeThreshold = 50;
-      if (startX - endX > swipeThreshold) {
-        nextSlide();
-      } else if (endX - startX > swipeThreshold) {
-        prevSlide();
+    // Mouse and touch event handlers for drag functionality
+    function dragStart(e) {
+      stopAutoplay();
+      if (slidesToShow >= slideCount) return;
+      
+      e.preventDefault();
+      isDragging = true;
+      startPos = getPositionX(e);
+      currentTranslate = parseFloat(getComputedStyle(carouselTrack).transform.split(',')[4]) || 0;
+      prevTranslate = currentTranslate;
+      lastX = startPos;
+      
+      carouselTrack.style.transition = 'none';
+      requestAnimationFrame(animate);
+    }
+
+    function drag(e) {
+      if (isDragging) {
+        const currentPosition = getPositionX(e);
+        const diff = currentPosition - lastX;
+        currentTranslate = prevTranslate + diff;
+        lastX = currentPosition;
       }
     }
 
-    // Initialize event listeners
+    function dragEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      cancelAnimationFrame(animationID);
+      
+      const threshold = slideWidth / 4; // Reduced threshold for more responsive feel
+      const movedDistance = currentTranslate - prevTranslate;
+      
+      if (Math.abs(movedDistance) > threshold) {
+        if (movedDistance > 0) {
+          prevSlide();
+        } else {
+          nextSlide();
+        }
+      } else {
+        // Smooth snap back with optimized animation
+        carouselTrack.style.willChange = 'transform';
+        carouselTrack.style.transition = 'transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1.0)';
+        carouselTrack.style.transform = `translateX(${prevTranslate}px)`;
+        
+        // Reset properties after animation
+        setTimeout(() => {
+          carouselTrack.style.willChange = 'auto';
+        }, 200);
+      }
+    }
+
+    function animate() {
+      if (isDragging) {
+        carouselTrack.style.transform = `translateX(${currentTranslate}px)`;
+        animationID = requestAnimationFrame(animate);
+      }
+    }
+
+    function getPositionX(e) {
+      return e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    }
+
+    // Initialize event listeners for buttons
     nextButton?.addEventListener('click', () => {
       nextSlide();
       stopAutoplay();
@@ -682,35 +836,125 @@
     // Handle resize
     window.addEventListener('resize', utils.debounce(updateCarouselLayout, 250));
 
+    // Mouse events for drag functionality
+    carouselTrack.addEventListener('mousedown', dragStart);
+    carouselTrack.addEventListener('mousemove', drag);
+    window.addEventListener('mouseup', dragEnd);
+
     // Touch events
-    let touchStartX = 0;
-    let touchEndX = 0;
-
     carouselTrack.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
       stopAutoplay();
+      const touch = e.touches[0];
+      startPos = touch.clientX;
+      lastX = startPos;
+      currentTranslate = parseFloat(getComputedStyle(carouselTrack).transform.split(',')[4]) || 0;
+      prevTranslate = currentTranslate;
+      isDragging = true;
+      carouselTrack.style.transition = 'none';
+      requestAnimationFrame(animate);
     }, { passive: true });
 
-    carouselTrack.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe(touchStartX, touchEndX);
+    carouselTrack.addEventListener('touchmove', (e) => {
+      if (isDragging) {
+        const touch = e.touches[0];
+        const currentPosition = touch.clientX;
+        const diff = currentPosition - lastX;
+        currentTranslate = prevTranslate + diff;
+        lastX = currentPosition;
+      }
     }, { passive: true });
+
+    carouselTrack.addEventListener('touchend', () => {
+      dragEnd();
+    }, { passive: true });
+
+    // Add keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (carousel.closest('.latest-posts').getBoundingClientRect().top < window.innerHeight && 
+          carousel.closest('.latest-posts').getBoundingClientRect().bottom > 0) {
+        if (e.key === 'ArrowLeft') {
+          prevSlide();
+          stopAutoplay();
+        } else if (e.key === 'ArrowRight') {
+          nextSlide();
+          stopAutoplay();
+        }
+      }
+    });
 
     // Pause autoplay on hover
     carousel.addEventListener('mouseenter', stopAutoplay);
     carousel.addEventListener('mouseleave', startAutoplay);
 
+    // Handle card clicks more elegantly
+    slides.forEach(slide => {
+      const card = slide.querySelector('.card');
+      const mainLink = card?.querySelector('a[href]');
+      
+      if (card && mainLink) {
+        card.addEventListener('click', function(e) {
+          // Only navigate if not dragging and not clicking interactive element
+          const isInteractiveElement = e.target.matches('a, button') || 
+                                      e.target.closest('a, button');
+          
+          if (!isDragging && !isInteractiveElement) {
+            window.location.href = mainLink.getAttribute('href');
+          }
+        });
+      }
+    });
+
+    // Tronquer les titres à 3 mots
+    function truncateTitles() {
+      slides.forEach(slide => {
+        const titleElement = slide.querySelector('.card__title');
+        if (titleElement) {
+          const fullTitle = titleElement.getAttribute('data-full-title') || titleElement.textContent;
+          
+          // Stocker le titre complet si pas déjà fait
+          if (!titleElement.getAttribute('data-full-title')) {
+            titleElement.setAttribute('data-full-title', fullTitle);
+          }
+          
+          // Tronquer le titre à 3 mots
+          const words = fullTitle.split(' ');
+          if (words.length > 3) {
+            titleElement.textContent = words.slice(0, 3).join(' ') + '...';
+            
+            // Ajouter un tooltip avec le titre complet
+            titleElement.title = fullTitle;
+          }
+          
+          // Ajuster le style pour les titres tronqués
+          titleElement.style.whiteSpace = "nowrap";
+          titleElement.style.overflow = "hidden";
+          titleElement.style.textOverflow = "ellipsis";
+        }
+      });
+    }
+
     // Initialize
     updateCarouselLayout();
     createDots();
     updateButtonsVisibility();
+    updateActiveSlide();
+    truncateTitles();
     startAutoplay();
 
-    // Force an update after a short delay
-    setTimeout(() => {
-      updateCarouselLayout();
-      updateButtonsVisibility();
-    }, 100);
+    // Intersection Observer for autoplay when in viewport
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            startAutoplay();
+          } else {
+            stopAutoplay();
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      observer.observe(carousel);
+    }
   }
 
   // ===== Clickable Article Cards =====

@@ -24,6 +24,8 @@
   transition: transform .2s, box-shadow .2s, border-color .2s;
   position: relative;
   cursor: pointer;
+  padding-top: 0;
+  font-size: 0;
 }
 
 .card:hover {
@@ -56,6 +58,12 @@
 
 .card-image {
   overflow: hidden;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
+  line-height: 0;
+  font-size: 0;
 }
 
 .card-image img {
@@ -64,16 +72,22 @@
   object-fit: cover;
   object-position: center;
   transition: transform .4s, filter .4s;
+  transform: scale(1.05);
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
 }
 
 .card:hover .card-image img {
-  transform: scale(1.08);
+  transform: scale(1.15);
   filter: brightness(.9);
 }
 
 .card-content {
   padding: 1.5rem;
   flex: 1;
+  font-size: 1rem;
 }
 
 .card-title {
@@ -147,17 +161,29 @@
   position: relative;
   height: 220px;
   overflow: hidden;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
+  line-height: 0;
+  font-size: 0;
 }
 
 .post-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: transform 0.6s ease;
+  transform: scale(1.05);
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
 }
 
 .post-card:hover .post-image img {
-  transform: scale(1.08);
+  transform: scale(1.15);
 }
 
 .post-category {
@@ -183,6 +209,7 @@
   display: flex;
   flex-direction: column;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 1rem;
 }
 
 .post-title {
@@ -311,10 +338,27 @@
 .featured-post .post-image {
   height: 100%;
   min-height: 400px;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
+  line-height: 0;
+  font-size: 0;
 }
 
 .featured-post .post-image img {
   height: 100%;
+  transform: scale(1.05);
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  width: 100%;
+  object-fit: cover;
+}
+
+.featured-post:hover .post-image img {
+  transform: scale(1.15);
 }
 
 .featured-post .post-content {
@@ -322,6 +366,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-size: 1rem;
 }
 
 .featured-post .post-title {
@@ -354,9 +399,60 @@
     grid-template-columns: 1fr;
   }
   
-  .post-card {
+  /* Styles généraux pour les cartes en mode mobile */
+  .post-card, .card, .featured-post {
     max-width: 100%;
-    transition: transform 0.3s, box-shadow 0.3s;
+    padding: 0;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    position: relative;
+    display: block;
+    font-size: 0;
+    line-height: 0;
+  }
+  
+  /* Éliminer la marge en haut des images sur mobile */
+  .post-image, .card-image, .featured-post .post-image {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    font-size: 0;
+    line-height: 0;
+    height: 180px;
+    min-height: 180px;
+    max-height: 220px;
+    position: relative;
+    top: 0;
+    overflow: hidden;
+    transform: translateZ(0); /* Optimisation pour le rendu */
+  }
+  
+  /* S'assurer que l'image touche les bords sans espaces */
+  .post-image img, .card-image img, .featured-post .post-image img {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    display: block;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    object-position: center;
+    font-size: 0;
+    line-height: 0;
+    position: relative;
+    top: 0;
+    transform: translateZ(0); /* Optimisation pour le rendu */
+    backface-visibility: hidden; /* Évite les artefacts de rendu */
+  }
+  
+  /* Ajuster correctement le contenu des cartes */
+  .post-content, .card-content, .featured-post .post-content {
+    border-top: none;
+    padding: 1.25rem;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    font-size: 1rem;
+    line-height: 1.5;
+    position: relative;
+    display: block;
   }
   
   .post-card:hover {
@@ -405,44 +501,87 @@
     gap: 0.7rem;
   }
   
+  /* Conserver le style texte pour le lien "Lire plus" même sur petits écrans */
   .read-more {
-    padding: 0.6rem 1.2rem;
-    background-color: var(--color-primary);
-    color: white;
-    border-radius: var(--radius-sm);
-    text-align: center;
-    margin-top: 1rem;
+    display: inline-block;
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    margin-top: auto;
+    padding: 0.5rem 0;
+    position: relative;
+    background-color: transparent;
+    border-radius: 0;
+    text-align: left;
   }
   
   .read-more:hover {
-    background-color: var(--color-primary-dark, #0056b3);
+    background-color: transparent;
+    color: var(--color-primary-dark, #0056b3);
   }
   
   .read-more::after {
-    display: none;
+    content: '';
+    position: absolute;
+    bottom: 0.3rem;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width 0.3s;
+    display: block;
+  }
+  
+  .read-more:hover::after {
+    width: 100%;
   }
 }
 
 /* Optimisations pour très petits écrans */
 @media (max-width: 400px) {
-  .post-card {
+  .post-card, .card, .featured-post {
     border-radius: var(--radius-md);
+    padding: 0;
+    overflow: hidden;
   }
   
-  .featured-post {
-    border-radius: var(--radius-md);
-  }
-  
-  .post-content {
+  .post-content, .card-content, .featured-post .post-content {
     padding: 1.25rem;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    border-top: none;
   }
   
-  .post-image {
+  .post-image, .card-image {
     max-height: 180px;
+    min-height: 180px;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    line-height: 0;
+    font-size: 0;
+  }
+  
+  .post-image img, .card-image img {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    line-height: 0;
+    font-size: 0;
   }
   
   .featured-post .post-image {
     min-height: 180px;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    line-height: 0;
+    font-size: 0;
+  }
+  
+  .featured-post .post-image img {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    line-height: 0;
+    font-size: 0;
   }
   
   .post-category,
@@ -450,4 +589,51 @@
     font-size: 0.65rem;
     padding: 0.25rem 0.6rem;
   }
+}
+
+/* Style des cartes du carousel - S'assurer qu'il n'y a pas d'espace blanc */
+.carousel .card {
+  font-size: 0;
+}
+
+.carousel .card__content,
+.news__grid .card__content {
+  font-size: 1rem;
+}
+
+/* Correctif global pour les cartes et leurs images */
+.card, .post-card, .featured-post {
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+  display: block;
+}
+
+.card-image, .post-image, .featured-post .post-image {
+  margin-top: -1px !important; /* Force la suppression de tout espace résiduel */
+  padding-top: 0 !important;
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.card-image img, .post-image img, .featured-post .post-image img {
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+  position: relative; /* Permet de positionner l'image précisément */
+  top: 0; /* Aligne parfaitement l'image en haut */
+  transform: translateZ(0); /* Optimisation pour le rendu */
+  backface-visibility: hidden; /* Évite les artefacts de rendu */
+}
+
+.card-content, .post-content, .featured-post .post-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  display: block;
+  padding: 1.5rem;
 }
