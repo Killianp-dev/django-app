@@ -182,7 +182,7 @@
                   <span class="card__author">Par {{ post.author_or_default }}</span>
                   <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
                 </div>
-                <div class="card__excerpt">{{ post.content|safe|truncatewords:25 }}</div>
+                <div class="card__excerpt">{{ post.content|safe|truncatewords:10 }}</div>
                 <a href="{% url 'blog:detail' post.slug %}" class="read-more" aria-label="Lire l'article: {{ post.title }}">Lire plus</a>
               </div>
             </article>
@@ -226,7 +226,7 @@
             <span class="card__author">Par {{ post.author_or_default }}</span>
             <span class="card__date">{{ post.created_on|date:"d F Y" }}</span>
           </div>
-          <div class="card__excerpt">{{ post.content|safe|truncatewords:25 }}</div>
+          <div class="card__excerpt">{{ post.content|safe|truncatewords:10 }}</div>
           <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus</a>
         </div>
       </article>

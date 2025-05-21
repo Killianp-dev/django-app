@@ -335,15 +335,15 @@
 
   .carousel .card {
     height: auto;
-    min-height: 380px;
+    min-height: 360px;
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
   }
 
   .carousel .card__image {
-    height: 180px;
-    min-height: 180px;
+    height: 160px;
+    min-height: 160px;
   }
 
   .carousel .card__content {
@@ -413,24 +413,26 @@
   }
 
   .carousel .card {
-    height: 380px;
+    height: 360px;
     width: 100%;
     max-width: none;
   }
 
   .carousel .card__image {
-    height: 160px;
-    min-height: 160px;
+    height: 150px;
+    min-height: 150px;
   }
 
   .carousel .card__content {
-    max-height: 220px;
+    max-height: 210px;
     padding: 1rem;
   }
 
   .carousel .card__excerpt {
-    -webkit-line-clamp: 3;
-    font-size: 0.9rem;
+    -webkit-line-clamp: 2;
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+    max-height: 70px;
   }
 
   .carousel .btn.btn--primary {
@@ -467,7 +469,7 @@
   }
 
   .carousel .card {
-    height: 360px;
+    height: 340px;
   }
 
   .carousel .card__image {
@@ -476,7 +478,7 @@
   }
 
   .carousel .card__content {
-    max-height: 220px;
+    max-height: 200px;
     padding: 0.875rem;
   }
 
@@ -489,8 +491,9 @@
   }
 
   .carousel .card__excerpt {
-    font-size: 0.875rem;
-    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    max-height: 65px;
   }
 
   .carousel__button {
@@ -506,22 +509,22 @@
   }
 
   .hero__title {
-        font-size: 2rem;
+    font-size: 2rem;
   }
 
   .hero__subtitle {
-        font-size: 1rem;
+    font-size: 1rem;
   }
 
-.hero__actions {
+  .hero__actions {
     display: flex;
     justify-content: center;
-}
+  }
 
   .hero-btn {
-        padding: 15px 16px;
-        font-size: 17px;
-        white-space: nowrap;
+    padding: 15px 16px;
+    font-size: 17px;
+    white-space: nowrap;
   }
 
   .section-asymetrique img {
@@ -773,4 +776,11 @@
     padding: 0.75rem 1.5rem;
     font-size: 0.95rem;
   }
+}
+
+.carousel .card__excerpt,
+.news__grid .card__excerpt {
+  height: auto;
+  max-height: 60px;
+  font-size: 0.85rem;
 }

@@ -154,7 +154,7 @@
   box-shadow: var(--shadow-md);
   overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
-  height: 500px; /* Hauteur fixe pour toutes les cartes */
+  height: 420px; /* Hauteur réduite pour plus de légèreté */
   display: flex;
   flex-direction: column;
   position: relative;
@@ -165,7 +165,7 @@
 }
 
 .carousel .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -174,7 +174,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  border: 3px solid transparent;
+  border: 2px solid transparent; /* Bordure plus fine */
   border-radius: var(--radius-lg);
   transition: border-color 0.3s ease;
   pointer-events: none;
@@ -189,61 +189,61 @@
 /* Image de la carte */
 .carousel .card__image {
   position: relative;
-  height: 220px;
-  min-height: 220px; /* Hauteur minimum fixe pour toutes les images */
+  height: 180px; /* Hauteur réduite pour plus d'équilibre */
+  min-height: 180px;
   overflow: hidden;
-  flex-shrink: 0; /* Empêche l'image de se réduire */
-  width: 100%; /* S'assure que l'image occupe toute la largeur */
-  padding: 0; /* Supprime tout padding */
-  margin: 0; /* Supprime toute marge */
-  display: block; /* Assure un affichage en bloc */
-  line-height: 0; /* Élimine l'espace de ligne */
-  font-size: 0; /* Garantit qu'il n'y a pas d'espace blanc */
+  flex-shrink: 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
+  line-height: 0;
+  font-size: 0;
 }
 
 .carousel .card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center; /* Centre l'image */
+  object-position: center;
   transition: transform 0.6s ease;
-  transform: scale(1.05); /* Léger zoom par défaut pour éviter les bordures blanches */
-  display: block; /* Élimine les espaces entre images */
-  margin: 0; /* Supprime toute marge */
-  padding: 0; /* Supprime tout padding */
-  vertical-align: top; /* Élimine l'espace en bas des images */
+  transform: scale(1.05);
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
 }
 
 .carousel .card:hover .card__image img {
-  transform: scale(1.15); /* Zoom plus important au survol */
+  transform: scale(1.12); /* Zoom légèrement réduit */
 }
 
 /* Contenu de la carte */
 .carousel .card__content {
-  padding: 1.75rem;
+  padding: 1.25rem; /* Padding réduit */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-  overflow: hidden; /* Assure que le contenu ne déborde pas */
+  overflow: hidden;
   font-size: 1rem;
 }
 
 .carousel .card__title {
   font-family: var(--font-heading, 'Times New Roman', serif);
-  font-size: 1.5rem;
+  font-size: 1.35rem; /* Taille réduite */
   line-height: 1.3;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.6rem; /* Espacement réduit */
   color: var(--color-dark);
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: normal; /* Permet le retour à la ligne */
-  height: auto; /* Hauteur automatique */
-  min-height: 2rem; /* Hauteur minimum */
-  max-height: 3.9rem; /* Environ 3 lignes */
+  white-space: normal;
+  height: auto;
+  min-height: 1.8rem;
+  max-height: 3.5rem; /* Hauteur réduite */
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limite à 3 lignes */
+  -webkit-line-clamp: 2; /* Réduit de 3 à 2 lignes */
   -webkit-box-orient: vertical;
 }
 
@@ -260,12 +260,12 @@
 .carousel .card__meta {
   display: flex;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem; /* Taille réduite */
   color: var(--color-grey);
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem; /* Espacement réduit */
   gap: 1rem;
-  height: 1.5rem; /* Hauteur fixe pour les métadonnées */
-  flex-shrink: 0; /* Empêche la réduction */
+  height: 1.2rem; /* Hauteur réduite */
+  flex-shrink: 0;
 }
 
 .carousel .card__author {
@@ -290,17 +290,29 @@
 }
 
 .carousel .card__excerpt {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem; /* Espacement réduit */
   color: #555;
-  line-height: 1.7;
+  line-height: 1.6; /* Interligne réduit */
   flex-grow: 1;
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* Taille réduite */
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 5; /* Réduit pour donner plus d'espace au titre */
+  -webkit-line-clamp: 2; /* Réduit à 2 lignes vu qu'on a que 10 mots */
   -webkit-box-orient: vertical;
-  height: auto; /* Hauteur automatique */
-  max-height: 160px; /* Hauteur maximum */
+  height: auto;
+  max-height: 60px; /* Hauteur réduite pour 10 mots */
+  text-align: left;
+  position: relative;
+}
+
+.carousel .card__excerpt::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-left: 3px;
+  background-color: white;
+  display: none; /* Caché par défaut, le truncatechars s'en charge */
 }
 
 .carousel .read-more {
@@ -308,18 +320,19 @@
   color: var(--color-primary);
   font-weight: 600;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.85rem; /* Taille réduite */
   transition: all 0.3s;
   margin-top: auto;
-  padding: 0.5rem 0;
+  align-self: flex-start; /* Assure un alignement à gauche correct */
+  padding: 0.4rem 0; /* Padding réduit */
   position: relative;
-  flex-shrink: 0; /* Empêche la réduction */
+  flex-shrink: 0;
 }
 
 .carousel .read-more::after {
   content: '';
   position: absolute;
-  bottom: 0.3rem;
+  bottom: 0.2rem;
   left: 0;
   width: 0;
   height: 2px;
@@ -333,39 +346,39 @@
 
 /* Appliquer les mêmes styles aux cartes dans la grille statique */
 .news__grid .card {
-  height: 500px; /* Même hauteur fixe que les cartes du carousel */
+  height: 420px; /* Même hauteur que les cartes du carousel */
   display: flex;
   flex-direction: column;
-  font-size: 0; /* Élimine tout espace blanc rémanent */
+  font-size: 0;
 }
 
 .news__grid .card__image {
-  height: 220px;
-  min-height: 220px;
+  height: 180px;
+  min-height: 180px;
   flex-shrink: 0;
-  width: 100%; /* S'assure que l'image occupe toute la largeur */
-  padding: 0; /* Supprime tout padding */
-  margin: 0; /* Supprime toute marge */
-  display: block; /* Assure un affichage en bloc */
-  line-height: 0; /* Élimine l'espace de ligne */
-  font-size: 0; /* Garantit qu'il n'y a pas d'espace blanc */
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  display: block;
+  line-height: 0;
+  font-size: 0;
 }
 
 .news__grid .card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center; /* Centre l'image */
+  object-position: center;
   transition: transform 0.6s ease;
-  transform: scale(1.05); /* Léger zoom par défaut pour éviter les bordures blanches */
-  display: block; /* Élimine les espaces entre images */
-  margin: 0; /* Supprime toute marge */
-  padding: 0; /* Supprime tout padding */
-  vertical-align: top; /* Élimine l'espace en bas des images */
+  transform: scale(1.05);
+  display: block;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
 }
 
 .news__grid .card:hover .card__image img {
-  transform: scale(1.15); /* Zoom plus important au survol */
+  transform: scale(1.12);
 }
 
 .news__grid .card__content {
@@ -374,32 +387,57 @@
   flex-direction: column;
   overflow: hidden;
   font-size: 1rem;
+  padding: 1.25rem;
 }
 
 .news__grid .card__excerpt {
   flex-grow: 1;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 2; /* Réduit à 2 lignes */
   -webkit-box-orient: vertical;
   height: auto;
-  max-height: 160px;
+  max-height: 60px; /* Hauteur réduite */
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: left;
+  position: relative;
+}
+
+.news__grid .card__excerpt::after {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-left: 3px;
+  background-color: white;
+  display: none; /* Caché par défaut, le truncatechars s'en charge */
 }
 
 .news__grid .card__title {
   height: auto;
-  min-height: 2rem;
-  max-height: 3.9rem;
+  min-height: 1.8rem;
+  max-height: 3.5rem;
   white-space: normal;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  font-size: 1.35rem;
+  margin-bottom: 0.6rem;
 }
 
 .news__grid .card__meta {
   height: auto;
-  min-height: 1.5rem;
+  min-height: 1.2rem;
   flex-shrink: 0;
+  font-size: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.news__grid .read-more {
+  align-self: flex-start;
+  font-size: 0.85rem;
+  padding: 0.4rem 0;
 }
 
 /* Bouton "Voir tous les articles" */
@@ -490,14 +528,12 @@
   .carousel .card,
   .news__grid .card {
     max-width: 100%;
-    height: 450px; /* Hauteur réduite pour petits écrans */
-    /* Éliminer tout espace blanc résiduel */
+    height: 400px; /* Hauteur réduite */
     padding: 0;
-    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-lg);
+    border-radius: var(--radius-lg);
     overflow: hidden;
   }
   
-  /* Éliminer la marge en haut des images sur mobile */
   .carousel .card__image,
   .news__grid .card__image {
     margin: 0;
@@ -506,11 +542,10 @@
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     font-size: 0;
     line-height: 0;
-    max-height: 180px;
-    min-height: 180px;
+    max-height: 160px;
+    min-height: 160px;
   }
   
-  /* S'assurer que l'image touche les bords sans espaces */
   .carousel .card__image img,
   .news__grid .card__image img {
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
@@ -523,12 +558,10 @@
     line-height: 0;
   }
   
-  /* Ajuster correctement le contenu des cartes */
   .carousel .card__content,
   .news__grid .card__content {
     border-top: none;
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
+    padding: 1.1rem;
     border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
   
@@ -540,14 +573,14 @@
   
   .carousel .card__title,
   .news__grid .card__title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
   
   .carousel .card__excerpt,
   .news__grid .card__excerpt {
     -webkit-line-clamp: 3;
     height: auto;
-    max-height: 100px; /* Hauteur réduite pour petits écrans */
+    max-height: 90px;
   }
   
   .carousel .card__meta,
@@ -558,21 +591,21 @@
     margin-bottom: 0.8rem;
   }
   
-  /* Conserver le style texte pour le lien "Lire plus" même sur petits écrans */
   .carousel .read-more,
   .news__grid .read-more {
     display: inline-block;
     color: var(--color-primary);
     font-weight: 600;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: all 0.3s;
     margin-top: auto;
-    padding: 0.5rem 0;
+    padding: 0.4rem 0;
     position: relative;
     background-color: transparent;
     border-radius: 0;
     text-align: left;
+    align-self: flex-start;
   }
   
   .carousel .read-more:hover,
@@ -585,7 +618,7 @@
   .news__grid .read-more::after {
     content: '';
     position: absolute;
-    bottom: 0.3rem;
+    bottom: 0.2rem;
     left: 0;
     width: 0;
     height: 2px;
@@ -605,22 +638,22 @@
   .carousel .card,
   .news__grid .card {
     border-radius: var(--radius-md);
-    height: 420px;
+    height: 380px;
     padding: 0;
     overflow: hidden;
   }
   
   .carousel .card__content,
   .news__grid .card__content {
-    padding: 1.25rem;
+    padding: 1rem;
     border-radius: 0 0 var(--radius-md) var(--radius-md);
     border-top: none;
   }
   
   .carousel .card__image,
   .news__grid .card__image {
-    max-height: 180px;
-    min-height: 180px;
+    max-height: 150px;
+    min-height: 150px;
     margin: 0;
     padding: 0;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
@@ -638,7 +671,8 @@
   .carousel .card__excerpt,
   .news__grid .card__excerpt {
     height: auto;
-    max-height: 80px;
+    max-height: 75px;
+    font-size: 0.85rem;
   }
 }
 
