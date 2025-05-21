@@ -34,3 +34,10 @@
   --navbar-height: 70px;
   --footer-height: 60px;
 }
+
+/* Valeurs responsives */
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 60px;
+  }
+}

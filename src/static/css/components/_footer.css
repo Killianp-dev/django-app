@@ -6,10 +6,13 @@
   background: var(--color-dark);
   color: var(--color-light);
   text-align: center;
-  padding: 25px 0;
+  padding: 25px 15px;
   margin-top: auto;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, .05);
   min-height: var(--footer-height);
+  width: 100%;
+  position: relative;
+  z-index: 10;
 }
 
 .footer a {
@@ -19,4 +22,10 @@
 
 .footer a:hover {
   text-decoration: underline;
+  color: var(--color-primary);
+}
+
+.footer p {
+  margin: 0;
+  line-height: 1.5;
 }

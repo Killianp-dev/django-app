@@ -7,16 +7,18 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  padding-top: var(--navbar-height);
 }
 
 /* Conteneur générique des pages liste & blog */
 #blog,
 .content {
   max-width: 1000px;
-  margin: calc(var(--navbar-height) + 40px) auto 0;
+  margin: 40px auto 0;
   padding: 40px 20px;
   text-align: center;
-  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 80px);
 }
 
 /* Style spécifique pour la page d'article */
@@ -25,7 +27,7 @@ body {
 }
 
 .article-page #blog {
-  padding-top: 60px;
+  margin-bottom: 40px; /* Garantit un espace avant le footer */
 }
 
 /* Titre de page générique */
@@ -47,15 +49,15 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 1.5rem 1rem;
-  min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+  padding: 1rem 1.5rem 2rem; /* Increased bottom padding */
+  min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 20px);
 }
 
 /* En-tête de page */
 .page-header {
   max-width: 1200px;
-  margin: 3rem auto;
-  padding: 3rem 1.5rem 1rem;
+  margin: 1rem auto 1.5rem;
+  padding: 2rem 1.5rem 0.5rem;
   text-align: center;
 }
 
@@ -63,9 +65,10 @@ body {
   font-family: 'Times New Roman', serif;
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   color: var(--color-dark);
   text-align: center;
+  line-height: 1.2;
 }
 
 .page-description {
@@ -73,6 +76,7 @@ body {
   color: var(--color-grey);
   max-width: 700px;
   margin: 0 auto;
+  line-height: 1.5;
 }
 
 /* Séparateur horizontal stylisé */
@@ -137,4 +141,44 @@ body {
 
 .section-divider.animated.reveal .divider-line {
   width: 100%;
+}
+
+/* Responsive adjustments for global layout */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem 1rem;
+  }
+  
+  .page-header {
+    margin: 2rem auto 1.5rem;
+    padding: 2rem 1rem 0.5rem;
+  }
+  
+  .page-header .page-title {
+    font-size: 2rem;
+  }
+  
+  .page-description {
+    font-size: 1rem;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 0.75rem 0.75rem;
+  }
+  
+  .page-header {
+    margin: 1.5rem auto 1rem;
+    padding: 1.5rem 0.75rem 0.5rem;
+  }
+  
+  .page-header .page-title {
+    font-size: 1.8rem;
+  }
+  
+  .page-description {
+    font-size: 0.9rem;
+  }
 }
