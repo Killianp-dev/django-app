@@ -3,68 +3,176 @@
    ================================================= */
 
 .article {
-  max-width: 1200px;
-  margin: 2rem auto 4rem;
-  padding: 2rem 2.5rem;
+  max-width: 1000px;
+  margin: 3rem auto 4rem;
+  padding: 2rem;
   text-align: left;
   line-height: 1.75;
+  background-color: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
-.article-image img {
-  width: 85%;
-  max-height: 450px;
-  height: auto;
-  object-fit: cover;
-  border-radius: var(--radius-md);
-  margin: 0 auto 3rem;
-  display: block;
+.article-header {
+  margin-bottom: 2rem;
+  position: relative;
 }
 
 .article-title {
-  font-size: 2.1rem;
+  font-size: 2.4rem;
   line-height: 1.3;
   color: var(--color-dark);
-  margin-bottom: .5rem;
+  margin-bottom: 1rem;
+  font-weight: 800;
 }
 
 .article-meta {
-  font-size: .9rem;
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
   color: var(--color-grey);
-  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.article-author {
+  font-weight: 600;
+}
+
+.article-date {
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.article-date::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-grey);
+}
+
+.article-image {
+  margin: 0 -2rem 2.5rem;
+  overflow: hidden;
+}
+
+.article-image img {
+  width: 100%;
+  max-height: 500px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.article-body {
+  font-size: 1.05rem;
+  color: #333;
 }
 
 .article-body p {
-  margin-bottom: 1.2rem;
-  font-size: 1.05rem;
-  color: #333;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
 }
 
 .article-body h2,
 .article-body h3,
 .article-body h4 {
-  margin: 2.2rem 0 1rem;
+  margin: 2.5rem 0 1rem;
   color: var(--color-dark);
   line-height: 1.3;
+  font-weight: 700;
+}
+
+.article-body h2 {
+  font-size: 1.8rem;
+}
+
+.article-body h3 {
+  font-size: 1.5rem;
+}
+
+.article-body h4 {
+  font-size: 1.25rem;
+}
+
+.article-body ul,
+.article-body ol {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.article-body li {
+  margin-bottom: 0.75rem;
+}
+
+.article-body a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.article-body a:hover {
+  color: var(--color-primary-hover);
+}
+
+.article-body blockquote {
+  margin: 2rem 0;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid var(--color-primary);
+  background-color: #f8f8f8;
+  font-style: italic;
+  color: #555;
 }
 
 .article-actions {
   margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 1rem;
 }
 
 /* MODIFIEURS DE PAGE */
 /*  ➜ quand <body class="article-page"> est présent */
 .article-page #blog {
   max-width: 1200px;
+  margin: 0 auto;
   text-align: left;
-}
-
-.article-page .article {
-  max-width: none;
 }
 
 /* Confort de lecture sur très grands écrans */
 @media(min-width:1600px) {
   .article-page #blog {
     max-width: 75%;
+  }
+}
+
+/* Responsive */
+@media(max-width:768px) {
+  .article {
+    padding: 1.5rem;
+    margin: 2rem auto;
+  }
+  
+  .article-title {
+    font-size: 1.8rem;
+  }
+  
+  .article-image {
+    margin: 0 -1.5rem 2rem;
+  }
+  
+  .article-image img {
+    max-height: 300px;
+  }
+  
+  .article-body {
+    font-size: 1rem;
   }
 }

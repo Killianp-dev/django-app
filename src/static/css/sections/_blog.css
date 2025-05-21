@@ -2,12 +2,48 @@
    BLOG STYLE PRESSE - LISTE DES ARTICLES
    ================================================= */
 
+/* Conteneur principal du blog */
+.blog-container {
+  padding: 2rem 0 4rem;
+}
+
 /* Liste des articles en grille */
 .blogpost-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2rem;
   margin: 2rem 0 3rem;
+}
+
+/* Badge "À la une" */
+.featured-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+/* Message quand aucun article */
+.no-posts {
+  background-color: #f9f9f9;
+  padding: 3rem;
+  text-align: center;
+  border-radius: var(--radius-md);
+  margin: 2rem 0;
+}
+
+.no-posts p {
+  font-size: 1.2rem;
+  color: var(--color-grey);
 }
 
 /* Pagination */
@@ -19,20 +55,150 @@
 }
 
 .pagination a, .pagination span {
-  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 1px solid #ddd;
   color: var(--color-dark);
   text-decoration: none;
   border-radius: var(--radius-sm);
   transition: all 0.3s;
+  font-weight: 500;
 }
 
 .pagination a:hover {
   background-color: #f0f0f0;
+  border-color: #ccc;
 }
 
 .pagination .current {
   background-color: var(--color-primary);
   color: white;
   border-color: var(--color-primary);
+}
+
+/* Actions admin */
+.admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+/* Navigation entre articles */
+.article-navigation {
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.back-to-blog {
+  display: inline-block;
+  color: var(--color-dark);
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border: 1px solid #ddd;
+  border-radius: var(--radius-md);
+  transition: all 0.3s;
+  margin-bottom: 2rem;
+}
+
+.back-to-blog:hover {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Navigation articles précédent/suivant */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.post-nav-item {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid #eee;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all 0.3s;
+  flex: 1;
+  max-width: 45%;
+}
+
+.post-nav-prev {
+  text-align: left;
+}
+
+.post-nav-next {
+  text-align: right;
+}
+
+.post-nav-item:hover {
+  background-color: #f9f9f9;
+  border-color: #ddd;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.post-nav-direction {
+  font-size: 0.8rem;
+  color: var(--color-grey);
+  margin-bottom: 0.3rem;
+}
+
+.post-nav-title {
+  font-weight: 500;
+  color: var(--color-dark);
+}
+
+.post-nav-item:hover .post-nav-title {
+  color: var(--color-primary);
+}
+
+/* Navigation contextuelle du blog */
+.blog-nav {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.blog-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  padding: 0;
+}
+
+.blog-nav a {
+  color: var(--color-dark);
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.blog-nav a:hover,
+.blog-nav a.active {
+  color: var(--color-primary);
+}
+
+.blog-nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  transition: all 0.3s;
+}
+
+.blog-nav a:hover::after,
+.blog-nav a.active::after {
+  width: 100%;
 }

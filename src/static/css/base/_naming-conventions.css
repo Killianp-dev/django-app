@@ -1,0 +1,46 @@
+/* ==================================================
+   CONVENTIONS DE NOMMAGE CSS
+   ================================================= */
+
+/*
+ * Ce fichier définit les conventions de nommage à utiliser dans tout le projet.
+ * L'objectif est d'harmoniser le code CSS et de faciliter sa maintenance.
+ */
+
+/* 
+ * CONVENTION PRINCIPALE: BEM (Block Element Modifier)
+ * 
+ * Format: .bloc__element--modificateur
+ * 
+ * Exemples:
+ * - .card (bloc)
+ * - .card__title (élément)
+ * - .card__image (élément)
+ * - .card--featured (modificateur)
+ * - .card__button--primary (élément avec modificateur)
+ */
+
+/* 
+ * À ÉVITER:
+ * - camelCase (.cardTitle)
+ * - PascalCase (.CardTitle)
+ * - Mélange de conventions (.card-title, .cardTitle, .card_title)
+ */
+
+/* 
+ * NOMMAGE DES SECTIONS ET COMPOSANTS:
+ * - Utilisez des tirets simples pour les noms composés de blocs (.section-asymetrique)
+ * - Utilisez le double underscore pour les éléments internes (.section-asymetrique__titre)
+ * - Utilisez double tiret pour les variations (.btn--primary, .btn--secondary)
+ */
+
+/* 
+ * NOMMAGE DES UTILITAIRES:
+ * - Préfixez les classes utilitaires avec u- (.u-flex, .u-hidden)
+ * - Utilisez des noms courts et descriptifs (.u-mb-10 pour margin-bottom: 10px)
+ */
+
+/* 
+ * NOMMAGE DES ÉTATS:
+ * - Préfixez les classes d'état avec is- ou has- (.is-active, .has-error)
+ */ 

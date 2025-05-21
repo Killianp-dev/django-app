@@ -1,66 +1,67 @@
-// app.js (optimisé avec animations corrigées pour refresh)
+// app.js (optimized)
 
 (() => {
   // Constants
   const MOBILE_BREAKPOINT = 768;
 
-  // DOM Elements - cached selectors for better performance
+  // DOM Elements - cached selectors
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
   const navLinks = document.querySelectorAll('.nav-links a');
   const hero = document.querySelector('.hero');
   const navbar = document.querySelector('.navbar');
 
-  // ===== Navigation Active State =====
+  // Utils
+  const utils = {
+    // Debounce function to limit execution rate
+    debounce: (func, delay) => {
+      let timer;
+      return function(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(this, args), delay);
+      };
+    },
+    
+    // Check if GSAP and ScrollTrigger are available
+    hasGSAP: () => typeof gsap !== 'undefined',
+    hasScrollTrigger: () => typeof ScrollTrigger !== 'undefined'
+  };
 
-  /**
-   * Gère l'état actif des liens de navigation en fonction de la section visible
-   */
+  // ===== Navigation Active State =====
   function initActiveNavigation() {
-    // Sortir si aucun lien de navigation n'est trouvé
     if (!navLinks.length) return;
 
-    // Récupérer toutes les sections cibles pour la navigation
+    // Get all target sections for navigation
     const sections = [];
     navLinks.forEach(link => {
       const href = link.getAttribute('href');
-      // Si le lien est une ancre (commence par #) et n'est pas juste #
       if (href && href.startsWith('#') && href.length > 1) {
         const section = document.querySelector(href);
         if (section) {
-          sections.push({
-            id: href,
-            element: section,
-            link: link
-          });
+          sections.push({ id: href, element: section, link });
         }
       }
     });
 
-    // Sortir s'il n'y a pas de sections trouvées
     if (!sections.length) return;
 
-    // Trier les sections de haut en bas pour garantir une détection correcte
-    sections.sort((a, b) => {
-      return a.element.offsetTop - b.element.offsetTop;
-    });
+    // Sort sections by position (top to bottom)
+    sections.sort((a, b) => a.element.offsetTop - b.element.offsetTop);
 
-    // Ajouter un écouteur d'événements pour les clics sur les liens
+    // Add click event listeners to links
     navLinks.forEach(link => {
       link.addEventListener('click', function(e) {
-        // Ne pas annuler la navigation si ce n'est pas une ancre interne
         const href = this.getAttribute('href');
         if (href && href.startsWith('#') && href.length > 1) {
           e.preventDefault();
 
-          // Mettre à jour la classe active immédiatement
+          // Update active class immediately
           navLinks.forEach(navLink => navLink.classList.remove('active'));
           this.classList.add('active');
 
-          // Faire défiler en douceur vers la section
+          // Smooth scroll to section
           const targetSection = document.querySelector(href);
           if (targetSection) {
-            // Calculer le décalage pour la navbar fixe
             const navbarHeight = navbar ? navbar.offsetHeight : 0;
             const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
 
@@ -73,84 +74,73 @@
       });
     });
 
-    // Fonction pour déterminer quelle section est actuellement visible
+    // Determine which section is currently visible
     function highlightNavOnScroll() {
-      // Obtenir la position actuelle de défilement avec un offset pour la navbar
       const navbarHeight = navbar ? navbar.offsetHeight : 0;
-      const scrollPosition = window.pageYOffset + navbarHeight + 5; // Petit offset supplémentaire
-
-      // Récupérer la position du haut et du bas de la fenêtre visible
+      const scrollPosition = window.pageYOffset + navbarHeight + 5;
       const windowHeight = window.innerHeight;
-      const windowBottom = scrollPosition + windowHeight * 0.5; // On considère le milieu de l'écran
+      const windowBottom = scrollPosition + windowHeight * 0.5;
 
-      // Vérifier chaque section pour déterminer celle qui est la plus visible
       let currentSectionIndex = -1;
 
-      // Trouver la section qui occupe la plus grande partie de l'écran visible
+      // Find section most visible on screen
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
-        const sectionTop = section.element.offsetTop - navbarHeight; // Ajuster pour la navbar
+        const sectionTop = section.element.offsetTop - navbarHeight;
         const sectionHeight = section.element.offsetHeight;
         const sectionBottom = sectionTop + sectionHeight;
 
-        // Vérifier si nous sommes dans cette section
-        // Une section est considérée visible si le haut de la section est au-dessus de la position de défilement
-        // ET que le bas de la section est en-dessous de la position de défilement
-        // OU si le haut de l'écran est entre le haut et le bas de la section
-        if (
-          (scrollPosition >= sectionTop && scrollPosition < sectionBottom) ||
-          (sectionTop <= scrollPosition && sectionBottom >= scrollPosition)
-        ) {
+        if ((scrollPosition >= sectionTop && scrollPosition < sectionBottom) ||
+            (sectionTop <= scrollPosition && sectionBottom >= scrollPosition)) {
           currentSectionIndex = i;
-          break; // On a trouvé la section active, pas besoin de continuer
+          break;
         }
       }
 
-      // Si aucune section n'est trouvée mais que nous sommes près du haut
+      // Handle top of page (home/hero section)
       if (currentSectionIndex === -1 && scrollPosition < 150) {
-        // Vérifier si un lien d'accueil existe
         const homeLink = document.querySelector('.nav-links a[href="#hero"], .nav-links a[href="#home"], .nav-links a[href="#"]');
         if (homeLink) {
-          // Mettre à jour les classes actives
           navLinks.forEach(link => link.classList.remove('active'));
           homeLink.classList.add('active');
-          return; // Sortir de la fonction
+          return;
         }
 
-        // Si aucun lien d'accueil n'est trouvé mais que la première section est proche
         if (sections.length > 0 && sections[0].element.offsetTop - navbarHeight - 200 < scrollPosition) {
           currentSectionIndex = 0;
         }
       }
 
-      // Si une section est trouvée, mettre à jour les classes actives
+      // Update active state
       if (currentSectionIndex !== -1) {
         navLinks.forEach(link => link.classList.remove('active'));
         sections[currentSectionIndex].link.classList.add('active');
       }
     }
 
-    // Définir l'état actif initial
+    // Initial state
     highlightNavOnScroll();
 
-    // Écouter les événements de défilement pour mettre à jour l'état actif
-    window.addEventListener('scroll', highlightNavOnScroll);
+    // Optimize scroll event with requestAnimationFrame
+    let isScrolling = false;
+    window.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(() => {
+          highlightNavOnScroll();
+          isScrolling = false;
+        });
+      }
+    });
   }
 
   // ===== Mobile Menu =====
-
-  /**
-   * Toggle the mobile navigation menu open/closed
-   */
   function toggleMobileMenu() {
     const isActive = hamburger.classList.toggle('active');
     navMenu.classList.toggle('active');
     hamburger.setAttribute('aria-expanded', isActive);
   }
 
-  /**
-   * Close the mobile menu when a link is clicked (only in mobile view)
-   */
   function closeMobileMenu() {
     if (window.innerWidth <= MOBILE_BREAKPOINT) {
       hamburger.classList.remove('active');
@@ -165,7 +155,6 @@
   }
 
   // ===== Accessibility =====
-
   function initAccessibility() {
     if (!hamburger) return;
 
@@ -183,27 +172,21 @@
   }
 
   // ===== Scroll Animations =====
-
   function initScrollAnimations() {
-    // Check if GSAP and ScrollTrigger are available
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-      // Fallback to basic intersection observer animation
+    if (!utils.hasGSAP() || !utils.hasScrollTrigger()) {
       initBasicScrollAnimations();
       return;
     }
 
-    // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
 
-    // Animate asymmetric section blocks with GSAP
+    // Animate asymmetric section blocks
     const assetBlocks = document.querySelectorAll('.section-asymetrique .bloc-1, .section-asymetrique .bloc-2, .section-asymetrique .bloc-3, .section-asymetrique .bloc-right');
 
     assetBlocks.forEach((block, index) => {
-      // Determine direction based on block class
       const isRightBlock = block.classList.contains('bloc-1') || block.classList.contains('bloc-3');
       const isLeftBlock = block.classList.contains('bloc-2') || block.classList.contains('bloc-right');
 
-      // Initial state
       gsap.set(block, {
         opacity: 0,
         y: 50,
@@ -212,7 +195,6 @@
         transformPerspective: 1000
       });
 
-      // Create timeline for each block
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: block,
@@ -226,7 +208,6 @@
         }
       });
 
-      // Animation sequence
       tl.to(block, {
         opacity: 1,
         x: 0,
@@ -234,7 +215,7 @@
         scale: 1,
         duration: 1.2,
         ease: "power3.out",
-        delay: index * 0.15 // Stagger effect
+        delay: index * 0.15
       })
       .to(block.querySelector('img'), {
         scale: 1,
@@ -247,9 +228,14 @@
         opacity: 1,
         duration: 0.8,
         ease: "power2.out"
-      }, "-=0.6");
+      }, "-=0.6")
+      .to(block.querySelector('button, .btn-bloc-right'), {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out"
+      }, "-=0.4");
 
-      // Add hover parallax effect on images - MAINTENIR LE BORDER-RADIUS
+      // Hover effect on images
       const img = block.querySelector('img');
       if (img) {
         block.addEventListener('mouseenter', () => {
@@ -270,7 +256,7 @@
       }
     });
 
-    // Add decorative lines animation
+    // Decorative lines animation
     const decorativeLines = document.querySelectorAll('.ligne-gauche, .ligne-milieu, .ligne-droite');
     decorativeLines.forEach((line, index) => {
       gsap.fromTo(line,
@@ -295,7 +281,7 @@
       );
     });
 
-    // Add text reveal animations for section title
+    // Section title animation
     const sectionTitle = document.querySelector('.section-asymetrique h2');
     if (sectionTitle) {
       gsap.fromTo(sectionTitle,
@@ -325,51 +311,42 @@
 
   // Fallback for browsers without GSAP
   function initBasicScrollAnimations() {
-    const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries, obs) => {
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
         } else {
-          // On retire la classe visible quand l'élément sort du viewport
           entry.target.classList.remove('visible');
         }
       });
-    }, options);
+    }, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    });
 
-    // Apply animation classes to entire blocks
     const blocks = document.querySelectorAll('.section-asymetrique .bloc-1, .section-asymetrique .bloc-2, .section-asymetrique .bloc-3, .section-asymetrique .bloc-right');
 
     blocks.forEach(block => {
-      if (block.classList.contains('bloc-1') || block.classList.contains('bloc-3')) {
-        block.classList.add('scroll-right');
-      } else {
-        block.classList.add('scroll-left');
-      }
+      block.classList.add(
+        block.classList.contains('bloc-1') || block.classList.contains('bloc-3') 
+          ? 'scroll-right' 
+          : 'scroll-left'
+      );
       observer.observe(block);
     });
   }
 
   // ===== Hero Animation =====
-
   function initHeroAnimation() {
-    // Exit early if no hero section
-    if (!hero) return;
+    if (!hero || !utils.hasGSAP()) return;
 
-    // Get hero elements
     const heroTitle = hero.querySelector('.hero__title');
     const heroSubtitle = hero.querySelector('.hero__subtitle');
     const heroActions = hero.querySelector('.hero__actions');
 
-    // Check if we have all required elements and GSAP is loaded
-    if (!heroTitle || !heroSubtitle || !heroActions || typeof gsap === 'undefined') return;
+    if (!heroTitle || !heroSubtitle || !heroActions) return;
 
-    // Create timeline
     const heroTimeline = gsap.timeline({
       defaults: {
         ease: "power3.out",
@@ -377,20 +354,16 @@
       }
     });
 
-    // Add animations to timeline
     heroTimeline
-      // Add blur effect to hero before animating
       .set(hero, {
         filter: "blur(10px)",
         opacity: 0
       })
-      // Fade in and unblur the hero
       .to(hero, {
         filter: "blur(0px)",
         opacity: 1,
         duration: 1.5
       })
-      // Stagger animate children
       .from(heroTitle, {
         y: -60,
         opacity: 0,
@@ -406,16 +379,14 @@
         scale: 0.9,
         stagger: 0.15,
         duration: 0.6
-      }, "-=0.4");
+      }, "-=0.4")
+      .set([heroTitle, heroSubtitle, heroActions.children], {
+        opacity: 1,
+        clearProps: "all"
+      });
 
-    // Assurez-vous que les éléments deviennent visibles à la fin
-    heroTimeline.set([heroTitle, heroSubtitle, heroActions.children], {
-      opacity: 1,
-      clearProps: "all" // Nettoie toutes les propriétés GSAP à la fin
-    });
-
-    // Add scroll effect to hero for parallax (if ScrollTrigger is available)
-    if (gsap.ScrollTrigger) {
+    // Parallax effect
+    if (utils.hasScrollTrigger()) {
       gsap.to(hero, {
         backgroundPosition: "50% 70%",
         ease: "none",
@@ -429,19 +400,13 @@
     }
   }
 
-// ===== Navbar Animations =====
-
+  // ===== Navbar Animations =====
   function initNavbarAnimations() {
-    // Exit early if navbar doesn't exist
-    if (!navbar) return;
+    if (!navbar || !utils.hasGSAP()) return;
 
-    // Vérifier que GSAP est disponible
-    if (typeof gsap === 'undefined') return;
-
-    // Logo et liens de navigation
     const logo = navbar.querySelector('.logo a');
 
-    // Ajouter l'élément d'effet de survol à chaque lien
+    // Add hover effect to links
     navLinks.forEach(link => {
       if (!link.querySelector('.link-hover-effect')) {
         const linkEffect = document.createElement('span');
@@ -450,11 +415,10 @@
       }
     });
 
-    // Vérifier si l'animation a déjà été jouée dans cette session
+    // Check if animation has already played in this session
     const hasPlayedAnimation = sessionStorage.getItem('navbarAnimationPlayed');
 
     if (!hasPlayedAnimation) {
-      // Animation initiale de la navbar (seulement si pas déjà jouée)
       const navbarTimeline = gsap.timeline({
         defaults: {
           ease: "power3.out",
@@ -462,7 +426,6 @@
         }
       });
 
-      // Animation d'entrée de la navbar
       navbarTimeline
         .from(navbar, {
           y: -100,
@@ -478,31 +441,14 @@
           y: -20,
           opacity: 0,
           stagger: 0.05
-        }, "-=0.2");
-
-      // Assurez-vous que tous les éléments sont visibles à la fin
-      navbarTimeline.set(navbar, {
-        opacity: 1,
-        clearProps: "all"
-      });
-
-      navbarTimeline.set(logo, {
-        opacity: 1,
-        clearProps: "all"
-      });
-
-      // Traitement spécifique pour chaque lien de navigation
-      navLinks.forEach(link => {
-        navbarTimeline.set(link, {
+        }, "-=0.2")
+        .set([navbar, logo, navLinks], {
           opacity: 1,
           clearProps: "all"
         });
-      });
 
-      // Marquer l'animation comme jouée
       sessionStorage.setItem('navbarAnimationPlayed', 'true');
     } else {
-      // Si l'animation a déjà été jouée, s'assurer que tous les éléments sont visibles
       gsap.set([navbar, logo, navLinks], {
         opacity: 1,
         y: 0,
@@ -511,8 +457,8 @@
       });
     }
 
-    // Animation au scroll pour la navbar
-    if (typeof ScrollTrigger !== 'undefined') {
+    // Scroll animation for navbar
+    if (utils.hasScrollTrigger()) {
       ScrollTrigger.create({
         trigger: 'body',
         start: 'top top',
@@ -537,20 +483,15 @@
         }
       });
     } else {
-      // Fallback pour les navigateurs sans ScrollTrigger
+      // Fallback
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
       });
     }
   }
 
-  // ===== Carousel des derniers articles =====
+  // ===== Posts Carousel =====
   function initPostsCarousel() {
-    // Sélection des éléments DOM
     const carousel = document.querySelector('.carousel');
     const carouselContainer = document.querySelector('.carousel__container');
     const carouselTrack = document.querySelector('.carousel__track');
@@ -559,38 +500,26 @@
     const prevButton = document.querySelector('.carousel__button--prev');
     const dotsContainer = document.querySelector('.carousel__nav');
 
-    // Si les éléments n'existent pas, sortir de la fonction
     if (!carouselTrack || slides.length === 0) return;
 
-    // Variables pour le carousel
     let currentIndex = 0;
     let slideWidth = 0;
-    let slidesToShow = getSlideCount();
+    let slidesToShow = 0;
     const slideCount = slides.length;
     let autoplayInterval = null;
     let resizeTimer;
 
-    // Gérer la taille des slides en fonction de l'écran
+    // Get number of slides to show based on screen width
     function getSlideCount() {
-      const width = window.innerWidth;
-      if (width < 992) {
-        return 1; // Mobile: 1 slide
-      }
-      return 3; // Desktop: 3 slides
+      return window.innerWidth < 992 ? 1 : 3;
     }
 
-    // Calculer et définir la largeur des slides
+    // Calculate and set slide width
     function calculateSlideWidth() {
-      // Obtenir la largeur du conteneur
       const containerWidth = carouselContainer.clientWidth;
-
-      // Calculer la largeur de chaque slide en fonction du nombre à afficher
       const currentSlidesToShow = getSlideCount();
-
-      // Ajuster pour éviter la coupure des cartes
       slideWidth = Math.floor(containerWidth / currentSlidesToShow);
 
-      // Définir la largeur pour chaque slide
       slides.forEach(slide => {
         slide.style.flexBasis = `${slideWidth}px`;
         slide.style.maxWidth = `${slideWidth}px`;
@@ -599,72 +528,58 @@
       return currentSlidesToShow;
     }
 
-    // Calculer l'index maximum autorisé pour éviter les espaces vides
+    // Get maximum slide index to prevent empty space
     function getMaxIndex() {
-      // Si on peut afficher tous les slides, pas de limite
       if (slidesToShow >= slideCount) return 0;
-
-      // Sinon, calculer la limite pour éviter les espaces vides
       return Math.max(0, slideCount - slidesToShow);
     }
 
-    // Mettre à jour le carousel en fonction de la taille de l'écran
+    // Update carousel layout on resize
     function updateCarouselLayout() {
-      // Obtenir le nombre de slides à afficher basé sur la taille de l'écran
       const newSlidesToShow = calculateSlideWidth();
 
-      // Mettre à jour slidesToShow si la valeur a changé
       if (newSlidesToShow !== slidesToShow) {
         slidesToShow = newSlidesToShow;
-
-        // Si l'index actuel dépasse la nouvelle limite, ajuster
+        
         const maxIndex = getMaxIndex();
         if (currentIndex > maxIndex) {
           currentIndex = maxIndex;
         }
 
-        // Recréer les points de navigation
         createDots();
       }
 
-      // Mettre à jour la visibilité des boutons
       updateButtonsVisibility();
-
-      // Réappliquer la transformation pour maintenir la position
       goToSlide(currentIndex, false);
     }
 
-    // Créer les points de navigation
+    // Create navigation dots
     function createDots() {
       if (!dotsContainer) return;
 
       dotsContainer.innerHTML = '';
 
-      // Calculer le nombre réel de positions possibles
       const maxIndex = getMaxIndex();
       const numberOfDots = maxIndex + 1;
 
-      // Ne pas afficher de points s'il n'y a qu'une seule position
       if (numberOfDots <= 1 || slidesToShow >= slideCount) {
         dotsContainer.style.display = 'none';
         return;
-      } else {
-        dotsContainer.style.display = 'flex';
       }
+      
+      dotsContainer.style.display = 'flex';
 
       for (let i = 0; i < numberOfDots; i++) {
         const dot = document.createElement('button');
         dot.classList.add('carousel__indicator');
-
-        // Déterminer si ce point est actif
+        
         if (i === currentIndex) {
           dot.classList.add('carousel__indicator--active');
         }
 
         dot.setAttribute('aria-label', `Aller à la position ${i + 1}`);
         dot.dataset.index = i;
-
-        // Ajouter l'événement de clic
+        
         dot.addEventListener('click', () => {
           goToSlide(i);
         });
@@ -673,95 +588,69 @@
       }
     }
 
-    // Fonction pour vérifier si les boutons sont nécessaires
+    // Update navigation buttons visibility
     function updateButtonsVisibility() {
       if (!nextButton || !prevButton) return;
 
-      // Cacher les boutons si toutes les slides sont visibles
-      if (slidesToShow >= slideCount) {
-        nextButton.style.display = 'none';
-        prevButton.style.display = 'none';
-        stopAutoplay(); // Pas besoin d'autoplay si tout est visible
-      } else {
-        nextButton.style.display = 'flex';
-        prevButton.style.display = 'flex';
+      const shouldHideButtons = slidesToShow >= slideCount;
+      nextButton.style.display = shouldHideButtons ? 'none' : 'flex';
+      prevButton.style.display = shouldHideButtons ? 'none' : 'flex';
+      
+      if (shouldHideButtons) {
+        stopAutoplay();
       }
     }
 
-    // Aller à un slide spécifique avec animation optionnelle
+    // Go to specific slide
     function goToSlide(index, animate = true) {
-      // Limiter l'index pour éviter les espaces vides
       const maxIndex = getMaxIndex();
       currentIndex = Math.max(0, Math.min(index, maxIndex));
 
-      // Appliquer la transformation avec ou sans animation
-      if (!animate) {
-        carouselTrack.style.transition = 'none';
-      } else {
-        carouselTrack.style.transition = 'transform 0.5s ease-in-out';
-      }
-
-      // Calculer et appliquer le décalage
+      carouselTrack.style.transition = animate ? 'transform 0.5s ease-in-out' : 'none';
+      
       const offset = -currentIndex * slideWidth;
       carouselTrack.style.transform = `translateX(${offset}px)`;
 
-      // Forcer un reflow pour que la transition soit désactivée immédiatement
       if (!animate) {
-        carouselTrack.offsetHeight;
+        carouselTrack.offsetHeight; // Force reflow
         carouselTrack.style.transition = 'transform 0.5s ease-in-out';
       }
 
-      // Mettre à jour l'état actif des indicateurs
       updateDots();
     }
 
-    // Mettre à jour l'apparence des points de navigation
+    // Update dots active state
     function updateDots() {
       if (!dotsContainer) return;
 
       const dots = dotsContainer.querySelectorAll('.carousel__indicator');
-
-      // Vérifier si nous avons des points
       if (dots.length === 0) return;
 
-      dots.forEach((dot, index) => {
-        if (parseInt(dot.dataset.index) === currentIndex) {
-          dot.classList.add('carousel__indicator--active');
-        } else {
-          dot.classList.remove('carousel__indicator--active');
-        }
+      dots.forEach(dot => {
+        dot.classList.toggle('carousel__indicator--active', 
+          parseInt(dot.dataset.index) === currentIndex);
       });
     }
 
-    // Aller au slide suivant (un par un)
+    // Next slide
     function nextSlide() {
       const maxIndex = getMaxIndex();
-      if (currentIndex >= maxIndex) {
-        goToSlide(0); // Revenir au début
-      } else {
-        goToSlide(currentIndex + 1); // Avancer d'un seul
-      }
+      goToSlide(currentIndex >= maxIndex ? 0 : currentIndex + 1);
     }
 
-    // Aller au slide précédent (un par un)
+    // Previous slide
     function prevSlide() {
-      if (currentIndex === 0) {
-        const maxIndex = getMaxIndex();
-        goToSlide(maxIndex); // Aller à la fin (sans dépasser)
-      } else {
-        goToSlide(currentIndex - 1); // Reculer d'un seul
-      }
+      const maxIndex = getMaxIndex();
+      goToSlide(currentIndex === 0 ? maxIndex : currentIndex - 1);
     }
 
-    // Configuration de l'autoplay
+    // Start autoplay
     function startAutoplay() {
-      stopAutoplay(); // Arrêter l'autoplay existant s'il y en a un
-      autoplayInterval = setInterval(() => {
-        nextSlide();
-      }, 5000); // Changer de slide toutes les 5 secondes
+      stopAutoplay();
+      autoplayInterval = setInterval(nextSlide, 5000);
     }
 
-    // Arrêter l'autoplay
+    // Stop autoplay
     function stopAutoplay() {
       if (autoplayInterval) {
         clearInterval(autoplayInterval);
@@ -769,30 +658,31 @@
       }
     }
 
-    // Ajouter les écouteurs d'événements
-    if (nextButton) {
-      nextButton.addEventListener('click', () => {
+    // Handle touch swipe
+    function handleSwipe(startX, endX) {
+      const swipeThreshold = 50;
+      if (startX - endX > swipeThreshold) {
         nextSlide();
-        stopAutoplay(); // Arrêter l'autoplay quand l'utilisateur interagit manuellement
-      });
-    }
-
-    if (prevButton) {
-      prevButton.addEventListener('click', () => {
+      } else if (endX - startX > swipeThreshold) {
         prevSlide();
-        stopAutoplay(); // Arrêter l'autoplay quand l'utilisateur interagit manuellement
-      });
+      }
     }
 
-    // Gérer le redimensionnement de la fenêtre avec debounce
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        updateCarouselLayout();
-      }, 250); // Attendre 250ms après la fin du redimensionnement
+    // Initialize event listeners
+    nextButton?.addEventListener('click', () => {
+      nextSlide();
+      stopAutoplay();
     });
 
-    // Gérer les interactions tactiles pour le swipe
+    prevButton?.addEventListener('click', () => {
+      prevSlide();
+      stopAutoplay();
+    });
+
+    // Handle resize
+    window.addEventListener('resize', utils.debounce(updateCarouselLayout, 250));
+
+    // Touch events
     let touchStartX = 0;
     let touchEndX = 0;
 
@@ -803,107 +693,74 @@
 
     carouselTrack.addEventListener('touchend', (e) => {
       touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
+      handleSwipe(touchStartX, touchEndX);
     }, { passive: true });
 
-    function handleSwipe() {
-      const swipeThreshold = 50; // Seuil minimum pour détecter un swipe
-      if (touchStartX - touchEndX > swipeThreshold) {
-        // Swipe vers la gauche - aller au suivant
-        nextSlide();
-      } else if (touchEndX - touchStartX > swipeThreshold) {
-        // Swipe vers la droite - aller au précédent
-        prevSlide();
-      }
-    }
-
-    // Arrêter l'autoplay lorsque la souris est sur le carousel
+    // Pause autoplay on hover
     carousel.addEventListener('mouseenter', stopAutoplay);
     carousel.addEventListener('mouseleave', startAutoplay);
 
-    // Initialisation
+    // Initialize
     updateCarouselLayout();
     createDots();
     updateButtonsVisibility();
     startAutoplay();
 
-    // Forcer une mise à jour après un court délai (pour corriger les problèmes d'initialisation)
+    // Force an update after a short delay
     setTimeout(() => {
       updateCarouselLayout();
       updateButtonsVisibility();
     }, 100);
   }
 
-  // ===== Article Cards Clickable =====
-
-  /**
-   * Rend les cartes d'articles cliquables tout en conservant les boutons
-   */
+  // ===== Clickable Article Cards =====
   function initClickableCards() {
-    // Sélectionner toutes les cartes d'articles, y compris featured-post
     const articleCards = document.querySelectorAll('.card, .post-card, .news__grid .card, .carousel .card, .featured-post');
 
     articleCards.forEach(card => {
-      // Trouver le lien principal dans la carte (titre ou bouton)
       const mainLink = card.querySelector('a[href]');
+      if (!mainLink) return;
 
-      if (!mainLink) return; // Passer si aucun lien n'est trouvé
-
-      // Récupérer l'URL de destination
       const targetUrl = mainLink.getAttribute('href');
-
-      // Ajouter le curseur pointer sur la carte
       card.style.cursor = 'pointer';
 
-      // Ajouter l'événement de clic sur la carte
       card.addEventListener('click', function(e) {
-        // Vérifier si le clic provient d'un élément interactif
-        const clickedElement = e.target;
-        const isInteractiveElement = clickedElement.matches('a, button') ||
-                                   clickedElement.closest('a, button');
-
-        // Si le clic est sur un lien ou bouton, laisser le comportement par défaut
-        if (isInteractiveElement) {
-          return;
-        }
-
-        // Sinon, rediriger vers l'URL du lien principal
+        const isInteractiveElement = e.target.matches('a, button') || 
+                                   e.target.closest('a, button');
+        if (isInteractiveElement) return;
+        
         window.location.href = targetUrl;
       });
 
-      // Ajouter un effet visuel au survol de la carte
-      card.addEventListener('mouseenter', function() {
-        this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.12)';
+      // Hover effect
+      card.addEventListener('mouseenter', () => {
+        card.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.12)';
       });
-
-      card.addEventListener('mouseleave', function() {
-        this.style.boxShadow = '';
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.boxShadow = '';
       });
     });
   }
 
   // ===== Section Title Animations =====
-
   function initSectionTitleAnimations() {
-    // Check if GSAP is available
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    if (!utils.hasGSAP() || !utils.hasScrollTrigger()) return;
 
-    // Animate all section titles
     const sectionTitles = document.querySelectorAll('.section-asymetrique h2, .news__title, .parallax p');
 
     sectionTitles.forEach(title => {
-      // Split text into spans for character animation
+      // Character animation
       const text = title.textContent;
       title.innerHTML = '';
 
       text.split('').forEach(char => {
         const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char; // Non-breaking space
+        span.textContent = char === ' ' ? '\u00A0' : char;
         span.style.display = 'inline-block';
         title.appendChild(span);
       });
 
-      // Animate characters
       gsap.fromTo(title.children,
         {
           y: 30,
@@ -931,45 +788,103 @@
     });
   }
 
+  // ===== Scroll vers les ancres pour les redirections inter-pages =====
+  function handleAnchorScroll() {
+    // Vérifie si l'URL contient un hash (ancre)
+    if (location.hash) {
+      // Utiliser un délai plus long pour s'assurer que tout le DOM est chargé
+      setTimeout(() => {
+        const targetElement = document.querySelector(location.hash);
+        
+        if (targetElement) {
+          // Calcul de la position en tenant compte de la hauteur de la navbar
+          const navbarHeight = navbar ? navbar.offsetHeight : 0;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
+          
+          // Scroll vers l'élément avec un peu plus de délai
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 500); // Délai augmenté à 500ms
+    }
+  }
+
+  // Ajout d'un gestionnaire d'événements spécifique pour les liens avec ancres
+  function initInterPageLinks() {
+    const interPageLinks = document.querySelectorAll('a[href*="#"]:not([href="#"])');
+    
+    interPageLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        // Si le lien pointe vers une autre page avec un hash
+        if (href.indexOf('#') !== -1 && !href.startsWith('#')) {
+          const targetPage = href.split('#')[0];
+          const currentPage = window.location.pathname;
+          
+          // Si nous sommes déjà sur la page cible, ne rien faire (la gestion standard s'en occupera)
+          if (targetPage === currentPage || targetPage === '') {
+            return;
+          }
+          
+          // Pour les liens vers d'autres pages avec ancre, on stocke l'ancre en localStorage
+          const hash = href.split('#')[1];
+          if (hash) {
+            sessionStorage.setItem('scrollToAnchor', hash);
+          }
+        }
+      });
+    });
+    
+    // Vérifier s'il y a une ancre stockée
+    const savedAnchor = sessionStorage.getItem('scrollToAnchor');
+    if (savedAnchor) {
+      sessionStorage.removeItem('scrollToAnchor');
+      
+      // Scroll vers l'ancre sauvegardée
+      setTimeout(() => {
+        const targetElement = document.querySelector('#' + savedAnchor);
+        if (targetElement) {
+          const navbarHeight = navbar ? navbar.offsetHeight : 0;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 500);
+    }
+  }
+
   // ===== Initialization =====
   function init() {
-    // Perform all initializations
+    // Initialize all components
     initMobileMenu();
     initAccessibility();
     initScrollAnimations();
     initHeroAnimation();
     initNavbarAnimations();
-    initSectionTitleAnimations(); // Ajout des animations de titre
-    initPostsCarousel(); // Initialisation du carousel
-    initActiveNavigation(); // Initialisation de la navigation active
-    initClickableCards(); // Initialisation des cartes cliquables
+    initSectionTitleAnimations();
+    initPostsCarousel();
+    initActiveNavigation();
+    initClickableCards();
+    handleAnchorScroll();
+    initInterPageLinks();  // Ajouter l'initialisation des liens inter-pages
 
-    // Refresh ScrollTrigger after everything is loaded
-    if (typeof ScrollTrigger !== 'undefined') {
-      // Attendre un court délai pour s'assurer que tout est bien chargé
-      setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
-
-      // Refresh ScrollTrigger sur le resize également
-      let resizeTimer;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          ScrollTrigger.refresh();
-        }, 250);
-      });
+    // Refresh ScrollTrigger
+    if (utils.hasScrollTrigger()) {
+      setTimeout(() => ScrollTrigger.refresh(), 100);
+      window.addEventListener('resize', utils.debounce(() => ScrollTrigger.refresh(), 250));
     }
 
-    // CORRECTION: Au lieu de manipuler directement le style, nous utilisons les classes CSS
+    // Handle menu visibility on resize
     window.addEventListener('resize', () => {
       if (window.innerWidth > MOBILE_BREAKPOINT) {
-        // En mode desktop, on s'assure que le menu est visible via CSS
-        navMenu.classList.remove('active'); // On retire la classe active car elle n'est pas nécessaire en desktop
-        navMenu.style.removeProperty('left'); // On supprime toute propriété left inline
+        navMenu.classList.remove('active');
+        navMenu.style.removeProperty('left');
       } else {
-        // En mode mobile, on laisse le menu dans son état actuel (ouvert ou fermé)
-        // mais on s'assurer qu'aucun style inline n'entre en conflit avec les classes CSS
         navMenu.style.removeProperty('left');
       }
     });
@@ -979,7 +894,6 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    // DOM already loaded, run init immediately
     init();
   }
 })();

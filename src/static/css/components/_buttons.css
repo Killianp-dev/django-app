@@ -117,7 +117,7 @@
   cursor: pointer;
   background: var(--color-primary);
   color: #fff;
-  transition: background .2s, transform .15s;
+  transition: background .2s, transform .15s, opacity 0.5s ease-in-out;
 }
 
 .section-asymetrique button:hover,
@@ -131,6 +131,7 @@
 .section-asymetrique .btn-bloc-right {
   position: relative;
   overflow: hidden;
+  opacity: 0; /* Start with opacity 0 */
 }
 
 .section-asymetrique button::before,

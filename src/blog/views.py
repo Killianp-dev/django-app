@@ -32,6 +32,33 @@ class BlogPostUpdate(UpdateView):
 class BlogPostDetail(DetailView):
     model = BlogPost
     context_object_name = "post"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Récupérer l'article actuel
+        current_post = self.object
+        
+        # Récupérer les articles précédent et suivant publiés
+        queryset = BlogPost.objects.filter(published=True)
+        
+        # Vérifier si created_on existe pour éviter l'erreur
+        if current_post and current_post.created_on is not None:
+            try:
+                context['previous_post'] = queryset.filter(created_on__lt=current_post.created_on).order_by('-created_on').first()
+            except BlogPost.DoesNotExist:
+                context['previous_post'] = None
+                
+            try:
+                context['next_post'] = queryset.filter(created_on__gt=current_post.created_on).order_by('created_on').first()
+            except BlogPost.DoesNotExist:
+                context['next_post'] = None
+        else:
+            # Si created_on est None, ne pas proposer d'articles précédent/suivant
+            context['previous_post'] = None
+            context['next_post'] = None
+            
+        return context
 
 
 class BlogPostDelete(DeleteView):

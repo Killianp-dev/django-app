@@ -40,6 +40,13 @@
     height: 750px;
     width: 70%;
   }
+  
+  /* Styles spécifiques pour l'image django-logo */
+  .section-asymetrique img.django-logo {
+    width: 40%;
+    height: auto;
+    max-height: 500px;
+  }
 }
 
 /* Barre de navigation mobile */
@@ -113,7 +120,7 @@
   .section-asymetrique .bloc-2,
   .section-asymetrique .bloc-3,
   .section-asymetrique .bloc-right {
-    transform: none !important;
+    transform: none;
   }
 
   .scroll-right,
@@ -373,6 +380,13 @@
         width: 50%;
         height: auto;
   }
+  
+  /* Style spécifique pour django-logo sur mobile */
+  .section-asymetrique img.django-logo {
+    width: 30%;
+    height: auto;
+    max-height: 400px;
+  }
 
   .parallax span {
     font-size: 0.9rem;
@@ -425,6 +439,12 @@
     z-index: 1000;
   }
 
+  /* Style spécifique pour django-logo sur très petits écrans */
+  .section-asymetrique img.django-logo {
+    width: 25%;
+    height: auto;
+    max-height: 300px;
+  }
 
 }
 

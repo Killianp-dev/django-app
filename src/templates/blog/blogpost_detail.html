@@ -7,19 +7,19 @@
 {% block content %}
 <main id="blog">
   <article class="article">
-    {% if post.thumbnail %}
-    <figure class="article-image">
-      <img src="{{ post.thumbnail.url }}" alt="Image de l’article : {{ post.title }}">
-    </figure>
-    {% endif %}
-
     <header class="article-header">
       <h1 class="article-title">{{ post.title }}</h1>
-      <p class="article-meta">
-        Publié par <span class="article-author">{{ post.author_or_default }}</span>
-        — {{ post.created_on|date:"j F Y" }}
-      </p>
+      <div class="article-meta">
+        <span class="article-author">Par {{ post.author_or_default }}</span>
+        <span class="article-date">{{ post.created_on|date:"j F Y" }}</span>
+      </div>
     </header>
+
+    {% if post.thumbnail %}
+    <figure class="article-image">
+      <img src="{{ post.thumbnail.url }}" alt="Image de l'article : {{ post.title }}">
+    </figure>
+    {% endif %}
 
     <section class="article-body">
       {{ post.content|safe }}
@@ -32,5 +32,26 @@
     </footer>
     {% endif %}
   </article>
+  
+  <div class="article-navigation">
+    <a href="{% url 'blog:home' %}" class="back-to-blog">← Retour aux actualités</a>
+    
+    <!-- Navigation entre articles précédent/suivant -->
+    <div class="post-nav">
+      {% if previous_post %}
+      <a href="{% url 'blog:detail' previous_post.slug %}" class="post-nav-item post-nav-prev">
+        <span class="post-nav-direction">← Article précédent</span>
+        <span class="post-nav-title">{{ previous_post.title|truncatechars:30 }}</span>
+      </a>
+      {% endif %}
+      
+      {% if next_post %}
+      <a href="{% url 'blog:detail' next_post.slug %}" class="post-nav-item post-nav-next">
+        <span class="post-nav-direction">Article suivant →</span>
+        <span class="post-nav-title">{{ next_post.title|truncatechars:30 }}</span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
 </main>
 {% endblock %}

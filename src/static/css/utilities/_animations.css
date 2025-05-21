@@ -33,6 +33,15 @@
   }
 }
 
+/* Animation pour les boutons asym qui apparaissent */
+.scroll-right.visible button,
+.scroll-left.visible button,
+.scroll-right.visible .btn-bloc-right,
+.scroll-left.visible .btn-bloc-right {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
 /* Animations success */
 @keyframes dash-in {
   to {
