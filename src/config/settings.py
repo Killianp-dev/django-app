@@ -35,7 +35,16 @@ ALLOWED_HOSTS = ['ai-technews.fr', 'www.ai-technews.fr', '35.180.44.75', '127.0.
 
 # mail factice console
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'mail75.lwspanel.com'  # Adresse du serveur SMTP
+EMAIL_PORT = 587                    # Port pour SMTP TLS
+EMAIL_USE_SSL = False              # Désactive SSL
+EMAIL_USE_TLS = True               # Active TLS pour sécuriser la connexion
+
+EMAIL_HOST_USER = 'no-reply@ai-technews.fr'  # Adresse e-mail utilisée pour l'envoi
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')   # Mot de passe associé à cette adresse
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER         # Adresse d'envoi par défaut
 
 # Application definition
 
