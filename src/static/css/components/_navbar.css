@@ -35,6 +35,14 @@
   font-weight: 700;
   text-decoration: none;
   transition: .3s;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 130px;
+  width: auto;
+  vertical-align: middle;
 }
 
 .logo a:hover {
@@ -44,6 +52,10 @@
 /* Ajustement du logo en mode scrollé */
 .navbar.scrolled .logo a {
   font-size: 1.3rem;
+}
+
+.navbar.scrolled .logo-img {
+  height: 100px;
 }
 
 /* — Liens — */
