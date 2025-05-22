@@ -2,6 +2,7 @@ from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from django.conf import settings
 
 from .forms import ContactForm
 from .models import Contact  # Importez le nouveau modèle
@@ -30,7 +31,7 @@ class ContactFormView(FormView):
         send_mail(
             subject=f"[Contact] {subject}",
             message=f"De : {name} <{email}>\n\n{message}",
-            from_email="no-reply@ai-technews.fr",
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=["contact@ai-technews.fr"],
             fail_silently=False,
         )
