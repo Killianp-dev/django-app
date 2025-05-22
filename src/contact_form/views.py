@@ -30,8 +30,8 @@ class ContactFormView(FormView):
         send_mail(
             subject=f"[Contact] {subject}",
             message=f"De : {name} <{email}>\n\n{message}",
-            from_email="no-reply@votresite.com",
-            recipient_list=["contact@votresite.com"],
+            from_email="no-reply@ai-technews.fr",
+            recipient_list=["contact@ai-technews.fr"],
             fail_silently=False,
         )
 
