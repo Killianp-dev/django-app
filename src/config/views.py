@@ -4,6 +4,7 @@ from blog.models import BlogPost
 from contact_form.forms import ContactForm
 from contact_form.models import Contact  # Importez le modèle
 from django.core.mail import send_mail
+from django.conf import settings
 
 
 class HomeView(TemplateView):
@@ -43,8 +44,8 @@ class HomeView(TemplateView):
             send_mail(
                 subject=f"[Contact] {subject}",
                 message=f"De : {name} <{email}>\n\n{message}",
-                from_email="no-reply@votresite.com",
-                recipient_list=["contact@votresite.com"],
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=["contact@ai-technews.fr"],
                 fail_silently=False,
             )
 
