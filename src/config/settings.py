@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['ai-technews.fr', 'www.ai-technews.fr', '35.180.44.75', '127.0.0.1']
+ALLOWED_HOSTS = ['ai-technews.fr', 'www.ai-technews.fr', '13.38.109.137', '127.0.0.1']
 
 # mail factice console
 
