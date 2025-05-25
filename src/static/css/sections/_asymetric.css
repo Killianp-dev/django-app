@@ -132,3 +132,12 @@
   transform: translateY(-5px);
 }
 
+/* Supprimer le soulignement des liens contenant des boutons */
+.section-asymetrique a {
+  text-decoration: none;
+}
+
+.section-asymetrique a:hover {
+  text-decoration: none;
+}
+

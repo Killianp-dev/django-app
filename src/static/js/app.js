@@ -249,7 +249,7 @@
         duration: 0.8,
         ease: "power2.out"
       }, "-=0.6")
-      .to(block.querySelector('button, .btn-bloc-right'), {
+      .to(block.querySelector('button, .btn-bloc-left, .btn-bloc-right'), {
         opacity: 1,
         duration: 0.5,
         ease: "power2.out"
