@@ -3,8 +3,8 @@ env/
 venv/
 ENV/
 
-# Dossier de documentation automatique
-docstring/
+# Scripts admin
+admin-script/
 
 # Fichiers Python compilés
 __pycache__/

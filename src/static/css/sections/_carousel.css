@@ -153,13 +153,13 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
   height: 420px; /* Hauteur réduite pour plus de légèreté */
   display: flex;
   flex-direction: column;
   position: relative;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 2px solid transparent;
   font-size: 0; /* Élimine tout espace blanc rémanent */
   padding: 0; /* Supprime tout padding */
 }
@@ -167,24 +167,7 @@
 .carousel .card:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
-}
-
-/* Indicateur visuel pour les cartes cliquables */
-.carousel .card::before {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border: 2px solid transparent;
-  border-radius: calc(var(--radius-lg) - 2px);
-  transition: border-color 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-.carousel .card:hover::before {
   border-color: var(--color-primary);
-  opacity: 1;
 }
 
 /* Image de la carte */
@@ -200,6 +183,7 @@
   display: block;
   line-height: 0;
   font-size: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .carousel .card__image img {
@@ -213,6 +197,7 @@
   margin: 0;
   padding: 0;
   vertical-align: top;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .carousel .card:hover .card__image img {

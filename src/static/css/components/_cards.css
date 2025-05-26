@@ -26,29 +26,13 @@
   cursor: pointer;
   padding-top: 0;
   font-size: 0;
+  border: 2px solid transparent;
 }
 
 .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
-}
-
-/* Indicateur visuel pour les cartes cliquables */
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 3px solid transparent;
-  border-radius: var(--radius-lg);
-  transition: border-color 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-.card:hover::before {
   border-color: var(--color-primary);
-  opacity: 0.2;
 }
 
 .card-link {
@@ -65,6 +49,7 @@
   display: block;
   line-height: 0;
   font-size: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .card-image img {
@@ -78,6 +63,7 @@
   margin: 0;
   padding: 0;
   vertical-align: top;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .card:hover .card-image img {
@@ -127,36 +113,19 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
   height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 2px solid transparent;
 }
 
 .post-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
-}
-
-/* Indicateur visuel pour les cartes cliquables */
-.post-card::before {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border: 2px solid transparent;
-  border-radius: calc(var(--radius-lg) - 2px);
-  transition: border-color 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-.post-card:hover::before {
   border-color: var(--color-primary);
-  opacity: 1;
 }
 
 .post-image {
@@ -169,6 +138,7 @@
   display: block;
   line-height: 0;
   font-size: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .post-image img {
@@ -182,6 +152,7 @@
   margin: 0;
   padding: 0;
   vertical-align: top;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .post-card:hover .post-image img {
@@ -319,32 +290,15 @@
   overflow: hidden;
   margin-bottom: 2.5rem;
   position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
   cursor: pointer;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 2px solid transparent;
 }
 
 .featured-post:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
-}
-
-/* Indicateur visuel pour la carte featured-post cliquable */
-.featured-post::before {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border: 2px solid transparent;
-  border-radius: calc(var(--radius-lg) - 2px);
-  transition: border-color 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-.featured-post:hover::before {
   border-color: var(--color-primary);
-  opacity: 1;
 }
 
 .featured-post .post-image {
@@ -356,6 +310,7 @@
   display: block;
   line-height: 0;
   font-size: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .featured-post .post-image img {
@@ -403,6 +358,11 @@
   
   .featured-post .post-image {
     min-height: 300px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  
+  .featured-post .post-image img {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
   
   .featured-post .post-content {
@@ -488,6 +448,11 @@
   
   .featured-post .post-image {
     min-height: 220px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  
+  .featured-post .post-image img {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
   
   .featured-post .post-content {
