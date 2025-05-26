@@ -173,7 +173,6 @@
     top: 70px;
     left: -100%;
     width: 100%;
-    height: calc(100vh - 70px);
     background: var(--color-dark);
     flex-direction: column;
     text-align: center;

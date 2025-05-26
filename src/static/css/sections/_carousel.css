@@ -756,31 +756,13 @@
   }
 }
 
-/* Solution radicale: correctif universel pour supprimer tout espace en haut des images */
-/* Commenté pour éviter les conflits avec les styles de bordure hover
-.carousel .card::before,
-.news__grid .card::before,
-.post-card::before,
-.card::before,
-.featured-post::before {
-  content: "";
-  display: block;
-  height: 0;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  font-size: 0;
-  line-height: 0;
-}
-*/
-
 .carousel .card,
 .news__grid .card,
 .post-card,
 .card,
 .featured-post {
   font-size: 0;
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* Correctif pour forcer l'image à monter et couvrir tout espace résiduel */
