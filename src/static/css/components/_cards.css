@@ -43,6 +43,7 @@
   transition: border-color 0.3s ease;
   pointer-events: none;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 .card:hover::before {
@@ -144,12 +145,13 @@
 .post-card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border: 3px solid transparent;
-  border-radius: var(--radius-lg);
+  inset: 2px;
+  border: 2px solid transparent;
+  border-radius: calc(var(--radius-lg) - 2px);
   transition: border-color 0.3s ease;
   pointer-events: none;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 .post-card:hover::before {
@@ -331,12 +333,13 @@
 .featured-post::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border: 3px solid transparent;
-  border-radius: var(--radius-lg);
+  inset: 2px;
+  border: 2px solid transparent;
+  border-radius: calc(var(--radius-lg) - 2px);
   transition: border-color 0.3s ease;
   pointer-events: none;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 .featured-post:hover::before {

@@ -241,6 +241,8 @@
     font-size: 2rem;
   }
 
+  /* Règles déplacées vers _blog.css pour une meilleure organisation */
+  /*
   .post-card {
     max-width: 500px;
     margin: 0 auto 1.5rem;
@@ -283,6 +285,7 @@
     gap: 1.5rem;
     margin: 1.5rem 0;
   }
+  */
 }
 
 /* Contact form responsive */
@@ -680,6 +683,8 @@
 
 /* Media query spécifique pour la plage 401px-575px */
 @media (min-width: 401px) and (max-width: 575px) {
+  /* Règles déplacées vers _blog.css pour une meilleure organisation */
+  /*
   .blogpost-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -701,13 +706,17 @@
   .post-title {
     font-size: 1.2rem;
   }
+  */
 }
 
-/* Blog responsive */
+/* Blog responsive - Règles générales déplacées vers _blog.css */
 @media (max-width: 1024px) {
+  /* Règles déplacées vers _blog.css pour une meilleure organisation */
+  /*
   .blogpost-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
+  */
 
   .featured-post {
     grid-template-columns: 1fr;
@@ -719,16 +728,22 @@
 }
 
 @media (max-width: 768px) {
+  /* Règles déplacées vers _blog.css pour une meilleure organisation */
+  /*
   .blogpost-grid {
     grid-template-columns: 1fr;
   }
+  */
 }
 
 /* Tablet breakpoint adjustments */
 @media (min-width: 576px) and (max-width: 991px) {
+  /* Règles déplacées vers _blog.css pour une meilleure organisation */
+  /*
   .blogpost-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  */
   
   .featured-post {
     display: grid;

@@ -173,12 +173,13 @@
 .carousel .card::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border: 2px solid transparent; /* Bordure plus fine */
-  border-radius: var(--radius-lg);
+  inset: 2px;
+  border: 2px solid transparent;
+  border-radius: calc(var(--radius-lg) - 2px);
   transition: border-color 0.3s ease;
   pointer-events: none;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 .carousel .card:hover::before {
@@ -771,6 +772,7 @@
 }
 
 /* Solution radicale: correctif universel pour supprimer tout espace en haut des images */
+/* Commenté pour éviter les conflits avec les styles de bordure hover
 .carousel .card::before,
 .news__grid .card::before,
 .post-card::before,
@@ -785,6 +787,7 @@
   font-size: 0;
   line-height: 0;
 }
+*/
 
 .carousel .card,
 .news__grid .card,

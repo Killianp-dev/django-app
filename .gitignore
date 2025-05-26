@@ -3,6 +3,9 @@ env/
 venv/
 ENV/
 
+# Dossier de documentation automatique
+docstring/
+
 # Fichiers Python compilés
 __pycache__/
 *.py[cod]

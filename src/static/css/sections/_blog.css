@@ -208,3 +208,119 @@
 .blog-nav a.active::after {
   width: 100%;
 }
+
+/* ==================================================
+   RESPONSIVE DESIGN POUR LA GRILLE
+   ================================================= */
+
+/* Large screens - 3 colonnes ou plus */
+@media (min-width: 1200px) {
+  .blogpost-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2.5rem;
+  }
+}
+
+/* Medium-large screens - 2-3 colonnes */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .blogpost-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+}
+
+/* Medium screens - 2 colonnes fixes pour éviter l'asymétrie */
+@media (min-width: 768px) and (max-width: 991px) {
+  .blogpost-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Small-medium screens - zone problématique corrigée */
+@media (min-width: 580px) and (max-width: 767px) {
+  .blogpost-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .post-card {
+    min-height: 420px;
+  }
+  
+  .post-image {
+    height: 180px;
+  }
+  
+  .post-content {
+    padding: 1.25rem;
+  }
+  
+  .post-title {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+  
+  .post-excerpt {
+    font-size: 0.9rem;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* Small screens - 1 colonne */
+@media (max-width: 579px) {
+  .blogpost-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .post-card {
+    max-width: 100%;
+  }
+  
+  .post-image {
+    height: 200px;
+  }
+  
+  .post-content {
+    padding: 1.5rem;
+  }
+  
+  .post-title {
+    font-size: 1.3rem;
+  }
+  
+  .post-excerpt {
+    font-size: 0.95rem;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 400px) {
+  .blogpost-grid {
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+  }
+  
+  .post-image {
+    height: 180px;
+  }
+  
+  .post-content {
+    padding: 1.25rem;
+  }
+  
+  .post-title {
+    font-size: 1.2rem;
+  }
+  
+  .post-meta {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .post-excerpt {
+    font-size: 0.9rem;
+  }
+}
