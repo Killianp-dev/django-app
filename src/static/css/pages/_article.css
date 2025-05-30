@@ -77,7 +77,7 @@
 }
 
 .article-image {
-  margin: 0 0 3rem;
+  margin: 0 0 2rem;
   overflow: hidden;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
@@ -111,19 +111,27 @@
 }
 
 .article-body p {
-  margin-bottom: 1.8rem;
-  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
 }
 
 .article-body p:first-of-type::first-letter {
   font-size: 3.5rem;
   font-weight: 700;
   float: left;
-  line-height: 0.8;
-  margin-right: 0.5rem;
-  margin-top: 0.3rem;
+  line-height: 0.9;
+  margin-right: 0.6rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0;
   color: var(--color-primary);
   font-family: 'Times New Roman', serif;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.article-body p:first-of-type {
+  overflow: hidden;
+  margin-bottom: 1.5rem;
 }
 
 .article-body h2,
@@ -195,7 +203,7 @@
 }
 
 .article-body p + p {
-  text-indent: 1em;
+  text-indent: 0.8em;
 }
 
 .article-actions {
@@ -246,6 +254,49 @@
 
   .article-body p:first-of-type::first-letter {
     font-size: 2.5rem;
+  }
+}
+
+/* Responsive pour très petits écrans */
+@media(max-width:502px) {
+  .article {
+    padding: 0 1rem;
+    margin: 1.5rem auto 2rem;
+    width: calc(100% - 2rem); /* Assure des marges équilibrées */
+  }
+  
+  .article-page #blog {
+    padding: 0 1rem;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .article-body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .article-body p:first-of-type::first-letter {
+    font-size: 2.2rem;
+    margin-right: 0.4rem;
+  }
+  
+  /* Assurer que tous les éléments de l'article ont des marges équilibrées */
+  .article-header,
+  .article-image,
+  .article-body p,
+  .article-body h2,
+  .article-body h3,
+  .article-body h4,
+  .article-body ul,
+  .article-body ol,
+  .article-body blockquote,
+  .article-body pre {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

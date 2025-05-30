@@ -43,21 +43,33 @@
     <a href="{% url 'blog:home' %}" class="back-to-blog">← Retour aux actualités</a>
     
     <!-- Navigation entre articles précédent/suivant -->
+    {% if previous_post or next_post %}
     <div class="post-nav">
       {% if previous_post %}
       <a href="{% url 'blog:detail' previous_post.slug %}" class="post-nav-item post-nav-prev">
-        <span class="post-nav-direction">← Article précédent</span>
-        <span class="post-nav-title">{{ previous_post.title|truncatechars:30 }}</span>
+        <span class="post-nav-direction">← Plus récent</span>
+        <span class="post-nav-title">{{ previous_post.title|truncatechars:40 }}</span>
+        {% if previous_post.created_on %}
+        <span class="post-nav-date">{{ previous_post.created_on|date:"j M Y" }}</span>
+        {% endif %}
       </a>
+      {% else %}
+      <div class="post-nav-placeholder"></div>
       {% endif %}
       
       {% if next_post %}
       <a href="{% url 'blog:detail' next_post.slug %}" class="post-nav-item post-nav-next">
-        <span class="post-nav-direction">Article suivant →</span>
-        <span class="post-nav-title">{{ next_post.title|truncatechars:30 }}</span>
+        <span class="post-nav-direction">Plus ancien →</span>
+        <span class="post-nav-title">{{ next_post.title|truncatechars:40 }}</span>
+        {% if next_post.created_on %}
+        <span class="post-nav-date">{{ next_post.created_on|date:"j M Y" }}</span>
+        {% endif %}
       </a>
+      {% else %}
+      <div class="post-nav-placeholder"></div>
       {% endif %}
     </div>
+    {% endif %}
   </div>
 </main>
 {% endblock %}
