@@ -202,9 +202,7 @@
   opacity: 0.3;
 }
 
-.article-body p + p {
-  text-indent: 0.8em;
-}
+/* Retrait des paragraphes supprimé pour un alignement uniforme */
 
 .article-actions {
   margin-top: 3rem;
