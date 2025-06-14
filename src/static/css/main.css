@@ -84,3 +84,43 @@
 .share-button i {
   font-size: 1.2rem;
 }
+
+/* Responsive styles for social share buttons */
+@media (max-width: 480px) {
+  .social-share {
+    margin: 1.5rem 0;
+  }
+
+  .social-share h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .share-buttons {
+    gap: 0.8rem;
+  }
+
+  .share-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .share-button i {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .share-buttons {
+    gap: 0.6rem;
+  }
+
+  .share-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .share-button i {
+    font-size: 0.9rem;
+  }
+}
