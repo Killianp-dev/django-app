@@ -31,6 +31,30 @@
       {{ post.content|safe }}
     </section>
 
+    <div class="social-share">
+      <h3>Partager cet article</h3>
+      <div class="share-buttons">
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+           target="_blank" 
+           class="share-button facebook"
+           title="Partager sur Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://twitter.com/intent/tweet?text={{ post.title }}&url={{ request.build_absolute_uri }}" 
+           target="_blank" 
+           class="share-button twitter"
+           title="Partager sur Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.instagram.com/share?url={{ request.build_absolute_uri }}" 
+           target="_blank" 
+           class="share-button instagram"
+           title="Partager sur Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+
     {% if request.user.is_staff %}
     <footer class="article-actions">
       <a href="{% url 'blog:edit' slug=post.slug %}" class="btn">Éditer</a>
