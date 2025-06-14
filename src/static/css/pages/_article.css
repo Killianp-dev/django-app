@@ -168,6 +168,65 @@
   margin-bottom: 0.75rem;
 }
 
+/* Styles pour les listes à puces */
+.article-body ul {
+  list-style-type: none;
+}
+
+.article-body ul li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.article-body ul li::before {
+  content: "•";
+  color: var(--color-primary);
+  font-size: 1.2em;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Styles pour les listes numérotées */
+.article-body ol {
+  counter-reset: item;
+  list-style-type: none;
+}
+
+.article-body ol li {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.article-body ol li::before {
+  counter-increment: item;
+  content: counter(item) ".";
+  color: var(--color-primary);
+  font-weight: 600;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* Styles pour les listes imbriquées */
+.article-body ul ul,
+.article-body ol ol,
+.article-body ul ol,
+.article-body ol ul {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.article-body ul ul li::before {
+  content: "◦";
+  font-size: 1em;
+}
+
+.article-body ol ol li::before {
+  content: counter(item) ".";
+  font-size: 0.9em;
+}
+
 .article-body a {
   color: var(--color-primary);
   text-decoration: underline;
