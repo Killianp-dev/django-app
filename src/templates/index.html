@@ -282,4 +282,42 @@
     </form>
 </section>
 
+<!-- Modal de consentement aux cookies -->
+<div id="cookieModal" class="cookie-modal-overlay">
+    <div class="cookie-modal">
+        <div class="cookie-modal-header">
+            <div class="cookie-modal-icon">
+                <i class="fas fa-cookie-bite"></i>
+            </div>
+            <h2 class="cookie-modal-title">Gestion des Cookies</h2>
+        </div>
+        
+        <div class="cookie-modal-content">
+            <p class="cookie-modal-text">
+                Nous utilisons des cookies pour améliorer votre expérience de navigation, analyser le trafic du site et personnaliser le contenu. 
+                En continuant à utiliser notre site, vous acceptez notre utilisation des cookies.
+            </p>
+            
+            <div class="cookie-modal-features">
+                <h4>Les cookies nous permettent de :</h4>
+                <ul>
+                    <li>Analyser les performances du site</li>
+                    <li>Personnaliser votre expérience</li>
+                    <li>Améliorer nos services</li>
+                    <li>Mesurer l'audience avec Google Analytics</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="cookie-modal-actions">
+            <button id="acceptCookies" class="cookie-modal-button primary">
+                <i class="fas fa-check"></i> Accepter
+            </button>
+            <button id="declineCookies" class="cookie-modal-button secondary">
+                <i class="fas fa-times"></i> Refuser
+            </button>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

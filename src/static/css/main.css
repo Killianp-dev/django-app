@@ -15,6 +15,7 @@
 @import url('./components/_cards.css');
 @import url('./components/_footer.css');
 @import url('./components/_forms.css');
+@import url('./components/cookie-modal.css');
 
 /* 3. Sections - Sections spécifiques de la page */
 @import url('./sections/_hero.css');

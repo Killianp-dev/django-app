@@ -1102,6 +1102,89 @@
     }
   }
 
+  // ===== Cookie Modal Management =====
+  function initCookieModal() {
+    const cookieModal = document.getElementById('cookieModal');
+    const acceptBtn = document.getElementById('acceptCookies');
+    const declineBtn = document.getElementById('declineCookies');
+    
+    if (!cookieModal || !acceptBtn || !declineBtn) return;
+    
+    // Check if user has already made a choice
+    const cookieChoice = localStorage.getItem('cookie-consent');
+    
+    // Show modal only if no choice was made before (first visit)
+    if (cookieChoice === null) {
+      setTimeout(() => {
+        showCookieModal();
+      }, 1000); // Show after 1 second to let the page load
+    }
+    
+    // Event listeners for buttons
+    acceptBtn.addEventListener('click', () => {
+      acceptCookies();
+      hideCookieModal();
+    });
+    
+    declineBtn.addEventListener('click', () => {
+      declineCookies();
+      hideCookieModal();
+    });
+    
+    // Close modal on overlay click
+    cookieModal.addEventListener('click', (e) => {
+      if (e.target === cookieModal) {
+        // If user clicks outside without choosing, consider it as decline
+        declineCookies();
+        hideCookieModal();
+      }
+    });
+    
+    // Prevent modal from closing when clicking inside
+    cookieModal.querySelector('.cookie-modal').addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+    
+    function showCookieModal() {
+      cookieModal.classList.add('show');
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      
+      // Focus management for accessibility
+      acceptBtn.focus();
+    }
+    
+    function hideCookieModal() {
+      cookieModal.classList.remove('show');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+    
+    function acceptCookies() {
+      localStorage.setItem('cookie-consent', 'accepted');
+      
+      // Enable Google Analytics if not already enabled
+      if (typeof gtag !== 'undefined') {
+        gtag('consent', 'update', {
+          'analytics_storage': 'granted'
+        });
+      }
+      
+      console.log('Cookies accepted - Analytics enabled');
+    }
+    
+    function declineCookies() {
+      localStorage.setItem('cookie-consent', 'declined');
+      
+      // Disable Google Analytics
+      if (typeof gtag !== 'undefined') {
+        gtag('consent', 'update', {
+          'analytics_storage': 'denied'
+        });
+      }
+      
+      console.log('Cookies declined - Analytics disabled');
+    }
+  }
+
   // ===== Initialization =====
   function init() {
     // Initialize all components
@@ -1116,6 +1199,7 @@
     initClickableCards();
     handleAnchorScroll();
     initInterPageLinks();  // Ajouter l'initialisation des liens inter-pages
+    initCookieModal();     // Initialiser le modal de cookies
 
     // Refresh ScrollTrigger
     if (utils.hasScrollTrigger()) {

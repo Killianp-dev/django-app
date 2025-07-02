@@ -1,0 +1,214 @@
+/* Modal de consentement aux cookies */
+.cookie-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.cookie-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cookie-modal {
+    background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 2.5rem;
+    max-width: 500px;
+    width: 90%;
+    margin: 1rem;
+    position: relative;
+    transform: scale(0.8) translateY(20px);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.cookie-modal-overlay.show .cookie-modal {
+    transform: scale(1) translateY(0);
+}
+
+.cookie-modal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.cookie-modal-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.cookie-modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.cookie-modal-content {
+    margin-bottom: 2rem;
+}
+
+.cookie-modal-text {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.cookie-modal-features {
+    background: #f7fafc;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #667eea;
+}
+
+.cookie-modal-features h4 {
+    color: #2d3748;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+}
+
+.cookie-modal-features ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cookie-modal-features li {
+    color: #4a5568;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.25rem;
+    position: relative;
+}
+
+.cookie-modal-features li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #48bb78;
+    font-weight: bold;
+}
+
+.cookie-modal-actions {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.cookie-modal-button {
+    padding: 0.875rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cookie-modal-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.cookie-modal-button:hover:before {
+    left: 100%;
+}
+
+.cookie-modal-button.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.cookie-modal-button.primary:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.cookie-modal-button.secondary {
+    background: transparent;
+    color: #4a5568;
+    border: 2px solid #e2e8f0;
+}
+
+.cookie-modal-button.secondary:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+    transform: translateY(-1px);
+}
+
+/* Animation d'entrée */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.cookie-modal-overlay.show .cookie-modal {
+    animation: slideInUp 0.4s ease;
+}
+
+/* Responsive */
+@media (min-width: 640px) {
+    .cookie-modal-actions {
+        flex-direction: row;
+    }
+    
+    .cookie-modal-button {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .cookie-modal {
+        padding: 2rem;
+        margin: 0.5rem;
+    }
+    
+    .cookie-modal-title {
+        font-size: 1.25rem;
+    }
+    
+    .cookie-modal-header {
+        margin-bottom: 1.25rem;
+    }
+} 
