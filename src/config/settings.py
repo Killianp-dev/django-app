@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['ai-technews.fr', 'www.ai-technews.fr', '13.37.108.3', '127.0.0.1']
+ALLOWED_HOSTS = ['killianp-dev.fr', 'www.killianp-dev.fr', '13.37.108.3', '127.0.0.1']
 
 # mail factice console
 
@@ -41,7 +41,7 @@ EMAIL_PORT = 587                    # Port pour SMTP TLS
 EMAIL_USE_SSL = False              # Désactive SSL
 EMAIL_USE_TLS = True               # Active TLS pour sécuriser la connexion
 
-EMAIL_HOST_USER = 'no-reply@ai-technews.fr'  # Adresse e-mail utilisée pour l'envoi
+EMAIL_HOST_USER = 'no-reply@killianp-dev.fr'  # Adresse e-mail utilisée pour l'envoi
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')   # Mot de passe associé à cette adresse
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER         # Adresse d'envoi par défaut

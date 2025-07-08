@@ -32,7 +32,7 @@ class ContactFormView(FormView):
             subject=f"[Contact] {subject}",
             message=f"De : {name} <{email}>\n\n{message}",
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=["contact@ai-technews.fr"],
+            recipient_list=["contact@killianp-dev.fr"],
             fail_silently=False,
         )
 
