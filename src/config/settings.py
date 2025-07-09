@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['killianp-dev.fr', 'www.killianp-dev.fr', '13.37.108.3', '127.0.0.1']
+ALLOWED_HOSTS = ['killianp-dev.fr', 'www.killianp-dev.fr', '35.180.86.97', '127.0.0.1']
 
 # mail factice console
 
