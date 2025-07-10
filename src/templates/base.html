@@ -30,7 +30,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Barre de navigation -->
 <header class="navbar">
     <div class="logo">
-        <a href="{% url 'index' %}"><img src="{% static 'ressources/logo-ai-technews.png' %}" alt="TechNews Logo" class="logo-img"></a>
+        <a href="{% url 'index' %}">
+            <span class="logo-text">Killianp-dev</span>
+        </a>
     </div>
     {% block nav %}
     <nav class="nav-menu">
@@ -72,7 +74,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Footer -->
 <footer class="footer">
-    <p>&copy; 2025 TechNews — Tous droits réservés —
+    <p>&copy; 2025 killianp-dev — Tous droits réservés —
         <a href="mailto:contact@killianp-dev.fr"><strong>contact@killianp-dev.fr</strong></a>
         — <a href="{% url 'mentions_legales' %}">Mentions légales</a>
     </p>

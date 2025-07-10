@@ -30,32 +30,73 @@
 
 /* — Logo — */
 .logo a {
+  position: relative;
   color: #fff;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
   text-decoration: none;
-  transition: .3s;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.logo-img {
-  height: 130px;
-  width: auto;
-  vertical-align: middle;
+.logo a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(155, 89, 182, 0.1) 100%);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
 }
 
-.logo a:hover {
-  color: var(--color-primary);
+.logo a:hover::before {
+  opacity: 1;
+}
+
+.logo-text {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, #fff 0%, #ecf0f1 25%, var(--color-primary) 50%, #3498db 75%, #9b59b6 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  letter-spacing: 1px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.logo a:hover .logo-text {
+  background-position: 0% 0;
+  transform: translateY(-1px);
+  filter: drop-shadow(0 4px 8px rgba(52, 152, 219, 0.3));
+}
+
+
+
+/* Style pour le tiret dans killianp-dev */
+.logo-text {
+  position: relative;
 }
 
 /* Ajustement du logo en mode scrollé */
 .navbar.scrolled .logo a {
-  font-size: 1.3rem;
+  font-size: 1.6rem;
+  padding: 6px 12px;
 }
 
-.navbar.scrolled .logo-img {
-  height: 100px;
+.navbar.scrolled .logo-text {
+  letter-spacing: 0.8px;
 }
 
 /* — Liens — */

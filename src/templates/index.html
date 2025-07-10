@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}TechNews - Développement, IA & Innovation{% endblock %}
+{% block title %}Killian P. - Développeur Backend & Expert Python{% endblock %}
 {% block body_class %}home-page{% endblock %}
 
 {% block nav %}
@@ -34,14 +34,14 @@
 {% block content %}
 <section class="hero" id="hero">
     <div class="hero__overlay">
-        <h1 class="hero__title">TechNews - Votre Hub Tech</h1>
+        <h1 class="hero__title">Killian P. - Développeur Backend</h1>
         <p class="hero__subtitle">
-            Intelligence Artificielle, Développement Web, Innovation Technologique</p>
+            Création d'applications web modernes avec Python & Django | Expert en solutions backend robustes</p>
 
         <div class="hero__actions">
-            <a href="#projets" class="hero-btn">Explorer les projets</a>
-            <a href="{% url 'blog:home' %}" class="hero-btn">
-                Derniers articles
+            <a href="#projets" class="hero-btn">Découvrir mes projets</a>
+            <a href="#latest-posts" class="hero-btn">
+                Lire mes articles
             </a>
         </div>
     </div>
@@ -136,8 +136,8 @@
 
 <!-- Section parallax -->
 <section class="parallax" id="contact">
-    <p>L'Innovation au Service du Code</p>
-    <span>Explorez l'univers de la tech moderne</span>
+    <p>Code. Create. Collaborate.</p>
+    <span>Transformons vos idées en solutions numériques performantes</span>
 </section>
 
 <!-- Séparateur horizontal avec une icône différente -->
@@ -154,8 +154,8 @@
 <section class="latest-posts">
   <div class="container">
     <div class="news__header">
-      <h2 class="news__title">Articles Récents</h2>
-      <p class="news__subtitle">Les dernières tendances en IA, développement et innovation technologique</p>
+      <h2 class="news__title">Articles & Insights</h2>
+      <p class="news__subtitle">Mes réflexions sur le développement web, Python et les technologies modernes</p>
     </div>
 
     {% if latest_posts %}
@@ -255,9 +255,9 @@
 
 <!-- Section formulaire -->
 <section id="contact-form">
-    <h2>Collaborons Ensemble</h2>
+    <h2>Créons Ensemble</h2>
     <p style="text-align: center; margin-bottom: 2rem; color: #666;">
-        Une idée de projet ? Une question technique ? N'hésitez pas à me contacter pour discuter de vos besoins.
+        Un projet web à développer ? Besoin d'expertise technique ? Contactez-moi pour donner vie à vos idées.
     </p>
     <form method="post" novalidate>
         {% csrf_token %}
