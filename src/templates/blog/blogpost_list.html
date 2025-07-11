@@ -38,7 +38,7 @@
                     <span class="post-date">{{ featured_post.created_on|date:"d F Y" }}</span>
                 </div>
                 <div class="post-excerpt">
-                    {{ featured_post.content|truncatewords:10|safe }}
+                    {{ featured_post.content|striptags|truncatewords:10 }}
                 </div>
                 <a href="{% url 'blog:detail' featured_post.slug %}" class="read-more">Lire l'article complet</a>
             </div>
@@ -66,7 +66,7 @@
                         <span class="post-date">{{ post.created_on|date:"d F Y" }}</span>
                     </div>
                     <div class="post-excerpt">
-                        {{ post.content|truncatewords:10|safe }}
+                        {{ post.content|striptags|truncatewords:10 }}
                     </div>
                     <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus</a>
                 </div>
