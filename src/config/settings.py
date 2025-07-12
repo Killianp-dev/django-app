@@ -36,7 +36,7 @@ ALLOWED_HOSTS = ['killianp-dev.fr', 'www.killianp-dev.fr', '35.180.86.97', '127.
 # mail factice console
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'mail75.lwspanel.com'  # Adresse du serveur SMTP
+EMAIL_HOST = 'mail.killianp-dev.fr'  # Adresse du serveur SMTP
 EMAIL_PORT = 587                    # Port pour SMTP TLS
 EMAIL_USE_SSL = False              # Désactive SSL
 EMAIL_USE_TLS = True               # Active TLS pour sécuriser la connexion
@@ -167,4 +167,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Site ID requis pour les sitemaps
-SITE_ID = 1
+SITE_ID = env('SITE_ID')
