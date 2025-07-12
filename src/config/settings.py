@@ -167,4 +167,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Site ID requis pour les sitemaps
-SITE_ID = env('SITE_ID')
+SITE_ID = env.int('SITE_ID')
