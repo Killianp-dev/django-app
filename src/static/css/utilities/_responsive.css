@@ -214,6 +214,11 @@
     font-size: 1.3rem;
   }
 
+  .logo a {
+    font-size: 1.3rem;
+  }
+
+
   /* Animation ajustements mobile */
   .section-asymetrique .bloc-1,
   .section-asymetrique .bloc-2,
