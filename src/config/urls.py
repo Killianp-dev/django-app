@@ -34,7 +34,7 @@ sitemaps = {
 def robots_txt(request):
     lines = [
         "User-agent: *",
-        "Disallow: /admin/",
+        "Disallow: /secure-admin-portal/",
         f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}"
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
@@ -42,7 +42,7 @@ def robots_txt(request):
 urlpatterns = [
     path('', HomeView.as_view(), name='index'),
     path('success/', SuccessView.as_view(), name='success'),
-    path('admin/', admin.site.urls),
+    path('secure-admin-portal/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('contact/', include('contact_form.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
