@@ -4,6 +4,16 @@
 
 {% block title %}{{ post.title }}{% endblock %}
 
+{% block extra_head %}
+<meta property="og:title" content="{{ post.title }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% if post.thumbnail %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}">
+<meta name="twitter:card" content="summary_large_image">
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <main id="blog">
   <article class="article">
