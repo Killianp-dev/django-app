@@ -3,12 +3,14 @@
    ================================================= */
 
 .success-card {
-  margin: 80px 20px;
-  background: #ffffff;
+  margin: 80px auto;
+  max-width: 560px;
+  background: var(--color-surface);
   border-radius: var(--radius-lg);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
   text-align: center;
-  padding: 3rem 2.5rem;
+  padding: 3.25rem 2.5rem;
   animation: pop-in .5s cubic-bezier(.18, 1.4, .46, 1);
 }
 
@@ -21,7 +23,7 @@
 
 .icon-success .circle {
   fill: none;
-  stroke: #28a745;
+  stroke: var(--color-success);
   stroke-width: 8;
   stroke-linecap: round;
   stroke-dasharray: 285;
@@ -31,7 +33,7 @@
 
 .icon-success .check {
   fill: none;
-  stroke: #28a745;
+  stroke: var(--color-success);
   stroke-width: 8;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -42,14 +44,16 @@
 
 /* textes */
 .success-card h1 {
-  font-size: 2.4rem;
-  color: #28a745;
+  font-size: 2.2rem;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  color: var(--color-success);
   margin-bottom: .8rem;
 }
 
 .success-card p {
-  font-size: 1.15rem;
-  color: #444;
+  font-size: 1.1rem;
+  color: var(--color-ink-soft);
   margin-bottom: 2rem;
   line-height: 1.6;
 }

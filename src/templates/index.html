@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Killian P. - Développeur Backend & Python{% endblock %}
+{% block title %}Killian P. — Développeur Backend & Python{% endblock %}
 {% block body_class %}home-page{% endblock %}
 
 {% block nav %}
-        <nav class="nav-menu">
+        <nav class="nav-menu" id="site-nav">
             <ul class="nav-links">
                 <li>
                     <a href="#hero">
@@ -34,16 +34,35 @@
 {% block content %}
 <section class="hero" id="hero">
     <div class="hero__overlay">
-        <h1 class="hero__title">Killian P. - Solutions Backend</h1>
+        <p class="hero__eyebrow">Développeur backend · Python & Django</p>
+        <h1 class="hero__title">Killian P.</h1>
         <p class="hero__subtitle">
-            Création d'applications web modernes avec Python & Django | Solutions backend robustes</p>
-
-        <div class="hero__actions">
-            <a href="#projets" class="hero-btn">Découvrir mes projets</a>
-            <a href="#latest-posts" class="hero-btn">
-                Lire mes articles
-            </a>
+            Des backends solides, des applications Django claires, des automatisations qui tiennent en production.
+        </p>
+        <div class="hero__stack" aria-label="Compétences principales">
+            <span>Python</span>
+            <span>Django</span>
+            <span>PostgreSQL</span>
+            <span>Linux</span>
+            <span>API REST</span>
         </div>
+        <div class="hero__actions">
+            <a href="#projets" class="hero-btn">Voir les projets</a>
+            <a href="#form" class="hero-btn">Me contacter</a>
+        </div>
+    </div>
+</section>
+
+<section class="skills-band" aria-label="Technologies">
+    <div class="skills-band__inner">
+        <span>Python</span>
+        <span>Django</span>
+        <span>PostgreSQL</span>
+        <span>Linux</span>
+        <span>Docker</span>
+        <span>Nginx</span>
+        <span>REST</span>
+        <span>Git</span>
     </div>
 </section>
 
@@ -58,66 +77,90 @@
 
 <!-- Section asymétrique -->
 <section class="section-asymetrique" id="asym">
-    <h2>Les Projets</h2>
+    <h2>Projets</h2>
+    <p class="section-intro">Des bases réutilisables, pensées pour la production plutôt que pour la démo.</p>
 
     <div class="bloc-left bloc-1">
-        <img src="{% static 'ressources/djangoallauth.logo.png' %}" alt="Interface du blog Django" class="django-logo">
+        <div class="project-media">
+            <img src="{% static 'ressources/djangoallauth.logo.png' %}" alt="Logo Django Allauth" class="django-logo">
+        </div>
         <div class="bloc-txt-left">
-            <h3>Système d'Authentification Django</h3>
+            <h3>Authentification Django</h3>
             <p>
-                🔒 Système d'authentification prêt à l'emploi avec Django 5.1.3 et django-allauth 65.0.0.
-                Gestion complète des utilisateurs avec connexion sociale, récupération de mot de passe et profils personnalisés.
-                Sécurisé et testé pour une intégration rapide dans vos projets.
+                Système d'authentification prêt à l'emploi avec Django 5.1 et django-allauth.
+                Connexion sociale, récupération de mot de passe et profils personnalisés, sécurisés pour une intégration rapide.
             </p>
-            <a href="https://github.com/Killianp-dev/users" target="_blank">
-                <button class="btn-bloc-left" type="button">Explorer le projet</button>
+            <ul class="project-tags">
+                <li>Django</li>
+                <li>allauth</li>
+                <li>Auth</li>
+            </ul>
+            <a href="https://github.com/Killianp-dev/users" target="_blank" rel="noopener">
+                <button class="btn-bloc-left" type="button">Voir le dépôt</button>
             </a>
         </div>
     </div>
 
     <div class="bloc-right bloc-2">
-        <img src="{% static 'ressources/3.jpg' %}" alt="Système d'authentification">
+        <div class="project-media">
+            <img src="{% static 'ressources/3.jpg' %}" alt="Aperçu du blog Django">
+        </div>
         <div class="bloc-txt-2">
-            <h3>Blog Django Reference</h3>
+            <h3>Blog Django de référence</h3>
             <p>
-                🚀 Un backend prêt à l'emploi pour un blog construit avec Django 5 et Python 3.12.
-                Architecture moderne avec gestion complète des articles, catégories et utilisateurs.
-                Interface d'administration personnalisée et optimisée pour la production.
+                Un backend de blog construit avec Django 5 et Python 3.12.
+                Articles, catégories, utilisateurs et administration personnalisée, prêts pour un déploiement réel.
             </p>
-            <a href="https://github.com/Killianp-dev/blog-django-ref" target="_blank">
-                <button class="btn-bloc-left" type="button">Explorer le projet</button>
+            <ul class="project-tags">
+                <li>Django</li>
+                <li>Python</li>
+                <li>CMS</li>
+            </ul>
+            <a href="https://github.com/Killianp-dev/blog-django-ref" target="_blank" rel="noopener">
+                <button class="btn-bloc-left" type="button">Voir le dépôt</button>
             </a>
         </div>
     </div>
 
     <div class="bloc-left bloc-3">
-        <img src="{% static 'ressources/autosave.jpg' %}" alt="Système de sauvegarde automatique">
+        <div class="project-media">
+            <img src="{% static 'ressources/autosave.jpg' %}" alt="Système de sauvegarde automatique">
+        </div>
         <div class="bloc-txt-left">
-            <h3>Auto-Save System</h3>
+            <h3>Sauvegardes automatiques</h3>
             <p>
-                🖥️ Système de sauvegarde automatique prêt à l'emploi avec sauvegardes quotidiennes, hebdomadaires et mensuelles.
-                Gestion intelligente de l'espace disque avec suppression automatique des anciennes sauvegardes.
-                Script Python configurable pour s'adapter à tous vos besoins de backup.
+                Script Python configurable pour des sauvegardes quotidiennes, hebdomadaires et mensuelles.
+                Gestion de l'espace disque et rotation des archives, sans dépendre d'un outil lourd.
             </p>
-            <a href="https://github.com/Killianp-dev/auto-save" target="_blank">
-                <button class="btn-bloc-left" type="button">Explorer le projet</button>
+            <ul class="project-tags">
+                <li>Python</li>
+                <li>Linux</li>
+                <li>Backup</li>
+            </ul>
+            <a href="https://github.com/Killianp-dev/auto-save" target="_blank" rel="noopener">
+                <button class="btn-bloc-left" type="button">Voir le dépôt</button>
             </a>
         </div>
     </div>
     <div class="bloc-right bloc-4">
-        <img src="{% static 'ressources/aucoffre.svg' %}" alt="Interface du notificateur AuCoffre">
+        <div class="project-media">
+            <img src="{% static 'ressources/aucoffre.svg' %}" alt="Interface du notificateur AuCoffre">
+        </div>
         <div class="bloc-txt-right">
             <h3>AuCoffre Notifier</h3>
             <p>
-                🪙💰 Un outil Python pour récupérer la liste des produits depuis AuCoffre.com.
-                Extraction du premium (%) et détection du label LSP, avec envoi d'alertes via Pushover.
-                Automatisez votre veille sur les métaux précieux avec ce notificateur intelligent.
+                Outil Python pour suivre les produits AuCoffre.com, extraire le premium et le label LSP,
+                puis envoyer des alertes via Pushover. Une veille automatisée sur les métaux précieux.
             </p>
-            <a href="https://github.com/Killianp-dev/aucoffre-notifier" target="_blank">
-                <button class="btn-bloc-right" type="button">Explorer le projet</button>
+            <ul class="project-tags">
+                <li>Python</li>
+                <li>Scraping</li>
+                <li>Pushover</li>
+            </ul>
+            <a href="https://github.com/Killianp-dev/aucoffre-notifier" target="_blank" rel="noopener">
+                <button class="btn-bloc-right" type="button">Voir le dépôt</button>
             </a>
         </div>
-
     </div>
 
     <div class="ligne-gauche"></div>
@@ -137,7 +180,7 @@
 <!-- Section parallax -->
 <section class="parallax" id="contact">
     <p>Code. Create. Collaborate.</p>
-    <span>Transformons vos idées en solutions numériques performantes</span>
+    <span>Transformons vos idées en solutions numériques fiables.</span>
 </section>
 
 <!-- Séparateur horizontal avec une icône différente -->
@@ -154,8 +197,9 @@
 <section class="latest-posts">
   <div class="container">
     <div class="news__header">
-      <h2 class="news__title">Articles & Insights</h2>
-      <p class="news__subtitle">Mes réflexions sur le développement web, Python et les technologies modernes</p>
+      <p class="section-eyebrow">Journal</p>
+      <h2 class="news__title">Articles & notes</h2>
+      <p class="news__subtitle">Réflexions sur le développement web, Python et les architectures modernes.</p>
     </div>
 
     {% if latest_posts %}
@@ -234,11 +278,11 @@
     </div>
     {% endif %}
     {% else %}
-      <p class="news__empty">Les articles arrivent bientôt ! Restez connecté pour découvrir nos prochaines publications.</p>
+      <p class="news__empty">Les articles arrivent bientôt. Restez dans les parages.</p>
     {% endif %}
 
     <div class="news__more">
-      <a href="{% url 'blog:home' %}" class="btn btn--outline">Explorer tous les articles</a>
+      <a href="{% url 'blog:home' %}" class="btn btn--outline">Tous les articles</a>
     </div>
   </div>
 </section>
@@ -255,33 +299,40 @@
 
 <!-- Section formulaire -->
 <section id="contact-form">
-    <h2>Créons Ensemble</h2>
-    <p style="text-align: center; margin-bottom: 2rem; color: #666;">
-        Un projet web à développer ? Besoin d'expertise technique ? Contactez-moi pour donner vie à vos idées.
-    </p>
-    <form method="post" novalidate>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div>
-            {{ form.name.label_tag }}<br>
-            {{ form.name }}{{ form.name.errors }}
+    <div class="contact-layout">
+        <div class="contact-intro">
+            <p class="section-eyebrow">Contact</p>
+            <h2>Créons ensemble</h2>
+            <p>
+                Un projet web, une architecture backend ou un besoin d'automatisation ?
+                Écrivez-moi, je vous réponds rapidement.
+            </p>
+            <div class="contact-links">
+                <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>
+                <a href="https://github.com/Killianp-dev" target="_blank" rel="noopener">github.com/Killianp-dev</a>
+            </div>
         </div>
-        <div>
-            {{ form.email.label_tag }}<br>
-            {{ form.email }}{{ form.email.errors }}
-        </div>
-        <div>
-            {{ form.subject.label_tag }}<br>
-            {{ form.subject }}{{ form.subject.errors }}
-        </div>
-        <div>
-            {{ form.message.label_tag }}<br>
-            {{ form.message }}{{ form.message.errors }}
-        </div>
-        <button type="submit">Envoyer le message</button>
-    </form>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div>
+                {{ form.name.label_tag }}
+                {{ form.name }}{{ form.name.errors }}
+            </div>
+            <div>
+                {{ form.email.label_tag }}
+                {{ form.email }}{{ form.email.errors }}
+            </div>
+            <div>
+                {{ form.subject.label_tag }}
+                {{ form.subject }}{{ form.subject.errors }}
+            </div>
+            <div>
+                {{ form.message.label_tag }}
+                {{ form.message }}{{ form.message.errors }}
+            </div>
+            <button type="submit">Envoyer le message</button>
+        </form>
+    </div>
 </section>
-
-
-
 {% endblock %}

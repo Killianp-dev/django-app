@@ -15,9 +15,13 @@
 </script>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#14181f">
     <title>{% block title %}{% endblock %}</title>
     {% block extra_head %}{% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="icon" type="image/png" href="{% static 'ressources/killianp-fav.png' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -32,11 +36,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="navbar">
     <div class="logo">
         <a href="{% url 'index' %}">
-            <span class="logo-text">Killianp-dev</span>
+            <span class="logo-text">killianp<span class="logo-dot">.dev</span></span>
         </a>
     </div>
     {% block nav %}
-    <nav class="nav-menu">
+    <nav class="nav-menu" id="site-nav">
         <ul class="nav-links">
             <li>
                 <a href="{% url 'index' %}">
@@ -62,11 +66,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
     {% endblock %}
 
-    <div class="hamburger">
+    <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
-    </div>
+    </button>
 </header>
 
 <!-- Contenu principal -->
@@ -75,10 +79,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Footer -->
 <footer class="footer">
-    <p>&copy; 2026 killianp-dev — Tous droits réservés —
-        <a href="mailto:contact@killianp-dev.fr"><strong>contact@killianp-dev.fr</strong></a>
-        — <a href="{% url 'mentions_legales' %}">Mentions légales</a>
-    </p>
+    <div class="footer__inner">
+        <div>
+            <p class="footer__brand">killianp.dev</p>
+            <p class="footer__tagline">Backends Python, applications Django et automatisations pensées pour durer.</p>
+        </div>
+        <div class="footer__col">
+            <h3>Navigation</h3>
+            <ul>
+                <li><a href="{% url 'index' %}">Accueil</a></li>
+                <li><a href="{% url 'index' %}#projets">Projets</a></li>
+                <li><a href="{% url 'blog:home' %}">Blog</a></li>
+                <li><a href="{% url 'index' %}#form">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer__col">
+            <h3>Contact</h3>
+            <ul>
+                <li><a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a></li>
+                <li><a href="https://github.com/Killianp-dev" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="{% url 'mentions_legales' %}">Mentions légales</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer__bottom">
+        <p>&copy; 2026 killianp-dev — Tous droits réservés</p>
+        <p><a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a></p>
+    </div>
 </footer>
 
 <!-- Modal de consentement aux cookies -->
@@ -88,7 +115,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="cookie-modal-icon">
                 <i class="fas fa-cookie-bite"></i>
             </div>
-            <h2 class="cookie-modal-title">Gestion des Cookies</h2>
+            <h2 class="cookie-modal-title">Gestion des cookies</h2>
         </div>
         
         <div class="cookie-modal-content">

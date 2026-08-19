@@ -19,6 +19,7 @@
 
 /* 3. Sections - Sections spécifiques de la page */
 @import url('./sections/_hero.css');
+@import url('./sections/_skills.css');
 @import url('./sections/_asymetric.css');
 @import url('./sections/_parallax.css');
 @import url('./sections/_carousel.css');
@@ -40,8 +41,10 @@
 
 .social-share h3 {
   margin-bottom: 1rem;
-  font-size: 1.2rem;
-  color: #333;
+  font-size: 1.15rem;
+  color: var(--color-ink);
+  font-family: var(--font-serif);
+  font-weight: 400;
 }
 
 .share-buttons {

@@ -4,7 +4,8 @@
 
 .parallax {
   position: relative;
-  height: 50vh;
+  height: 46vh;
+  min-height: 320px;
   background-image: url("../../ressources/1.jpg");
   background-attachment: fixed;
   background-size: cover;
@@ -18,6 +19,13 @@
   overflow: hidden;
 }
 
+.parallax::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 24, 31, 0.55), rgba(15, 110, 102, 0.45));
+  z-index: 0;
+}
 
 .parallax p,
 .parallax span {
@@ -26,17 +34,21 @@
 }
 
 .parallax p {
-  margin-bottom: 12px;
-  font-weight: 700;
-  letter-spacing: 8px;
+  margin-bottom: 14px;
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
 }
 
 .parallax span {
-  font-size: 1.2rem;
-  opacity: .9;
+  font-size: 1.15rem;
+  opacity: 0.9;
+  max-width: 540px;
+  padding: 0 1.5rem;
+  line-height: 1.5;
 }
 
 .parallax p > span {
   font-size: 32px;
 }
-

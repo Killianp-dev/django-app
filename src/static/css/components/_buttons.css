@@ -7,23 +7,25 @@
 .btn-delete,
 .btn-add {
   display: inline-block;
-  padding: .5rem 1rem;
-  font-size: .9rem;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.92rem;
+  font-weight: 600;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  transition: background-color .2s;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn {
-  background: var(--color-primary);
+  background: var(--color-accent);
   color: #fff;
 }
 
 .btn:hover {
-  background: var(--color-primary-hover);
+  background: var(--color-accent-hover);
+  box-shadow: var(--shadow-glow);
 }
 
 .btn-secondary {
@@ -47,210 +49,174 @@
 .btn-add {
   background: var(--color-success);
   color: #fff;
-  padding: .6rem 1.2rem;
-  border-radius: var(--radius-sm);
+  padding: 0.65rem 1.25rem;
 }
 
 .btn-add:hover {
   background: var(--color-success-hover);
 }
 
-/* Styles des boutons hero */
 .hero-btn {
-  background: linear-gradient(to right, rgb(0, 175, 228) 50%, rgb(0, 195, 255) 50%, rgb(111, 222, 255));
-  background-size: 200%;
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  margin: 0 .5rem;
-  padding: 0.9rem 2.2rem;
-  font-size: 1.05rem;
+  margin: 0 0.4rem;
+  padding: 0.95rem 1.85rem;
+  font-size: 0.98rem;
   font-weight: 600;
-  border-radius: 999px;
-  border: none;
+  letter-spacing: 0.01em;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
   text-decoration: none;
   cursor: pointer;
-  text-align: center;
-  color: #fdfdfd;
-  transition: var(--transition-normal);
-  will-change: transform, opacity;
+  color: #fff;
+  background: var(--color-accent);
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.25s var(--ease-out), background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hero-btn:nth-child(2) {
-  background: linear-gradient(to right, rgb(175, 175, 175) 50%, rgb(221, 221, 221) 50%, rgb(201, 201, 201));
-  background-size: 200%;
+  background: transparent;
   color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: none;
 }
 
 .hero-btn:hover {
-  background-position: 100%;
-  border: none;
-  color: rgb(255, 255, 255);
+  transform: translateY(-2px);
+  background: var(--color-accent-hover);
+  color: #fff;
 }
 
-/* Effet de surbrillance au survol des boutons du hero */
+.hero-btn:nth-child(2):hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
 .hero-btn::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: skewX(-25deg);
-  transition: all 0.5s ease;
+  display: none;
 }
 
-.hero-btn:hover::after {
-  left: 100%;
-}
-
-/* Boutons de section */
 .section-asymetrique button,
 .section-asymetrique .btn-bloc-left,
 .section-asymetrique .btn-bloc-right {
   display: inline-block;
-  padding: .75rem 2rem;
-  font-size: 1rem;
+  padding: 0.8rem 1.7rem;
+  font-size: 0.95rem;
   font-weight: 600;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   cursor: pointer;
-  background: var(--color-primary);
+  background: var(--color-accent);
   color: #fff;
   text-decoration: none;
-  transition: background .2s, transform .15s, opacity 0.5s ease-in-out;
+  box-shadow: none;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.5s ease;
 }
 
 .section-asymetrique button:hover,
 .section-asymetrique .btn-bloc-left:hover,
 .section-asymetrique .btn-bloc-right:hover {
-  background: var(--color-primary-hover);
+  background: var(--color-accent-hover);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
-/* Effet de brillance sur les boutons au scroll */
 .section-asymetrique button,
 .section-asymetrique .btn-bloc-left,
 .section-asymetrique .btn-bloc-right {
   position: relative;
   overflow: hidden;
-  opacity: 0; /* Start with opacity 0 */
+  opacity: 0;
 }
 
 .section-asymetrique button::before,
 .section-asymetrique .btn-bloc-left::before,
 .section-asymetrique .btn-bloc-right::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
-  transition: left 0.5s ease;
+  display: none;
 }
 
-.section-asymetrique button:hover::before,
-.section-asymetrique .btn-bloc-left:hover::before,
-.section-asymetrique .btn-bloc-right:hover::before {
-  left: 100%;
-}
-
-/* Bouton "Lire l'article" */
 .btn.btn--primary {
   align-self: flex-start;
-  padding: 0.6rem 1.2rem;
-  background-color: var(--color-primary);
+  padding: 0.65rem 1.25rem;
+  background-color: var(--color-accent);
   color: white;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   position: relative;
   overflow: hidden;
 }
 
 .btn.btn--primary:hover {
-  background-color: var(--color-primary-hover);
+  background-color: var(--color-accent-hover);
   transform: translateY(-2px);
 }
 
-/* Effet de surbrillance au survol du bouton */
 .btn.btn--primary::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  transform: skewX(-25deg);
-  transition: all 0.5s ease;
+  display: none;
 }
 
-.btn.btn--primary:hover::after {
-  left: 100%;
-}
-
-/* Bouton "Voir tous les articles" */
 .btn.btn--outline {
   display: inline-block;
-  padding: 0.75rem 2rem;
+  padding: 0.8rem 1.9rem;
   background: transparent;
-  color: var(--color-primary);
-  border: 2px solid var(--color-primary);
-  border-radius: 999px;
+  color: var(--color-accent);
+  border: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-full);
   font-weight: 600;
   text-decoration: none;
   transition: var(--transition-normal);
 }
 
 .btn.btn--outline:hover {
-  background: var(--color-primary);
+  background: var(--color-accent);
   color: white;
   transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
-/* Bouton d'envoi de formulaire */
 #contact-form button[type="submit"] {
   display: inline-block;
-  padding: .75rem 2rem;
+  padding: 0.85rem 2rem;
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   cursor: pointer;
-  background: var(--color-primary);
+  background: var(--color-accent);
   color: #fff;
-  transition: background .2s, transform .15s;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 #contact-form button[type="submit"]:hover {
-  background: var(--color-primary-hover);
+  background: var(--color-accent-hover);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
 #contact-form button[type="submit"]:active {
   transform: translateY(0);
 }
 
-/* Bouton retour (success page) */
 .btn-return {
   display: inline-block;
-  padding: .75rem 2rem;
-  background: #28a745;
+  padding: 0.8rem 1.9rem;
+  background: var(--color-success);
   color: #fff;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   font-weight: 600;
   text-decoration: none;
-  transition: background .2s, transform .15s;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .btn-return:hover {
-  background: #218838;
+  background: var(--color-success-hover);
   transform: translateY(-2px);
 }
 

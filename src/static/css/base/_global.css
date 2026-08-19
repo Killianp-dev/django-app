@@ -3,137 +3,165 @@
    ================================================= */
 
 body {
-  background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   position: relative;
   padding-top: var(--navbar-height);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
 }
 
-/* Conteneur générique des pages liste & blog */
 #blog,
 .content {
-  max-width: 1000px;
+  max-width: 1040px;
   margin: 40px auto 0;
   padding: 40px 20px;
   text-align: center;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 80px);
 }
 
-/* Style spécifique pour la page d'article */
 .article-page {
-  background-color: #f9f9f9;
+  background-color: var(--color-bg);
 }
 
 .article-page #blog {
-  margin-bottom: 40px; /* Garantit un espace avant le footer */
+  margin-bottom: 40px;
 }
 
-/* Titre de page générique */
 #blog h1,
 .content h1,
 .page-title {
   margin-bottom: 20px;
-  color: #333;
+  color: var(--color-ink);
+  font-family: var(--font-serif);
 }
 
 .page-title {
-  font-size: 2rem;
+  font-size: clamp(2rem, 4vw, 3rem);
   text-align: center;
   margin: 0 0 2rem;
-  color: var(--color-dark);
 }
 
-/* Conteneur principal */
 .container {
-  max-width: 1200px;
+  max-width: var(--content-max);
   margin: 0 auto;
-  padding: 1rem 1.5rem 2rem; /* Increased bottom padding */
+  padding: 1rem 1.5rem 2rem;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 20px);
 }
 
-/* En-tête de page */
 .page-header {
-  max-width: 1200px;
-  margin: 1rem auto 1.5rem;
-  padding: 2rem 1.5rem 0.5rem;
+  max-width: var(--content-max);
+  margin: 2.5rem auto 1rem;
+  padding: 2.5rem 1.5rem 0.5rem;
   text-align: center;
+}
+
+.page-header .section-eyebrow {
+  display: block;
+  margin-bottom: 0.85rem;
 }
 
 .page-header .page-title {
-  font-family: 'Times New Roman', serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: var(--color-dark);
-  text-align: center;
-  line-height: 1.2;
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+  margin-bottom: 0.85rem;
+  color: var(--color-ink);
+  line-height: 1.1;
 }
 
 .page-description {
-  font-size: 1.1rem;
-  color: var(--color-grey);
-  max-width: 700px;
+  font-size: 1.12rem;
+  color: var(--color-ink-muted);
+  max-width: 620px;
   margin: 0 auto;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* Séparateur horizontal stylisé */
+.section-eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.85rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3.25rem;
+}
+
+.section-header h2 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  margin-bottom: 0.65rem;
+}
+
+.section-header p {
+  color: var(--color-ink-muted);
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+/* Separateur horizontal stylise */
 .section-divider {
   position: relative;
-  height: 80px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin: 2rem 0 3rem 0;
+  margin: 1.5rem 0 2.5rem;
 }
 
 .section-divider::before,
 .section-divider::after {
   content: "";
   height: 1px;
-  background: linear-gradient(to var(--direction, right), transparent, rgba(0, 0, 0, 0.3), transparent);
+  background: linear-gradient(to var(--direction, right), transparent, var(--color-border-strong), transparent);
   flex-grow: 1;
 }
 
 .section-divider::before {
   --direction: right;
-  margin-right: 15px;
+  margin-right: 16px;
 }
 
 .section-divider::after {
   --direction: left;
-  margin-left: 15px;
+  margin-left: 16px;
 }
 
 .section-divider .divider-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
   position: relative;
   z-index: 1;
   transform-origin: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.45s var(--ease-out);
 }
 
 .section-divider .divider-icon svg {
-  width: 20px;
-  height: 20px;
-  fill: #333;
+  width: 18px;
+  height: 18px;
+  fill: var(--color-accent);
 }
 
 .section-divider:hover .divider-icon {
   transform: rotate(180deg);
 }
 
-/* Animation avec GSAP */
 .section-divider.animated .divider-line {
   width: 0;
   transition: width 1s ease;
@@ -143,42 +171,77 @@ body {
   width: 100%;
 }
 
-/* Responsive adjustments for global layout */
+/* Mentions legales */
+.mentions-legales {
+  max-width: 760px;
+  margin: 3.5rem auto 5rem;
+  padding: 3rem 2.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-align: left;
+}
+
+.mentions-legales h1 {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mentions-legales p {
+  margin-bottom: 0.9rem;
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+}
+
+.mentions-legales strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
   .container {
-    padding: 1rem 1rem;
+    padding: 1rem;
   }
-  
+
   .page-header {
-    margin: 2rem auto 1.5rem;
-    padding: 2rem 1rem 0.5rem;
+    margin: 1.5rem auto 1rem;
+    padding: 1.5rem 1rem 0.5rem;
   }
-  
+
   .page-header .page-title {
-    font-size: 2rem;
+    font-size: 2.1rem;
   }
-  
+
   .page-description {
     font-size: 1rem;
     max-width: 90%;
+  }
+
+  .mentions-legales {
+    margin: 1.5rem 1rem 3rem;
+    padding: 2rem 1.35rem;
   }
 }
 
 @media (max-width: 400px) {
   .container {
-    padding: 0.75rem 0.75rem;
+    padding: 0.75rem;
   }
-  
+
   .page-header {
-    margin: 1.5rem auto 1rem;
-    padding: 1.5rem 0.75rem 0.5rem;
+    margin: 1.25rem auto 1rem;
+    padding: 1.25rem 0.75rem 0.5rem;
   }
-  
+
   .page-header .page-title {
-    font-size: 1.8rem;
+    font-size: 1.85rem;
   }
-  
+
   .page-description {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 }
