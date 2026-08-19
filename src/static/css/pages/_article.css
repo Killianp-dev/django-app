@@ -358,38 +358,50 @@
   }
 }
 
-/* Code blocks for technical articles */
+/* Code — surcharge les styles inline du contenu HTML */
 .article-body pre,
 .article-body code {
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-  background-color: var(--color-code-bg);
-  border-radius: var(--radius-sm);
+  font-family: "Consolas", "Monaco", "Courier New", ui-monospace, monospace;
   font-size: 0.9rem;
-  overflow-x: auto;
 }
 
-.article-body code {
-  padding: 0.2rem 0.4rem;
-  color: #d63384;
+.article-body :not(pre) > code {
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  background-color: var(--color-code-inline-bg) !important;
+  color: var(--color-code-inline-text) !important;
+  font-size: 0.88em;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
 }
 
 .article-body pre {
-  padding: 1.2rem;
+  padding: 1.15rem 1.25rem;
   margin: 1.5rem 0 2rem;
-  background-color: var(--color-code-bg);
+  overflow-x: auto;
+  background-color: var(--color-code-bg) !important;
+  color: var(--color-code-text) !important;
   border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent) !important;
   border-radius: var(--radius-md);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 0 24px var(--glow-accent);
   white-space: pre-wrap;
   word-wrap: break-word;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .article-body pre code {
-  background-color: transparent;
-  color: var(--color-ink);
-  padding: 0;
   display: block;
+  padding: 0 !important;
+  background-color: transparent !important;
+  color: inherit !important;
+  font-size: 0.92rem !important;
+  border: 0;
+}
+
+html[data-theme="dark"] .article-body pre {
+  box-shadow:
+    inset 0 1px 0 rgba(94, 234, 212, 0.08),
+    0 0 28px rgba(45, 212, 191, 0.1);
 }
 
 /* Ensure enough space at the bottom of articles */

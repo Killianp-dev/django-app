@@ -829,14 +829,71 @@
         window.location.href = targetUrl;
       });
 
-      // Hover effect
-      card.addEventListener('mouseenter', () => {
-        card.style.boxShadow = '0 22px 50px rgba(20, 24, 31, 0.12)';
-      });
-      
-      card.addEventListener('mouseleave', () => {
-        card.style.boxShadow = '';
-      });
+    });
+  }
+
+  // ===== Effets lumineux =====
+  function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
+  function hasFinePointer() {
+    return window.matchMedia('(pointer: fine)').matches;
+  }
+
+  function initPointerGlow() {
+    const glow = document.querySelector('.pointer-glow');
+    if (!glow || prefersReducedMotion() || !hasFinePointer()) return;
+
+    const root = document.documentElement;
+    let currentX = window.innerWidth / 2;
+    let currentY = window.innerHeight / 3;
+    let targetX = currentX;
+    let targetY = currentY;
+    let ticking = false;
+
+    function update() {
+      currentX += (targetX - currentX) * 0.14;
+      currentY += (targetY - currentY) * 0.14;
+      root.style.setProperty('--pointer-x', `${currentX.toFixed(1)}px`);
+      root.style.setProperty('--pointer-y', `${currentY.toFixed(1)}px`);
+      ticking = false;
+      if (Math.abs(targetX - currentX) > 0.4 || Math.abs(targetY - currentY) > 0.4) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener('pointermove', (event) => {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      targetX = event.clientX;
+      targetY = event.clientY;
+      glow.classList.add('is-active');
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+
+    document.addEventListener('pointerleave', () => {
+      glow.classList.remove('is-active');
+    });
+  }
+
+  function initSurfaceGlow() {
+    if (prefersReducedMotion() || !hasFinePointer()) return;
+
+    const surfaces = document.querySelectorAll(
+      '.card, .post-card, .featured-post, .section-asymetrique .bloc-1, .section-asymetrique .bloc-2, .section-asymetrique .bloc-3, .section-asymetrique .bloc-right, #contact-form, .form-article, .mentions-legales'
+    );
+
+    surfaces.forEach((surface) => {
+      surface.classList.add('has-surface-glow');
+      surface.addEventListener('pointermove', (event) => {
+        const rect = surface.getBoundingClientRect();
+        surface.style.setProperty('--glow-x', `${event.clientX - rect.left}px`);
+        surface.style.setProperty('--glow-y', `${event.clientY - rect.top}px`);
+      }, { passive: true });
     });
   }
 
@@ -1088,6 +1145,8 @@
     initPostsCarousel();
     initActiveNavigation();
     initClickableCards();
+    initPointerGlow();
+    initSurfaceGlow();
     handleAnchorScroll();
     initInterPageLinks();  // Ajouter l'initialisation des liens inter-pages
     initCookieModal();     // Initialiser le modal de cookies
