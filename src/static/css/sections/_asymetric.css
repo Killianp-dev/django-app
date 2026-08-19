@@ -77,13 +77,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.6rem 1.4rem;
+  background: var(--color-surface);
+  border: 1px solid transparent;
 }
 
-.bloc-1 img {
-  width: 86%;
-  max-width: 220px;
+html[data-theme="dark"] .bloc-1 .project-media {
+  background: #0b0b0b;
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.bloc-1 img,
+.bloc-1 .django-logo {
+  width: 88%;
+  max-width: 240px;
   margin: 0 auto;
+  object-fit: contain;
+  background: transparent;
 }
 
 .section-asymetrique img:not(.django-logo) {

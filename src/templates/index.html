@@ -2,6 +2,9 @@
 {% load static %}
 
 {% block title %}Killian P. — Développeur Backend & Python{% endblock %}
+{% block extra_head %}
+<link rel="preload" as="image" href="{% static 'ressources/hero.jpg' %}" fetchpriority="high">
+{% endblock %}
 {% block body_class %}home-page{% endblock %}
 
 {% block nav %}

@@ -373,31 +373,22 @@
     });
 
     heroTimeline
-      .set(hero, {
-        filter: "blur(10px)",
-        opacity: 0
-      })
-      .to(hero, {
-        filter: "blur(0px)",
-        opacity: 1,
-        duration: 1.5
-      })
       .from(heroTitle, {
-        y: -60,
+        y: -36,
         opacity: 0,
-        duration: 0.8
-      }, "-=0.8")
+        duration: 0.7
+      })
       .from(heroSubtitle, {
-        y: 40,
+        y: 24,
         opacity: 0,
-        duration: 0.8
-      }, "-=0.6")
+        duration: 0.7
+      }, "-=0.5")
       .from(heroActions.children, {
         opacity: 0,
-        scale: 0.9,
-        stagger: 0.15,
-        duration: 0.6
-      }, "-=0.4")
+        y: 10,
+        stagger: 0.12,
+        duration: 0.45
+      }, "-=0.35")
       .set([heroTitle, heroSubtitle, heroActions.children], {
         opacity: 1,
         clearProps: "all"
@@ -483,8 +474,8 @@
         end: '50px top',
         onEnter: () => {
           gsap.to(navbar, {
-            backgroundColor: 'rgba(44, 62, 80, 0.95)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+            backgroundColor: 'var(--navbar-bg-scrolled)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
             height: '60px',
             duration: 0.3
           });
@@ -492,8 +483,8 @@
         },
         onLeaveBack: () => {
           gsap.to(navbar, {
-            backgroundColor: 'var(--color-dark)',
-            boxShadow: 'var(--shadow-sm)',
+            backgroundColor: 'var(--navbar-bg)',
+            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.18)',
             height: '70px',
             duration: 0.3
           });
@@ -1047,9 +1038,47 @@
     }
   }
 
+  // ===== Theme toggle =====
+  function initThemeToggle() {
+    const button = document.querySelector('.theme-toggle');
+    const root = document.documentElement;
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+
+    function currentTheme() {
+      return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    function syncButton(theme) {
+      if (!button) return;
+      const isDark = theme === 'dark';
+      button.setAttribute('aria-pressed', String(isDark));
+      button.setAttribute('aria-label', isDark ? 'Activer le thème clair' : 'Activer le thème sombre');
+      if (metaTheme) {
+        metaTheme.setAttribute('content', isDark ? '#10141b' : '#14181f');
+      }
+    }
+
+    function applyTheme(theme) {
+      root.setAttribute('data-theme', theme);
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (e) {}
+      syncButton(theme);
+    }
+
+    syncButton(currentTheme());
+
+    if (!button) return;
+
+    button.addEventListener('click', () => {
+      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+    });
+  }
+
   // ===== Initialization =====
   function init() {
     // Initialize all components
+    initThemeToggle();
     initMobileMenu();
     initAccessibility();
     initScrollAnimations();

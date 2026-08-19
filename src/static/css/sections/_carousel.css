@@ -329,7 +329,7 @@
   bottom: 0;
   right: 0;
   padding-left: 3px;
-  background-color: white;
+  background-color: var(--color-surface);
   display: none; /* Caché par défaut, le truncatechars s'en charge */
 }
 
@@ -428,7 +428,7 @@
   bottom: 0;
   right: 0;
   padding-left: 3px;
-  background-color: white;
+  background-color: var(--color-surface);
   display: none; /* Caché par défaut, le truncatechars s'en charge */
 }
 

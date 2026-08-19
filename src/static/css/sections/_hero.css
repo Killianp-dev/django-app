@@ -77,6 +77,8 @@
   letter-spacing: -0.03em;
   line-height: 1.05;
   margin-bottom: 1.1rem;
+  color: #fffaf3;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.45);
   will-change: transform, opacity;
 }
 
