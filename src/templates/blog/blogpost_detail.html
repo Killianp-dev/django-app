@@ -2,7 +2,7 @@
 
 {% block body_class %}article-page{% endblock %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}{{ post.title }} — Killian P.{% endblock %}
 
 {% block extra_head %}
 <meta property="og:title" content="{{ post.title }}">
@@ -15,13 +15,18 @@
 {% endblock %}
 
 {% block content %}
-<main id="blog">
+<main id="blog" class="article-shell">
+  <a href="{% url 'blog:home' %}" class="article-back">← Actualités</a>
+
   <article class="article">
     <header class="article-header">
+      <p class="section-eyebrow">Journal</p>
       <h1 class="article-title">{{ post.title }}</h1>
       <div class="article-meta">
         <span class="article-author">Par {{ post.author_or_default }}</span>
-        <span class="article-date">{{ post.created_on|date:"j F Y" }}</span>
+        {% if post.created_on %}
+        <time class="article-date" datetime="{{ post.created_on|date:'Y-m-d' }}">{{ post.created_on|date:"j F Y" }}</time>
+        {% endif %}
         {% if post.reading_time %}
         <span class="article-reading-time">{{ post.reading_time }} min de lecture</span>
         {% endif %}
@@ -29,8 +34,8 @@
     </header>
 
     {% if post.thumbnail %}
-    <figure class="article-image">
-      <img src="{{ post.thumbnail.url }}" alt="Image de l'article : {{ post.title }}">
+    <figure class="article-hero">
+      <img src="{{ post.thumbnail.url }}" alt="" width="1400" height="788">
       {% if post.caption %}
       <figcaption>{{ post.caption }}</figcaption>
       {% endif %}
@@ -41,69 +46,86 @@
       {{ post.content|safe }}
     </section>
 
-    <div class="social-share">
-      <h3>Partager cet article</h3>
-      <div class="share-buttons">
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
-           target="_blank" 
-           class="share-button facebook"
-           title="Partager sur Facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://twitter.com/intent/tweet?text={{ post.title }}&url={{ request.build_absolute_uri }}" 
-           target="_blank" 
-           class="share-button twitter"
-           title="Partager sur X">
-          <i class="fab fa-x-twitter"></i>
-        </a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
-           target="_blank" 
-           class="share-button linkedin"
-           title="Partager sur LinkedIn">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
+    <footer class="article-footer">
+      <div class="article-share">
+        <p class="article-share__label">Partager</p>
+        <div class="article-share__actions">
+          <a
+            href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="article-share__btn"
+            title="Partager sur LinkedIn"
+          >
+            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+            <span>LinkedIn</span>
+          </a>
+          <a
+            href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri|urlencode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="article-share__btn"
+            title="Partager sur X"
+          >
+            <i class="fab fa-x-twitter" aria-hidden="true"></i>
+            <span>X</span>
+          </a>
+          <a
+            href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="article-share__btn"
+            title="Partager sur Facebook"
+          >
+            <i class="fab fa-facebook-f" aria-hidden="true"></i>
+            <span>Facebook</span>
+          </a>
+          <button type="button" class="article-share__btn" data-copy-link title="Copier le lien">
+            <i class="fas fa-link" aria-hidden="true"></i>
+            <span>Copier le lien</span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    {% if request.user.is_staff %}
-    <footer class="article-actions">
-      <a href="{% url 'blog:edit' slug=post.slug %}" class="btn">Éditer</a>
-      <a href="{% url 'blog:delete' slug=post.slug %}" class="btn-delete">Supprimer</a>
+      {% if request.user.is_staff %}
+      <div class="article-actions">
+        <a href="{% url 'blog:edit' slug=post.slug %}" class="btn">Éditer</a>
+        <a href="{% url 'blog:delete' slug=post.slug %}" class="btn-delete">Supprimer</a>
+      </div>
+      {% endif %}
     </footer>
-    {% endif %}
   </article>
-  
-  <div class="article-navigation">
-    <a href="{% url 'blog:home' %}" class="back-to-blog">← Retour aux actualités</a>
-    
-    <!-- Navigation entre articles précédent/suivant -->
-    {% if previous_post or next_post %}
-    <div class="post-nav">
-      {% if previous_post %}
-      <a href="{% url 'blog:detail' previous_post.slug %}" class="post-nav-item post-nav-prev">
-        <span class="post-nav-direction">← Plus récent</span>
-        <span class="post-nav-title">{{ previous_post.title|truncatechars:40 }}</span>
-        {% if previous_post.created_on %}
-        <span class="post-nav-date">{{ previous_post.created_on|date:"j M Y" }}</span>
-        {% endif %}
-      </a>
-      {% else %}
-      <div class="post-nav-placeholder"></div>
+
+  {% if previous_post or next_post %}
+  <nav class="post-nav" aria-label="Autres articles">
+    {% if previous_post %}
+    <a href="{% url 'blog:detail' previous_post.slug %}" class="post-nav-item post-nav-prev">
+      {% if previous_post.thumbnail %}
+      <img class="post-nav-thumb" src="{{ previous_post.thumbnail.url }}" alt="" width="320" height="200" loading="lazy">
       {% endif %}
-      
-      {% if next_post %}
-      <a href="{% url 'blog:detail' next_post.slug %}" class="post-nav-item post-nav-next">
-        <span class="post-nav-direction">Plus ancien →</span>
-        <span class="post-nav-title">{{ next_post.title|truncatechars:40 }}</span>
-        {% if next_post.created_on %}
-        <span class="post-nav-date">{{ next_post.created_on|date:"j M Y" }}</span>
-        {% endif %}
-      </a>
-      {% else %}
-      <div class="post-nav-placeholder"></div>
-      {% endif %}
-    </div>
+      <span class="post-nav-copy">
+        <span class="post-nav-direction">Plus récent</span>
+        <span class="post-nav-title">{{ previous_post.title }}</span>
+      </span>
+    </a>
+    {% else %}
+    <div class="post-nav-placeholder"></div>
     {% endif %}
-  </div>
+
+    {% if next_post %}
+    <a href="{% url 'blog:detail' next_post.slug %}" class="post-nav-item post-nav-next">
+      {% if next_post.thumbnail %}
+      <img class="post-nav-thumb" src="{{ next_post.thumbnail.url }}" alt="" width="320" height="200" loading="lazy">
+      {% endif %}
+      <span class="post-nav-copy">
+        <span class="post-nav-direction">Plus ancien</span>
+        <span class="post-nav-title">{{ next_post.title }}</span>
+      </span>
+    </a>
+    {% else %}
+    <div class="post-nav-placeholder"></div>
+    {% endif %}
+  </nav>
+  {% endif %}
 </main>
 {% endblock %}

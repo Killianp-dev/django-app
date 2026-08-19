@@ -99,45 +99,6 @@
   display: none;
 }
 
-.section-asymetrique button,
-.section-asymetrique .btn-bloc-left,
-.section-asymetrique .btn-bloc-right {
-  display: inline-block;
-  padding: 0.8rem 1.7rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border: none;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  background: var(--color-accent);
-  color: #fff;
-  text-decoration: none;
-  box-shadow: none;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.5s ease;
-}
-
-.section-asymetrique button:hover,
-.section-asymetrique .btn-bloc-left:hover,
-.section-asymetrique .btn-bloc-right:hover {
-  background: var(--color-accent-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
-}
-
-.section-asymetrique button,
-.section-asymetrique .btn-bloc-left,
-.section-asymetrique .btn-bloc-right {
-  position: relative;
-  overflow: hidden;
-  opacity: 0;
-}
-
-.section-asymetrique button::before,
-.section-asymetrique .btn-bloc-left::before,
-.section-asymetrique .btn-bloc-right::before {
-  display: none;
-}
-
 .btn.btn--primary {
   align-self: flex-start;
   padding: 0.65rem 1.25rem;

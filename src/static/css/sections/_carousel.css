@@ -1,5 +1,5 @@
 /* ==================================================
-   SECTION CAROUSEL DES DERNIERS ARTICLES
+   SECTION DERNIERS ARTICLES — À LA UNE
    ================================================= */
 
 .latest-posts {
@@ -10,13 +10,11 @@
   width: 100%;
 }
 
-/* Container principal */
 .latest-posts .container {
   width: 100%;
   min-height: 0;
 }
 
-/* En-tête de la section */
 .news__header {
   text-align: center;
   margin-bottom: 2.5rem;
@@ -37,438 +35,12 @@
   margin: 0 auto;
 }
 
-/* Structure du carousel */
-.carousel {
-  position: relative;
-  width: 100%;
-  margin: 0 auto 3rem;
-  padding: 30px 60px;
-  overflow: visible;
-  box-sizing: border-box;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.carousel__container {
-  position: relative;
-  overflow: hidden;
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 25px 0;
-}
-
-.carousel__track {
-  display: flex;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-  width: 100%;
-  padding: 0;
-  touch-action: pan-y;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.carousel__track.is-dragging {
-  cursor: grabbing;
-  transition: none;
-}
-
-.carousel__track.is-dragging .card,
-.carousel__track.is-dragging a {
-  pointer-events: none;
-}
-
-.carousel__track.is-transitioning {
-  pointer-events: none;
-}
-
-.carousel__slide {
-  flex: 0 0 auto;
-  padding: 0 10px;
-  box-sizing: border-box;
-  height: 100%;
-  display: flex;
-  align-items: stretch;
-}
-
-.carousel .card img {
-  -webkit-user-drag: none;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* Boutons de navigation */
-.carousel__button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  box-shadow: var(--shadow-md);
-  z-index: 3;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease, transform 0.2s ease;
-}
-
-.carousel__button:hover {
-  background-color: var(--color-accent);
-  transform: translateY(-50%) scale(1.08);
-  border-color: var(--color-accent);
-}
-
-.carousel__button:hover svg {
-  fill: white;
-}
-
-.carousel__button:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-.carousel__button--prev {
-  left: 10px;
-}
-
-.carousel__button--next {
-  right: 10px;
-}
-
-.carousel__button svg {
-  width: 24px;
-  height: 24px;
-  fill: var(--color-dark);
-  transition: fill 0.3s ease;
-}
-
-/* Navigation par points */
-.carousel__nav {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
-  gap: 0.5rem;
-}
-
-.carousel__indicator {
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-secondary);
-  border: none;
-  border-radius: var(--radius-full);
-  margin: 0 4px;
-  padding: 0;
-  cursor: pointer;
-  position: relative;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.carousel__indicator::after {
-  content: "";
-  position: absolute;
-  inset: -12px;
-}
-
-.carousel__indicator--active {
-  width: 22px;
-  background-color: var(--color-accent);
-  transform: none;
-}
-
-/* Style des cartes du carousel - Adapté du style post-card */
-.carousel .card {
-  background-color: var(--color-surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-  height: 420px; /* Hauteur réduite pour plus de légèreté */
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  cursor: pointer;
-  border: 2px solid transparent;
-  font-size: 0; /* Élimine tout espace blanc rémanent */
-  padding: 0; /* Supprime tout padding */
-}
-
-.carousel .card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-accent);
-}
-
-/* Image de la carte */
-.carousel .card__image {
-  position: relative;
-  height: 180px; /* Hauteur réduite pour plus d'équilibre */
-  min-height: 180px;
-  overflow: hidden;
-  flex-shrink: 0;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  display: block;
-  line-height: 0;
-  font-size: 0;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.carousel .card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.6s ease;
-  transform: scale(1.05);
-  display: block;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.carousel .card:hover .card__image img {
-  transform: scale(1.12); /* Zoom légèrement réduit */
-}
-
-/* Contenu de la carte */
-.carousel .card__content {
-  padding: 1.25rem; /* Padding réduit */
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  font-size: 1rem;
-}
-
-.carousel .card__title {
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  line-height: 1.25;
-  margin-bottom: 0.6rem;
-  color: var(--color-ink);
-  font-weight: 400;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  height: auto;
-  min-height: 1.8rem;
-  max-height: 3.5rem; /* Hauteur réduite */
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Réduit de 3 à 2 lignes */
-  -webkit-box-orient: vertical;
-}
-
-.carousel .card__title a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.carousel .card__title a:hover {
-  color: var(--color-primary);
-}
-
-.carousel .card__meta {
-  display: flex;
-  align-items: center;
-  font-size: 0.8rem; /* Taille réduite */
-  color: var(--color-grey);
-  margin-bottom: 0.8rem; /* Espacement réduit */
-  gap: 1rem;
-  height: 1.2rem; /* Hauteur réduite */
-  flex-shrink: 0;
-}
-
-.carousel .card__author {
-  font-weight: 500;
-}
-
-.carousel .card__date {
-  position: relative;
-  padding-left: 1rem;
-}
-
-.carousel .card__date::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background-color: var(--color-grey);
-}
-
-.carousel .card__excerpt {
-  margin-bottom: 1.2rem; /* Espacement réduit */
-  color: #555;
-  line-height: 1.6; /* Interligne réduit */
-  flex-grow: 1;
-  font-size: 0.9rem; /* Taille réduite */
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Réduit à 2 lignes vu qu'on a que 10 mots */
-  -webkit-box-orient: vertical;
-  height: auto;
-  max-height: 60px; /* Hauteur réduite pour 10 mots */
-  text-align: left;
-  position: relative;
-}
-
-.carousel .card__excerpt::after {
-  content: '...';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-left: 3px;
-  background-color: var(--color-surface);
-  display: none; /* Caché par défaut, le truncatechars s'en charge */
-}
-
-.carousel .read-more {
-  display: inline-block;
-  color: var(--color-primary);
-  font-weight: 600;
-  text-decoration: none;
-  font-size: 0.85rem; /* Taille réduite */
-  transition: all 0.3s;
-  margin-top: auto;
-  align-self: flex-start; /* Assure un alignement à gauche correct */
-  padding: 0.4rem 0; /* Padding réduit */
-  position: relative;
-  flex-shrink: 0;
-}
-
-.carousel .read-more::after {
-  content: '';
-  position: absolute;
-  bottom: 0.2rem;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: var(--color-primary);
-  transition: width 0.3s;
-}
-
-.carousel .read-more:hover::after {
-  width: 100%;
-}
-
-/* Appliquer les mêmes styles aux cartes dans la grille statique */
-.news__grid .card {
-  height: 420px; /* Même hauteur que les cartes du carousel */
-  display: flex;
-  flex-direction: column;
-  font-size: 0;
-}
-
-.news__grid .card__image {
-  height: 180px;
-  min-height: 180px;
-  flex-shrink: 0;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  display: block;
-  line-height: 0;
-  font-size: 0;
-}
-
-.news__grid .card__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transition: transform 0.6s ease;
-  transform: scale(1.05);
-  display: block;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-}
-
-.news__grid .card:hover .card__image img {
-  transform: scale(1.12);
-}
-
-.news__grid .card__content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  font-size: 1rem;
-  padding: 1.25rem;
-}
-
-.news__grid .card__excerpt {
-  flex-grow: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Réduit à 2 lignes */
-  -webkit-box-orient: vertical;
-  height: auto;
-  max-height: 60px; /* Hauteur réduite */
-  font-size: 0.9rem;
-  line-height: 1.6;
-  text-align: left;
-  position: relative;
-}
-
-.news__grid .card__excerpt::after {
-  content: '...';
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-left: 3px;
-  background-color: var(--color-surface);
-  display: none; /* Caché par défaut, le truncatechars s'en charge */
-}
-
-.news__grid .card__title {
-  height: auto;
-  min-height: 1.8rem;
-  max-height: 3.5rem;
-  white-space: normal;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 400;
-  margin-bottom: 0.6rem;
-}
-
-.news__grid .card__meta {
-  height: auto;
-  min-height: 1.2rem;
-  flex-shrink: 0;
-  font-size: 0.8rem;
-  margin-bottom: 0.8rem;
-}
-
-.news__grid .read-more {
-  align-self: flex-start;
-  font-size: 0.85rem;
-  padding: 0.4rem 0;
-}
-
-/* Bouton "Voir tous les articles" */
 .news__more {
-  margin-bottom: 2rem;
+  margin: 1.5rem 0 2rem;
   text-align: center;
-  margin-top: 1.5rem;
   width: 100%;
 }
 
-/* Message quand aucun article n'est disponible */
 .news__empty {
   text-align: center;
   padding: 2rem;
@@ -478,30 +50,233 @@
   width: 100%;
 }
 
-/* Grille d'articles (alternative au carousel) */
-.news__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 3rem;
+/* Encadré à la une */
+.featured-rotator {
+  --featured-hold: 6.5s;
+  --featured-fade: 1s;
+  position: relative;
   width: 100%;
+  margin: 0 auto 1.5rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(15, 110, 102, 0.12);
+  animation: featuredEnter 0.8s var(--ease-out);
+  transition: box-shadow 0.35s var(--ease-out);
 }
 
-/* Message quand aucun article n'est disponible */
-.news__grid .news__empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 2rem;
-  background-color: var(--color-light);
-  border-radius: var(--radius-md);
-  color: var(--color-grey);
+.featured-rotator:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
-/* Animation d'entrée pour le carousel */
-@keyframes fadeInUp {
+.featured-rotator__stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 420px;
+  max-height: 560px;
+  background: var(--color-chrome);
+}
+
+.featured-rotator__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--featured-fade) var(--ease-out),
+    visibility var(--featured-fade) var(--ease-out);
+}
+
+.featured-rotator__slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.featured-rotator__link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.featured-rotator__media {
+  position: absolute;
+  inset: 0;
+}
+
+.featured-rotator__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.08);
+  display: block;
+}
+
+.featured-rotator__slide.is-active .featured-rotator__media img {
+  animation: featuredKenBurns var(--featured-hold) ease-out forwards;
+}
+
+.featured-rotator__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.4rem 2.6rem 3.4rem;
+  color: #fffaf3;
+  background:
+    linear-gradient(180deg, rgba(20, 24, 31, 0.08) 0%, rgba(20, 24, 31, 0.22) 42%, rgba(20, 24, 31, 0.88) 100%),
+    radial-gradient(ellipse at 80% 0%, rgba(15, 110, 102, 0.28), transparent 55%);
+  z-index: 1;
+}
+
+.featured-rotator__badge {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-bottom: 0.9rem;
+  padding: 0.38rem 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright);
+  border: 1px solid rgba(26, 168, 156, 0.45);
+  border-radius: var(--radius-full);
+  background: rgba(15, 110, 102, 0.28);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 24px rgba(26, 168, 156, 0.18);
+}
+
+.featured-rotator__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 3.6vw, 2.85rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin: 0 0 0.75rem;
+  color: #fffaf3;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+  max-width: 18ch;
+}
+
+.featured-rotator__excerpt {
+  margin: 0 0 1.15rem;
+  max-width: 42rem;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: rgba(247, 244, 238, 0.86);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.featured-rotator__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1.1rem;
+  font-size: 0.88rem;
+  color: rgba(247, 244, 238, 0.78);
+}
+
+.featured-rotator__meta span:not(.featured-rotator__cta) {
+  position: relative;
+}
+
+.featured-rotator__meta span:not(.featured-rotator__cta):not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: -0.7rem;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(247, 244, 238, 0.5);
+  transform: translateY(-50%);
+}
+
+.featured-rotator__cta {
+  margin-left: auto;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fffaf3;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  background: rgba(15, 110, 102, 0.55);
+  border: 1px solid rgba(94, 234, 212, 0.35);
+  box-shadow: 0 8px 22px rgba(15, 110, 102, 0.28);
+  transition: background 0.3s var(--ease-out), transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+.featured-rotator__link:hover .featured-rotator__cta,
+.featured-rotator__link:focus-visible .featured-rotator__cta {
+  background: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+
+.featured-rotator__progress {
+  position: absolute;
+  left: 2.6rem;
+  right: 2.6rem;
+  bottom: 1.15rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.45rem;
+}
+
+.featured-rotator__bar {
+  position: relative;
+  flex: 1;
+  height: 22px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.28),
+    rgba(255, 255, 255, 0.28)
+  ) center / 100% 3px no-repeat;
+  overflow: hidden;
+  cursor: pointer;
+  appearance: none;
+}
+
+.featured-rotator__bar-fill {
+  display: block;
+  height: 3px;
+  width: 0;
+  margin: 9.5px 0;
+  border-radius: inherit;
+  background: var(--color-accent-bright);
+  box-shadow: 0 0 12px var(--glow-accent-strong);
+}
+
+.featured-rotator__bar.is-complete .featured-rotator__bar-fill {
+  width: 100%;
+  animation: none;
+}
+
+.featured-rotator__bar.is-active .featured-rotator__bar-fill.is-running {
+  animation: featuredProgress var(--featured-hold) linear forwards;
+}
+
+.featured-rotator.is-paused .featured-rotator__bar.is-active .featured-rotator__bar-fill,
+.featured-rotator.is-paused .featured-rotator__slide.is-active .featured-rotator__media img {
+  animation-play-state: paused;
+}
+
+@keyframes featuredEnter {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
@@ -509,329 +284,102 @@
   }
 }
 
-/* Animation pour transition fluide des slides */
-@keyframes slideTransition {
-  0% {
-    opacity: 0.5;
-    transform: scale(0.95);
+@keyframes featuredKenBurns {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+
+@keyframes featuredProgress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@media (max-width: 992px) {
+  .featured-rotator__stage {
+    min-height: 380px;
+    max-height: 480px;
   }
-  100% {
-    opacity: 1;
-    transform: scale(1);
+
+  .featured-rotator__content {
+    padding: 1.8rem 1.8rem 3rem;
+  }
+
+  .featured-rotator__progress {
+    left: 1.8rem;
+    right: 1.8rem;
+  }
+
+  .news__title {
+    font-size: 1.75rem;
+  }
+
+  .news__subtitle {
+    font-size: 1rem;
   }
 }
 
-.carousel__slide.active {
-  animation: slideTransition 0.3s forwards;
-}
-
-/* ==================================================
-   MEDIA QUERIES - DESKTOP
-   ================================================= */
-
-/* En mode desktop, permettre le défilement continu */
-@media (min-width: 992px) {
-  .carousel__track {
-    /* Permettre un défilement continu même avec 3 slides visibles */
-    flex-wrap: nowrap;
+@media (max-width: 768px) {
+  .featured-rotator__stage {
+    aspect-ratio: 4 / 5;
+    min-height: 420px;
+    max-height: none;
   }
 
-  /* S'assurer que les slides gardent leur largeur fixe */
-  .carousel__slide {
-    flex: 0 0 33.333%;
-    max-width: 33.333%;
+  .featured-rotator__title {
+    max-width: none;
+  }
+
+  .featured-rotator__cta {
+    margin-left: 0;
+  }
+
+  .news__more .btn.btn--outline {
+    padding: 0.65rem 1.75rem;
   }
 }
 
-/* Responsive pour cartes d'articles */
 @media (max-width: 576px) {
-  .carousel .card,
-  .news__grid .card {
-    max-width: 100%;
-    height: 400px; /* Hauteur réduite */
-    padding: 0;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  
-  .carousel .card__image,
-  .news__grid .card__image {
-    margin: 0;
-    padding: 0;
-    display: block;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    font-size: 0;
-    line-height: 0;
-    max-height: 160px;
-    min-height: 160px;
-  }
-  
-  .carousel .card__image img,
-  .news__grid .card__image img {
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    display: block;
-    margin: 0;
-    padding: 0;
-    vertical-align: top;
-    object-position: center;
-    font-size: 0;
-    line-height: 0;
-  }
-  
-  .carousel .card__content,
-  .news__grid .card__content {
-    border-top: none;
-    padding: 1.1rem;
-    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-  }
-  
-  .carousel .card:hover,
-  .news__grid .card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
-  }
-  
-  .carousel .card__title,
-  .news__grid .card__title {
-    font-size: 1.2rem;
-  }
-  
-  .carousel .card__excerpt,
-  .news__grid .card__excerpt {
-    -webkit-line-clamp: 3;
-    height: auto;
-    max-height: 90px;
-  }
-  
-  .carousel .card__meta,
-  .news__grid .card__meta {
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    height: auto;
-    margin-bottom: 0.8rem;
-  }
-  
-  .carousel .read-more,
-  .news__grid .read-more {
-    display: inline-block;
-    color: var(--color-primary);
-    font-weight: 600;
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: all 0.3s;
-    margin-top: auto;
-    padding: 0.4rem 0;
-    position: relative;
-    background-color: transparent;
-    border-radius: 0;
-    text-align: left;
-    align-self: flex-start;
-  }
-  
-  .carousel .read-more:hover,
-  .news__grid .read-more:hover {
-    background-color: transparent;
-    color: var(--color-primary-dark, #0056b3);
-  }
-  
-  .carousel .read-more::after,
-  .news__grid .read-more::after {
-    content: '';
-    position: absolute;
-    bottom: 0.2rem;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-primary);
-    transition: width 0.3s;
-    display: block;
-  }
-  
-  .carousel .read-more:hover::after,
-  .news__grid .read-more:hover::after {
-    width: 100%;
-  }
-}
-
-/* Optimisations pour très petits écrans */
-@media (max-width: 400px) {
-  .carousel .card,
-  .news__grid .card {
+  .featured-rotator {
     border-radius: var(--radius-md);
-    height: 380px;
-    padding: 0;
-    overflow: hidden;
   }
-  
-  .carousel .card__content,
-  .news__grid .card__content {
-    padding: 1rem;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    border-top: none;
+
+  .featured-rotator__stage {
+    min-height: 380px;
   }
-  
-  .carousel .card__image,
-  .news__grid .card__image {
-    max-height: 150px;
-    min-height: 150px;
-    margin: 0;
-    padding: 0;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    line-height: 0;
-    font-size: 0;
+
+  .featured-rotator__content {
+    padding: 1.35rem 1.25rem 2.6rem;
   }
-  
-  .carousel .card__image img,
-  .news__grid .card__image img {
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    line-height: 0;
-    font-size: 0;
+
+  .featured-rotator__excerpt {
+    font-size: 0.92rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
-  
-  .carousel .card__excerpt,
-  .news__grid .card__excerpt {
-    height: auto;
-    max-height: 75px;
-    font-size: 0.85rem;
+
+  .featured-rotator__progress {
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 0.95rem;
   }
 }
 
-/* S'assurer que toutes les cartes n'ont pas d'espace en haut de l'image */
-.carousel .card,
-.news__grid .card,
-.post-card,
-.featured-post {
-  font-size: 0;
-  display: block;
-  margin: 0;
-  padding: 0;
-  line-height: 0;
-}
-
-/* Restaurer la taille de police pour le contenu */
-.carousel .card__content,
-.news__grid .card__content,
-.post-content,
-.featured-post .post-content {
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-/* Correctif global pour supprimer tout espace en haut des images */
-.carousel .card__image,
-.news__grid .card__image,
-.post-image,
-.card-image,
-.featured-post .post-image {
-  margin-top: -1px !important; /* Force la suppression de tout espace résiduel */
-  padding-top: 0 !important;
-  display: block;
-  font-size: 0;
-  line-height: 0;
-  overflow: hidden;
-}
-
-/* S'assurer que les images sont parfaitement alignées */
-.carousel .card__image img,
-.news__grid .card__image img,
-.post-image img,
-.card-image img,
-.featured-post .post-image img {
-  display: block;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-  position: relative; /* Permet de positionner l'image précisément */
-  top: 0; /* Aligne parfaitement l'image en haut */
-}
-
-/* Responsive pour cartes d'articles */
-@media (max-width: 576px) {
-  /* Traitement spécifique pour mobile : éliminer tout espace entre les éléments */
-  .carousel .card,
-  .news__grid .card {
-    font-size: 0;
-    line-height: 0;
-    position: relative;
-    display: block;
-    border-radius: var(--radius-lg);
-    padding: 0;
-    overflow: hidden;
+@media (prefers-reduced-motion: reduce) {
+  .featured-rotator,
+  .featured-rotator__slide,
+  .featured-rotator__cta {
+    animation: none;
+    transition: none;
   }
-  
-  /* S'assurer que les images sont directement collées au bord supérieur */
-  .carousel .card__image,
-  .news__grid .card__image {
-    position: relative;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: 0 !important;
-    padding: 0 !important;
-    line-height: 0;
-    font-size: 0;
-    border-top-left-radius: var(--radius-lg);
-    border-top-right-radius: var(--radius-lg);
-    display: block;
-    overflow: hidden;
-    transform: translateZ(0); /* Optimisation pour le rendu */
-  }
-  
-  /* Ajuster parfaitement les images au conteneur */
-  .carousel .card__image img,
-  .news__grid .card__image img {
-    display: block;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    top: 0;
-    transform: translateZ(0); /* Optimisation pour le rendu */
-    backface-visibility: hidden; /* Évite les artefacts de rendu */
-  }
-}
 
-.carousel .card,
-.news__grid .card,
-.post-card,
-.card,
-.featured-post {
-  font-size: 0;
-  overflow: hidden;
-}
-
-/* Correctif pour forcer l'image à monter et couvrir tout espace résiduel */
-.carousel .card__image,
-.news__grid .card__image,
-.post-image,
-.card-image,
-.featured-post .post-image {
-  transform: translateY(-5px); /* Force le déplacement vers le haut pour couvrir tout espace */
-  margin-bottom: -5px; /* Compense le déplacement */
-  position: relative;
-  z-index: 2; /* S'assure que l'image est au-dessus */
-}
-
-@media (max-width: 576px) {
-  /* Solution spécifique mobile */
-  .carousel .card__image,
-  .news__grid .card__image,
-  .post-image,
-  .card-image,
-  .featured-post .post-image {
-    transform: translateY(-5px); /* Force le déplacement vers le haut pour couvrir tout espace */
-    margin-bottom: -5px; /* Compense le déplacement */
+  .featured-rotator__media img,
+  .featured-rotator__slide.is-active .featured-rotator__media img {
+    transform: none;
+    animation: none;
   }
-  
-  /* Garantit qu'aucun espace n'existe entre l'élément précédent et l'image */
-  .carousel .card__image::before,
-  .news__grid .card__image::before,
-  .post-image::before,
-  .card-image::before,
-  .featured-post .post-image::before {
-    content: "";
-    display: block;
-    height: 0;
-    font-size: 0;
-    line-height: 0;
+
+  .featured-rotator__bar.is-active .featured-rotator__bar-fill {
+    animation: none;
+    width: 100%;
   }
 }

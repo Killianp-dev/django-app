@@ -21,12 +21,9 @@ body {
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 80px);
 }
 
-.article-page {
+.article-page,
+.blog-page {
   background-color: var(--color-bg);
-}
-
-.article-page #blog {
-  margin-bottom: 40px;
 }
 
 #blog h1,

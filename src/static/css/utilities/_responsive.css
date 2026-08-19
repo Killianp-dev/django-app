@@ -34,109 +34,8 @@
     max-width: 90%;
     margin: 0 auto;
   }
-  
-  .blog-container {
-    padding: 1rem 1rem 3rem;
-  }
-  
-  .blog-nav ul {
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .featured-post {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-  }
-  
-  .featured-post .post-image {
-    height: 200px;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-  }
-  
-  .featured-post .post-content {
-    padding: 1.5rem 1rem;
-  }
-  
-  .featured-post .post-title {
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .featured-post .post-excerpt {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
-  }
 }
 
-/* Section asymétrique */
-@media (max-width: 900px) {
-  .section-asymetrique .bloc-1,
-  .section-asymetrique .bloc-2,
-  .section-asymetrique .bloc-3,
-  .section-asymetrique .bloc-4,
-  .section-asymetrique .bloc-right {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.35rem;
-    transform: none !important;
-    padding: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .section-asymetrique .ligne-gauche,
-  .section-asymetrique .ligne-milieu,
-  .section-asymetrique .ligne-droite {
-    display: none;
-  }
-
-  .project-media,
-  .bloc-1 .project-media {
-    width: 100%;
-    flex: none;
-  }
-
-  .section-asymetrique img {
-    width: 100%;
-    height: auto;
-    max-height: 280px;
-    object-fit: cover;
-  }
-
-  .section-asymetrique img.django-logo {
-    width: 55%;
-    height: auto;
-    max-height: 180px;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-  }
-
-  .section-asymetrique .bloc-txt-left,
-  .section-asymetrique .bloc-txt-right,
-  .section-asymetrique .bloc-txt-2 {
-    width: 100%;
-    text-align: left;
-    padding: 0;
-  }
-
-  .section-asymetrique h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .section-asymetrique p {
-    font-size: 0.98rem;
-    margin-bottom: 1.15rem;
-    text-align: left;
-  }
-
-  .section-asymetrique button {
-    margin: 0;
-    display: inline-block;
-  }
-}
 
 /* Barre de navigation mobile */
 @media (max-width: 768px) {
@@ -145,33 +44,18 @@
     padding: 0 1rem;
   }
 
-  /* ARTICLE & FORM */
-  .article,
   .form-article {
     padding: 1rem 0.5rem;
   }
 
-  .article-title {
-    font-size: 2.5rem;
-  }
-
   /* Parallax */
   .parallax {
-    height: 40vh;
-    background-attachment: scroll;
+    height: 42vh;
+    min-height: 280px;
   }
 
-  .parallax p {
+  .parallax__title {
     font-size: 1.8rem;
-  }
-
-  /* Navbar scrollée en mobile */
-  .navbar.scrolled {
-    height: 60px;
-  }
-
-  .navbar.scrolled .nav-menu {
-    top: 60px;
   }
 
   .navbar.scrolled .logo a {
@@ -182,14 +66,6 @@
     font-size: 1.3rem;
   }
 
-
-  /* Animation ajustements mobile */
-  .section-asymetrique .bloc-1,
-  .section-asymetrique .bloc-2,
-  .section-asymetrique .bloc-3,
-  .section-asymetrique .bloc-right {
-    transform: none;
-  }
 
   .scroll-right,
   .scroll-left {
@@ -209,52 +85,6 @@
   .page-header .page-title {
     font-size: 2rem;
   }
-
-  /* Règles déplacées vers _blog.css pour une meilleure organisation */
-  /*
-  .post-card {
-    max-width: 500px;
-    margin: 0 auto 1.5rem;
-    border-radius: var(--radius-md);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .post-image {
-    height: 180px;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-  }
-  
-  .post-content {
-    padding: 1.2rem 1rem;
-  }
-  
-  .post-title {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .post-meta {
-    flex-wrap: wrap;
-    margin-bottom: 0.7rem;
-    font-size: 0.85rem;
-  }
-  
-  .post-excerpt {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-  
-  .read-more {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-  
-  .blogpost-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
-  }
-  */
 }
 
 /* Contact form responsive */
@@ -289,78 +119,6 @@
 
 /* Carousel Responsive */
 @media (max-width: 992px) {
-  .carousel {
-    padding: 12px 4px 24px;
-  }
-
-  .carousel__container {
-    padding: 16px 0;
-  }
-
-  .carousel__track {
-    padding: 0;
-  }
-
-  .carousel__slide {
-    padding: 8px 12px;
-    width: auto;
-  }
-
-  .carousel .card {
-    height: auto;
-    min-height: 360px;
-    width: 100%;
-    max-width: none;
-    margin: 0 auto;
-  }
-
-  .carousel .card__image {
-    height: 160px;
-    min-height: 160px;
-  }
-
-  .carousel .card__content {
-    padding: 1rem;
-  }
-
-  .carousel .card__title {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    white-space: normal;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .carousel .card__excerpt {
-    -webkit-line-clamp: 3;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .carousel__button {
-    width: 40px;
-    height: 40px;
-    z-index: 3;
-  }
-
-  .carousel__button--prev {
-    left: 5px;
-  }
-
-  .carousel__button--next {
-    right: 5px;
-  }
-
-  .carousel__button svg {
-    width: 18px;
-    height: 18px;
-  }
-
   .news__title {
     font-size: 1.75rem;
   }
@@ -370,59 +128,8 @@
   }
 }
 
-/* Mobile - Une seule carte visible */
+/* Mobile */
 @media (max-width: 768px) {
-  .carousel {
-    padding: 8px 0 1.5rem;
-  }
-
-  .carousel__container {
-    padding: 12px 0;
-  }
-
-  .carousel__slide {
-    padding: 6px 10px;
-    width: auto;
-    max-width: none;
-  }
-
-  .carousel .card {
-    height: 380px;
-    width: 100%;
-    max-width: none;
-  }
-
-  .carousel .card__image {
-    height: 170px;
-    min-height: 170px;
-  }
-
-  .carousel .card__content {
-    max-height: none;
-    padding: 1.1rem;
-  }
-
-  .carousel .card__excerpt {
-    -webkit-line-clamp: 2;
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-    max-height: 70px;
-  }
-
-  .carousel__button {
-    width: 40px;
-    height: 40px;
-    z-index: 3;
-  }
-
-  .carousel__button--prev {
-    left: 2px;
-  }
-
-  .carousel__button--next {
-    right: 2px;
-  }
-
   .news__more .btn.btn--outline {
     padding: 0.65rem 1.75rem;
   }
@@ -430,54 +137,6 @@
 
 /* Mobile très petit - ajustements supplémentaires */
 @media (max-width: 576px) {
-  .carousel {
-    padding: 4px 0 1.25rem;
-  }
-
-  .carousel__slide {
-    padding: 6px 8px;
-  }
-
-  .carousel .card {
-    height: 340px;
-  }
-
-  .carousel .card__image {
-    height: 140px;
-    min-height: 140px;
-  }
-
-  .carousel .card__content {
-    max-height: 200px;
-    padding: 0.875rem;
-  }
-
-  .carousel .card__title {
-    font-size: 1rem;
-  }
-
-  .carousel .card__meta {
-    font-size: 0.8rem;
-  }
-
-  .carousel .card__excerpt {
-    font-size: 0.85rem;
-    margin-bottom: 0.75rem;
-    max-height: 65px;
-  }
-
-  .carousel__button {
-    width: 36px;
-    height: 36px;
-    z-index: 3;
-  }
-
-  .carousel__button svg {
-    width: 16px;
-    height: 16px;
-    z-index: 0;
-  }
-
   .hero__title {
     font-size: 2rem;
   }
@@ -497,57 +156,12 @@
     white-space: nowrap;
   }
 
-  .section-asymetrique img {
-    width: 80%;
-    height: auto;
-    max-height: 300px;
-  }
-  
-  /* Style spécifique pour django-logo sur très petits écrans */
-  .section-asymetrique img.django-logo {
-    width: 80%;
-    height: auto;
-    max-height: 250px;
-    transform: scale(1.1);
-  }
-
-  .section-asymetrique h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  .section-asymetrique h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.8rem;
-  }
-  
-  .section-asymetrique p {
-    font-size: 0.9rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .section-asymetrique .bloc-txt-left,
-  .section-asymetrique .bloc-txt-right,
-  .section-asymetrique .bloc-txt-2 {
-    padding: 0 0.5rem;
-  }
-  
-  .section-asymetrique button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
-  }
-
-  .parallax span {
+  .parallax__lead {
     font-size: 0.9rem;
     opacity: .9;
   }
 
-  .parallax p > span {
-    font-size: 1.2rem;
-  }
-
-  .parallax p {
+  .parallax__title {
     letter-spacing: 1px;
     margin: 0 1rem 0.5rem;
   }
@@ -580,22 +194,6 @@
     line-height: 1.4;
   }
 
-    .section-asymetrique h2 > span {
-      font-size: 1.8rem;
-    }
-
-  .bloc-txt-left button {
-    z-index: 1000;
-  }
-
-  /* Style spécifique pour django-logo sur très petits écrans */
-  .section-asymetrique img.django-logo {
-    width: 90%;
-    height: auto;
-    max-height: 300px;
-    transform: scale(1.15);
-  }
-
 }
 
 /* Small phone optimization */
@@ -607,116 +205,12 @@
   .page-header .page-description {
     font-size: 0.9rem;
   }
-  
-  .featured-post .post-image {
-    height: 180px;
-  }
-  
-  .featured-post .post-title {
-    font-size: 1.3rem;
-  }
-  
-  .post-card {
-    margin: 0 0 1.5rem;
-  }
-  
-  .post-title {
-    font-size: 1.1rem;
-  }
-  
-  .post-image {
-    height: 160px;
-  }
-  
-  .post-excerpt {
-    font-size: 0.85rem;
-  }
-  
-  .blog-nav a {
-    font-size: 0.9rem;
-  }
-  
+
   .pagination a,
   .pagination span {
-    width: 2rem;
+    min-width: 2rem;
     height: 2rem;
     font-size: 0.9rem;
-  }
-}
-
-/* Media query spécifique pour la plage 401px-575px */
-@media (min-width: 401px) and (max-width: 575px) {
-  /* Règles déplacées vers _blog.css pour une meilleure organisation */
-  /*
-  .blogpost-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .post-card {
-    max-width: 100%;
-    margin: 0 0 1.5rem;
-  }
-  
-  .post-image {
-    height: 180px;
-  }
-  
-  .post-content {
-    padding: 1.5rem;
-  }
-  
-  .post-title {
-    font-size: 1.2rem;
-  }
-  */
-}
-
-/* Blog responsive - Règles générales déplacées vers _blog.css */
-@media (max-width: 1024px) {
-  /* Règles déplacées vers _blog.css pour une meilleure organisation */
-  /*
-  .blogpost-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  }
-  */
-
-  .featured-post {
-    grid-template-columns: 1fr;
-  }
-
-  .featured-post .post-image {
-    min-height: 300px;
-  }
-}
-
-@media (max-width: 768px) {
-  /* Règles déplacées vers _blog.css pour une meilleure organisation */
-  /*
-  .blogpost-grid {
-    grid-template-columns: 1fr;
-  }
-  */
-}
-
-/* Tablet breakpoint adjustments */
-@media (min-width: 576px) and (max-width: 991px) {
-  /* Règles déplacées vers _blog.css pour une meilleure organisation */
-  /*
-  .blogpost-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  */
-  
-  .featured-post {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-  
-  .featured-post .post-image {
-    height: 100%;
-    border-radius: var(--radius-md) 0 0 var(--radius-md);
   }
 }
 
@@ -753,7 +247,6 @@
   }
 }
 
-.carousel .card__excerpt,
 .news__grid .card__excerpt {
   height: auto;
   max-height: 60px;

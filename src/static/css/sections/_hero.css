@@ -3,7 +3,7 @@
    ================================================= */
 
 .hero {
-  background-image: url('../../ressources/hero.jpg');
+  background-image: url('../../ressources/1.jpg');
   margin-top: calc(var(--navbar-height) * -1);
   margin-bottom: 0;
   position: relative;
@@ -15,22 +15,16 @@
   justify-content: center;
   overflow: hidden;
   background-size: cover;
-  background-position: top center;
+  background-position: center;
   transition: filter 1s ease;
   background-attachment: fixed;
-  will-change: background-position;
 }
 
 .hero::before {
   content: "";
   position: absolute;
-  top: -10px;
-  left: -10px;
-  right: -10px;
-  bottom: -10px;
-  background: inherit;
-  filter: blur(8px) brightness(0.55);
-  transform: scale(1.06);
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 24, 31, 0.55), rgba(15, 110, 102, 0.45));
   z-index: 0;
 }
 
@@ -39,9 +33,11 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(20, 24, 31, 0.35) 0%, rgba(20, 24, 31, 0.55) 48%, rgba(20, 24, 31, 0.82) 100%),
-    radial-gradient(ellipse at 20% 20%, rgba(15, 110, 102, 0.22), transparent 50%);
+    radial-gradient(ellipse at 50% 20%, rgba(94, 234, 212, 0.22), transparent 52%),
+    radial-gradient(ellipse at 80% 80%, rgba(15, 110, 102, 0.28), transparent 48%);
+  pointer-events: none;
   z-index: 0;
+  animation: heroGlowPulse 8s ease-in-out infinite;
 }
 
 .hero__overlay {
@@ -149,7 +145,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero__eyebrow,
-  .hero__stack {
+  .hero__stack,
+  .hero::after {
     animation: none;
   }
 }

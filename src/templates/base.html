@@ -1,7 +1,7 @@
 {% load static %}
 
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 
 <head>
 <!-- Google tag (gtag.js) -->
@@ -23,10 +23,9 @@
       (function () {
         try {
           var stored = localStorage.getItem('theme');
-          var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
       })();
     </script>
@@ -59,6 +58,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <!-- Barre de navigation -->
 <header class="navbar">
+    <div class="navbar__glass" aria-hidden="true"></div>
     <div class="logo">
         <a href="{% url 'index' %}">
             <span class="logo-text">killianp<span class="logo-dot">.dev</span></span>
@@ -92,13 +92,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     {% endblock %}
 
     <div class="navbar-actions">
-        <button class="theme-toggle" type="button" aria-label="Activer le thème sombre" aria-pressed="false">
+        <button class="theme-toggle" type="button" aria-label="Activer le thème clair" aria-pressed="true">
             <svg class="theme-toggle__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.75"></circle>
                 <path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor"></path>
             </svg>
         </button>
-        <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+        <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
             <span class="bar"></span>
             <span class="bar"></span>
             <span class="bar"></span>

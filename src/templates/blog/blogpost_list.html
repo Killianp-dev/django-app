@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Actualités — Killian P.{% endblock %}
+{% block body_class %}blog-page{% endblock %}
 
 {% block content %}
 <div class="page-header">
@@ -8,81 +12,113 @@
 </div>
 
 <div class="container blog-container">
-    <!-- Ajout d'une navigation contextuelle pour le blog -->
-    <div class="blog-nav">
-        <ul>
-            <li><a href="{% url 'blog:home' %}" class="active">Tous les articles</a></li>
-            {% if user.is_staff %}
-            <li><a href="{% url 'blog:create' %}">Nouvel article</a></li>
-            {% endif %}
-        </ul>
+    <div class="blog-toolbar">
+        {% if object_list %}
+        {% with count=object_list|length %}
+        <p class="blog-toolbar__count">{{ count }} article{{ count|pluralize }}</p>
+        {% endwith %}
+        {% else %}
+        <p class="blog-toolbar__count">Journal</p>
+        {% endif %}
+        {% if user.is_staff %}
+        <a href="{% url 'blog:create' %}" class="btn btn--outline blog-toolbar__cta">Nouvel article</a>
+        {% endif %}
     </div>
-    
+
     {% if object_list %}
         {% with featured_post=object_list.0 %}
-        <!-- Article à la une -->
-        <article class="featured-post">
-            <div class="post-image">
-                {% if featured_post.thumbnail %}
-                    <img src="{{ featured_post.thumbnail.url }}" alt="{{ featured_post.title }}">
-                {% else %}
-                    <img src="/static/ressources/1.jpg" alt="{{ featured_post.title }}">
-                {% endif %}
-                <span class="featured-badge">À la une</span>
-            </div>
-            <div class="post-content">
-                <h2 class="post-title">
-                    <a href="{% url 'blog:detail' featured_post.slug %}">{{ featured_post.title }}</a>
-                </h2>
-                <div class="post-meta">
-                    <span class="post-author">Par {{ featured_post.author }}</span>
-                    <span class="post-date">{{ featured_post.created_on|date:"d F Y" }}</span>
+        <article class="blog-featured">
+            <a class="blog-featured__link" href="{% url 'blog:detail' featured_post.slug %}">
+                <div class="blog-featured__media">
+                    {% if featured_post.thumbnail %}
+                        <img
+                            src="{{ featured_post.thumbnail.url }}"
+                            alt=""
+                            width="1200"
+                            height="675"
+                            fetchpriority="high"
+                        >
+                    {% else %}
+                        <img
+                            src="{% static 'ressources/1.jpg' %}"
+                            alt=""
+                            width="1200"
+                            height="675"
+                            fetchpriority="high"
+                        >
+                    {% endif %}
                 </div>
-                <div class="post-excerpt">
-                    {{ featured_post.content|striptags|truncatewords:10 }}
+                <div class="blog-featured__content">
+                    <span class="blog-featured__badge">À la une</span>
+                    <h2 class="blog-featured__title">{{ featured_post.title }}</h2>
+                    <p class="blog-featured__excerpt">{{ featured_post.content|striptags|truncatewords:22 }}</p>
+                    <div class="blog-featured__meta">
+                        <span>Par {{ featured_post.author_or_default }}</span>
+                        <span>{{ featured_post.created_on|date:"j F Y" }}</span>
+                        {% if featured_post.reading_time %}
+                        <span>{{ featured_post.reading_time }} min de lecture</span>
+                        {% endif %}
+                        <span class="blog-featured__cta">Lire l'article</span>
+                    </div>
                 </div>
-                <a href="{% url 'blog:detail' featured_post.slug %}" class="read-more">Lire l'article complet</a>
-            </div>
+            </a>
         </article>
         {% endwith %}
 
-        <!-- Grille d'articles -->
-        <div class="blogpost-grid">
+        {% if object_list|length > 1 %}
+        <div class="blog-grid">
             {% for post in object_list|slice:"1:" %}
-            <article class="post-card">
-                <div class="post-image">
-                    {% if post.thumbnail %}
-                        <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
-                    {% else %}
-                        <img src="/static/ressources/{{ forloop.counter|add:1 }}.jpg" alt="{{ post.title }}">
-                    {% endif %}
-                    <span class="post-category">Article</span>
-                </div>
-                <div class="post-content">
-                    <h2 class="post-title">
-                        <a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a>
-                    </h2>
-                    <div class="post-meta">
-                        <span class="post-author">Par {{ post.author }}</span>
-                        <span class="post-date">{{ post.created_on|date:"d F Y" }}</span>
+            <article class="blog-card">
+                <a class="blog-card__link" href="{% url 'blog:detail' post.slug %}">
+                    <div class="blog-card__media">
+                        {% if post.thumbnail %}
+                            <img
+                                src="{{ post.thumbnail.url }}"
+                                alt=""
+                                width="800"
+                                height="500"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        {% else %}
+                            {% cycle 'ressources/1.jpg' 'ressources/2.jpg' 'ressources/3.jpg' as fallback_img silent %}
+                            <img
+                                src="{% static fallback_img %}"
+                                alt=""
+                                width="800"
+                                height="500"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        {% endif %}
                     </div>
-                    <div class="post-excerpt">
-                        {{ post.content|striptags|truncatewords:10 }}
+                    <div class="blog-card__body">
+                        {% if post.created_on %}
+                        <time class="blog-card__date" datetime="{{ post.created_on|date:'Y-m-d' }}">{{ post.created_on|date:"j F Y" }}</time>
+                        {% endif %}
+                        <h2 class="blog-card__title">{{ post.title }}</h2>
+                        <p class="blog-card__excerpt">{{ post.content|striptags|truncatewords:20 }}</p>
+                        <div class="blog-card__meta">
+                            <span>Par {{ post.author_or_default }}</span>
+                            {% if post.reading_time %}
+                            <span>{{ post.reading_time }} min</span>
+                            {% endif %}
+                        </div>
                     </div>
-                    <a href="{% url 'blog:detail' post.slug %}" class="read-more">Lire plus</a>
-                </div>
+                </a>
             </article>
             {% endfor %}
         </div>
+        {% endif %}
     {% else %}
-        <div class="no-posts">
+        <div class="blog-empty">
+            <p class="section-eyebrow">Bientôt</p>
             <p>Aucun article n'a été publié pour le moment.</p>
         </div>
     {% endif %}
 
-    <!-- Pagination -->
     {% if is_paginated %}
-    <div class="pagination">
+    <nav class="pagination" aria-label="Pagination des articles">
         {% if page_obj.has_previous %}
             <a href="?page=1" aria-label="Première page">&laquo;</a>
             <a href="?page={{ page_obj.previous_page_number }}" aria-label="Page précédente">&lsaquo;</a>
@@ -100,7 +136,7 @@
             <a href="?page={{ page_obj.next_page_number }}" aria-label="Page suivante">&rsaquo;</a>
             <a href="?page={{ page_obj.paginator.num_pages }}" aria-label="Dernière page">&raquo;</a>
         {% endif %}
-    </div>
+    </nav>
     {% endif %}
 </div>
 {% endblock %}

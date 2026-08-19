@@ -23,25 +23,25 @@
   opacity: 1;
 }
 
+.scroll-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+
+.scroll-up.visible {
+  opacity: 1;
+  transform: none;
+}
+
 /* Support pour prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .scroll-right,
   .scroll-left,
-  .section-asymetrique * {
+  .project {
     transition: none !important;
     animation: none !important;
   }
-}
-
-/* Animation pour les boutons asym qui apparaissent */
-.scroll-right.visible button,
-.scroll-left.visible button,
-.scroll-right.visible .btn-bloc-left,
-.scroll-left.visible .btn-bloc-left,
-.scroll-right.visible .btn-bloc-right,
-.scroll-left.visible .btn-bloc-right {
-  opacity: 1;
-  transition: opacity 0.5s ease-in-out;
 }
 
 /* Animations success */

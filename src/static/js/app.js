@@ -135,62 +135,115 @@
   }
 
   // ===== Mobile Menu =====
+  const mobileNavQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+  let lastFocusedBeforeNav = null;
+
+  function isMobileNav() {
+    return mobileNavQuery.matches;
+  }
+
+  function isNavOpen() {
+    return Boolean(navMenu?.classList.contains('is-open'));
+  }
+
+  function getNavFocusable() {
+    return navMenu ? Array.from(navMenu.querySelectorAll('.nav-links a')) : [];
+  }
+
   function setMobileMenuState(isOpen) {
     if (!hamburger || !navMenu) return;
 
-    hamburger.classList.toggle('active', isOpen);
-    navMenu.classList.toggle('active', isOpen);
-    document.body.classList.toggle('nav-open', isOpen);
-    hamburger.setAttribute('aria-expanded', String(isOpen));
-    hamburger.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  }
+    const shouldOpen = Boolean(isOpen) && isMobileNav();
 
-  function toggleMobileMenu() {
-    const isOpen = !hamburger.classList.contains('active');
-    setMobileMenuState(isOpen);
+    hamburger.classList.toggle('is-open', shouldOpen);
+    navMenu.classList.toggle('is-open', shouldOpen);
+    document.documentElement.classList.toggle('nav-open', shouldOpen);
+    hamburger.setAttribute('aria-expanded', String(shouldOpen));
+    hamburger.setAttribute('aria-label', shouldOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+    navMenu.setAttribute('aria-hidden', isMobileNav() ? String(!shouldOpen) : 'false');
+
+    if (shouldOpen) {
+      lastFocusedBeforeNav = document.activeElement;
+      const firstLink = getNavFocusable()[0];
+      window.requestAnimationFrame(() => firstLink?.focus());
+    } else if (lastFocusedBeforeNav && typeof lastFocusedBeforeNav.focus === 'function') {
+      lastFocusedBeforeNav.focus();
+      lastFocusedBeforeNav = null;
+    }
   }
 
   function closeMobileMenu() {
-    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+    if (isNavOpen()) {
       setMobileMenuState(false);
     }
   }
 
   function initMobileMenu() {
-    if (hamburger) {
-      hamburger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleMobileMenu();
-      });
-    }
+    if (!hamburger || !navMenu) return;
 
-    navLinks.forEach(link => {
+    hamburger.setAttribute('aria-controls', 'site-nav');
+    navMenu.setAttribute('aria-hidden', isMobileNav() ? 'true' : 'false');
+
+    hamburger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      setMobileMenuState(!isNavOpen());
+    });
+
+    navLinks.forEach((link) => {
       link.addEventListener('click', closeMobileMenu);
     });
 
-    navMenu?.addEventListener('click', (e) => {
-      if (e.target === navMenu) closeMobileMenu();
+    navMenu.addEventListener('click', (event) => {
+      if (event.target === navMenu) closeMobileMenu();
     });
 
-    window.addEventListener('resize', utils.debounce(() => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
-        setMobileMenuState(false);
+    document.addEventListener('keydown', (event) => {
+      if (!isNavOpen()) return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMobileMenu();
+        return;
       }
-    }, 150));
-  }
 
-  // ===== Accessibility =====
-  function initAccessibility() {
-    if (!hamburger) return;
+      if (event.key !== 'Tab') return;
 
-    hamburger.setAttribute('aria-label', 'Ouvrir le menu');
-    hamburger.setAttribute('aria-expanded', 'false');
-    hamburger.setAttribute('aria-controls', 'site-nav');
+      const focusable = getNavFocusable();
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const current = document.activeElement;
+
+      if (event.shiftKey && (current === first || current === hamburger)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && current === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    const onViewportChange = () => {
+      if (!isMobileNav()) {
+        setMobileMenuState(false);
+        navMenu.setAttribute('aria-hidden', 'false');
+      } else if (!isNavOpen()) {
+        navMenu.setAttribute('aria-hidden', 'true');
+      }
+    };
+
+    if (typeof mobileNavQuery.addEventListener === 'function') {
+      mobileNavQuery.addEventListener('change', onViewportChange);
+    } else {
+      mobileNavQuery.addListener(onViewportChange);
+    }
   }
 
   // ===== Scroll Animations =====
   function initScrollAnimations() {
+    if (prefersReducedMotion()) return;
+
     if (!utils.hasGSAP() || !utils.hasScrollTrigger()) {
       initBasicScrollAnimations();
       return;
@@ -198,133 +251,22 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Animate asymmetric section blocks
-    const assetBlocks = document.querySelectorAll('.section-asymetrique .bloc-1, .section-asymetrique .bloc-2, .section-asymetrique .bloc-3, .section-asymetrique .bloc-right');
-
-    assetBlocks.forEach((block, index) => {
-      const isRightBlock = block.classList.contains('bloc-1') || block.classList.contains('bloc-3');
-      const isLeftBlock = block.classList.contains('bloc-2') || block.classList.contains('bloc-right');
-
-      gsap.set(block, {
-        opacity: 0,
-        y: 50,
-        x: isRightBlock ? 100 : (isLeftBlock ? -100 : 0),
-        scale: 0.95,
-        transformPerspective: 1000
-      });
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: block,
-          start: "top 85%",
-          end: "bottom 15%",
-          toggleActions: "play none none reverse",
-          once: false,
-          markers: false,
-          invalidateOnRefresh: true,
-          immediateRender: false
-        }
-      });
-
-      tl.to(block, {
-        opacity: 1,
-        x: 0,
-        y: 0,
-        scale: 1,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: index * 0.15
-      })
-      .to(block.querySelector('img'), {
-        scale: 1,
-        filter: "blur(0px)",
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.8")
-      .to(block.querySelector('.bloc-txt-left, .bloc-txt-2, .bloc-txt-right'), {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out"
-      }, "-=0.6")
-      .to(block.querySelector('button, .btn-bloc-left, .btn-bloc-right'), {
-        opacity: 1,
-        duration: 0.5,
-        ease: "power2.out"
-      }, "-=0.4");
-
-      // Hover effect on images
-      const img = block.querySelector('img');
-      if (img) {
-        block.addEventListener('mouseenter', () => {
-          gsap.to(img, {
-            scale: 1.05,
-            duration: 0.4,
-            ease: "power2.out"
-          });
-        });
-
-        block.addEventListener('mouseleave', () => {
-          gsap.to(img, {
-            scale: 1,
-            duration: 0.4,
-            ease: "power2.out"
-          });
-        });
-      }
-    });
-
-    // Decorative lines animation
-    const decorativeLines = document.querySelectorAll('.ligne-gauche, .ligne-milieu, .ligne-droite');
-    decorativeLines.forEach((line, index) => {
-      gsap.fromTo(line,
+    document.querySelectorAll('.project').forEach((block) => {
+      gsap.fromTo(block,
+        { opacity: 0, y: 28 },
         {
-          scaleY: 0,
-          transformOrigin: "top center"
-        },
-        {
-          scaleY: 1,
-          duration: 1.5,
-          delay: index * 0.2,
-          ease: "power2.inOut",
-          scrollTrigger: {
-            trigger: ".section-asymetrique",
-            start: "top 75%",
-            end: "bottom 25%",
-            toggleActions: "play none none reverse",
-            once: false,
-            invalidateOnRefresh: true
-          }
-        }
-      );
-    });
-
-    // Section title animation
-    const sectionTitle = document.querySelector('.section-asymetrique h2');
-    if (sectionTitle) {
-      gsap.fromTo(sectionTitle,
-        {
-          y: 30,
-          opacity: 0,
-          clipPath: "inset(100% 0 0 0)"
-        },
-        {
-          y: 0,
           opacity: 1,
-          clipPath: "inset(0% 0 0 0)",
-          duration: 1,
-          ease: "power3.out",
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
-            trigger: sectionTitle,
-            start: "top 90%",
-            end: "bottom 10%",
-            toggleActions: "play none none reverse",
-            once: false,
-            invalidateOnRefresh: true
+            trigger: block,
+            start: "top 88%",
+            once: true
           }
         }
       );
-    }
+    });
   }
 
   // Fallback for browsers without GSAP
@@ -343,14 +285,8 @@
       threshold: 0.1
     });
 
-    const blocks = document.querySelectorAll('.section-asymetrique .bloc-1, .section-asymetrique .bloc-2, .section-asymetrique .bloc-3, .section-asymetrique .bloc-right');
-
-    blocks.forEach(block => {
-      block.classList.add(
-        block.classList.contains('bloc-1') || block.classList.contains('bloc-3') 
-          ? 'scroll-right' 
-          : 'scroll-left'
-      );
+    document.querySelectorAll('.project').forEach((block) => {
+      block.classList.add('scroll-up');
       observer.observe(block);
     });
   }
@@ -393,29 +329,115 @@
         opacity: 1,
         clearProps: "all"
       });
+  }
 
-    // Parallax effect
-    if (utils.hasScrollTrigger()) {
-      gsap.to(hero, {
-        backgroundPosition: "50% 70%",
-        ease: "none",
-        scrollTrigger: {
-          trigger: hero,
-          start: "top top",
-          end: "bottom top",
-          scrub: true
+  // ===== Parallax band =====
+  function initParallax() {
+    const section = document.querySelector('.parallax');
+    const media = section?.querySelector('.parallax__media');
+    const content = section?.querySelector('.parallax__content');
+    if (!section || !media) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let ticking = false;
+
+    const updateParallax = () => {
+      const rect = section.getBoundingClientRect();
+      const view = window.innerHeight || 1;
+      const visible = rect.bottom > 0 && rect.top < view;
+
+      if (visible) {
+        media.style.transform = `translate3d(0, ${-rect.top}px, 0)`;
+        if (content) {
+          content.style.transform = `translate3d(0, ${rect.top * 0.18}px, 0)`;
+        }
+      }
+
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateParallax);
+    };
+
+    updateParallax();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', utils.debounce(updateParallax, 120));
+  }
+
+  // ===== Stack gauges =====
+  function initStackGauges() {
+    const gauges = document.querySelectorAll('.gauge');
+    if (!gauges.length) return;
+
+    const duration = 1150;
+
+    function countTo(el, target, delay) {
+      const start = performance.now() + delay;
+      const tick = (now) => {
+        if (now < start) {
+          requestAnimationFrame(tick);
+          return;
+        }
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = `${Math.round(target * eased)}%`;
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    function activate(gauge) {
+      if (gauge.classList.contains('is-inview')) return;
+      gauge.classList.add('is-inview');
+
+      const level = Number(gauge.dataset.level || 0);
+      const value = gauge.querySelector('.gauge__value');
+      const track = gauge.querySelector('.gauge__track');
+      const delayMs = parseFloat(getComputedStyle(gauge).getPropertyValue('--delay')) * 1000 || 0;
+
+      if (track) track.setAttribute('aria-valuenow', String(level));
+      if (value) countTo(value, level, delayMs);
+    }
+
+    if (prefersReducedMotion()) {
+      gauges.forEach((gauge) => {
+        const level = Number(gauge.dataset.level || 0);
+        const value = gauge.querySelector('.gauge__value');
+        const track = gauge.querySelector('.gauge__track');
+        gauge.classList.add('is-inview');
+        if (value) value.textContent = `${level}%`;
+        if (track) track.setAttribute('aria-valuenow', String(level));
+      });
+      return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      gauges.forEach(activate);
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activate(entry.target);
+          observer.unobserve(entry.target);
         }
       });
-    }
+    }, { threshold: 0.45 });
+
+    gauges.forEach((gauge) => observer.observe(gauge));
   }
 
   // ===== Navbar Animations =====
   function initNavbarAnimations() {
-    if (!navbar || !utils.hasGSAP()) return;
+    if (!navbar) return;
 
     const logo = navbar.querySelector('.logo a');
 
-    // Add hover effect to links
     navLinks.forEach(link => {
       if (!link.querySelector('.link-hover-effect')) {
         const linkEffect = document.createElement('span');
@@ -424,397 +446,214 @@
       }
     });
 
-    // Check if animation has already played in this session
+    const syncScrolledState = () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 24);
+    };
+
+    syncScrolledState();
+    window.addEventListener('scroll', syncScrolledState, { passive: true });
+
+    if (!utils.hasGSAP()) return;
+
     const hasPlayedAnimation = sessionStorage.getItem('navbarAnimationPlayed');
+    if (hasPlayedAnimation) return;
 
-    if (!hasPlayedAnimation) {
-      const navbarTimeline = gsap.timeline({
-        defaults: {
-          ease: "power3.out",
-          duration: 0.3
-        }
-      });
-
-      navbarTimeline
-        .from(navbar, {
-          y: -100,
-          opacity: 0,
-          duration: 0.4
-        })
-        .from(logo, {
-          x: -50,
-          opacity: 0,
-          duration: 0.3
-        }, "-=0.2")
-        .from(navLinks, {
-          y: -20,
-          opacity: 0,
-          stagger: 0.05
-        }, "-=0.2")
-        .set([navbar, logo, navLinks], {
-          opacity: 1,
-          clearProps: "all"
-        });
-
-      sessionStorage.setItem('navbarAnimationPlayed', 'true');
-    } else {
-      gsap.set([navbar, logo, navLinks], {
-        opacity: 1,
-        y: 0,
-        x: 0,
-        clearProps: "all"
+    const introItems = [logo, ...(!isMobileNav() ? Array.from(navLinks) : [])].filter(Boolean);
+    if (introItems.length) {
+      gsap.from(introItems, {
+        y: -16,
+        opacity: 0,
+        duration: 0.4,
+        stagger: 0.05,
+        ease: 'power3.out',
+        clearProps: 'all'
       });
     }
 
-    // Scroll animation for navbar
-    if (utils.hasScrollTrigger()) {
-      ScrollTrigger.create({
-        trigger: 'body',
-        start: 'top top',
-        end: '50px top',
-        onEnter: () => {
-          gsap.to(navbar, {
-            backgroundColor: 'var(--navbar-bg-scrolled)',
-            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
-            height: '60px',
-            duration: 0.3
-          });
-          navbar.classList.add('scrolled');
-        },
-        onLeaveBack: () => {
-          gsap.to(navbar, {
-            backgroundColor: 'var(--navbar-bg)',
-            boxShadow: '0 8px 30px rgba(0, 0, 0, 0.18)',
-            height: '70px',
-            duration: 0.3
-          });
-          navbar.classList.remove('scrolled');
-        }
-      });
-    } else {
-      // Fallback
-      window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
-      });
-    }
+    sessionStorage.setItem('navbarAnimationPlayed', 'true');
   }
 
-  // ===== Posts Carousel =====
-  function initPostsCarousel() {
-    const carousel = document.querySelector('.carousel');
-    const carouselContainer = document.querySelector('.carousel__container');
-    const carouselTrack = document.querySelector('.carousel__track');
-    const slides = Array.from(document.querySelectorAll('.carousel__slide'));
-    const nextButton = document.querySelector('.carousel__button--next');
-    const prevButton = document.querySelector('.carousel__button--prev');
-    const dotsContainer = document.querySelector('.carousel__nav');
+  // ===== Featured article rotator =====
+  function initFeaturedRotator() {
+    const rotator = document.querySelector('.featured-rotator');
+    if (!rotator) return;
 
-    if (!carousel || !carouselContainer || !carouselTrack || slides.length === 0) return;
+    const slides = Array.from(rotator.querySelectorAll('.featured-rotator__slide'));
+    const bars = Array.from(rotator.querySelectorAll('.featured-rotator__bar'));
+    if (slides.length === 0) return;
 
-    let currentIndex = 0;
-    let slideWidth = 0;
-    let slidesToShow = 1;
-    const slideCount = slides.length;
-    let autoplayInterval = null;
+    const holdMs = Number(rotator.dataset.hold) || 6500;
+    rotator.style.setProperty('--featured-hold', `${holdMs}ms`);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const canRotate = slides.length > 1 && !reducedMotion;
 
+    let currentIndex = Math.max(0, slides.findIndex((slide) => slide.classList.contains('is-active')));
+    let timer = null;
+    let remaining = holdMs;
+    let lastStartedAt = 0;
+    let paused = false;
+    let inView = true;
     let pointerId = null;
     let startX = 0;
     let startY = 0;
-    let startTranslate = 0;
-    let currentTranslate = 0;
-    let dragAxis = null;
-    let isDragging = false;
     let suppressClick = false;
-    let dragStartTime = 0;
 
-    function getSlidesToShow() {
-      return window.innerWidth < 992 ? 1 : 3;
-    }
+    function syncBars(restartActive = true) {
+      bars.forEach((bar, index) => {
+        bar.classList.toggle('is-active', index === currentIndex);
+        bar.classList.toggle('is-complete', index < currentIndex);
+        bar.setAttribute('aria-selected', String(index === currentIndex));
 
-    function getTranslateX() {
-      const transform = getComputedStyle(carouselTrack).transform;
-      if (!transform || transform === 'none') return 0;
-      try {
-        return new DOMMatrixReadOnly(transform).m41;
-      } catch (err) {
-        const parts = transform.split(',');
-        return parseFloat(parts[4]) || 0;
-      }
-    }
+        const fill = bar.querySelector('.featured-rotator__bar-fill');
+        if (!fill) return;
 
-    function getMaxIndex() {
-      if (slidesToShow >= slideCount) return 0;
-      return Math.max(0, slideCount - slidesToShow);
-    }
-
-    function calculateSlideWidth() {
-      const count = getSlidesToShow();
-      const containerWidth = carouselContainer.clientWidth;
-      slideWidth = Math.max(1, Math.round(containerWidth / count));
-
-      slides.forEach((slide) => {
-        slide.style.flex = `0 0 ${slideWidth}px`;
-        slide.style.width = `${slideWidth}px`;
-        slide.style.maxWidth = `${slideWidth}px`;
-      });
-
-      return count;
-    }
-
-    function setTrackPosition(offset, animate = true) {
-      carouselTrack.style.transition = animate
-        ? 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)'
-        : 'none';
-      carouselTrack.style.transform = `translate3d(${offset}px, 0, 0)`;
-    }
-
-    function updateActiveSlide() {
-      slides.forEach((slide, idx) => {
-        slide.classList.toggle('active', idx >= currentIndex && idx < currentIndex + slidesToShow);
+        fill.classList.remove('is-running');
+        if (index === currentIndex && canRotate && restartActive) {
+          void fill.offsetWidth;
+          fill.classList.add('is-running');
+        }
       });
     }
 
-    function updateDots() {
-      if (!dotsContainer) return;
-      dotsContainer.querySelectorAll('.carousel__indicator').forEach((dot) => {
-        dot.classList.toggle('carousel__indicator--active', Number(dot.dataset.index) === currentIndex);
-      });
-    }
-
-    function goToSlide(index, animate = true) {
-      currentIndex = Math.max(0, Math.min(index, getMaxIndex()));
-      currentTranslate = -currentIndex * slideWidth;
-      setTrackPosition(currentTranslate, animate);
-      updateDots();
-      updateActiveSlide();
-    }
-
-    function createDots() {
-      if (!dotsContainer) return;
-      dotsContainer.innerHTML = '';
-      const numberOfDots = getMaxIndex() + 1;
-
-      if (numberOfDots <= 1) {
-        dotsContainer.style.display = 'none';
+    function goTo(index) {
+      const nextIndex = (index + slides.length) % slides.length;
+      if (nextIndex === currentIndex) {
+        remaining = holdMs;
+        syncBars(true);
+        startTimer();
         return;
       }
 
-      dotsContainer.style.display = 'flex';
+      slides[currentIndex].classList.remove('is-active');
+      slides[currentIndex].setAttribute('aria-hidden', 'true');
+      currentIndex = nextIndex;
+      slides[currentIndex].classList.add('is-active');
+      slides[currentIndex].setAttribute('aria-hidden', 'false');
+      remaining = holdMs;
+      syncBars(true);
+      startTimer();
+    }
 
-      for (let i = 0; i < numberOfDots; i += 1) {
-        const dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'carousel__indicator';
-        if (i === currentIndex) dot.classList.add('carousel__indicator--active');
-        dot.setAttribute('aria-label', `Aller à la position ${i + 1}`);
-        dot.dataset.index = String(i);
-        dot.addEventListener('click', () => {
-          goToSlide(i);
-          stopAutoplay();
-        });
-        dotsContainer.appendChild(dot);
+    function stopTimer() {
+      if (!timer) return;
+      clearTimeout(timer);
+      timer = null;
+    }
+
+    function startTimer() {
+      stopTimer();
+      if (!canRotate || paused || !inView || document.hidden) return;
+      lastStartedAt = Date.now();
+      timer = setTimeout(() => {
+        remaining = holdMs;
+        goTo(currentIndex + 1);
+      }, remaining);
+    }
+
+    function pause() {
+      if (paused) return;
+      paused = true;
+      rotator.classList.add('is-paused');
+      if (timer) {
+        remaining = Math.max(120, remaining - (Date.now() - lastStartedAt));
+        stopTimer();
       }
     }
 
-    function updateButtonsVisibility() {
-      if (!nextButton || !prevButton) return;
-      const hide = slidesToShow >= slideCount;
-      nextButton.style.display = hide ? 'none' : 'flex';
-      prevButton.style.display = hide ? 'none' : 'flex';
-      if (hide) stopAutoplay();
+    function resume() {
+      if (!paused) return;
+      paused = false;
+      rotator.classList.remove('is-paused');
+      startTimer();
     }
 
-    function updateCarouselLayout() {
-      const nextSlidesToShow = calculateSlideWidth();
-      if (nextSlidesToShow !== slidesToShow) {
-        slidesToShow = nextSlidesToShow;
-        if (currentIndex > getMaxIndex()) currentIndex = getMaxIndex();
-        createDots();
-      }
-      updateButtonsVisibility();
-      goToSlide(currentIndex, false);
-    }
-
-    function nextSlide() {
-      const maxIndex = getMaxIndex();
-      goToSlide(currentIndex >= maxIndex ? 0 : currentIndex + 1);
-    }
-
-    function prevSlide() {
-      const maxIndex = getMaxIndex();
-      goToSlide(currentIndex === 0 ? maxIndex : currentIndex - 1);
-    }
-
-    function startAutoplay() {
-      stopAutoplay();
-      if (slidesToShow >= slideCount || document.hidden) return;
-      autoplayInterval = setInterval(nextSlide, 8000);
-    }
-
-    function stopAutoplay() {
-      if (!autoplayInterval) return;
-      clearInterval(autoplayInterval);
-      autoplayInterval = null;
-    }
-
-    function resetPointerState() {
-      carouselTrack.classList.remove('is-dragging');
-      pointerId = null;
-      dragAxis = null;
-      isDragging = false;
-    }
-
-    function onPointerDown(e) {
-      if (slidesToShow >= slideCount) return;
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
-
-      pointerId = e.pointerId;
-      startX = e.clientX;
-      startY = e.clientY;
-      startTranslate = getTranslateX();
-      currentTranslate = startTranslate;
-      dragAxis = null;
-      isDragging = false;
-      dragStartTime = Date.now();
-      stopAutoplay();
-    }
-
-    function onPointerMove(e) {
-      if (pointerId !== e.pointerId) return;
-
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-
-      if (!dragAxis) {
-        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
-        dragAxis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
-        if (dragAxis === 'x') {
-          isDragging = true;
-          carouselTrack.classList.add('is-dragging');
-          try {
-            carouselTrack.setPointerCapture(e.pointerId);
-          } catch (err) {}
-        }
-      }
-
-      if (dragAxis !== 'x') return;
-
-      e.preventDefault();
-      const minTranslate = -getMaxIndex() * slideWidth;
-      const rubber = 0.32;
-      let next = startTranslate + dx;
-      if (next > 0) next *= rubber;
-      if (next < minTranslate) next = minTranslate + (next - minTranslate) * rubber;
-      currentTranslate = next;
-      setTrackPosition(currentTranslate, false);
-    }
-
-    function onPointerUp(e) {
-      if (pointerId !== e.pointerId) return;
-
-      const dx = e.clientX - startX;
-      const elapsed = Math.max(1, Date.now() - dragStartTime);
-      const velocity = dx / elapsed;
-
-      if (dragAxis === 'x' && isDragging) {
-        suppressClick = Math.abs(dx) > 8;
-        const threshold = Math.max(36, slideWidth * 0.16);
-        if (dx < -threshold || velocity < -0.4) {
-          nextSlide();
-        } else if (dx > threshold || velocity > 0.4) {
-          prevSlide();
-        } else {
-          goToSlide(currentIndex);
-        }
-      }
-
-      try {
-        carouselTrack.releasePointerCapture(e.pointerId);
-      } catch (err) {}
-      resetPointerState();
-      startAutoplay();
-    }
-
-    carouselTrack.addEventListener('pointerdown', onPointerDown);
-    carouselTrack.addEventListener('pointermove', onPointerMove, { passive: false });
-    carouselTrack.addEventListener('pointerup', onPointerUp);
-    carouselTrack.addEventListener('pointercancel', onPointerUp);
-
-    carouselTrack.addEventListener('click', (e) => {
-      if (!suppressClick) return;
-      e.preventDefault();
-      e.stopPropagation();
-      suppressClick = false;
-    }, true);
-
-    slides.forEach((slide) => {
-      const card = slide.querySelector('.card');
-      const mainLink = card?.querySelector('a[href]');
-      if (!card || !mainLink) return;
-
-      card.addEventListener('click', (e) => {
-        if (suppressClick) return;
-        if (e.target.closest('a, button')) return;
-        window.location.href = mainLink.getAttribute('href');
+    bars.forEach((bar) => {
+      bar.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        goTo(Number(bar.dataset.index));
       });
     });
 
-    nextButton?.addEventListener('click', () => {
-      nextSlide();
-      stopAutoplay();
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      rotator.addEventListener('mouseenter', pause);
+      rotator.addEventListener('mouseleave', resume);
+    }
+
+    rotator.addEventListener('pointerdown', (event) => {
+      if (event.target.closest('.featured-rotator__bar')) return;
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startY = event.clientY;
+      suppressClick = false;
     });
 
-    prevButton?.addEventListener('click', () => {
-      prevSlide();
-      stopAutoplay();
+    rotator.addEventListener('pointerup', (event) => {
+      if (pointerId !== event.pointerId) return;
+      pointerId = null;
+      const dx = event.clientX - startX;
+      const dy = event.clientY - startY;
+      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy)) return;
+      suppressClick = true;
+      if (dx < 0) goTo(currentIndex + 1);
+      else goTo(currentIndex - 1);
     });
 
-    window.addEventListener('resize', utils.debounce(updateCarouselLayout, 200));
+    rotator.addEventListener('click', (event) => {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    }, true);
 
-    window.addEventListener('keydown', (e) => {
-      const rect = carousel.getBoundingClientRect();
+    window.addEventListener('keydown', (event) => {
+      if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]')) return;
+      const rect = rotator.getBoundingClientRect();
       if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-      if (e.key === 'ArrowLeft') {
-        prevSlide();
-        stopAutoplay();
-      } else if (e.key === 'ArrowRight') {
-        nextSlide();
-        stopAutoplay();
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        goTo(currentIndex + 1);
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        goTo(currentIndex - 1);
       }
     });
 
-    carousel.addEventListener('mouseenter', stopAutoplay);
-    carousel.addEventListener('mouseleave', () => {
-      if (!isDragging) startAutoplay();
-    });
-
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) stopAutoplay();
-      else startAutoplay();
+      if (document.hidden) pause();
+      else if (!rotator.matches(':hover')) resume();
     });
-
-    updateCarouselLayout();
-    createDots();
-    updateButtonsVisibility();
-    startAutoplay();
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) startAutoplay();
-          else stopAutoplay();
+          inView = entry.isIntersecting;
+          if (!inView) {
+            if (timer) {
+              remaining = Math.max(120, remaining - (Date.now() - lastStartedAt));
+              stopTimer();
+            }
+            rotator.classList.add('is-paused');
+            return;
+          }
+          if (!paused) rotator.classList.remove('is-paused');
+          startTimer();
         });
-      }, { threshold: 0.25 });
-      observer.observe(carousel);
+      }, { threshold: 0.3 });
+      observer.observe(rotator);
     }
+
+    syncBars(canRotate);
+    startTimer();
   }
 
   // ===== Clickable Article Cards =====
   function initClickableCards() {
-    const articleCards = document.querySelectorAll('.card, .post-card, .news__grid .card, .featured-post');
+    const articleCards = document.querySelectorAll('.card, .post-card, .news__grid .card, .featured-post, .blog-card, .blog-featured');
 
     articleCards.forEach(card => {
-      if (card.closest('.carousel')) return;
+      if (card.closest('.carousel, .featured-rotator')) return;
       const mainLink = card.querySelector('a[href]');
       if (!mainLink) return;
 
@@ -829,6 +668,41 @@
         window.location.href = targetUrl;
       });
 
+    });
+  }
+
+  // ===== Copier le lien d'un article =====
+  function initCopyLink() {
+    const buttons = document.querySelectorAll('[data-copy-link]');
+    if (!buttons.length) return;
+
+    buttons.forEach((button) => {
+      const label = button.querySelector('span');
+      const original = label ? label.textContent : '';
+
+      button.addEventListener('click', async () => {
+        const url = window.location.href;
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(url);
+          } else {
+            const input = document.createElement('input');
+            input.value = url;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            input.remove();
+          }
+          button.classList.add('is-copied');
+          if (label) label.textContent = 'Lien copié';
+          window.setTimeout(() => {
+            button.classList.remove('is-copied');
+            if (label) label.textContent = original;
+          }, 2000);
+        } catch (error) {
+          button.classList.remove('is-copied');
+        }
+      });
     });
   }
 
@@ -884,7 +758,7 @@
     if (prefersReducedMotion() || !hasFinePointer()) return;
 
     const surfaces = document.querySelectorAll(
-      '.card, .post-card, .featured-post, .section-asymetrique .bloc-1, .section-asymetrique .bloc-2, .section-asymetrique .bloc-3, .section-asymetrique .bloc-right, #contact-form, .form-article, .mentions-legales'
+      '.card, .post-card, .featured-post, .blog-card, .blog-featured, .featured-rotator, #contact-form, .form-article, .mentions-legales, .stack__code, .stack__gauges'
     );
 
     surfaces.forEach((surface) => {
@@ -901,7 +775,7 @@
   function initSectionTitleAnimations() {
     if (!utils.hasGSAP() || !utils.hasScrollTrigger()) return;
 
-    const sectionTitles = document.querySelectorAll('.section-asymetrique h2, .news__title, .parallax p');
+    const sectionTitles = document.querySelectorAll('.projects__header h2, .news__title, .parallax__title, .stack__header h2');
 
     sectionTitles.forEach(title => {
       // Character animation
@@ -1137,14 +1011,16 @@
     // Initialize all components
     initThemeToggle();
     initMobileMenu();
-    initAccessibility();
     initScrollAnimations();
     initHeroAnimation();
+    initParallax();
+    initStackGauges();
     initNavbarAnimations();
     initSectionTitleAnimations();
-    initPostsCarousel();
+    initFeaturedRotator();
     initActiveNavigation();
     initClickableCards();
+    initCopyLink();
     initPointerGlow();
     initSurfaceGlow();
     handleAnchorScroll();
@@ -1157,15 +1033,6 @@
       window.addEventListener('resize', utils.debounce(() => ScrollTrigger.refresh(), 250));
     }
 
-    // Handle menu visibility on resize
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
-        navMenu.classList.remove('active');
-        navMenu.style.removeProperty('left');
-      } else {
-        navMenu.style.removeProperty('left');
-      }
-    });
   }
 
   // Initialize when DOM is fully loaded
