@@ -9,6 +9,7 @@
   padding: 2.5rem var(--page-gutter) 5rem;
   text-align: left;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 40px);
+  overflow-x: hidden;
 }
 
 .article-back {
@@ -118,6 +119,30 @@
   font-size: 1.12rem;
   color: var(--color-ink-soft);
   max-width: 100%;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+.article-body img,
+.article-body video,
+.article-body iframe {
+  display: block;
+  max-width: 100% !important;
+  width: auto;
+  height: auto !important;
+}
+
+.article-body figure {
+  max-width: 100%;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.article-body table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .article-body p {
