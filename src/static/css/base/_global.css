@@ -43,7 +43,7 @@ body {
 .container {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 1rem 1.5rem 2rem;
+  padding: 1rem var(--page-gutter) 2rem;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 20px);
 }
 
@@ -201,12 +201,12 @@ body {
 
 @media (max-width: 768px) {
   .container {
-    padding: 1rem;
+    padding: 1rem var(--page-gutter);
   }
 
   .page-header {
     margin: 1.5rem auto 1rem;
-    padding: 1.5rem 1rem 0.5rem;
+    padding: 1.5rem var(--page-gutter) 0.5rem;
   }
 
   .page-header .page-title {
@@ -219,19 +219,19 @@ body {
   }
 
   .mentions-legales {
-    margin: 1.5rem 1rem 3rem;
+    margin: 1.5rem var(--page-gutter) 3rem;
     padding: 2rem 1.35rem;
   }
 }
 
 @media (max-width: 400px) {
   .container {
-    padding: 0.75rem;
+    padding: 0.75rem var(--page-gutter);
   }
 
   .page-header {
     margin: 1.25rem auto 1rem;
-    padding: 1.25rem 0.75rem 0.5rem;
+    padding: 1.25rem var(--page-gutter) 0.5rem;
   }
 
   .page-header .page-title {

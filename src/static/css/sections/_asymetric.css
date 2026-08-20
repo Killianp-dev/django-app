@@ -5,7 +5,7 @@
 .projects {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 0 1.5rem var(--section-space);
+  padding: 0 var(--page-gutter) var(--section-space);
 }
 
 .projects__header {

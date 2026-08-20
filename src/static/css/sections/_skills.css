@@ -4,7 +4,7 @@
 
 .stack {
   position: relative;
-  padding: var(--section-space) 1.5rem;
+  padding: var(--section-space) var(--page-gutter);
   background: var(--color-bg-alt);
 }
 
@@ -40,6 +40,7 @@
 .stack__code {
   position: sticky;
   top: calc(var(--navbar-height) + 1.25rem);
+  min-width: 0;
   background: #0d1016;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
@@ -142,6 +143,7 @@
   flex-direction: column;
   gap: 1.15rem;
   margin: 0;
+  min-width: 0;
   padding: 1.5rem;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -205,28 +207,58 @@
 
 @media (max-width: 900px) {
   .stack {
-    padding: 3rem 1.15rem;
+    padding: var(--section-space) var(--page-gutter);
   }
 
   .stack__grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.35rem;
   }
 
-  .stack__code {
-    position: static;
+  .stack__code,
+  .stack__code.has-surface-glow {
+    position: relative;
+    top: auto;
+  }
+
+  .stack__line {
+    min-width: 0;
+  }
+
+  .stack__line code {
+    white-space: pre;
   }
 }
 
 @media (max-width: 576px) {
+  .stack__header {
+    margin-bottom: 1.75rem;
+  }
+
+  .stack__header h2 {
+    font-size: 1.7rem;
+  }
+
+  .stack__header p {
+    font-size: 0.98rem;
+  }
+
   .stack__gauges {
     padding: 1.15rem;
     gap: 1rem;
   }
 
   .stack__source {
-    font-size: 0.74rem;
-    padding: 1rem 0.85rem;
+    font-size: 0.72rem;
+    line-height: 1.7;
+    padding: 0.9rem 0.75rem;
+  }
+
+  .stack__file {
+    font-size: 0.72rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 

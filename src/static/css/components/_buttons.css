@@ -75,6 +75,7 @@
   background: var(--color-accent);
   box-shadow: var(--shadow-glow);
   transition: transform 0.25s var(--ease-out), background 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
 }
 
 .hero-btn:nth-child(2) {

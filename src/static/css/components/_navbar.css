@@ -249,7 +249,7 @@ html.nav-open body {
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0 1rem;
+    padding: 0 var(--page-gutter);
   }
 
   .navbar.scrolled {

@@ -85,7 +85,7 @@
 
 @media (max-width: 768px) {
   .footer {
-    padding: 2.5rem 1.25rem 1.25rem;
+    padding: 2.5rem var(--page-gutter) 1.25rem;
     text-align: center;
   }
 

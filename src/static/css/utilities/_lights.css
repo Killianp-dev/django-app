@@ -192,8 +192,11 @@ html[data-theme="dark"] .pointer-glow.is-active {
 .has-surface-glow {
   --glow-x: 50%;
   --glow-y: 0%;
-  position: relative;
   isolation: isolate;
+}
+
+.has-surface-glow:not(.stack__code) {
+  position: relative;
 }
 
 .has-surface-glow::after {
@@ -230,11 +233,6 @@ html[data-theme="dark"] .has-surface-glow::after {
 
 
 /* Stack */
-.stack__code {
-  position: relative;
-  overflow: hidden;
-}
-
 .stack__gauges {
   position: relative;
 }

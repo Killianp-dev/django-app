@@ -842,6 +842,7 @@
   // ===== Section Title Animations =====
   function initSectionTitleAnimations() {
     if (!utils.hasGSAP() || !utils.hasScrollTrigger()) return;
+    if (window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches) return;
 
     const sectionTitles = document.querySelectorAll('.projects__header h2, .news__title, .parallax__title, .stack__header h2');
 
