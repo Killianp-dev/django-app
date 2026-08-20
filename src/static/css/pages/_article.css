@@ -2,14 +2,35 @@
    PAGE ARTICLE
    ================================================= */
 
+/* body is a column flex container: min-width:auto lets a 1400px hero
+   image inflate the whole article (title included). Clip + min-width:0
+   keep the column at the viewport width. */
+html:has(body.article-page) {
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+.article-page {
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+  min-width: 0;
+}
+
 .article-page #blog,
 .article-shell {
+  width: 100%;
   max-width: 820px;
+  min-width: 0;
   margin: 0 auto;
   padding: 2.5rem var(--page-gutter) 5rem;
   text-align: left;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 40px);
   overflow-x: hidden;
+  overflow-x: clip;
+  box-sizing: border-box;
+  contain: inline-size;
 }
 
 .article-back {
@@ -29,7 +50,9 @@
 }
 
 .article {
+  width: 100%;
   max-width: 100%;
+  min-width: 0;
   margin: 0;
   padding: 0;
   text-align: left;
@@ -45,6 +68,12 @@
   margin-bottom: 0.85rem;
 }
 
+.article-header,
+.article-footer {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .article-title {
   font-family: var(--font-serif);
   font-size: clamp(2.15rem, 5.4vw, 3.35rem);
@@ -53,6 +82,9 @@
   line-height: 1.12;
   color: var(--color-ink);
   margin: 0 0 1.15rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
 }
 
 .article-meta {
@@ -62,6 +94,8 @@
   align-items: center;
   color: var(--color-ink-muted);
   font-size: 0.95rem;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .article-author {
@@ -89,6 +123,9 @@
 }
 
 .article-hero {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   margin: 0 0 2.5rem;
   overflow: hidden;
   border-radius: var(--radius-lg);
@@ -97,12 +134,14 @@
 }
 
 .article-hero img {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   max-height: 520px;
   height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  display: block;
 }
 
 .article-hero figcaption {
@@ -119,9 +158,17 @@
   font-size: 1.12rem;
   color: var(--color-ink-soft);
   max-width: 100%;
+  min-width: 0;
   overflow-x: hidden;
+  overflow-x: clip;
   overflow-wrap: anywhere;
   word-wrap: break-word;
+}
+
+.article-body > * {
+  max-width: 100% !important;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .article-body img,
@@ -133,10 +180,22 @@
   height: auto !important;
 }
 
+.article-body img[width],
+.article-body img[style] {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
 .article-body figure {
+  width: 100%;
   max-width: 100%;
+  min-width: 0;
   overflow: hidden;
   margin: 1.5rem 0;
+}
+
+.article-body [style*="width"] {
+  max-width: 100% !important;
 }
 
 .article-body table {

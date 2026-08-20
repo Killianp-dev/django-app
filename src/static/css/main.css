@@ -26,7 +26,7 @@
 @import url('./sections/_blog.css');
 
 /* 4. Pages - Styles spécifiques à certaines pages */
-@import url('./pages/_article.css');
+@import url('./pages/_article.css?v=20260820-article-overflow');
 @import url('./pages/_success.css');
 
 /* 5. Utilities - Animations, lumieres et responsive */
