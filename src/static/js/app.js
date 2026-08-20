@@ -172,10 +172,8 @@
 
     if (shouldOpen) {
       lastFocusedBeforeNav = document.activeElement;
-      if (!window.matchMedia('(pointer: coarse)').matches) {
-        const firstLink = getNavFocusable()[0];
-        window.requestAnimationFrame(() => firstLink?.focus());
-      }
+      const firstLink = getNavFocusable()[0];
+      window.requestAnimationFrame(() => firstLink?.focus());
     } else if (lastFocusedBeforeNav && typeof lastFocusedBeforeNav.focus === 'function') {
       lastFocusedBeforeNav.focus();
       lastFocusedBeforeNav = null;
