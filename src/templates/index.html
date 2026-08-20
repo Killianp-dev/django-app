@@ -9,28 +9,52 @@
 
 {% block nav %}
         <nav class="nav-menu" id="site-nav">
-            <ul class="nav-links">
-                <li>
-                    <a href="#hero">
-                        Accueil
-                    </a>
-                </li>
-                <li>
-                    <a href="#projets">
-                        Projets
-                    </a>
-                </li>
-                <li>
-                    <a href="#latest-posts">
-                        Blog
-                    </a>
-                </li>
-                <li>
-                    <a href="#form">
-                        Contact
-                    </a>
-                </li>
-            </ul>
+            <div class="nav-menu__atmosphere" aria-hidden="true"></div>
+            <div class="nav-menu__panel">
+                <p class="nav-menu__kicker" aria-hidden="true">
+                    <span class="nav-menu__kicker-mark" aria-hidden="true"></span>
+                    <span>Navigation</span>
+                    <span class="nav-menu__kicker-count">04</span>
+                </p>
+                <ul class="nav-links">
+                    <li>
+                        <a href="#hero">
+                            <span class="nav-link__index">01</span>
+                            <span class="nav-link__copy">
+                                <strong>Accueil</strong>
+                                <span>Vue d'ensemble</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#projets">
+                            <span class="nav-link__index">02</span>
+                            <span class="nav-link__copy">
+                                <strong>Projets</strong>
+                                <span>Une sélection</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#latest-posts">
+                            <span class="nav-link__index">03</span>
+                            <span class="nav-link__copy">
+                                <strong>Blog</strong>
+                                <span>Articles & notes</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#form">
+                            <span class="nav-link__index">04</span>
+                            <span class="nav-link__copy">
+                                <strong>Contact</strong>
+                                <span>Écrire</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </nav>
 {% endblock %}
 
@@ -41,22 +65,38 @@
     </div>
     <div class="hero__veil" aria-hidden="true"></div>
     <div class="hero__overlay">
-        <p class="hero__eyebrow">Sites vitrine · professions libérales</p>
-        <h1 class="hero__title">Killian P.</h1>
+        <p class="hero__eyebrow">Killian P. · sites vitrine</p>
+        <h1 class="hero__title">Un site qui vous ressemble</h1>
         <p class="hero__subtitle">
-            Une vitrine claire et un formulaire de contact, pour que vos clients vous trouvent et vous écrivent.
+            Des sites vitrines, du Python, du Django. Le code de cette page, quelques projets, des notes.
         </p>
-        <div class="hero__stack" aria-label="Services proposés">
-            <span>Site vitrine</span>
-            <span>Mobile</span>
-            <span>SEO local</span>
-            <span>Sur-mesure</span>
-            <span>Mise en ligne</span>
-        </div>
         <div class="hero__actions">
-            <a href="#projets" class="hero-btn">Voir les réalisations</a>
-            <a href="#form" class="hero-btn">Parler de votre projet</a>
+            <a href="#projets" class="hero-btn">Voir les projets</a>
+            <a href="#form" class="hero-btn">Contact</a>
         </div>
+        <nav class="hero__guide" aria-label="Parcourir le site">
+            <a class="hero__guide-item" href="#stack">
+                <span class="hero__guide-index">01</span>
+                <span class="hero__guide-copy">
+                    <strong>Stack</strong>
+                    <span>Le code de ce site</span>
+                </span>
+            </a>
+            <a class="hero__guide-item" href="#projets">
+                <span class="hero__guide-index">02</span>
+                <span class="hero__guide-copy">
+                    <strong>Projets</strong>
+                    <span>Une sélection</span>
+                </span>
+            </a>
+            <a class="hero__guide-item" href="#latest-posts">
+                <span class="hero__guide-index">03</span>
+                <span class="hero__guide-copy">
+                    <strong>Journal</strong>
+                    <span>Articles et notes</span>
+                </span>
+            </a>
+        </nav>
     </div>
     <a class="hero__scroll" href="#stack" aria-label="Découvrir la suite">
         <span class="hero__scroll-line" aria-hidden="true"></span>

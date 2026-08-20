@@ -66,28 +66,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     {% block nav %}
     <nav class="nav-menu" id="site-nav">
-        <ul class="nav-links">
-            <li>
-                <a href="{% url 'index' %}">
-                    Accueil
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'index' %}#projets">
-                    Projets
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'blog:home' %}">
-                    Blog
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'index' %}#form">
-                    Contact
-                </a>
-            </li>
-        </ul>
+        <div class="nav-menu__atmosphere" aria-hidden="true"></div>
+        <div class="nav-menu__panel">
+            <p class="nav-menu__kicker" aria-hidden="true">
+                <span class="nav-menu__kicker-mark" aria-hidden="true"></span>
+                <span>Navigation</span>
+                <span class="nav-menu__kicker-count">04</span>
+            </p>
+            <ul class="nav-links">
+                <li>
+                    <a href="{% url 'index' %}">
+                        <span class="nav-link__index">01</span>
+                        <span class="nav-link__copy">
+                            <strong>Accueil</strong>
+                            <span>Vue d'ensemble</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}#projets">
+                        <span class="nav-link__index">02</span>
+                        <span class="nav-link__copy">
+                            <strong>Projets</strong>
+                            <span>Une sélection</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'blog:home' %}">
+                        <span class="nav-link__index">03</span>
+                        <span class="nav-link__copy">
+                            <strong>Blog</strong>
+                            <span>Articles & notes</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'index' %}#form">
+                        <span class="nav-link__index">04</span>
+                        <span class="nav-link__copy">
+                            <strong>Contact</strong>
+                            <span>Écrire</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </nav>
     {% endblock %}
 
@@ -99,9 +123,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </svg>
         </button>
         <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+            <span class="hamburger__icon" aria-hidden="true">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </span>
         </button>
     </div>
 </header>

@@ -113,6 +113,10 @@ html[data-theme="dark"] .pointer-glow.is-active {
   box-shadow: 0 0 18px rgba(26, 168, 156, 0.28);
 }
 
+.hero__title::after {
+  box-shadow: 0 0 18px rgba(94, 234, 212, 0.55);
+}
+
 /* Navbar */
 .navbar::after {
   content: "";
@@ -126,15 +130,22 @@ html[data-theme="dark"] .pointer-glow.is-active {
   opacity: 0.55;
   pointer-events: none;
   z-index: 3;
+  transition: opacity 0.35s ease;
+}
+
+html.nav-open .navbar::after {
+  opacity: 0;
 }
 
 .logo-dot {
   text-shadow: 0 0 14px rgba(94, 234, 212, 0.55);
 }
 
-.nav-links a:hover::after,
-.nav-links a.active::after {
-  box-shadow: 0 0 12px var(--color-accent-bright);
+@media (min-width: 769px) {
+  .nav-links a:hover::after,
+  .nav-links a.active::after {
+    box-shadow: 0 0 12px var(--color-accent-bright);
+  }
 }
 
 .theme-toggle:hover {

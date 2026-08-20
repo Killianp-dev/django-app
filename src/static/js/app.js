@@ -150,10 +150,18 @@
     return navMenu ? Array.from(navMenu.querySelectorAll('.nav-links a')) : [];
   }
 
+  function syncNavOrigin() {
+    if (!hamburger || !navMenu) return;
+    const rect = hamburger.getBoundingClientRect();
+    navMenu.style.setProperty('--nav-origin-x', `${(rect.left + rect.width / 2).toFixed(1)}px`);
+    navMenu.style.setProperty('--nav-origin-y', `${(rect.top + rect.height / 2).toFixed(1)}px`);
+  }
+
   function setMobileMenuState(isOpen) {
     if (!hamburger || !navMenu) return;
 
     const shouldOpen = Boolean(isOpen) && isMobileNav();
+    syncNavOrigin();
 
     hamburger.classList.toggle('is-open', shouldOpen);
     navMenu.classList.toggle('is-open', shouldOpen);
@@ -194,7 +202,7 @@
     });
 
     navMenu.addEventListener('click', (event) => {
-      if (event.target === navMenu) closeMobileMenu();
+      if (!event.target.closest('.nav-menu__panel')) closeMobileMenu();
     });
 
     document.addEventListener('keydown', (event) => {
@@ -224,12 +232,16 @@
       }
     });
 
+    window.addEventListener('resize', utils.debounce(syncNavOrigin, 120));
+
     const onViewportChange = () => {
       if (!isMobileNav()) {
         setMobileMenuState(false);
         navMenu.setAttribute('aria-hidden', 'false');
       } else if (!isNavOpen()) {
         navMenu.setAttribute('aria-hidden', 'true');
+      } else {
+        syncNavOrigin();
       }
     };
 
@@ -300,6 +312,7 @@
     const heroSubtitle = hero.querySelector('.hero__subtitle');
     const heroStack = hero.querySelector('.hero__stack');
     const heroActions = hero.querySelector('.hero__actions');
+    const heroGuide = hero.querySelector('.hero__guide');
     const heroScroll = hero.querySelector('.hero__scroll');
 
     if (!heroTitle || !heroSubtitle || !heroActions) return;
@@ -346,6 +359,15 @@
       duration: 0.45
     }, "-=0.3");
 
+    if (heroGuide) {
+      heroTimeline.from(heroGuide.children, {
+        y: 16,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.45
+      }, "-=0.22");
+    }
+
     if (heroScroll) {
       heroTimeline.from(heroScroll, {
         opacity: 0,
@@ -357,6 +379,7 @@
     const animated = [heroTitle, heroSubtitle, ...heroActions.children];
     if (heroEyebrow) animated.push(heroEyebrow);
     if (heroStack) animated.push(heroStack);
+    if (heroGuide) animated.push(...heroGuide.children);
     if (heroScroll) animated.push(heroScroll);
 
     heroTimeline.set(animated, {
