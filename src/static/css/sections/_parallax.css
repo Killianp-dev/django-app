@@ -39,8 +39,8 @@
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(16, 20, 27, 0.46) 0%, rgba(15, 110, 102, 0.4) 52%, rgba(16, 20, 27, 0.78) 100%),
-    radial-gradient(ellipse at 50% 20%, rgba(94, 234, 212, 0.16), transparent 55%);
+    linear-gradient(180deg, rgba(16, 20, 27, 0.38) 0%, rgba(12, 16, 22, 0.42) 48%, rgba(16, 20, 27, 0.72) 100%),
+    radial-gradient(ellipse at 50% 18%, rgba(15, 110, 102, 0.18), transparent 55%);
 }
 
 .parallax__content {

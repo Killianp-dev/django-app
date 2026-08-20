@@ -3,7 +3,7 @@
 
 {% block title %}Killian P. — Développeur Backend & Python{% endblock %}
 {% block extra_head %}
-<link rel="preload" as="image" href="{% static 'ressources/1.jpg' %}" fetchpriority="high">
+<link rel="preload" as="image" href="{% static 'ressources/hero.jpg' %}" fetchpriority="high">
 {% endblock %}
 {% block body_class %}home-page{% endblock %}
 
@@ -36,24 +36,32 @@
 
 {% block content %}
 <section class="hero" id="hero">
+    <div class="hero__media" aria-hidden="true">
+        <img src="{% static 'ressources/hero.jpg' %}" alt="" width="2400" height="1600" fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero__veil" aria-hidden="true"></div>
     <div class="hero__overlay">
-        <p class="hero__eyebrow">Développeur backend · Python & Django</p>
+        <p class="hero__eyebrow">Sites vitrine · commerces & artisans</p>
         <h1 class="hero__title">Killian P.</h1>
         <p class="hero__subtitle">
-            Des backends solides, des applications Django claires, des automatisations qui tiennent en production.
+            Un site clair, à votre image, pour que vos clients vous trouvent et vous contactent.
         </p>
-        <div class="hero__stack" aria-label="Compétences principales">
-            <span>Python</span>
-            <span>Django</span>
-            <span>PostgreSQL</span>
-            <span>Linux</span>
-            <span>API REST</span>
+        <div class="hero__stack" aria-label="Services proposés">
+            <span>Site vitrine</span>
+            <span>Mobile</span>
+            <span>SEO local</span>
+            <span>Sur-mesure</span>
+            <span>Mise en ligne</span>
         </div>
         <div class="hero__actions">
-            <a href="#projets" class="hero-btn">Voir les projets</a>
-            <a href="#form" class="hero-btn">Me contacter</a>
+            <a href="#projets" class="hero-btn">Voir les réalisations</a>
+            <a href="#form" class="hero-btn">Parler de votre projet</a>
         </div>
     </div>
+    <a class="hero__scroll" href="#stack" aria-label="Découvrir la suite">
+        <span class="hero__scroll-line" aria-hidden="true"></span>
+        Explorer
+    </a>
 </section>
 
 <section class="stack" id="stack" aria-labelledby="stack-title">
@@ -229,7 +237,7 @@
 
         <article class="project">
             <div class="project__media">
-                <img src="{% static 'ressources/autosave.jpg' %}" alt="Infrastructure de sauvegarde automatique" width="1000" height="800" loading="lazy" decoding="async">
+                <img src="{% static 'ressources/autosave.jpg' %}" alt="Disque de sauvegarde et terminal de backup" width="1400" height="933" loading="lazy" decoding="async">
             </div>
             <div class="project__body">
                 <span class="project__index">03</span>

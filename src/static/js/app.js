@@ -295,9 +295,12 @@
   function initHeroAnimation() {
     if (!hero || !utils.hasGSAP()) return;
 
+    const heroEyebrow = hero.querySelector('.hero__eyebrow');
     const heroTitle = hero.querySelector('.hero__title');
     const heroSubtitle = hero.querySelector('.hero__subtitle');
+    const heroStack = hero.querySelector('.hero__stack');
     const heroActions = hero.querySelector('.hero__actions');
+    const heroScroll = hero.querySelector('.hero__scroll');
 
     if (!heroTitle || !heroSubtitle || !heroActions) return;
 
@@ -308,51 +311,116 @@
       }
     });
 
+    if (heroEyebrow) {
+      heroTimeline.from(heroEyebrow, {
+        y: 16,
+        opacity: 0,
+        duration: 0.5
+      });
+    }
+
     heroTimeline
       .from(heroTitle, {
-        y: -36,
+        y: 28,
         opacity: 0,
-        duration: 0.7
-      })
+        duration: 0.75
+      }, "-=0.25")
       .from(heroSubtitle, {
-        y: 24,
+        y: 20,
         opacity: 0,
-        duration: 0.7
-      }, "-=0.5")
-      .from(heroActions.children, {
+        duration: 0.65
+      }, "-=0.45");
+
+    if (heroStack) {
+      heroTimeline.from(heroStack, {
+        y: 14,
         opacity: 0,
-        y: 10,
-        stagger: 0.12,
-        duration: 0.45
-      }, "-=0.35")
-      .set([heroTitle, heroSubtitle, heroActions.children], {
-        opacity: 1,
-        clearProps: "all"
-      });
+        duration: 0.5
+      }, "-=0.4");
+    }
+
+    heroTimeline.from(heroActions.children, {
+      opacity: 0,
+      y: 10,
+      stagger: 0.12,
+      duration: 0.45
+    }, "-=0.3");
+
+    if (heroScroll) {
+      heroTimeline.from(heroScroll, {
+        opacity: 0,
+        y: 8,
+        duration: 0.4
+      }, "-=0.15");
+    }
+
+    const animated = [heroTitle, heroSubtitle, ...heroActions.children];
+    if (heroEyebrow) animated.push(heroEyebrow);
+    if (heroStack) animated.push(heroStack);
+    if (heroScroll) animated.push(heroScroll);
+
+    heroTimeline.set(animated, {
+      opacity: 1,
+      clearProps: "all"
+    });
   }
 
-  // ===== Parallax band =====
+  // ===== Parallax (hero + bande) =====
   function initParallax() {
-    const section = document.querySelector('.parallax');
-    const media = section?.querySelector('.parallax__media');
-    const content = section?.querySelector('.parallax__content');
-    if (!section || !media) return;
-
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const layers = [];
+
+    const heroMedia = hero?.querySelector('.hero__media');
+    if (hero && heroMedia) {
+      layers.push({
+        section: hero,
+        media: heroMedia,
+        content: null,
+        mode: 'drift'
+      });
+    }
+
+    const band = document.querySelector('.parallax');
+    const bandMedia = band?.querySelector('.parallax__media');
+    const bandContent = band?.querySelector('.parallax__content');
+    if (band && bandMedia) {
+      layers.push({
+        section: band,
+        media: bandMedia,
+        content: bandContent,
+        mode: 'pin'
+      });
+    }
+
+    if (!layers.length) return;
 
     let ticking = false;
 
     const updateParallax = () => {
-      const rect = section.getBoundingClientRect();
       const view = window.innerHeight || 1;
-      const visible = rect.bottom > 0 && rect.top < view;
 
-      if (visible) {
-        media.style.transform = `translate3d(0, ${-rect.top}px, 0)`;
-        if (content) {
-          content.style.transform = `translate3d(0, ${rect.top * 0.18}px, 0)`;
+      layers.forEach(({ section, media, content, mode }) => {
+        const rect = section.getBoundingClientRect();
+        const visible = rect.bottom > 0 && rect.top < view;
+        if (!visible) return;
+
+        if (mode === 'pin') {
+          media.style.transform = `translate3d(0, ${-rect.top}px, 0)`;
+          if (content) {
+            content.style.transform = `translate3d(0, ${rect.top * 0.18}px, 0)`;
+          }
+          return;
         }
-      }
+
+        if (window.innerWidth <= MOBILE_BREAKPOINT) {
+          media.style.transform = '';
+          return;
+        }
+
+        const shift = Math.max(-rect.height * 0.28, Math.min(rect.height * 0.12, -rect.top * 0.22));
+        media.style.transform = `translate3d(0, ${shift}px, 0)`;
+      });
 
       ticking = false;
     };
