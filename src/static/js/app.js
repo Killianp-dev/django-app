@@ -762,6 +762,61 @@
     });
   }
 
+  // ===== Widgets "Copier" collés dans le HTML des articles =====
+  function initArticleCopyBlocks() {
+    const buttons = document.querySelectorAll('.article-body button[onclick*="clipboard"]');
+    if (!buttons.length) return;
+
+    buttons.forEach((button) => {
+      const wrap = button.parentElement;
+      const source = wrap && wrap.querySelector('pre, code');
+      if (wrap) {
+        wrap.classList.add('article-copy-block');
+        wrap.style.removeProperty('all');
+        wrap.style.removeProperty('background-color');
+        wrap.style.removeProperty('color');
+        wrap.style.removeProperty('border');
+        wrap.style.removeProperty('width');
+        wrap.style.removeProperty('box-shadow');
+        wrap.style.removeProperty('font-family');
+      }
+      button.classList.add('article-copy-block__btn');
+      button.type = 'button';
+      button.removeAttribute('onclick');
+      button.style.removeProperty('all');
+      button.style.removeProperty('background-color');
+      button.style.removeProperty('font-family');
+      button.style.removeProperty('border-radius');
+
+      const original = (button.textContent || 'Copier').trim();
+
+      button.addEventListener('click', async () => {
+        const text = source ? source.innerText : '';
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const input = document.createElement('textarea');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            input.remove();
+          }
+          button.classList.add('is-copied');
+          button.textContent = 'Copié !';
+          window.setTimeout(() => {
+            button.classList.remove('is-copied');
+            button.textContent = original;
+          }, 2000);
+        } catch (error) {
+          button.classList.remove('is-copied');
+          button.textContent = original;
+        }
+      });
+    });
+  }
+
   // ===== Copier le lien d'un article =====
   function initCopyLink() {
     const buttons = document.querySelectorAll('[data-copy-link]');
@@ -1113,6 +1168,7 @@
     initActiveNavigation();
     initClickableCards();
     initCopyLink();
+    initArticleCopyBlocks();
     initPointerGlow();
     initSurfaceGlow();
     handleAnchorScroll();
