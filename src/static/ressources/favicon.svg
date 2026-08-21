@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="killianp.dev">
+  <defs>
+    <linearGradient id="arm" x1="12" y1="16" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7ff0dd"/>
+      <stop offset="100%" stop-color="#14998d"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#14181f"/>
+  <rect x="0.55" y="0.55" width="30.9" height="30.9" rx="7.45" fill="none" stroke="rgba(94,234,212,0.2)" stroke-width="0.7"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11.6 8.6v14.8" stroke="#f7f4ee" stroke-width="3.35"/>
+    <path d="M11.6 16.1 22.6 8.8" stroke="#f7f4ee" stroke-width="3.35"/>
+    <path d="M11.6 16.1 22.6 23.4" stroke="url(#arm)" stroke-width="3.35"/>
+  </g>
+</svg>
