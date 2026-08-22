@@ -501,7 +501,7 @@ html:has(body.article-page) {
 
 .article-body pre,
 .article-body code {
-  font-family: "Consolas", "Monaco", "Courier New", ui-monospace, monospace;
+  font-family: ui-monospace, "SF Mono", "Consolas", "Monaco", "Courier New", monospace;
   font-size: 0.9rem;
 }
 
@@ -515,18 +515,34 @@ html:has(body.article-page) {
 }
 
 .article-body pre {
-  padding: 1.15rem 1.25rem;
-  margin: 1.5rem 0 2rem;
+  position: relative;
+  padding: 2.85rem 1.3rem 1.25rem;
+  margin: 1.75rem 0 2.15rem;
   overflow-x: auto;
   background-color: var(--color-code-bg) !important;
   color: var(--color-code-text) !important;
-  border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-accent) !important;
-  border-radius: var(--radius-md);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 0 24px var(--glow-accent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 22%, var(--color-border));
+  border-radius: var(--radius-lg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    var(--shadow-md);
   white-space: pre-wrap;
   word-wrap: break-word;
-  line-height: 1.65;
+  line-height: 1.7;
+}
+
+.article-body pre::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2.4rem;
+  pointer-events: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+  background-color: color-mix(in srgb, var(--color-code-bg) 82%, var(--color-ink) 18%);
+  background-image:
+    radial-gradient(circle at 1.15rem 1.2rem, #ff5f57 4.5px, transparent 5px),
+    radial-gradient(circle at 1.95rem 1.2rem, #febc2e 4.5px, transparent 5px),
+    radial-gradient(circle at 2.75rem 1.2rem, #28c840 4.5px, transparent 5px);
 }
 
 .article-body pre code {
@@ -539,24 +555,68 @@ html:has(body.article-page) {
 }
 
 html[data-theme="dark"] .article-body pre {
+  border-color: color-mix(in srgb, var(--color-accent-bright) 18%, var(--color-border));
   box-shadow:
-    inset 0 1px 0 rgba(94, 234, 212, 0.08),
-    0 0 28px rgba(45, 212, 191, 0.1);
+    inset 0 1px 0 rgba(94, 234, 212, 0.07),
+    var(--shadow-md),
+    0 0 36px rgba(45, 212, 191, 0.08);
 }
 
-/* Widgets "Copier" collés dans le HTML (couleurs light-mode en dur) */
+html[data-theme="dark"] .article-body pre::before {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Widgets "Copier" collés dans le HTML des articles */
 .article-body .article-copy-block,
 .article-body div[style*="all: initial"] {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  margin: 1.75rem 0 2.15rem !important;
+  padding: 0 !important;
   background-color: var(--color-code-bg) !important;
-  border: 1px solid var(--color-border) !important;
-  border-left: 3px solid var(--color-accent) !important;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 22%, var(--color-border)) !important;
   color: var(--color-code-text) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 0 24px var(--glow-accent) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    var(--shadow-md) !important;
   width: 100% !important;
   max-width: 100% !important;
   font-family: inherit !important;
-  border-radius: var(--radius-md) !important;
+  border-radius: var(--radius-lg) !important;
 }
+
+.article-copy-block__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+  min-height: 2.55rem;
+  padding: 0.4rem 0.55rem 0.4rem 1rem;
+  background: color-mix(in srgb, var(--color-code-bg) 82%, var(--color-ink) 18%);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 8%, transparent);
+  user-select: none;
+}
+
+.article-copy-block__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  flex-shrink: 0;
+}
+
+.article-copy-block__dots span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #3d4450;
+}
+
+.article-copy-block__dots span:nth-child(1) { background: #ff5f57; }
+.article-copy-block__dots span:nth-child(2) { background: #febc2e; }
+.article-copy-block__dots span:nth-child(3) { background: #28c840; }
 
 .article-body .article-copy-block pre,
 .article-body div[style*="all: initial"] pre {
@@ -564,35 +624,107 @@ html[data-theme="dark"] .article-body pre {
   color: var(--color-code-text) !important;
   border: 0 !important;
   box-shadow: none !important;
-  padding: 0 !important;
+  border-radius: 0 !important;
+  padding: 1.15rem 1.3rem 1.3rem !important;
   margin: 0 !important;
+}
+
+.article-body .article-copy-block pre::before,
+.article-body div[style*="all: initial"] pre::before {
+  content: none;
 }
 
 .article-body .article-copy-block__btn,
 .article-body button[onclick*="clipboard"],
 .article-body button[style*="#0056b3"] {
-  background-color: var(--color-accent) !important;
-  color: #fff !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  padding: 0.32rem 0.72rem !important;
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent) !important;
+  color: var(--color-ink-soft) !important;
   font-family: var(--font-sans) !important;
-  border-radius: var(--radius-full) !important;
+  font-size: 0.72rem !important;
   font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent) !important;
+  border-radius: var(--radius-full) !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s var(--ease-out);
+}
+
+.article-body .article-copy-block__btn svg,
+.article-body button[onclick*="clipboard"] svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 .article-body .article-copy-block__btn:hover,
 .article-body button[onclick*="clipboard"]:hover,
 .article-body button[style*="#0056b3"]:hover {
-  background-color: var(--color-accent-hover) !important;
+  background: var(--color-accent-soft) !important;
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent) !important;
+  color: var(--color-accent) !important;
+}
+
+.article-body .article-copy-block__btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .article-body .article-copy-block__btn.is-copied {
-  background-color: var(--color-success) !important;
+  background: color-mix(in srgb, var(--color-success) 16%, transparent) !important;
+  border-color: color-mix(in srgb, var(--color-success) 42%, transparent) !important;
+  color: var(--color-success) !important;
 }
 
 html[data-theme="dark"] .article-body .article-copy-block,
 html[data-theme="dark"] .article-body div[style*="all: initial"] {
+  border-color: color-mix(in srgb, var(--color-accent-bright) 18%, var(--color-border)) !important;
   box-shadow:
-    inset 0 1px 0 rgba(94, 234, 212, 0.08),
-    0 0 28px rgba(45, 212, 191, 0.1) !important;
+    inset 0 1px 0 rgba(94, 234, 212, 0.07),
+    var(--shadow-md),
+    0 0 36px rgba(45, 212, 191, 0.08) !important;
+}
+
+html[data-theme="dark"] .article-copy-block__bar {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .article-body .article-copy-block__btn,
+html[data-theme="dark"] .article-body button[onclick*="clipboard"],
+html[data-theme="dark"] .article-body button[style*="#0056b3"] {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: var(--color-ink-muted) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html[data-theme="dark"] .article-body .article-copy-block__btn:hover,
+html[data-theme="dark"] .article-body button[onclick*="clipboard"]:hover,
+html[data-theme="dark"] .article-body button[style*="#0056b3"]:hover {
+  background: rgba(45, 212, 191, 0.12) !important;
+  border-color: rgba(94, 234, 212, 0.32) !important;
+  color: var(--color-accent-bright) !important;
+}
+
+html[data-theme="dark"] .article-body .article-copy-block__btn.is-copied {
+  background: rgba(47, 125, 87, 0.22) !important;
+  border-color: rgba(94, 234, 212, 0.28) !important;
+  color: #7dd3c7 !important;
 }
 
 @media (max-width: 768px) {
@@ -623,12 +755,21 @@ html[data-theme="dark"] .article-body div[style*="all: initial"] {
   }
 
   .article-body pre {
-    padding: 1rem 0.95rem;
+    padding: 2.55rem 0.95rem 1rem;
     font-size: 0.82rem;
   }
 
   .article-body pre code {
     font-size: 0.82rem !important;
+  }
+
+  .article-copy-block__bar {
+    padding-left: 0.85rem;
+  }
+
+  .article-body .article-copy-block pre,
+  .article-body div[style*="all: initial"] pre {
+    padding: 1rem 0.95rem 1.1rem !important;
   }
 
   .post-nav {
@@ -677,5 +818,11 @@ html[data-theme="dark"] .article-body div[style*="all: initial"] {
 @media (prefers-reduced-motion: reduce) {
   .post-nav-item:hover {
     transform: none;
+  }
+
+  .article-body .article-copy-block__btn,
+  .article-body button[onclick*="clipboard"],
+  .article-body button[style*="#0056b3"] {
+    transition: none;
   }
 }
