@@ -82,18 +82,18 @@
                     <span>Le code de ce site</span>
                 </span>
             </a>
-            <a class="hero__guide-item" href="#projets">
-                <span class="hero__guide-index">02</span>
-                <span class="hero__guide-copy">
-                    <strong>Projets</strong>
-                    <span>Une sélection</span>
-                </span>
-            </a>
             <a class="hero__guide-item" href="#latest-posts">
-                <span class="hero__guide-index">03</span>
+                <span class="hero__guide-index">02</span>
                 <span class="hero__guide-copy">
                     <strong>Journal</strong>
                     <span>Articles et notes</span>
+                </span>
+            </a>
+            <a class="hero__guide-item" href="#projets">
+                <span class="hero__guide-index">03</span>
+                <span class="hero__guide-copy">
+                    <strong>Projets</strong>
+                    <span>Une sélection</span>
                 </span>
             </a>
         </nav>
@@ -203,6 +203,125 @@
                 </li>
             </ul>
         </div>
+    </div>
+</section>
+
+<!-- Séparateur horizontal avec une icône différente -->
+<div class="section-divider" id="latest-posts">
+    <div class="divider-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+            <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path>
+        </svg>
+    </div>
+</div>
+
+<!-- Section des derniers articles — à la une -->
+<section class="latest-posts">
+  <div class="container">
+    <div class="news__header">
+      <p class="section-eyebrow">Journal</p>
+      <h2 class="news__title">Articles & notes</h2>
+      <p class="news__subtitle">Réflexions sur le développement web, Python et les architectures modernes.</p>
+    </div>
+
+    {% if latest_posts %}
+    {% with featured_posts=latest_posts|slice:":3" %}
+    <div
+      class="featured-rotator"
+      data-hold="6500"
+      aria-roledescription="carousel"
+      aria-label="Articles à la une"
+    >
+      <div class="featured-rotator__stage">
+        {% for post in featured_posts %}
+        <article
+          class="featured-rotator__slide{% if forloop.first %} is-active{% endif %}"
+          data-index="{{ forloop.counter0 }}"
+          aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+          aria-label="Article {{ forloop.counter }} sur {{ featured_posts|length }}"
+        >
+          <a class="featured-rotator__link" href="{% url 'blog:detail' post.slug %}">
+            <div class="featured-rotator__media">
+              {% if post.thumbnail %}
+                <img
+                  src="{{ post.thumbnail.url }}"
+                  alt=""
+                  width="1200"
+                  height="675"
+                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                >
+              {% else %}
+                <img
+                  src="{% static 'ressources/' %}{{ forloop.counter }}.jpg"
+                  alt=""
+                  width="1200"
+                  height="675"
+                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                >
+              {% endif %}
+            </div>
+            <div class="featured-rotator__content">
+              <span class="featured-rotator__badge">À la une</span>
+              <h3 class="featured-rotator__title">{{ post.title }}</h3>
+              <p class="featured-rotator__excerpt">{{ post.content|striptags|truncatewords:22 }}</p>
+              <div class="featured-rotator__meta">
+                <span>Par {{ post.author_or_default }}</span>
+                <span>{{ post.created_on|date:"d F Y" }}</span>
+                <span class="featured-rotator__cta">Lire l'article</span>
+              </div>
+            </div>
+          </a>
+        </article>
+        {% endfor %}
+      </div>
+
+      {% if featured_posts|length > 1 %}
+      <div class="featured-rotator__progress" role="tablist" aria-label="Choisir un article à la une">
+        {% for post in featured_posts %}
+        <button
+          type="button"
+          class="featured-rotator__bar{% if forloop.first %} is-active{% endif %}"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          aria-label="Afficher : {{ post.title }}"
+          data-index="{{ forloop.counter0 }}"
+        >
+          <span class="featured-rotator__bar-fill"></span>
+        </button>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endwith %}
+    {% else %}
+      <p class="news__empty">Les articles arrivent bientôt. Restez dans les parages.</p>
+    {% endif %}
+
+    <div class="news__more">
+      <a href="{% url 'blog:home' %}" class="btn btn--outline">Tous les articles</a>
+    </div>
+  </div>
+</section>
+
+<!-- Séparateur horizontal avec une icône différente -->
+<div class="section-divider">
+    <div class="divider-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
+        </svg>
+    </div>
+</div>
+
+<!-- Section parallax -->
+<section class="parallax" id="contact">
+    <div class="parallax__media" aria-hidden="true">
+        <img src="{% static 'ressources/parallax.jpg' %}" alt="" width="1920" height="1280" loading="lazy" decoding="async">
+    </div>
+    <div class="parallax__veil" aria-hidden="true"></div>
+    <div class="parallax__content">
+        <p class="parallax__title">Code. Create. Collaborate.</p>
+        <span class="parallax__lead">Transformons vos idées en solutions numériques fiables.</span>
     </div>
 </section>
 
@@ -327,125 +446,6 @@
             </div>
         </article>
     </div>
-</section>
-
-<!-- Séparateur horizontal avec une icône différente -->
-<div class="section-divider">
-    <div class="divider-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-        </svg>
-    </div>
-</div>
-
-<!-- Section parallax -->
-<section class="parallax" id="contact">
-    <div class="parallax__media" aria-hidden="true">
-        <img src="{% static 'ressources/parallax.jpg' %}" alt="" width="1920" height="1280" loading="lazy" decoding="async">
-    </div>
-    <div class="parallax__veil" aria-hidden="true"></div>
-    <div class="parallax__content">
-        <p class="parallax__title">Code. Create. Collaborate.</p>
-        <span class="parallax__lead">Transformons vos idées en solutions numériques fiables.</span>
-    </div>
-</section>
-
-<!-- Séparateur horizontal avec une icône différente -->
-<div class="section-divider" id="latest-posts">
-    <div class="divider-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-            <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path>
-        </svg>
-    </div>
-</div>
-
-<!-- Section des derniers articles — à la une -->
-<section class="latest-posts">
-  <div class="container">
-    <div class="news__header">
-      <p class="section-eyebrow">Journal</p>
-      <h2 class="news__title">Articles & notes</h2>
-      <p class="news__subtitle">Réflexions sur le développement web, Python et les architectures modernes.</p>
-    </div>
-
-    {% if latest_posts %}
-    {% with featured_posts=latest_posts|slice:":3" %}
-    <div
-      class="featured-rotator"
-      data-hold="6500"
-      aria-roledescription="carousel"
-      aria-label="Articles à la une"
-    >
-      <div class="featured-rotator__stage">
-        {% for post in featured_posts %}
-        <article
-          class="featured-rotator__slide{% if forloop.first %} is-active{% endif %}"
-          data-index="{{ forloop.counter0 }}"
-          aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
-          aria-label="Article {{ forloop.counter }} sur {{ featured_posts|length }}"
-        >
-          <a class="featured-rotator__link" href="{% url 'blog:detail' post.slug %}">
-            <div class="featured-rotator__media">
-              {% if post.thumbnail %}
-                <img
-                  src="{{ post.thumbnail.url }}"
-                  alt=""
-                  width="1200"
-                  height="675"
-                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
-                >
-              {% else %}
-                <img
-                  src="{% static 'ressources/' %}{{ forloop.counter }}.jpg"
-                  alt=""
-                  width="1200"
-                  height="675"
-                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
-                >
-              {% endif %}
-            </div>
-            <div class="featured-rotator__content">
-              <span class="featured-rotator__badge">À la une</span>
-              <h3 class="featured-rotator__title">{{ post.title }}</h3>
-              <p class="featured-rotator__excerpt">{{ post.content|striptags|truncatewords:22 }}</p>
-              <div class="featured-rotator__meta">
-                <span>Par {{ post.author_or_default }}</span>
-                <span>{{ post.created_on|date:"d F Y" }}</span>
-                <span class="featured-rotator__cta">Lire l'article</span>
-              </div>
-            </div>
-          </a>
-        </article>
-        {% endfor %}
-      </div>
-
-      {% if featured_posts|length > 1 %}
-      <div class="featured-rotator__progress" role="tablist" aria-label="Choisir un article à la une">
-        {% for post in featured_posts %}
-        <button
-          type="button"
-          class="featured-rotator__bar{% if forloop.first %} is-active{% endif %}"
-          role="tab"
-          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-          aria-label="Afficher : {{ post.title }}"
-          data-index="{{ forloop.counter0 }}"
-        >
-          <span class="featured-rotator__bar-fill"></span>
-        </button>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-    {% endwith %}
-    {% else %}
-      <p class="news__empty">Les articles arrivent bientôt. Restez dans les parages.</p>
-    {% endif %}
-
-    <div class="news__more">
-      <a href="{% url 'blog:home' %}" class="btn btn--outline">Tous les articles</a>
-    </div>
-  </div>
 </section>
 
 <!-- Séparateur horizontal avec une icône différente -->
