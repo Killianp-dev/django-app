@@ -286,12 +286,24 @@
     min-height: 100svh;
     height: auto;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: stretch;
   }
 
+  .hero__media {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    height: auto;
+    margin-top: var(--navbar-height);
+  }
+
   .hero__media img {
-    object-position: 62% 40%;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center top;
   }
 
   .hero__overlay {
@@ -299,6 +311,7 @@
     max-width: none;
     margin-left: var(--page-gutter);
     margin-right: var(--page-gutter);
+    margin-top: -1.5rem;
     padding: 0 0 4.25rem;
   }
 
@@ -367,8 +380,8 @@
 
   .hero__veil {
     background:
-      linear-gradient(180deg, rgba(10, 13, 18, 0.58) 0%, rgba(12, 16, 22, 0.72) 42%, rgba(16, 20, 27, 0.86) 100%),
-      radial-gradient(ellipse at 70% 40%, rgba(15, 110, 102, 0.18), transparent 52%);
+      linear-gradient(180deg, rgba(10, 13, 18, 0.2) 0%, rgba(12, 16, 22, 0.08) 32%, rgba(16, 20, 27, 0.72) 58%, rgba(16, 20, 27, 0.96) 78%, #10141b 100%),
+      radial-gradient(ellipse at 70% 40%, rgba(15, 110, 102, 0.16), transparent 52%);
   }
 
   .hero__scroll {
@@ -467,9 +480,14 @@
   }
 
   .hero__media {
-    top: 0;
-    height: 100%;
     transform: none !important;
     will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 769px) {
+  .hero__media {
+    top: 0;
+    height: 100%;
   }
 }
