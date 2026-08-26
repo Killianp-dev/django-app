@@ -19,7 +19,7 @@
 
 /* 3. Sections - Sections spécifiques de la page */
 @import url('./sections/_hero.css');
-@import url('./sections/_skills.css');
+@import url('./sections/_skills.css?v=20260826-stack-sign');
 @import url('./sections/_asymetric.css');
 @import url('./sections/_parallax.css');
 @import url('./sections/_carousel.css');
@@ -31,5 +31,11 @@
 
 /* 5. Utilities - Animations, lumieres et responsive */
 @import url('./utilities/_animations.css');
-@import url('./utilities/_lights.css');
+@import url('./utilities/_lights.css?v=20260826-snippet-glow');
 @import url('./utilities/_responsive.css');
+
+@property --stack-spin {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}

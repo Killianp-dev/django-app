@@ -2,8 +2,6 @@
 
 Site personnel [killianp-dev.fr](https://killianp-dev.fr) : vitrine, blog Django 5.2 et formulaire de contact. PostgreSQL, images d’articles, sitemap et mentions légales.
 
-Le dépôt GitHub s’appelle `django-app` ; le dossier local peut s’appeler `my-blog`.
-
 ## Fonctionnalités
 
 - Page d’accueil (portfolio) avec derniers articles et formulaire de contact
@@ -72,12 +70,16 @@ Les fichiers uploadés (miniatures) vont dans `src/mediafiles/`. Les statiques c
 
 ## Tests
 
+À lancer depuis `src/` (là où se trouve `manage.py`) :
+
 ```bash
 cd src
 python manage.py test
 ```
 
-Les tests du blog sont encore des stubs Django ; le contact a une ébauche dans `contact_form/tests.py`.
+Les tests utilisent SQLite en mémoire : PostgreSQL n’est pas requis. Les e-mails sont capturés (`mail.outbox`), rien n’est envoyé.
+
+Couverture actuelle : modèle et vues du blog (slug, temps de lecture, brouillons, accès staff), formulaire de contact (validation, enregistrement, e-mail), pages d’accueil, mentions légales, `robots.txt` et sitemap.
 
 ## Structure
 

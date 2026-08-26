@@ -459,68 +459,246 @@
     window.addEventListener('resize', utils.debounce(updateParallax, 120));
   }
 
-  // ===== Stack gauges =====
-  function initStackGauges() {
-    const gauges = document.querySelectorAll('.gauge');
-    if (!gauges.length) return;
+  // ===== Stack graph =====
+  function initStackGraph() {
+    const graph = document.querySelector('.stack-graph');
+    if (!graph) return;
 
-    const duration = 1150;
+    const nodes = [...graph.querySelectorAll('.stack-graph__node')];
+    const pills = [...graph.querySelectorAll('.stack-graph__pill')];
+    const links = [...graph.querySelectorAll('.stack-graph__link')];
+    const edges = [...graph.querySelectorAll('.stack-graph__edge, .stack-graph__edge-glow')];
+    const caption = graph.querySelector('.stack-graph__role');
+    const halo = graph.querySelector('.stack-graph__halo');
+    const defaultCaption = graph.dataset.default || (caption ? caption.textContent.trim() : '');
+    let pinned = null;
 
-    function countTo(el, target, delay) {
-      const start = performance.now() + delay;
-      const tick = (now) => {
-        if (now < start) {
-          requestAnimationFrame(tick);
-          return;
-        }
-        const t = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - t, 3);
-        el.textContent = `${Math.round(target * eased)}%`;
-        if (t < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    }
+    const neighbors = {};
+    nodes.forEach((node) => {
+      neighbors[node.dataset.node] = new Set();
+    });
+    edges.forEach((edge) => {
+      const from = edge.dataset.from;
+      const to = edge.dataset.to;
+      if (neighbors[from] && neighbors[to]) {
+        neighbors[from].add(to);
+        neighbors[to].add(from);
+      }
+    });
 
-    function activate(gauge) {
-      if (gauge.classList.contains('is-inview')) return;
-      gauge.classList.add('is-inview');
-
-      const level = Number(gauge.dataset.level || 0);
-      const value = gauge.querySelector('.gauge__value');
-      const track = gauge.querySelector('.gauge__track');
-      const delayMs = parseFloat(getComputedStyle(gauge).getPropertyValue('--delay')) * 1000 || 0;
-
-      if (track) track.setAttribute('aria-valuenow', String(level));
-      if (value) countTo(value, level, delayMs);
-    }
-
-    if (prefersReducedMotion()) {
-      gauges.forEach((gauge) => {
-        const level = Number(gauge.dataset.level || 0);
-        const value = gauge.querySelector('.gauge__value');
-        const track = gauge.querySelector('.gauge__track');
-        gauge.classList.add('is-inview');
-        if (value) value.textContent = `${level}%`;
-        if (track) track.setAttribute('aria-valuenow', String(level));
+    function setActive(id) {
+      graph.classList.toggle('is-focused', Boolean(id));
+      if (halo) halo.classList.toggle('is-off', Boolean(id));
+      nodes.forEach((node) => {
+        const nid = node.dataset.node;
+        const lit = !id || nid === id || neighbors[id]?.has(nid);
+        node.classList.toggle('is-active', nid === id);
+        node.classList.toggle('is-lit', lit);
       });
-      return;
+      links.forEach((link) => {
+        const lit = Boolean(id) && (
+          (link.dataset.from === id && neighbors[id].has(link.dataset.to)) ||
+          (link.dataset.to === id && neighbors[id].has(link.dataset.from))
+        );
+        link.classList.toggle('is-lit', lit);
+      });
+      if (caption) {
+        const node = nodes.find((item) => item.dataset.node === id);
+        const pill = node ? node.querySelector('.stack-graph__pill') : null;
+        caption.textContent = (pill && pill.dataset.role) || defaultCaption;
+      }
     }
 
-    if (!('IntersectionObserver' in window)) {
-      gauges.forEach(activate);
+    function svgPoint(svg, x, y) {
+      const point = svg.createSVGPoint();
+      point.x = x;
+      point.y = y;
+      return point.matrixTransform(svg.getScreenCTM().inverse());
+    }
+
+    function nodeEllipse(node, svg) {
+      const pill = node.querySelector('.stack-graph__pill');
+      const rect = pill.getBoundingClientRect();
+      const pad = 10;
+      const start = svgPoint(svg, rect.left - pad, rect.top - pad);
+      const end = svgPoint(svg, rect.right + pad, rect.bottom + pad);
+      return {
+        cx: (start.x + end.x) / 2,
+        cy: (start.y + end.y) / 2,
+        rx: Math.max(14, Math.abs(end.x - start.x) / 2),
+        ry: Math.max(10, Math.abs(end.y - start.y) / 2),
+      };
+    }
+
+    function ellipseExit(ellipse, towardX, towardY) {
+      const dx = towardX - ellipse.cx;
+      const dy = towardY - ellipse.cy;
+      const scale = Math.hypot(dx / ellipse.rx, dy / ellipse.ry) || 1;
+      return {
+        x: ellipse.cx + dx / scale,
+        y: ellipse.cy + dy / scale,
+      };
+    }
+
+    function layoutEdges() {
+      try {
+        const svg = graph.querySelector('.stack-graph__svg');
+        const ctm = svg && svg.getScreenCTM && svg.getScreenCTM();
+        if (!svg || !ctm) return;
+        const byId = Object.fromEntries(nodes.map((node) => [node.dataset.node, node]));
+        links.forEach((line) => {
+          const fromNode = byId[line.dataset.from];
+          const toNode = byId[line.dataset.to];
+          if (!fromNode || !toNode) return;
+          const from = nodeEllipse(fromNode, svg);
+          const to = nodeEllipse(toNode, svg);
+          const start = ellipseExit(from, to.cx, to.cy);
+          const end = ellipseExit(to, from.cx, from.cy);
+          line.setAttribute('x1', start.x.toFixed(2));
+          line.setAttribute('y1', start.y.toFixed(2));
+          line.setAttribute('x2', end.x.toFixed(2));
+          line.setAttribute('y2', end.y.toFixed(2));
+        });
+      } catch (error) {
+        return;
+      }
+    }
+
+    function playIntro() {
+      if (graph.classList.contains('is-inview')) return;
+
+      graph.classList.remove('is-pending');
+      graph.classList.add('is-inview');
+
+      if (prefersReducedMotion() || !utils.hasGSAP()) {
+        requestAnimationFrame(layoutEdges);
+        window.setTimeout(layoutEdges, 650);
+        return;
+      }
+
+      try {
+        graph.classList.add('is-gsap');
+        const corePill = graph.querySelector('.is-core .stack-graph__pill');
+        const orbitPills = pills.filter((pill) => pill !== corePill);
+        const orbit = graph.querySelectorAll('.stack-graph__orbit');
+        const tl = gsap.timeline();
+
+        gsap.set(orbit, { opacity: 0 });
+        gsap.set(corePill, { scale: 0.72 });
+        gsap.set(orbitPills, { scale: 0.84 });
+
+        tl.to(orbit, {
+          opacity: 1,
+          duration: 0.7,
+          stagger: 0.03,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          clearProps: 'opacity',
+        }, 0);
+        tl.fromTo(edges, { strokeDashoffset: 1 }, {
+          strokeDashoffset: 0,
+          duration: 1.05,
+          stagger: 0.05,
+          ease: 'power2.out',
+        }, 0.08);
+        tl.to(corePill, {
+          scale: 1,
+          duration: 0.55,
+          ease: 'back.out(1.8)',
+          clearProps: 'transform',
+        }, 0.18);
+        tl.to(orbitPills, {
+          scale: 1,
+          duration: 0.48,
+          stagger: 0.05,
+          ease: 'back.out(1.5)',
+          clearProps: 'transform',
+        }, 0.32);
+        tl.call(layoutEdges);
+      } catch (error) {
+        graph.classList.remove('is-gsap');
+        layoutEdges();
+      }
+      window.setTimeout(layoutEdges, 1200);
+    }
+
+    nodes.forEach((node) => {
+      const id = node.dataset.node;
+      const pill = node.querySelector('.stack-graph__pill');
+      if (!pill) return;
+
+      node.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'touch' || pinned) return;
+        setActive(id);
+      });
+
+      node.addEventListener('pointerleave', (event) => {
+        if (event.pointerType === 'touch' || pinned) return;
+        setActive(null);
+      });
+
+      pill.addEventListener('focus', () => {
+        if (!pinned) setActive(id);
+      });
+
+      pill.addEventListener('pointerdown', (event) => {
+        pill._pointerType = event.pointerType;
+      });
+
+      pill.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (pill._pointerType !== 'touch') return;
+        if (pinned === id) return;
+        event.preventDefault();
+        pinned = id;
+        setActive(id);
+      });
+    });
+
+    graph.addEventListener('focusout', (event) => {
+      if (graph.contains(event.relatedTarget)) return;
+      if (!pinned) setActive(null);
+    });
+
+    graph.addEventListener('click', () => {
+      if (!pinned) return;
+      pinned = null;
+      setActive(null);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape' || !pinned) return;
+      pinned = null;
+      setActive(null);
+    });
+
+    window.addEventListener('resize', utils.debounce(layoutEdges, 120));
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(utils.debounce(layoutEdges, 80)).observe(graph);
+    }
+
+    graph.classList.add('is-pending');
+
+    const inViewport = () => {
+      const rect = graph.getBoundingClientRect();
+      return rect.bottom > 80 && rect.top < window.innerHeight * 0.9;
+    };
+
+    if (prefersReducedMotion() || !('IntersectionObserver' in window) || inViewport()) {
+      playIntro();
       return;
     }
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          activate(entry.target);
-          observer.unobserve(entry.target);
+          playIntro();
+          observer.disconnect();
         }
       });
-    }, { threshold: 0.45 });
+    }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
 
-    gauges.forEach((gauge) => observer.observe(gauge));
+    observer.observe(graph);
   }
 
   // ===== Navbar Animations =====
@@ -910,7 +1088,7 @@
     if (prefersReducedMotion() || !hasFinePointer()) return;
 
     const surfaces = document.querySelectorAll(
-      '.card, .post-card, .featured-post, .blog-card, .blog-featured, .featured-rotator, #contact-form, .form-article, .mentions-legales, .stack__code, .stack__gauges'
+      '.card, .post-card, .featured-post, .blog-card, .blog-featured, .featured-rotator, #contact-form, .form-article, .mentions-legales, .stack__code, .stack-graph'
     );
 
     surfaces.forEach((surface) => {
@@ -1167,7 +1345,7 @@
     initScrollAnimations();
     initHeroAnimation();
     initParallax();
-    initStackGauges();
+    initStackGraph();
     initNavbarAnimations();
     initSectionTitleAnimations();
     initFeaturedRotator();

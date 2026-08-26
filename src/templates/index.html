@@ -112,11 +112,107 @@
             <p>Python et Django au cœur, HTML/CSS maison, un JavaScript volontairement léger.</p>
         </header>
 
-        <div class="stack__grid">
+        <div class="stack__layout">
+            <figure
+                class="stack-graph"
+                data-default="Django au centre : le framework qui relie le langage, la base et les pages."
+                aria-label="Graphe de la stack de ce site"
+            >
+                <div class="stack-graph__stage">
+                    <svg class="stack-graph__svg" viewBox="0 0 580 385" aria-hidden="true" focusable="false">
+                        <defs>
+                            <filter id="stackNeonBloom" x="-80%" y="-80%" width="260%" height="260%">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="1.05" result="blur"></feGaussianBlur>
+                                <feMerge>
+                                    <feMergeNode in="blur"></feMergeNode>
+                                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <circle class="stack-graph__orbit" cx="290" cy="200" r="145"></circle>
+                        <circle class="stack-graph__halo" cx="290" cy="200" r="58"></circle>
+                        <g class="stack-graph__sparks">
+                            <circle class="stack-graph__spark" cx="353" cy="69" r="1.6"></circle>
+                            <circle class="stack-graph__spark" cx="431" cy="168" r="1.6"></circle>
+                            <circle class="stack-graph__spark" cx="403" cy="290" r="1.6"></circle>
+                            <circle class="stack-graph__spark" cx="290" cy="345" r="1.6"></circle>
+                            <circle class="stack-graph__spark" cx="177" cy="290" r="1.6"></circle>
+                            <circle class="stack-graph__spark" cx="149" cy="168" r="1.6"></circle>
+                            <circle class="stack-graph__spark" cx="227" cy="69" r="1.6"></circle>
+                        </g>
+                        <g class="stack-graph__glows" filter="url(#stackNeonBloom)">
+                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="python" pathLength="1" x1="290" y1="200" x2="290" y2="55"></line>
+                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="postgres" pathLength="1" x1="290" y1="200" x2="403" y2="110"></line>
+                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="html" pathLength="1" x1="290" y1="200" x2="431" y2="232"></line>
+                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="linux" pathLength="1" x1="290" y1="200" x2="149" y2="232"></line>
+                            <line class="stack-graph__link stack-graph__edge-glow" data-from="html" data-to="css" pathLength="1" x1="431" y1="232" x2="353" y2="331"></line>
+                            <line class="stack-graph__link stack-graph__edge-glow" data-from="html" data-to="js" pathLength="1" x1="431" y1="232" x2="227" y2="331"></line>
+                            <line class="stack-graph__link stack-graph__edge-glow" data-from="js" data-to="gsap" pathLength="1" x1="227" y1="331" x2="177" y2="110"></line>
+                        </g>
+                        <g class="stack-graph__edges">
+                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="python" pathLength="1" x1="290" y1="200" x2="290" y2="55"></line>
+                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="postgres" pathLength="1" x1="290" y1="200" x2="403" y2="110"></line>
+                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="html" pathLength="1" x1="290" y1="200" x2="431" y2="232"></line>
+                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="linux" pathLength="1" x1="290" y1="200" x2="149" y2="232"></line>
+                            <line class="stack-graph__link stack-graph__edge" data-from="html" data-to="css" pathLength="1" x1="431" y1="232" x2="353" y2="331"></line>
+                            <line class="stack-graph__link stack-graph__edge" data-from="html" data-to="js" pathLength="1" x1="431" y1="232" x2="227" y2="331"></line>
+                            <line class="stack-graph__link stack-graph__edge" data-from="js" data-to="gsap" pathLength="1" x1="227" y1="331" x2="177" y2="110"></line>
+                        </g>
+                        <g class="stack-graph__currents" filter="url(#stackNeonBloom)">
+                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="python" pathLength="1" x1="290" y1="200" x2="290" y2="55"></line>
+                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="postgres" pathLength="1" x1="290" y1="200" x2="403" y2="110"></line>
+                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="html" pathLength="1" x1="290" y1="200" x2="431" y2="232"></line>
+                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="linux" pathLength="1" x1="290" y1="200" x2="149" y2="232"></line>
+                            <line class="stack-graph__link stack-graph__current" data-from="html" data-to="css" pathLength="1" x1="431" y1="232" x2="353" y2="331"></line>
+                            <line class="stack-graph__link stack-graph__current" data-from="html" data-to="js" pathLength="1" x1="431" y1="232" x2="227" y2="331"></line>
+                            <line class="stack-graph__link stack-graph__current" data-from="js" data-to="gsap" pathLength="1" x1="227" y1="331" x2="177" y2="110"></line>
+                        </g>
+                    </svg>
+                    <ul class="stack-graph__nodes">
+                        <li class="stack-graph__node" style="--x: 50%; --y: 14.29%;" data-node="python">
+                            <a class="stack-graph__pill" href="https://www.python.org/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="Python — le langage du backend.">Python</a>
+                        </li>
+                        <li class="stack-graph__node" style="--x: 69.48%; --y: 28.57%;" data-node="postgres">
+                            <a class="stack-graph__pill" href="https://www.postgresql.org/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="PostgreSQL — la base qui stocke articles et messages.">PostgreSQL</a>
+                        </li>
+                        <li class="stack-graph__node" style="--x: 74.31%; --y: 60.26%;" data-node="html">
+                            <a class="stack-graph__pill" href="https://developer.mozilla.org/fr/docs/Web/HTML" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="HTML — les pages rendues par les templates Django.">HTML</a>
+                        </li>
+                        <li class="stack-graph__node" style="--x: 60.86%; --y: 85.97%;" data-node="css">
+                            <a class="stack-graph__pill" href="https://developer.mozilla.org/fr/docs/Web/CSS" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="CSS — la mise en page, écrite à la main.">CSS</a>
+                        </li>
+                        <li class="stack-graph__node" style="--x: 39.14%; --y: 85.97%;" data-node="js">
+                            <a class="stack-graph__pill" href="https://developer.mozilla.org/fr/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="JavaScript — quelques interactions, volontairement légères.">JavaScript</a>
+                        </li>
+                        <li class="stack-graph__node" style="--x: 25.69%; --y: 60.26%;" data-node="linux">
+                            <a class="stack-graph__pill" href="https://www.kernel.org/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="Linux — le système qui héberge le serveur.">Linux</a>
+                        </li>
+                        <li class="stack-graph__node" style="--x: 30.52%; --y: 28.57%;" data-node="gsap">
+                            <a class="stack-graph__pill" href="https://gsap.com/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="GSAP — les animations au scroll, déjà sur cette page.">GSAP</a>
+                        </li>
+                        <li class="stack-graph__node is-core" style="--x: 50%; --y: 51.95%;" data-node="django">
+                            <a class="stack-graph__pill" href="https://www.djangoproject.com/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="Django — cœur du site : modèles, vues, templates.">Django</a>
+                        </li>
+                    </ul>
+                </div>
+                <figcaption class="stack-graph__caption">
+                    <p class="stack-graph__role" id="stack-graph-role" aria-live="polite">Django au centre : le framework qui relie le langage, la base et les pages.</p>
+                    <p class="stack-graph__hint">
+                        <span class="stack-graph__hint-hover">Survolez une techno pour voir ses liens, cliquez pour ouvrir sa page.</span>
+                        <span class="stack-graph__hint-touch">Touchez une techno pour voir ses liens, touchez à nouveau pour ouvrir sa page.</span>
+                    </p>
+                </figcaption>
+            </figure>
+
             <article class="stack__code" aria-label="Extrait du code source">
                 <div class="stack__code-bar">
                     <span class="stack__dots" aria-hidden="true"><i></i><i></i><i></i></span>
                     <span class="stack__file">blog/models.py</span>
+                    <span class="stack__code-tags" aria-hidden="true">
+                        <span>Django 5.2</span>
+                        <span>PostgreSQL</span>
+                        <span>GSAP</span>
+                    </span>
                 </div>
                 <div class="stack__source" role="region" aria-label="Extrait de blog/models.py">
                     <div class="stack__line"><span class="stack__ln">11</span><code><span class="tok-kw">class</span> <span class="tok-fn">BlogPost</span>(models.Model):</code></div>
@@ -124,84 +220,8 @@
                     <div class="stack__line"><span class="stack__ln">13</span><code>    slug = models.<span class="tok-fn">SlugField</span>(unique=<span class="tok-bool">True</span>)</code></div>
                     <div class="stack__line"><span class="stack__ln">14</span><code>    content = models.<span class="tok-fn">TextField</span>(blank=<span class="tok-bool">True</span>)</code></div>
                     <div class="stack__line"><span class="stack__ln">15</span><code>    published = models.<span class="tok-fn">BooleanField</span>(default=<span class="tok-bool">False</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">16</span><code></code></div>
-                    <div class="stack__line"><span class="stack__ln">29</span><code>    <span class="tok-kw">def</span> <span class="tok-fn">save</span>(self, *args, **kwargs):</code></div>
-                    <div class="stack__line"><span class="stack__ln">30</span><code>        <span class="tok-kw">if not</span> self.slug:</code></div>
-                    <div class="stack__line"><span class="stack__ln">31</span><code>            self.slug = <span class="tok-fn">slugify</span>(self.title)</code></div>
-                    <div class="stack__line"><span class="stack__ln">32</span><code>        <span class="tok-fn">super</span>().save(*args, **kwargs)</code></div>
-                </div>
-                <div class="stack__code-foot" aria-hidden="true">
-                    <span>Django 5.2</span>
-                    <span>PostgreSQL</span>
-                    <span>GSAP</span>
                 </div>
             </article>
-
-            <ul class="stack__gauges">
-                <li class="gauge" style="--level: 92%; --gauge: #5eead4; --delay: 0.05s;" data-level="92">
-                    <div class="gauge__meta">
-                        <span class="gauge__name">Python</span>
-                        <span class="gauge__value">0%</span>
-                    </div>
-                    <div class="gauge__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Python">
-                        <span class="gauge__fill"></span>
-                    </div>
-                </li>
-                <li class="gauge" style="--level: 90%; --gauge: #1aa89c; --delay: 0.12s;" data-level="90">
-                    <div class="gauge__meta">
-                        <span class="gauge__name">Django</span>
-                        <span class="gauge__value">0%</span>
-                    </div>
-                    <div class="gauge__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Django">
-                        <span class="gauge__fill"></span>
-                    </div>
-                </li>
-                <li class="gauge" style="--level: 86%; --gauge: #f0c987; --delay: 0.19s;" data-level="86">
-                    <div class="gauge__meta">
-                        <span class="gauge__name">HTML</span>
-                        <span class="gauge__value">0%</span>
-                    </div>
-                    <div class="gauge__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="HTML">
-                        <span class="gauge__fill"></span>
-                    </div>
-                </li>
-                <li class="gauge" style="--level: 84%; --gauge: #7dd3fc; --delay: 0.26s;" data-level="84">
-                    <div class="gauge__meta">
-                        <span class="gauge__name">CSS</span>
-                        <span class="gauge__value">0%</span>
-                    </div>
-                    <div class="gauge__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="CSS">
-                        <span class="gauge__fill"></span>
-                    </div>
-                </li>
-                <li class="gauge" style="--level: 72%; --gauge: #fbbf24; --delay: 0.33s;" data-level="72">
-                    <div class="gauge__meta">
-                        <span class="gauge__name">JavaScript</span>
-                        <span class="gauge__value">0%</span>
-                    </div>
-                    <div class="gauge__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="JavaScript">
-                        <span class="gauge__fill"></span>
-                    </div>
-                </li>
-                <li class="gauge" style="--level: 80%; --gauge: #93c5fd; --delay: 0.4s;" data-level="80">
-                    <div class="gauge__meta">
-                        <span class="gauge__name">PostgreSQL</span>
-                        <span class="gauge__value">0%</span>
-                    </div>
-                    <div class="gauge__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="PostgreSQL">
-                        <span class="gauge__fill"></span>
-                    </div>
-                </li>
-                <li class="gauge" style="--level: 76%; --gauge: #c4b5fd; --delay: 0.47s;" data-level="76">
-                    <div class="gauge__meta">
-                        <span class="gauge__name">Linux</span>
-                        <span class="gauge__value">0%</span>
-                    </div>
-                    <div class="gauge__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Linux">
-                        <span class="gauge__fill"></span>
-                    </div>
-                </li>
-            </ul>
         </div>
     </div>
 </section>

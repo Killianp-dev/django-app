@@ -204,9 +204,6 @@ html.nav-open .navbar::after {
   --glow-x: 50%;
   --glow-y: 0%;
   isolation: isolate;
-}
-
-.has-surface-glow:not(.stack__code) {
   position: relative;
 }
 
@@ -244,7 +241,7 @@ html[data-theme="dark"] .has-surface-glow::after {
 
 
 /* Stack */
-.stack__gauges {
+.stack-graph {
   position: relative;
 }
 
