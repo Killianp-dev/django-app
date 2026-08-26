@@ -19,7 +19,7 @@
 
 /* 3. Sections - Sections spécifiques de la page */
 @import url('./sections/_hero.css');
-@import url('./sections/_skills.css?v=20260826-stack-sign');
+@import url('./sections/_skills.css?v=20260826-stack-light');
 @import url('./sections/_asymetric.css');
 @import url('./sections/_parallax.css');
 @import url('./sections/_carousel.css');

@@ -519,14 +519,15 @@
     function nodeEllipse(node, svg) {
       const pill = node.querySelector('.stack-graph__pill');
       const rect = pill.getBoundingClientRect();
-      const pad = 10;
+      const compact = window.matchMedia('(max-width: 576px)').matches;
+      const pad = compact ? 3 : 10;
       const start = svgPoint(svg, rect.left - pad, rect.top - pad);
       const end = svgPoint(svg, rect.right + pad, rect.bottom + pad);
       return {
         cx: (start.x + end.x) / 2,
         cy: (start.y + end.y) / 2,
-        rx: Math.max(14, Math.abs(end.x - start.x) / 2),
-        ry: Math.max(10, Math.abs(end.y - start.y) / 2),
+        rx: Math.max(compact ? 8 : 14, Math.abs(end.x - start.x) / 2),
+        ry: Math.max(compact ? 6 : 10, Math.abs(end.y - start.y) / 2),
       };
     }
 

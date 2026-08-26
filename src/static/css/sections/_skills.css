@@ -12,6 +12,93 @@
   position: relative;
   padding: var(--section-space) var(--page-gutter);
   background: var(--color-bg-alt);
+  --stack-panel: #f7f3ea;
+  --stack-bar: #ece6d8;
+  --stack-bar-border: color-mix(in srgb, var(--color-ink) 8%, transparent);
+  --stack-code-border: color-mix(in srgb, var(--color-accent) 22%, var(--color-border));
+  --stack-graph-border: color-mix(in srgb, var(--color-accent) 34%, var(--color-border));
+  --stack-ink: #1a211c;
+  --stack-file: #5c645c;
+  --stack-ln: #9a9386;
+  --stack-tag: #0c5751;
+  --stack-tag-bg: rgba(15, 110, 102, 0.1);
+  --stack-tag-border: rgba(15, 110, 102, 0.22);
+  --stack-glow: rgba(15, 110, 102, 0.12);
+  --stack-wash: rgba(15, 110, 102, 0.08);
+  --tok-kw: #0c5751;
+  --tok-fn: #9a5b12;
+  --tok-cn: #5b46b0;
+  --tok-num: #b4234e;
+  --tok-bool: #9d174d;
+  --tok-cm: #7a7468;
+  --neon: #0f6e66;
+  --neon-dim: rgba(15, 110, 102, 0.34);
+  --neon-soft: rgba(15, 110, 102, 0.14);
+  --stack-pill: #fffcf7;
+  --stack-pill-ink: #1a211c;
+  --stack-pill-border: rgba(15, 110, 102, 0.3);
+  --stack-core: #c5e4dd;
+  --stack-core-ink: #0c5751;
+  --stack-edge: #2d736b;
+  --stack-edge-lit: #0a4a45;
+  --stack-current: #0f6e66;
+  --stack-caption: #14181f;
+  --stack-hint: rgba(20, 24, 31, 0.52);
+  --stack-caption-border: rgba(15, 110, 102, 0.16);
+  --stack-halo: rgba(15, 110, 102, 0.5);
+  --stack-text-glow: 0 0 0 transparent;
+  --stack-edge-glow-opacity: 0.2;
+  --stack-dim-node: 0.42;
+  --stack-spin-track: rgba(15, 110, 102, 0.28);
+  --stack-spin-a: #0f6e66;
+  --stack-spin-b: #0369a1;
+  --stack-spin-c: #6d28d9;
+  --stack-spin-d: #b45309;
+}
+
+html[data-theme="dark"] .stack {
+  --stack-panel: #0d1016;
+  --stack-bar: rgba(255, 255, 255, 0.03);
+  --stack-bar-border: rgba(255, 255, 255, 0.06);
+  --stack-code-border: rgba(255, 255, 255, 0.08);
+  --stack-graph-border: rgba(94, 234, 212, 0.16);
+  --stack-ink: #d7ddd8;
+  --stack-file: rgba(247, 244, 238, 0.55);
+  --stack-ln: #5b6573;
+  --stack-tag: #5eead4;
+  --stack-tag-bg: rgba(20, 184, 166, 0.1);
+  --stack-tag-border: rgba(94, 234, 212, 0.22);
+  --stack-glow: rgba(15, 110, 102, 0.18);
+  --stack-wash: rgba(20, 184, 166, 0.08);
+  --tok-kw: #7dd3c7;
+  --tok-fn: #f0c987;
+  --tok-cn: #c4b5fd;
+  --tok-num: #fda4af;
+  --tok-bool: #f9a8d4;
+  --tok-cm: #6b7280;
+  --neon: #5eead4;
+  --neon-dim: rgba(94, 234, 212, 0.28);
+  --neon-soft: rgba(45, 212, 191, 0.16);
+  --stack-pill: #0d1016;
+  --stack-pill-ink: #c5ece4;
+  --stack-pill-border: rgba(94, 234, 212, 0.26);
+  --stack-core: #143734;
+  --stack-core-ink: #5eead4;
+  --stack-edge: color-mix(in srgb, #5eead4 42%, #8ec9c0);
+  --stack-edge-lit: #d9f6ef;
+  --stack-current: #f0fdfa;
+  --stack-caption: #e7fbf6;
+  --stack-hint: rgba(199, 225, 220, 0.55);
+  --stack-caption-border: rgba(94, 234, 212, 0.12);
+  --stack-halo: rgba(94, 234, 212, 0.5);
+  --stack-text-glow: 0 0 12px rgba(94, 234, 212, 0.4);
+  --stack-edge-glow-opacity: 0.11;
+  --stack-dim-node: 0.28;
+  --stack-spin-track: rgba(94, 234, 212, 0.22);
+  --stack-spin-a: #5eead4;
+  --stack-spin-b: #38bdf8;
+  --stack-spin-c: #c4b5fd;
+  --stack-spin-d: #fde68a;
 }
 
 .stack__inner {
@@ -49,10 +136,10 @@
   height: auto;
   display: flex;
   flex-direction: column;
-  background: #0d1016;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--stack-panel);
+  border: 1px solid var(--stack-code-border);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md), 0 0 28px rgba(15, 110, 102, 0.1);
+  box-shadow: var(--shadow-md), 0 0 28px var(--stack-glow);
   overflow: hidden;
 }
 
@@ -61,8 +148,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.55rem 0.9rem;
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--stack-bar);
+  border-bottom: 1px solid var(--stack-bar-border);
 }
 
 .stack__dots {
@@ -84,7 +171,7 @@
 .stack__file {
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.74rem;
-  color: rgba(247, 244, 238, 0.55);
+  color: var(--stack-file);
   letter-spacing: 0.02em;
   min-width: 0;
   overflow: hidden;
@@ -104,11 +191,11 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #5eead4;
+  color: var(--stack-tag);
   padding: 0.18rem 0.5rem;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(94, 234, 212, 0.22);
-  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid var(--stack-tag-border);
+  background: var(--stack-tag-bg);
 }
 
 .stack__source {
@@ -118,7 +205,7 @@
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.78rem;
   line-height: 1.7;
-  color: #d7ddd8;
+  color: var(--stack-ink);
 }
 
 .stack__line {
@@ -136,24 +223,21 @@
 }
 
 .stack__ln {
-  color: #5b6573;
+  color: var(--stack-ln);
   text-align: right;
   user-select: none;
 }
 
-.tok-kw { color: #7dd3c7; }
-.tok-fn { color: #f0c987; }
-.tok-cn { color: #c4b5fd; }
-.tok-num { color: #fda4af; }
-.tok-bool { color: #f9a8d4; }
-.tok-cm { color: #6b7280; font-style: italic; }
+.tok-kw { color: var(--tok-kw); }
+.tok-fn { color: var(--tok-fn); }
+.tok-cn { color: var(--tok-cn); }
+.tok-num { color: var(--tok-num); }
+.tok-bool { color: var(--tok-bool); }
+.tok-cm { color: var(--tok-cm); font-style: italic; }
 
 .stack-graph {
-  --neon: #5eead4;
-  --neon-dim: rgba(94, 234, 212, 0.28);
-  --neon-soft: rgba(45, 212, 191, 0.16);
   --stack-spin: 0deg;
-  --stack-panel: #0d1016;
+  --stack-pill-halo: 8px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -162,16 +246,16 @@
   height: auto;
   overflow: hidden;
   padding: 1.15rem 1rem 1.2rem;
-  border: 1.5px solid rgba(94, 234, 212, 0.16);
+  border: 1.5px solid var(--stack-graph-border);
   border-radius: var(--radius-lg);
   background-color: var(--stack-panel);
   background-image:
-    radial-gradient(ellipse 85% 70% at 50% 50%, rgba(20, 184, 166, 0.08), transparent 74%),
+    radial-gradient(ellipse 85% 70% at 50% 50%, var(--stack-wash), transparent 74%),
     linear-gradient(var(--stack-panel), var(--stack-panel));
   background-origin: border-box;
   background-clip: padding-box, padding-box;
-  box-shadow: var(--shadow-lg), 0 0 40px rgba(15, 110, 102, 0.18);
-  color: #d7ddd8;
+  box-shadow: var(--shadow-lg), 0 0 40px var(--stack-glow);
+  color: var(--stack-ink);
 }
 
 .stack-graph::before {
@@ -191,18 +275,18 @@
 .stack-graph.is-focused {
   border-color: transparent;
   background-image:
-    radial-gradient(ellipse 85% 70% at 50% 50%, rgba(20, 184, 166, 0.08), transparent 74%),
+    radial-gradient(ellipse 85% 70% at 50% 50%, var(--stack-wash), transparent 74%),
     linear-gradient(var(--stack-panel), var(--stack-panel)),
     conic-gradient(
       from var(--stack-spin),
-      rgba(94, 234, 212, 0.22) 0deg,
-      rgba(94, 234, 212, 0.22) 228deg,
-      #5eead4 255deg,
-      #38bdf8 282deg,
-      #c4b5fd 308deg,
-      #fde68a 334deg,
-      #5eead4 350deg,
-      rgba(94, 234, 212, 0.22) 360deg
+      var(--stack-spin-track) 0deg,
+      var(--stack-spin-track) 228deg,
+      var(--stack-spin-a) 255deg,
+      var(--stack-spin-b) 282deg,
+      var(--stack-spin-c) 308deg,
+      var(--stack-spin-d) 334deg,
+      var(--stack-spin-a) 350deg,
+      var(--stack-spin-track) 360deg
     );
   background-clip: padding-box, padding-box, border-box;
   animation: stackBorderSpin 5.6s linear infinite;
@@ -243,7 +327,7 @@
 
 .stack-graph__halo {
   fill: none;
-  stroke: rgba(94, 234, 212, 0.5);
+  stroke: var(--stack-halo);
   stroke-width: 0.7;
   transform-origin: 290px 200px;
   transform-box: fill-box;
@@ -290,14 +374,14 @@
 }
 
 .stack-graph__edge {
-  stroke: color-mix(in srgb, var(--neon) 42%, #8ec9c0);
+  stroke: var(--stack-edge);
   stroke-width: 0.62;
 }
 
 .stack-graph__edge-glow {
   stroke: var(--neon);
   stroke-width: 1.55;
-  opacity: 0.11;
+  opacity: var(--stack-edge-glow-opacity);
 }
 
 .stack-graph.is-inview .stack-graph__edge,
@@ -332,7 +416,7 @@
 
 .stack-graph.is-focused .stack-graph__edge.is-lit {
   opacity: 0.92;
-  stroke: #d9f6ef;
+  stroke: var(--stack-edge-lit);
   stroke-width: 0.78;
 }
 
@@ -342,7 +426,7 @@
 }
 
 .stack-graph__current {
-  stroke: #f0fdfa;
+  stroke: var(--stack-current);
   stroke-width: 0.85;
   stroke-dasharray: 0.06 0.94;
   stroke-dashoffset: 0;
@@ -399,7 +483,7 @@
 .stack-graph.is-inview:not(.is-gsap) .stack-graph__node:nth-child(8) { transition-delay: 0s, 0.12s; }
 
 .stack-graph.is-focused .stack-graph__node:not(.is-lit) {
-  opacity: 0.28;
+  opacity: var(--stack-dim-node);
 }
 
 .stack-graph.is-focused .stack-graph__node.is-lit {
@@ -420,10 +504,10 @@
   justify-content: center;
   margin: 0;
   padding: 0.42rem 0.82rem;
-  border: 1px solid rgba(94, 234, 212, 0.26);
+  border: 1px solid var(--stack-pill-border);
   border-radius: var(--radius-full);
-  background: var(--stack-panel, #0d1016);
-  color: #c5ece4;
+  background: var(--stack-pill);
+  color: var(--stack-pill-ink);
   font-family: var(--font-sans);
   font-size: 0.76rem;
   font-weight: 600;
@@ -432,12 +516,18 @@
   white-space: nowrap;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 0 0 8px var(--stack-panel, #0d1016);
+  box-shadow: 0 0 0 var(--stack-pill-halo) var(--stack-panel);
   transition: border-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease;
 }
 
+.stack-graph__pill::before {
+  content: "";
+  position: absolute;
+  inset: -0.35rem;
+}
+
 .stack-graph__pill:visited {
-  color: #c5ece4;
+  color: var(--stack-pill-ink);
 }
 
 .stack-graph__pill:focus-visible {
@@ -447,59 +537,59 @@
 
 .stack-graph__node.is-core .stack-graph__pill {
   padding: 0.52rem 1rem;
-  border-color: rgba(94, 234, 212, 0.5);
-  background: #143734;
-  color: var(--neon);
-  text-shadow: 0 0 12px rgba(94, 234, 212, 0.45);
-  box-shadow: 0 0 0 8px var(--stack-panel, #0d1016);
+  border-color: color-mix(in srgb, var(--neon) 55%, var(--stack-pill-border));
+  background: var(--stack-core);
+  color: var(--stack-core-ink);
+  text-shadow: var(--stack-text-glow);
+  box-shadow: 0 0 0 var(--stack-pill-halo) var(--stack-panel);
 }
 
 .stack-graph__node.is-core .stack-graph__pill:visited {
-  color: var(--neon);
+  color: var(--stack-core-ink);
 }
 
 .stack-graph__node.is-lit .stack-graph__pill {
-  border-color: rgba(94, 234, 212, 0.48);
+  border-color: color-mix(in srgb, var(--neon) 55%, var(--stack-pill-border));
   color: var(--neon);
-  text-shadow: 0 0 10px rgba(94, 234, 212, 0.35);
+  text-shadow: var(--stack-text-glow);
 }
 
 .stack-graph__node.is-active .stack-graph__pill {
   border: 2px solid transparent;
   background-image:
-    linear-gradient(var(--stack-panel, #0d1016), var(--stack-panel, #0d1016)),
+    linear-gradient(var(--stack-pill), var(--stack-pill)),
     conic-gradient(
       from var(--stack-spin),
-      rgba(94, 234, 212, 0.28) 0deg,
-      rgba(94, 234, 212, 0.28) 228deg,
-      #5eead4 255deg,
-      #38bdf8 282deg,
-      #c4b5fd 308deg,
-      #fde68a 334deg,
-      #5eead4 350deg,
-      rgba(94, 234, 212, 0.28) 360deg
+      var(--stack-spin-track) 0deg,
+      var(--stack-spin-track) 228deg,
+      var(--stack-spin-a) 255deg,
+      var(--stack-spin-b) 282deg,
+      var(--stack-spin-c) 308deg,
+      var(--stack-spin-d) 334deg,
+      var(--stack-spin-a) 350deg,
+      var(--stack-spin-track) 360deg
     );
   background-origin: border-box;
   background-clip: padding-box, border-box;
   color: var(--neon);
-  text-shadow: 0 0 10px rgba(94, 234, 212, 0.4);
-  box-shadow: 0 0 0 8px var(--stack-panel, #0d1016);
+  text-shadow: var(--stack-text-glow);
+  box-shadow: 0 0 0 var(--stack-pill-halo) var(--stack-panel);
   animation: stackBorderSpin 3.2s linear infinite;
 }
 
 .stack-graph__node.is-core.is-active .stack-graph__pill {
   background-image:
-    linear-gradient(#143734, #143734),
+    linear-gradient(var(--stack-core), var(--stack-core)),
     conic-gradient(
       from var(--stack-spin),
-      rgba(94, 234, 212, 0.32) 0deg,
-      rgba(94, 234, 212, 0.32) 228deg,
-      #5eead4 255deg,
-      #38bdf8 282deg,
-      #c4b5fd 308deg,
-      #fde68a 334deg,
-      #5eead4 350deg,
-      rgba(94, 234, 212, 0.32) 360deg
+      var(--stack-spin-track) 0deg,
+      var(--stack-spin-track) 228deg,
+      var(--stack-spin-a) 255deg,
+      var(--stack-spin-b) 282deg,
+      var(--stack-spin-c) 308deg,
+      var(--stack-spin-d) 334deg,
+      var(--stack-spin-a) 350deg,
+      var(--stack-spin-track) 360deg
     );
 }
 
@@ -510,25 +600,25 @@
   margin-top: 0.2rem;
   padding: 0.55rem 0.35rem 0;
   text-align: center;
-  border-top: 1px solid rgba(94, 234, 212, 0.12);
+  border-top: 1px solid var(--stack-caption-border);
 }
 
 .stack-graph__role {
   margin: 0;
   font-size: 0.9rem;
   font-weight: 600;
-  color: #e7fbf6;
+  color: var(--stack-caption);
 }
 
 .stack-graph.is-focused .stack-graph__role {
   color: var(--neon);
-  text-shadow: 0 0 16px rgba(94, 234, 212, 0.28);
+  text-shadow: var(--stack-text-glow);
 }
 
 .stack-graph__hint {
   margin: 0;
   font-size: 0.76rem;
-  color: rgba(199, 225, 220, 0.55);
+  color: var(--stack-hint);
 }
 
 .stack-graph__hint-touch {
@@ -589,6 +679,22 @@
   }
 }
 
+@media (max-width: 768px) {
+  .stack-graph {
+    --stack-pill-halo: 5px;
+  }
+
+  .stack-graph__pill {
+    font-size: 0.62rem;
+    padding: 0.26rem 0.48rem;
+    letter-spacing: 0.04em;
+  }
+
+  .stack-graph__node.is-core .stack-graph__pill {
+    padding: 0.3rem 0.58rem;
+  }
+}
+
 @media (max-width: 576px) {
   .stack__header {
     margin-bottom: 1.75rem;
@@ -617,16 +723,22 @@
   }
 
   .stack-graph {
+    --stack-pill-halo: 3px;
     padding: 0.95rem 0.7rem 1.05rem;
   }
 
   .stack-graph__pill {
-    font-size: 0.72rem;
-    padding: 0.36rem 0.62rem;
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+    letter-spacing: 0.03em;
+  }
+
+  .stack-graph__pill::before {
+    inset: -0.7rem;
   }
 
   .stack-graph__node.is-core .stack-graph__pill {
-    padding: 0.42rem 0.75rem;
+    padding: 0.24rem 0.48rem;
   }
 
   .stack-graph__caption {
