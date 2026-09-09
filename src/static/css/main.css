@@ -18,11 +18,11 @@
 @import url('./components/cookie-modal.css');
 
 /* 3. Sections - Sections spécifiques de la page */
-@import url('./sections/_hero.css');
-@import url('./sections/_skills.css?v=20260826-stack-light');
+@import url('./sections/_hero.css?v=20260909-hero-enter2');
+@import url('./sections/_skills.css?v=20260909-code-window');
 @import url('./sections/_asymetric.css');
-@import url('./sections/_parallax.css');
-@import url('./sections/_carousel.css');
+@import url('./sections/_parallax.css?v=20260909-city');
+@import url('./sections/_carousel.css?v=20260909-swipe');
 @import url('./sections/_blog.css');
 
 /* 4. Pages - Styles spécifiques à certaines pages */

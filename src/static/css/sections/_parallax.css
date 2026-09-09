@@ -29,7 +29,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 42%;
   transform: scale(1.08);
 }
 
@@ -39,8 +39,9 @@
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(16, 20, 27, 0.38) 0%, rgba(12, 16, 22, 0.42) 48%, rgba(16, 20, 27, 0.72) 100%),
-    radial-gradient(ellipse at 50% 18%, rgba(15, 110, 102, 0.18), transparent 55%);
+    linear-gradient(180deg, rgba(16, 20, 27, 0.22) 0%, rgba(12, 16, 22, 0.34) 46%, rgba(16, 20, 27, 0.58) 100%),
+    radial-gradient(ellipse at 50% 48%, rgba(8, 10, 14, 0.42), transparent 56%),
+    radial-gradient(ellipse at 50% 18%, rgba(15, 110, 102, 0.16), transparent 52%);
 }
 
 .parallax__content {

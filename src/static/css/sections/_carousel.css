@@ -76,6 +76,13 @@
   aspect-ratio: 16 / 9;
   min-height: 320px;
   background: var(--color-chrome);
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.featured-rotator.is-dragging .featured-rotator__stage {
+  cursor: grabbing;
 }
 
 .featured-rotator__slide {
@@ -97,11 +104,24 @@
   pointer-events: auto;
 }
 
+.featured-rotator__slide.is-incoming {
+  opacity: 0;
+  visibility: visible;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.featured-rotator.is-dragging .featured-rotator__slide,
+.featured-rotator.is-swiping .featured-rotator__slide {
+  transition: none;
+}
+
 .featured-rotator__link {
   display: block;
   height: 100%;
   color: inherit;
   text-decoration: none;
+  -webkit-user-drag: none;
 }
 
 .featured-rotator__media {
@@ -120,6 +140,8 @@
   object-position: center;
   transform: scale(1.08);
   display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .featured-rotator__slide.is-active .featured-rotator__media img {

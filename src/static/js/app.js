@@ -305,87 +305,70 @@
 
   // ===== Hero Animation =====
   function initHeroAnimation() {
-    if (!hero || !utils.hasGSAP()) return;
+    if (!hero) return;
 
+    const revealHero = () => {
+      hero.classList.remove('is-loading');
+    };
+
+    if (prefersReducedMotion() || !utils.hasGSAP()) {
+      revealHero();
+      return;
+    }
+
+    const heroImg = hero.querySelector('.hero__media img');
     const heroEyebrow = hero.querySelector('.hero__eyebrow');
     const heroTitle = hero.querySelector('.hero__title');
     const heroSubtitle = hero.querySelector('.hero__subtitle');
-    const heroStack = hero.querySelector('.hero__stack');
     const heroActions = hero.querySelector('.hero__actions');
     const heroGuide = hero.querySelector('.hero__guide');
     const heroScroll = hero.querySelector('.hero__scroll');
 
-    if (!heroTitle || !heroSubtitle || !heroActions) return;
+    if (!heroTitle || !heroSubtitle || !heroActions) {
+      revealHero();
+      return;
+    }
 
-    const heroTimeline = gsap.timeline({
+    const intro = [heroEyebrow, heroTitle, heroSubtitle, heroActions, heroGuide, heroScroll].filter(Boolean);
+
+    gsap.set(intro, { autoAlpha: 0, y: 14 });
+    gsap.set(heroTitle, { y: 18 });
+    revealHero();
+
+    const tl = gsap.timeline({
       defaults: {
-        ease: "power3.out",
-        duration: 1
+        ease: 'power2.out',
+        duration: 0.7
+      },
+      onComplete() {
+        gsap.set(intro, { clearProps: 'transform' });
       }
     });
 
+    if (heroImg && window.innerWidth > MOBILE_BREAKPOINT) {
+      tl.fromTo(
+        heroImg,
+        { scale: 1.045 },
+        { scale: 1, duration: 1.55, ease: 'power1.out', clearProps: 'transform' },
+        0
+      );
+    }
+
     if (heroEyebrow) {
-      heroTimeline.from(heroEyebrow, {
-        y: 16,
-        opacity: 0,
-        duration: 0.5
-      });
+      tl.to(heroEyebrow, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.06);
     }
 
-    heroTimeline
-      .from(heroTitle, {
-        y: 28,
-        opacity: 0,
-        duration: 0.75
-      }, "-=0.25")
-      .from(heroSubtitle, {
-        y: 20,
-        opacity: 0,
-        duration: 0.65
-      }, "-=0.45");
-
-    if (heroStack) {
-      heroTimeline.from(heroStack, {
-        y: 14,
-        opacity: 0,
-        duration: 0.5
-      }, "-=0.4");
-    }
-
-    heroTimeline.from(heroActions.children, {
-      opacity: 0,
-      y: 10,
-      stagger: 0.12,
-      duration: 0.45
-    }, "-=0.3");
+    tl.to(heroTitle, { autoAlpha: 1, y: 0, duration: 0.72 }, 0.14)
+      .to(heroSubtitle, { autoAlpha: 0.92, y: 0, duration: 0.58 }, 0.26)
+      .to(heroActions, { autoAlpha: 1, y: 0, duration: 0.52 }, 0.4);
 
     if (heroGuide) {
-      heroTimeline.from(heroGuide.children, {
-        y: 16,
-        opacity: 0,
-        stagger: 0.08,
-        duration: 0.45
-      }, "-=0.22");
+      tl.to(heroGuide, { autoAlpha: 1, y: 0, duration: 0.58 }, 0.5);
     }
 
     if (heroScroll) {
-      heroTimeline.from(heroScroll, {
-        opacity: 0,
-        y: 8,
-        duration: 0.4
-      }, "-=0.15");
+      tl.to(heroScroll, { autoAlpha: 1, y: 0, duration: 0.45 }, 0.64);
     }
-
-    const animated = [heroTitle, heroSubtitle, ...heroActions.children];
-    if (heroEyebrow) animated.push(heroEyebrow);
-    if (heroStack) animated.push(heroStack);
-    if (heroGuide) animated.push(...heroGuide.children);
-    if (heroScroll) animated.push(heroScroll);
-
-    heroTimeline.set(animated, {
-      opacity: 1,
-      clearProps: "all"
-    });
   }
 
   // ===== Parallax (hero + bande) =====
@@ -752,10 +735,13 @@
     const bars = Array.from(rotator.querySelectorAll('.featured-rotator__bar'));
     if (slides.length === 0) return;
 
+    const stage = rotator.querySelector('.featured-rotator__stage') || rotator;
     const holdMs = Number(rotator.dataset.hold) || 6500;
     rotator.style.setProperty('--featured-hold', `${holdMs}ms`);
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const canRotate = slides.length > 1 && !reducedMotion;
+    const hasHoverPause = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const canSwipe = slides.length > 1;
 
     let currentIndex = Math.max(0, slides.findIndex((slide) => slide.classList.contains('is-active')));
     let timer = null;
@@ -766,7 +752,12 @@
     let pointerId = null;
     let startX = 0;
     let startY = 0;
+    let dragDx = 0;
+    let dragIncoming = null;
+    let axisLocked = null;
+    let capturing = false;
     let suppressClick = false;
+    let swipeStartedAt = 0;
 
     function syncBars(restartActive = true) {
       bars.forEach((bar, index) => {
@@ -837,6 +828,93 @@
       startTimer();
     }
 
+    function incomingFromDx(dx) {
+      return slides[(currentIndex + (dx < 0 ? 1 : -1) + slides.length) % slides.length];
+    }
+
+    function clearSwipeStyles() {
+      slides.forEach((slide) => {
+        slide.classList.remove('is-incoming');
+        slide.style.transform = '';
+        slide.style.opacity = '';
+        slide.style.visibility = '';
+      });
+      dragIncoming = null;
+      rotator.classList.remove('is-dragging');
+    }
+
+    function applySwipeOffset(dx) {
+      const width = stage.offsetWidth || 1;
+      const current = slides[currentIndex];
+      const next = incomingFromDx(dx);
+
+      if (dragIncoming && dragIncoming !== next && dragIncoming !== current) {
+        dragIncoming.classList.remove('is-incoming');
+        dragIncoming.style.transform = '';
+        dragIncoming.style.opacity = '';
+        dragIncoming.style.visibility = '';
+      }
+
+      dragIncoming = next;
+      const progress = Math.min(1, Math.abs(dx) / Math.max(96, width * 0.28));
+
+      current.style.transform = `translate3d(${dx * 0.42}px, 0, 0)`;
+      current.style.opacity = String(1 - progress * 0.35);
+
+      if (next !== current) {
+        next.classList.add('is-incoming');
+        next.style.visibility = 'visible';
+        next.style.opacity = String(progress);
+        next.style.transform = `translate3d(${(dx < 0 ? 48 : -48) * (1 - progress)}px, 0, 0)`;
+      }
+    }
+
+    function restoreAutoplay() {
+      if (!hasHoverPause || !rotator.matches(':hover')) {
+        rotator.classList.remove('is-paused');
+      }
+    }
+
+    function endSwipe(event) {
+      if (pointerId !== event.pointerId) return;
+
+      const dx = dragDx || (event.clientX - startX);
+      const width = stage.offsetWidth || 1;
+      const elapsed = Math.max(1, Date.now() - swipeStartedAt);
+      const flicked = Math.abs(dx) > 28 && Math.abs(dx) / elapsed > 0.35;
+      const pulled = Math.abs(dx) > Math.max(40, width * 0.12);
+      const commit = canSwipe && axisLocked === 'x' && (pulled || flicked);
+
+      if (capturing && stage.hasPointerCapture?.(pointerId)) {
+        stage.releasePointerCapture(pointerId);
+      }
+
+      pointerId = null;
+      capturing = false;
+      axisLocked = null;
+      dragDx = 0;
+
+      if (commit) {
+        suppressClick = true;
+        rotator.classList.add('is-swiping');
+        clearSwipeStyles();
+        goTo(currentIndex + (dx < 0 ? 1 : -1));
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => rotator.classList.remove('is-swiping'));
+        });
+        restoreAutoplay();
+        return;
+      }
+
+      if (axisLocked === 'x' && Math.abs(dx) > 10) {
+        suppressClick = true;
+      }
+
+      clearSwipeStyles();
+      restoreAutoplay();
+      if (!paused) startTimer();
+    }
+
     bars.forEach((bar) => {
       bar.addEventListener('click', (event) => {
         event.preventDefault();
@@ -845,30 +923,54 @@
       });
     });
 
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    if (hasHoverPause) {
       rotator.addEventListener('mouseenter', pause);
       rotator.addEventListener('mouseleave', resume);
     }
 
-    rotator.addEventListener('pointerdown', (event) => {
-      if (event.target.closest('.featured-rotator__bar')) return;
-      if (event.pointerType === 'mouse' && event.button !== 0) return;
-      pointerId = event.pointerId;
-      startX = event.clientX;
-      startY = event.clientY;
-      suppressClick = false;
-    });
+    if (canSwipe) {
+      stage.addEventListener('pointerdown', (event) => {
+        if (event.target.closest('.featured-rotator__bar')) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        pointerId = event.pointerId;
+        startX = event.clientX;
+        startY = event.clientY;
+        dragDx = 0;
+        axisLocked = null;
+        capturing = false;
+        suppressClick = false;
+        swipeStartedAt = Date.now();
+        stopTimer();
+        rotator.classList.add('is-paused');
+      });
 
-    rotator.addEventListener('pointerup', (event) => {
-      if (pointerId !== event.pointerId) return;
-      pointerId = null;
-      const dx = event.clientX - startX;
-      const dy = event.clientY - startY;
-      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy)) return;
-      suppressClick = true;
-      if (dx < 0) goTo(currentIndex + 1);
-      else goTo(currentIndex - 1);
-    });
+      stage.addEventListener('pointermove', (event) => {
+        if (pointerId !== event.pointerId) return;
+        const dx = event.clientX - startX;
+        const dy = event.clientY - startY;
+
+        if (!axisLocked) {
+          if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+          axisLocked = Math.abs(dx) > Math.abs(dy) * 1.15 ? 'x' : 'y';
+          if (axisLocked === 'y') return;
+          try {
+            stage.setPointerCapture(event.pointerId);
+            capturing = true;
+          } catch (error) {
+            capturing = false;
+          }
+          rotator.classList.add('is-dragging');
+        }
+
+        if (axisLocked !== 'x') return;
+        event.preventDefault();
+        dragDx = dx;
+        if (!reducedMotion) applySwipeOffset(dx);
+      });
+
+      stage.addEventListener('pointerup', endSwipe);
+      stage.addEventListener('pointercancel', endSwipe);
+    }
 
     rotator.addEventListener('click', (event) => {
       if (!suppressClick) return;

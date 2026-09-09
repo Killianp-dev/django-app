@@ -4,6 +4,18 @@
 {% block title %}Killian P. — Développeur Backend & Python{% endblock %}
 {% block extra_head %}
 <link rel="preload" as="image" href="{% static 'ressources/hero.jpg' %}" fetchpriority="high">
+<noscript>
+    <style>
+        .hero.is-loading .hero__eyebrow,
+        .hero.is-loading .hero__title,
+        .hero.is-loading .hero__subtitle,
+        .hero.is-loading .hero__actions,
+        .hero.is-loading .hero__guide,
+        .hero.is-loading .hero__scroll { opacity: 1 !important; }
+        .hero.is-loading .hero__overlay,
+        .hero.is-loading .hero__scroll { pointer-events: auto; }
+    </style>
+</noscript>
 {% endblock %}
 {% block body_class %}home-page{% endblock %}
 
@@ -59,7 +71,7 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero" id="hero">
+<section class="hero is-loading" id="hero">
     <div class="hero__media" aria-hidden="true">
         <img src="{% static 'ressources/hero.jpg' %}" alt="" width="2400" height="1600" fetchpriority="high" decoding="async">
     </div>
@@ -211,15 +223,17 @@
                     <span class="stack__code-tags" aria-hidden="true">
                         <span>Django 5.2</span>
                         <span>PostgreSQL</span>
-                        <span>GSAP</span>
                     </span>
                 </div>
                 <div class="stack__source" role="region" aria-label="Extrait de blog/models.py">
                     <div class="stack__line"><span class="stack__ln">11</span><code><span class="tok-kw">class</span> <span class="tok-fn">BlogPost</span>(models.Model):</code></div>
                     <div class="stack__line"><span class="stack__ln">12</span><code>    title = models.<span class="tok-fn">CharField</span>(max_length=<span class="tok-num">255</span>)</code></div>
                     <div class="stack__line"><span class="stack__ln">13</span><code>    slug = models.<span class="tok-fn">SlugField</span>(unique=<span class="tok-bool">True</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">14</span><code>    content = models.<span class="tok-fn">TextField</span>(blank=<span class="tok-bool">True</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">15</span><code>    published = models.<span class="tok-fn">BooleanField</span>(default=<span class="tok-bool">False</span>)</code></div>
+                    <div class="stack__line"><span class="stack__ln">14</span><code>    author = models.<span class="tok-fn">ForeignKey</span>(User, null=<span class="tok-bool">True</span>)</code></div>
+                    <div class="stack__line"><span class="stack__ln">15</span><code>    created_on = models.<span class="tok-fn">DateField</span>(null=<span class="tok-bool">True</span>)</code></div>
+                    <div class="stack__line"><span class="stack__ln">16</span><code>    published = models.<span class="tok-fn">BooleanField</span>(default=<span class="tok-bool">False</span>)</code></div>
+                    <div class="stack__line"><span class="stack__ln">17</span><code>    content = models.<span class="tok-fn">TextField</span>(blank=<span class="tok-bool">True</span>)</code></div>
+                    <div class="stack__line"><span class="stack__ln">18</span><code>    thumbnail = models.<span class="tok-fn">ImageField</span>(blank=<span class="tok-bool">True</span>)</code></div>
                 </div>
             </article>
         </div>
@@ -261,7 +275,7 @@
           aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
           aria-label="Article {{ forloop.counter }} sur {{ featured_posts|length }}"
         >
-          <a class="featured-rotator__link" href="{% url 'blog:detail' post.slug %}">
+          <a class="featured-rotator__link" href="{% url 'blog:detail' post.slug %}" draggable="false">
             <div class="featured-rotator__media">
               {% if post.thumbnail %}
                 <img
@@ -269,6 +283,7 @@
                   alt=""
                   width="1200"
                   height="675"
+                  draggable="false"
                   {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
                 >
               {% else %}
@@ -277,6 +292,7 @@
                   alt=""
                   width="1200"
                   height="675"
+                  draggable="false"
                   {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
                 >
               {% endif %}
@@ -336,7 +352,7 @@
 <!-- Section parallax -->
 <section class="parallax" id="contact">
     <div class="parallax__media" aria-hidden="true">
-        <img src="{% static 'ressources/parallax.jpg' %}" alt="" width="1920" height="1280" loading="lazy" decoding="async">
+        <img src="{% static 'ressources/parallax.jpg' %}?v=20260909-city" alt="" width="1920" height="2402" loading="lazy" decoding="async">
     </div>
     <div class="parallax__veil" aria-hidden="true"></div>
     <div class="parallax__content">

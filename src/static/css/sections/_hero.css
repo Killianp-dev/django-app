@@ -34,9 +34,24 @@
   height: 100%;
   object-fit: cover;
   object-position: 58% 42%;
+  transform-origin: 58% 42%;
   display: block;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+}
+
+.hero.is-loading .hero__overlay,
+.hero.is-loading .hero__scroll {
+  pointer-events: none;
+}
+
+.hero.is-loading .hero__eyebrow,
+.hero.is-loading .hero__title,
+.hero.is-loading .hero__subtitle,
+.hero.is-loading .hero__actions,
+.hero.is-loading .hero__guide,
+.hero.is-loading .hero__scroll {
+  opacity: 0;
 }
 
 .hero__veil {
@@ -95,7 +110,6 @@
   background: rgba(15, 110, 102, 0.18);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  animation: heroFade 0.8s var(--ease-out) 0.2s both;
 }
 
 .hero__title {
@@ -107,7 +121,6 @@
   margin-bottom: 0;
   color: #fffaf3;
   text-shadow: 0 2px 28px rgba(0, 0, 0, 0.55), 0 1px 2px rgba(0, 0, 0, 0.45);
-  will-change: transform, opacity;
 }
 
 .hero__title::after {
@@ -128,7 +141,6 @@
   font-weight: 400;
   line-height: 1.6;
   color: rgba(247, 244, 238, 0.9);
-  will-change: transform, opacity;
 }
 
 .hero__stack {
@@ -137,18 +149,6 @@
   justify-content: flex-start;
   gap: 0.5rem;
   margin-bottom: 2rem;
-  animation: heroFade 0.8s var(--ease-out) 0.75s both;
-}
-
-@keyframes heroFade {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
 }
 
 .hero__stack span {
@@ -182,7 +182,6 @@
   margin-top: 2rem;
   padding-top: 1.55rem;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
-  animation: heroFade 0.8s var(--ease-out) 0.95s both;
 }
 
 .hero__guide-item {
@@ -464,9 +463,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__eyebrow,
-  .hero__stack,
-  .hero__guide,
+  .hero.is-loading .hero__eyebrow,
+  .hero.is-loading .hero__title,
+  .hero.is-loading .hero__subtitle,
+  .hero.is-loading .hero__actions,
+  .hero.is-loading .hero__guide,
+  .hero.is-loading .hero__scroll {
+    opacity: 1;
+  }
+
+  .hero.is-loading .hero__overlay,
+  .hero.is-loading .hero__scroll {
+    pointer-events: auto;
+  }
+
   .hero__scroll-line {
     animation: none;
   }

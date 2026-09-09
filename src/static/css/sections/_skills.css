@@ -131,8 +131,9 @@ html[data-theme="dark"] .stack {
 .stack__code {
   position: relative;
   min-width: 0;
-  width: min(100%, 40rem);
+  width: min(100%, 32rem);
   margin-inline: auto;
+  min-height: 20.5rem;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -199,12 +200,13 @@ html[data-theme="dark"] .stack {
 }
 
 .stack__source {
+  flex: 1;
   margin: 0;
-  padding: 0.7rem 0.9rem 0.8rem;
+  padding: 1.05rem 1.1rem 1.45rem;
   overflow-x: auto;
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.78rem;
-  line-height: 1.7;
+  font-size: 0.84rem;
+  line-height: 1.85;
   color: var(--stack-ink);
 }
 
@@ -668,6 +670,7 @@ html[data-theme="dark"] .stack {
     position: relative;
     top: auto;
     height: auto;
+    min-height: 18.5rem;
   }
 
   .stack__line {
@@ -750,9 +753,9 @@ html[data-theme="dark"] .stack {
   }
 
   .stack__source {
-    font-size: 0.7rem;
-    line-height: 1.65;
-    padding: 0.55rem 0.7rem 0.65rem;
+    font-size: 0.74rem;
+    line-height: 1.75;
+    padding: 0.75rem 0.8rem 1rem;
   }
 
   .stack__code-bar {
