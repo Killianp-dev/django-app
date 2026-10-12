@@ -56,30 +56,39 @@
 .archi-gallery__item:hover .archi-gallery__caption,
 .archi-gallery__item:focus-visible .archi-gallery__caption { opacity: 1; }
 
-/* Lightbox <dialog> */
+/* Lightbox <dialog>
+   Le reset met margin: 0 sur tout, ce qui annule le margin: auto
+   du navigateur : sans le rétablir, la fenêtre reste en haut à gauche. */
 .archi-lightbox {
     border: none;
     padding: 0;
+    margin: auto;
     background: transparent;
+    width: fit-content;
     max-width: 92vw;
     max-height: 92vh;
-    width: 100%;
 }
 
 .archi-lightbox::backdrop { background-color: rgba(15, 12, 9, 0.92); }
 
-.archi-lightbox__inner { position: relative; }
+.archi-lightbox__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .archi-lightbox__image {
-    max-width: 92vw;
-    max-height: 86vh;
+    display: block;
     width: auto;
     height: auto;
-    margin: 0 auto;
-    display: block;
+    max-width: 92vw;
+    max-height: 82vh;
+    object-fit: contain;
 }
 
 .archi-lightbox__caption {
+    max-width: none;
+    width: 100%;
     color: rgba(255, 255, 255, 0.85);
     font-size: var(--text-sm);
     text-align: center;
