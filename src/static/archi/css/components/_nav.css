@@ -144,6 +144,15 @@
 .archi-nav__link--cta::after { display: none; }
 .archi-nav__link--cta:hover { background-color: var(--color-accent-hover); color: var(--color-on-accent); }
 
+/* Le bouton CTA garde son texte clair même "actif" (page Contact) :
+   sans ce correctif, [aria-current="page"] (couleur accent) écrase le
+   color: var(--color-on-accent) du bouton, qui se fond alors dans son
+   propre fond accent et devient invisible. */
+.archi-nav__link--cta[aria-current="page"] {
+    color: var(--color-on-accent);
+    background-color: var(--color-accent-hover);
+}
+
 /* Toggle mobile */
 .archi-nav-mobile-toggle {
     display: flex;
