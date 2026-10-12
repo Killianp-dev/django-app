@@ -22,5 +22,10 @@ class ArchiContextMixin:
         
         context['demo_mode'] = getattr(settings, 'ARCHI_DEMO_MODE', False)
         context['url_prefix'] = getattr(settings, 'ARCHI_URL_PREFIX', '')
+
+        # Menu global (header + nav mobile). Sans ça, "Missions" disparaît
+        # sur les pages qui ne redéfinissent pas ce contexte (Agence, Contact…).
+        from archi.portfolio.models import MissionType
+        context['mission_types'] = MissionType.objects.all()
         
         return context
