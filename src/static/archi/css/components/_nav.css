@@ -204,9 +204,45 @@
     padding: var(--space-sm) var(--space-md) var(--space-lg);
     overflow-y: auto;
     z-index: 99;
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity var(--transition-base),
+        transform var(--transition-base),
+        visibility 0s linear 400ms;
+}
+
+.archi-nav-mobile.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+        opacity var(--transition-base),
+        transform var(--transition-base),
+        visibility 0s linear 0s;
 }
 
 .archi-nav-mobile__list { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.archi-nav-mobile__item {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 320ms ease, transform var(--transition-base);
+}
+
+.archi-nav-mobile.is-open .archi-nav-mobile__item {
+    opacity: 1;
+    transform: none;
+}
+
+.archi-nav-mobile.is-open .archi-nav-mobile__item:nth-child(1) { transition-delay: 60ms; }
+.archi-nav-mobile.is-open .archi-nav-mobile__item:nth-child(2) { transition-delay: 110ms; }
+.archi-nav-mobile.is-open .archi-nav-mobile__item:nth-child(3) { transition-delay: 160ms; }
+.archi-nav-mobile.is-open .archi-nav-mobile__item:nth-child(4) { transition-delay: 210ms; }
+.archi-nav-mobile.is-open .archi-nav-mobile__item:nth-child(5) { transition-delay: 260ms; }
 
 .archi-nav-mobile__link {
     display: block;
