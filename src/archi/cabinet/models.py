@@ -12,6 +12,7 @@ from django.core.validators import RegexValidator
 FONT_CHOICES = [
     ('system-ui', 'Fonte système'),
     ('Inter', 'Inter'),
+    ('Playfair Display', 'Playfair Display (élégant, serif)'),
 ]
 
 # Choix pour le titre d'architecte
@@ -263,63 +264,63 @@ class SiteSettings(models.Model):
     # ===== THÈME (9 couleurs hex + 2 polices) =====
     color_bg = models.CharField(
         max_length=7,
-        default='#ffffff',
+        default='#FAF8F4',
         verbose_name="Couleur fond",
         validators=[validate_hex_color],
         help_text="Fond principal (#RRGGBB)"
     )
     color_surface = models.CharField(
         max_length=7,
-        default='#f5f5f5',
+        default='#EFEBE2',
         verbose_name="Couleur surface",
         validators=[validate_hex_color],
         help_text="Fonds de cartes/sections"
     )
     color_ink = models.CharField(
         max_length=7,
-        default='#1a1a1a',
+        default='#262320',
         verbose_name="Couleur texte",
         validators=[validate_hex_color],
         help_text="Texte principal"
     )
     color_ink_soft = models.CharField(
         max_length=7,
-        default='#6b7280',
+        default='#6B6459',
         verbose_name="Couleur texte secondaire",
         validators=[validate_hex_color],
         help_text="Texte moins important"
     )
     color_accent = models.CharField(
         max_length=7,
-        default='#2563eb',
+        default='#7C5C3E',
         verbose_name="Couleur accent",
         validators=[validate_hex_color],
         help_text="Boutons, liens"
     )
     color_accent_hover = models.CharField(
         max_length=7,
-        default='#1d4ed8',
+        default='#5F4530',
         verbose_name="Couleur accent survol",
         validators=[validate_hex_color],
         help_text="État hover des boutons"
     )
     color_on_accent = models.CharField(
         max_length=7,
-        default='#ffffff',
+        default='#FFFFFF',
         verbose_name="Couleur texte sur accent",
         validators=[validate_hex_color],
         help_text="Texte sur boutons colorés"
     )
     color_border = models.CharField(
         max_length=7,
-        default='#d1d5db',
+        default='#DED6C8',
         verbose_name="Couleur bordure",
         validators=[validate_hex_color],
         help_text="Séparateurs, cadres"
     )
     color_focus = models.CharField(
         max_length=7,
-        default='#2563eb',
+        default='#7C5C3E',
         verbose_name="Couleur focus",
         validators=[validate_hex_color],
         help_text="Indicateur de focus clavier"
@@ -327,13 +328,13 @@ class SiteSettings(models.Model):
     
     font_heading = models.CharField(
         max_length=50,
-        default='Inter',
+        default='Playfair Display',
         choices=FONT_CHOICES,
         verbose_name="Police des titres"
     )
     font_body = models.CharField(
         max_length=50,
-        default='system-ui',
+        default='Inter',
         choices=FONT_CHOICES,
         verbose_name="Police du texte"
     )

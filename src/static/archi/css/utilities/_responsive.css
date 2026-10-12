@@ -1,23 +1,22 @@
 /**
- * Utilitaires responsive
+ * Utilitaires responsive — audit multi-tailles (320 → 1920px)
  */
 
-/* Visibilité */
 @media (max-width: 767px) {
-    .archi-hide-mobile {
-        display: none !important;
-    }
+    .archi-hide-mobile { display: none !important; }
 }
 
 @media (min-width: 768px) {
-    .archi-hide-desktop {
-        display: none !important;
-    }
+    .archi-hide-desktop { display: none !important; }
 }
 
-/* Espacements adaptatifs */
-@media (max-width: 767px) {
-    .archi-section {
-        padding: 2rem 0;
-    }
+/* Très petits écrans (<= 380px) : réduction des paddings container */
+@media (max-width: 380px) {
+    .archi-container { padding-left: 1.125rem; padding-right: 1.125rem; }
+    .archi-btn { padding-left: 1.25rem; padding-right: 1.25rem; }
+}
+
+/* Grands écrans : limite la largeur du texte pour la lisibilité */
+@media (min-width: 1600px) {
+    .archi-container { max-width: 1440px; }
 }

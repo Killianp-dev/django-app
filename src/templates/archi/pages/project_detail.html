@@ -1,47 +1,64 @@
 {% extends 'archi/base.html' %}
+{% load static %}
 
 {% block title %}{{ project.titre }} — {{ site.nom_cabinet|default:"" }}{% endblock %}
 
 {% block content %}
-<article class="archi-project-detail archi-container" style="padding:3rem 0;">
-    <header style="margin-bottom:2rem;">
-        <h1 style="font-size:2.5rem;margin-bottom:1rem;">{{ project.titre }}</h1>
-        <p style="color:var(--color-ink-soft);font-size:1.125rem;">
-            {{ project.ville }}{% if project.annee %} — {{ project.annee }}{% endif %}
-        </p>
-        {% if project.types_mission.exists %}
-        <ul style="display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap;">
-            {% for mission in project.types_mission.all %}
-            <li class="archi-tag">{{ mission.name }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+<article class="archi-container archi-container--medium" style="padding:var(--space-2xl) 0;">
+
+    <header class="archi-project-detail__header">
+        <span class="archi-eyebrow">
+            {% for mission in project.types_mission.all %}{{ mission.name }}{% if not forloop.last %} · {% endif %}{% endfor %}
+        </span>
+        <h1 class="archi-project-detail__title">{{ project.titre }}</h1>
+        <p class="archi-project-detail__meta">{{ project.ville }}{% if project.annee %} — {{ project.annee }}{% endif %}</p>
     </header>
-    
-    {% if project.description %}
-    <div style="max-width:800px;margin-bottom:3rem;line-height:1.7;">
-        {{ project.description|linebreaks }}
-    </div>
+
+    {% if project.surface or project.programme or project.statut %}
+    <dl class="archi-project-facts">
+        {% if project.programme %}
+        <div><dt>Programme</dt><dd>{{ project.programme }}</dd></div>
+        {% endif %}
+        {% if project.surface %}
+        <div><dt>Surface</dt><dd>{{ project.surface }} m²</dd></div>
+        {% endif %}
+        <div><dt>Statut</dt><dd>{{ project.get_statut_display }}</dd></div>
+        {% if project.annee %}
+        <div><dt>Année</dt><dd>{{ project.annee }}</dd></div>
+        {% endif %}
+    </dl>
     {% endif %}
-    
-    {# Galerie photos (TODO: composant galerie + lightbox) #}
+
+    {% if project.description %}
+    <div class="archi-project-detail__description">{{ project.description|linebreaks }}</div>
+    {% endif %}
+
+    {# Galerie #}
     {% if project.photos.exists %}
-    <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:3rem;">
+    <div class="archi-gallery">
         {% for photo in project.photos.all %}
-        <div>
-            <img src="{{ photo.image.url }}" alt="{{ photo.alt }}" style="width:100%;border-radius:var(--radius-md);" loading="lazy">
-            {% if photo.legende %}
-            <p style="margin-top:0.5rem;font-size:0.875rem;color:var(--color-ink-soft);">{{ photo.legende }}</p>
-            {% endif %}
-        </div>
+        <a href="{{ photo.image.url }}"
+           class="archi-gallery__item {% if forloop.first %}archi-gallery__item--main{% endif %}"
+           data-lightbox="project-gallery"
+           data-caption="{{ photo.legende|default:photo.alt }}">
+            <img src="{{ photo.image.url }}"
+                 alt="{{ photo.alt }}"
+                 {% if photo.width %}width="{{ photo.width }}"{% endif %}
+                 {% if photo.height %}height="{{ photo.height }}"{% endif %}
+                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+            {% if photo.legende %}<span class="archi-gallery__caption">{{ photo.legende }}</span>{% endif %}
+        </a>
         {% endfor %}
     </div>
     {% endif %}
-    
+
     {# Projets liés #}
     {% if related_projects %}
-    <section style="margin-top:4rem;">
-        <h2 style="font-size:1.75rem;margin-bottom:2rem;">Projets similaires</h2>
+    <section style="margin-top:var(--space-2xl);">
+        <header class="archi-section__header">
+            <span class="archi-eyebrow">À découvrir aussi</span>
+            <h2 class="archi-section__title" style="font-size:var(--text-2xl);">Projets similaires</h2>
+        </header>
         <div class="archi-projects-grid">
             {% for related in related_projects|slice:":3" %}
             {% include 'archi/components/project_card.html' with project=related %}
@@ -49,5 +66,33 @@
         </div>
     </section>
     {% endif %}
+
+    {# Navigation précédent/suivant #}
+    {% if previous_project or next_project %}
+    <nav class="archi-project-nav" aria-label="Navigation entre projets">
+        {% if previous_project %}
+        <a href="{% url 'archi:project_detail' previous_project.slug %}" class="archi-project-nav__link">← {{ previous_project.titre }}</a>
+        {% else %}<span></span>{% endif %}
+        {% if next_project %}
+        <a href="{% url 'archi:project_detail' next_project.slug %}" class="archi-project-nav__link">{{ next_project.titre }} →</a>
+        {% endif %}
+    </nav>
+    {% endif %}
+
 </article>
+
+{# Lightbox (amélioration progressive, le site marche sans JS via lien direct) #}
+<dialog class="archi-lightbox" id="archi-lightbox" aria-label="Visionneuse d'image">
+    <div class="archi-lightbox__inner">
+        <button class="archi-lightbox__close" aria-label="Fermer" data-lightbox-close>&times;</button>
+        <button class="archi-lightbox__prev" aria-label="Image précédente" data-lightbox-prev>&larr;</button>
+        <img class="archi-lightbox__image" src="" alt="" data-lightbox-image>
+        <button class="archi-lightbox__next" aria-label="Image suivante" data-lightbox-next>&rarr;</button>
+        <p class="archi-lightbox__caption" data-lightbox-caption></p>
+    </div>
+</dialog>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'archi/js/lightbox.js' %}" defer></script>
 {% endblock %}

@@ -1,49 +1,33 @@
 /**
- * Page d'accueil spécifique
+ * Page d'accueil
  */
 
-.archi-page--home .archi-section--featured {
-    background-color: var(--color-bg);
-}
-
-.archi-page--home .archi-section--missions {
-    background-color: var(--color-surface);
-}
-
-.archi-page--home .archi-section--about {
-    background-color: var(--color-bg);
-}
+.archi-page--home .archi-section--featured { background-color: var(--color-bg); }
+.archi-page--home .archi-section--missions { background-color: var(--color-ink); }
+.archi-page--home .archi-section--missions .archi-section__title { color: #fff; }
+.archi-page--home .archi-section--missions .archi-section__kicker { color: #D9B48F; }
+.archi-page--home .archi-section--about { background-color: var(--color-surface); }
 
 /* About preview sur home */
 .archi-about-preview {
     display: grid;
-    gap: 2rem;
+    gap: var(--space-xl);
     align-items: center;
 }
 
 @media (min-width: 768px) {
-    .archi-about-preview {
-        grid-template-columns: 1fr 2fr;
-    }
+    .archi-about-preview { grid-template-columns: 0.9fr 1.1fr; }
 }
 
-.archi-about-preview__image {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-}
+.archi-about-preview__image { aspect-ratio: 4 / 5; overflow: hidden; }
 
-.archi-about-preview__image img {
-    width: 100%;
-    height: auto;
-}
+.archi-about-preview__image img { width: 100%; height: 100%; object-fit: cover; }
 
-.archi-about-preview__title {
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
-}
+.archi-about-preview__title { font-size: clamp(1.75rem, 3vw, 2.25rem); margin-bottom: var(--space-md); }
 
 .archi-about-preview__text {
     color: var(--color-ink-soft);
-    margin-bottom: 1.5rem;
-    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+    line-height: var(--leading-normal);
+    font-size: var(--text-lg);
 }

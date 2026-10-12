@@ -1,0 +1,45 @@
+/**
+ * Page Agence / À propos
+ */
+
+.archi-about-hero {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-2xl);
+}
+
+.archi-about-hero__title { font-size: clamp(2rem, 4vw, 3rem); }
+
+.archi-about-portrait {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: start;
+    margin-bottom: var(--space-2xl);
+}
+
+@media (min-width: 768px) {
+    .archi-about-portrait { grid-template-columns: 0.85fr 1.15fr; }
+}
+
+.archi-about-portrait__image {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: var(--color-surface);
+}
+
+.archi-about-portrait__image img { width: 100%; height: 100%; object-fit: cover; }
+
+.archi-about-portrait__text {
+    font-size: var(--text-lg);
+    line-height: var(--leading-normal);
+    color: var(--color-ink-soft);
+}
+
+.archi-about-portrait__text p { margin-bottom: var(--space-md); max-width: none; }
+
+.archi-about-portrait__signature {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    color: var(--color-ink);
+    margin-top: var(--space-md);
+}

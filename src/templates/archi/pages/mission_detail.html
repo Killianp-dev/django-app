@@ -3,31 +3,36 @@
 {% block title %}{{ mission.name }} — {{ site.nom_cabinet|default:"" }}{% endblock %}
 
 {% block content %}
-<article class="archi-container" style="padding:3rem 0;">
-    <header style="text-align:center;margin-bottom:3rem;">
-        <h1 style="font-size:2.5rem;margin-bottom:1rem;">{{ mission.name }}</h1>
-        {% if mission.accroche %}
-        <p style="font-size:1.25rem;color:var(--color-ink-soft);">{{ mission.accroche }}</p>
-        {% endif %}
-    </header>
-    
+
+<section class="archi-hero {% if not mission.image %}archi-hero--plain{% endif %}" style="min-height:56vh;">
+    {% if mission.image %}
+    <div class="archi-hero__bg"><img src="{{ mission.image.url }}" alt="" loading="eager" fetchpriority="high"></div>
+    {% endif %}
+    <div class="archi-hero__content">
+        <span class="archi-hero__eyebrow">Mission</span>
+        <h1 class="archi-hero__title" style="font-size:clamp(2.25rem,5vw,3.5rem);">{{ mission.name }}</h1>
+        {% if mission.accroche %}<p class="archi-hero__subtitle">{{ mission.accroche }}</p>{% endif %}
+    </div>
+</section>
+
+<article class="archi-container archi-container--medium" style="padding:var(--space-2xl) 0;">
     {% if mission.description %}
-    <div style="max-width:800px;margin:0 auto 3rem;line-height:1.7;">
-        {{ mission.description|linebreaks }}
-    </div>
+    <div class="archi-project-detail__description" style="margin-bottom:var(--space-lg);">{{ mission.description|linebreaks }}</div>
     {% endif %}
-    
+
     {% if mission.etapes %}
-    <div style="max-width:800px;margin:0 auto 3rem;padding:2rem;background:var(--color-surface);border-radius:var(--radius-lg);">
-        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Déroulé de la mission</h2>
-        {{ mission.etapes|linebreaks }}
+    <div style="padding:var(--space-lg);background:var(--color-surface);margin-bottom:var(--space-2xl);">
+        <h2 style="font-size:var(--text-xl);margin-bottom:var(--space-sm);">Déroulé de la mission</h2>
+        <div style="color:var(--color-ink-soft);">{{ mission.etapes|linebreaks }}</div>
     </div>
     {% endif %}
-    
-    {# Projets de ce type #}
+
     {% if projects %}
-    <section style="margin-top:4rem;">
-        <h2 style="font-size:1.75rem;margin-bottom:2rem;text-align:center;">Projets réalisés</h2>
+    <section>
+        <header class="archi-section__header">
+            <span class="archi-eyebrow">Réalisations</span>
+            <h2 class="archi-section__title" style="font-size:var(--text-2xl);">Projets réalisés</h2>
+        </header>
         <div class="archi-projects-grid">
             {% for project in projects %}
             {% include 'archi/components/project_card.html' with project=project %}

@@ -1,37 +1,22 @@
 /**
- * Cartes projet
+ * Cartes projet — style éditorial, sobre, zoom doux au survol
  */
 
 .archi-projects-grid {
     display: grid;
-    gap: 2rem;
+    gap: var(--space-lg) var(--space-md);
     grid-template-columns: 1fr;
 }
 
 @media (min-width: 640px) {
-    .archi-projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    .archi-projects-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (min-width: 1024px) {
-    .archi-projects-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+@media (min-width: 1100px) {
+    .archi-projects-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-.archi-project-card {
-    background-color: var(--color-bg);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
-}
-
-.archi-project-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
+.archi-project-card { background-color: transparent; }
 
 .archi-project-card__link {
     display: block;
@@ -40,9 +25,11 @@
 }
 
 .archi-project-card__image {
-    aspect-ratio: 4 / 3;
+    position: relative;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     background-color: var(--color-surface);
+    margin-bottom: var(--space-sm);
 }
 
 .archi-project-card__image img {
@@ -52,42 +39,64 @@
     transition: transform var(--transition-slow);
 }
 
-.archi-project-card:hover .archi-project-card__image img {
-    transform: scale(1.05);
+.archi-project-card:hover .archi-project-card__image img { transform: scale(1.06); }
+
+.archi-project-card__image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.25) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-base);
 }
 
-.archi-project-card__content {
-    padding: 1.5rem;
-}
+.archi-project-card:hover .archi-project-card__image::after { opacity: 1; }
+
+.archi-project-card__content { padding: 0 0.125rem; }
 
 .archi-project-card__title {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    font-size: var(--text-lg);
+    margin-bottom: 0.4rem;
+    transition: color var(--transition-fast);
 }
 
+.archi-project-card:hover .archi-project-card__title { color: var(--color-accent); }
+
 .archi-project-card__meta {
+    font-family: var(--font-body);
     color: var(--color-ink-soft);
-    font-size: 0.875rem;
+    font-size: var(--text-xs);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
     margin-bottom: 0.75rem;
 }
 
-.archi-project-card__tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
+.archi-project-card__tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
 .archi-tag {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
+    padding: 0.3rem 0.75rem;
     background-color: var(--color-surface);
     color: var(--color-ink-soft);
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 500;
+    letter-spacing: 0.02em;
     border-radius: var(--radius-sm);
 }
 
-.archi-tag--sm {
-    font-size: 0.675rem;
-    padding: 0.2rem 0.6rem;
+.archi-tag--sm { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
+
+/* Carte "mise en avant" plus grande (1ère de la grille accueil, optionnel) */
+.archi-projects-grid--featured .archi-project-card:first-child {
+    grid-column: 1 / -1;
+}
+
+.archi-projects-grid--featured .archi-project-card:first-child .archi-project-card__image {
+    aspect-ratio: 16 / 8;
+}
+
+@media (max-width: 639px) {
+    .archi-projects-grid--featured .archi-project-card:first-child .archi-project-card__image {
+        aspect-ratio: 4 / 5;
+    }
 }

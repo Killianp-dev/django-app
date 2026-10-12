@@ -105,18 +105,18 @@ class Command(BaseCommand):
                 'zone_intervention': f'{ville} et sa métropole',
                 'accroche_accueil': 'Nous concevons des espaces de vie sur mesure, '
                                    'en harmonie avec votre environnement.',
-                'texte_a_propos': 'Diplômée de l'École d'architecture de Lyon, '
-                                 'je suis passionnée par l'architecture bioclimatique '
-                                 'et les matériaux durables.\n\n'
-                                 'Chaque projet est une rencontre unique avec un lieu, '
-                                 'un contexte et des aspirations.',
+                'texte_a_propos': "Diplômée de l'École d'architecture de Lyon, "
+                                 "je suis passionnée par l'architecture bioclimatique "
+                                 "et les matériaux durables.\n\n"
+                                 "Chaque projet est une rencontre unique avec un lieu, "
+                                 "un contexte et des aspirations.",
                 'forme_juridique': 'EURL',
                 'siret': '12345678901234',
                 'hebergeur': 'IONOS SARL, 7 place de la Gare, 57200 Sarreguemines',
                 'directeur_publication': 'Marie Dupont',
                 'title_default': f'Atelier {ville} — Architecte DE-HMONP',
-                'description_default': f'Cabinet d'architecture à {ville}, '
-                                      'spécialisé en construction neuve, rénovation et extension.',
+                'description_default': f"Cabinet d'architecture à {ville}, "
+                                      "spécialisé en construction neuve, rénovation et extension.",
             }
         )
         
@@ -152,13 +152,13 @@ class Command(BaseCommand):
                 'ville': ville,
                 'annee': 2023,
                 'surface': 150,
-                'programme': 'Maison d'habitation',
+                'programme': "Maison d'habitation",
                 'statut': 'livre',
                 'description': 'Maison contemporaine ossature bois, intégrée dans le paysage.',
                 'mis_en_avant': True,
             },
             {
-                'titre': f'Rénovation d'un appartement à {ville}',
+                'titre': f"Rénovation d'un appartement à {ville}",
                 'types': ['Rénovation / Réhabilitation', 'Aménagement intérieur'],
                 'ville': ville,
                 'annee': 2024,
@@ -169,7 +169,7 @@ class Command(BaseCommand):
                 'mis_en_avant': True,
             },
             {
-                'titre': 'Extension d'une maison à Villeurbanne',
+                'titre': "Extension d'une maison à Villeurbanne",
                 'types': ['Extension'],
                 'ville': 'Villeurbanne' if ville == 'Lyon' else ville,
                 'annee': 2024,

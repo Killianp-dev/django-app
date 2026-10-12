@@ -3,14 +3,15 @@
 {% block title %}Message envoyé — {{ site.nom_cabinet|default:"" }}{% endblock %}
 
 {% block content %}
-<section class="archi-container archi-container--narrow" style="padding:4rem 0;text-align:center;">
-    <h1 style="font-size:2.5rem;margin-bottom:1rem;">Message envoyé ✓</h1>
-    <p style="font-size:1.125rem;color:var(--color-ink-soft);margin-bottom:2rem;">
-        Nous avons bien reçu votre message et vous répondrons dans les plus brefs délais.
-        {% if demo_mode %}<br><em style="color:#92400e;font-size:0.875rem;">(Ceci est une démonstration, aucun email réel n'a été envoyé à l'architecte fictif.)</em>{% endif %}
-    </p>
-    <a href="{% url 'archi:home' %}" class="archi-btn archi-btn--primary">
-        Retour à l'accueil
-    </a>
+<section class="archi-container archi-container--narrow" style="padding:var(--space-2xl) 0;">
+    <div class="archi-contact-success">
+        <div class="archi-contact-success__icon" aria-hidden="true">✓</div>
+        <h1 style="font-size:clamp(2rem,4vw,2.75rem);margin-bottom:var(--space-sm);">Message envoyé</h1>
+        <p style="font-size:var(--text-lg);color:var(--color-ink-soft);margin-bottom:var(--space-lg);">
+            Nous avons bien reçu votre message et vous répondrons dans les plus brefs délais.
+            {% if demo_mode %}<br><em style="font-size:var(--text-sm);">(Démonstration : aucun email réel n'a été envoyé à l'architecte fictif.)</em>{% endif %}
+        </p>
+        <a href="{% url 'archi:home' %}" class="archi-btn archi-btn--primary">Retour à l'accueil</a>
+    </div>
 </section>
 {% endblock %}

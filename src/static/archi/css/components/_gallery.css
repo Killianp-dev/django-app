@@ -1,0 +1,116 @@
+/**
+ * Galerie photo projet — grille 1/2/3 colonnes + lightbox <dialog>
+ */
+
+.archi-gallery {
+    display: grid;
+    gap: var(--space-sm);
+    grid-template-columns: 1fr;
+    margin-bottom: var(--space-xl);
+}
+
+@media (min-width: 640px) {
+    .archi-gallery { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    .archi-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+.archi-gallery__item {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background-color: var(--color-surface);
+}
+
+/* La 1ère photo (principale) prend plus de place */
+.archi-gallery__item--main {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+}
+
+.archi-gallery__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.archi-gallery__item:hover img { transform: scale(1.04); }
+
+.archi-gallery__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.6rem 0.9rem;
+    background: linear-gradient(0deg, rgba(0,0,0,0.55), transparent);
+    color: #fff;
+    font-size: var(--text-xs);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.archi-gallery__item:hover .archi-gallery__caption,
+.archi-gallery__item:focus-visible .archi-gallery__caption { opacity: 1; }
+
+/* Lightbox <dialog> */
+.archi-lightbox {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: 92vw;
+    max-height: 92vh;
+    width: 100%;
+}
+
+.archi-lightbox::backdrop { background-color: rgba(15, 12, 9, 0.92); }
+
+.archi-lightbox__inner { position: relative; }
+
+.archi-lightbox__image {
+    max-width: 92vw;
+    max-height: 86vh;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+.archi-lightbox__caption {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: var(--text-sm);
+    text-align: center;
+    margin-top: var(--space-sm);
+}
+
+.archi-lightbox__close,
+.archi-lightbox__prev,
+.archi-lightbox__next {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.archi-lightbox__close { top: var(--space-md); right: var(--space-md); }
+.archi-lightbox__prev { left: var(--space-md); top: 50%; transform: translateY(-50%); }
+.archi-lightbox__next { right: var(--space-md); top: 50%; transform: translateY(-50%); }
+
+.archi-lightbox__close:hover,
+.archi-lightbox__prev:hover,
+.archi-lightbox__next:hover { background-color: rgba(255, 255, 255, 0.18); }
+
+@media (max-width: 640px) {
+    .archi-lightbox__prev, .archi-lightbox__next { width: 40px; height: 40px; }
+}

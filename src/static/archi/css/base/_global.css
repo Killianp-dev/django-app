@@ -1,8 +1,7 @@
 /**
- * Classes globales et utilitaires
+ * Classes globales
  */
 
-/* Conteneur */
 .archi-container {
     width: 100%;
     max-width: var(--container-max-width);
@@ -12,15 +11,37 @@
     padding-right: var(--container-padding);
 }
 
-.archi-container--narrow {
-    max-width: 800px;
+.archi-container--narrow { max-width: 760px; }
+.archi-container--medium { max-width: 980px; }
+.archi-container--wide { max-width: 1520px; }
+
+.archi-main { min-height: 60vh; }
+
+/* Eyebrow : petit label au-dessus des titres de section (typique du "chic/éditorial") */
+.archi-eyebrow {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
 }
 
-.archi-container--wide {
-    max-width: 1440px;
+/* Trait fin décoratif */
+.archi-rule {
+    width: 48px;
+    height: var(--rule-width);
+    background-color: var(--color-accent);
+    border: none;
+    margin: var(--space-md) 0;
 }
 
-/* Main */
-.archi-main {
-    min-height: 60vh;
+.archi-rule--center { margin-left: auto; margin-right: auto; }
+
+/* Sélection de texte élégante */
+.archi ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
 }

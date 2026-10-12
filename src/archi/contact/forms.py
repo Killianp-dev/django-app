@@ -28,24 +28,30 @@ class ContactForm(forms.ModelForm):
         fields = ['name', 'email', 'phone', 'mission_type', 'commune', 'message', 'consent']
         widgets = {
             'name': forms.TextInput(attrs={
+                'class': 'archi-form__input',
                 'placeholder': 'Votre nom',
                 'autocomplete': 'name'
             }),
             'email': forms.EmailInput(attrs={
+                'class': 'archi-form__input',
                 'placeholder': 'votre@email.fr',
                 'autocomplete': 'email'
             }),
             'phone': forms.TextInput(attrs={
+                'class': 'archi-form__input',
                 'placeholder': '06 12 34 56 78',
                 'autocomplete': 'tel'
             }),
             'mission_type': forms.Select(attrs={
+                'class': 'archi-form__input',
                 'aria-label': 'Type de projet'
             }),
             'commune': forms.TextInput(attrs={
+                'class': 'archi-form__input',
                 'placeholder': 'Ville du projet'
             }),
             'message': forms.Textarea(attrs={
+                'class': 'archi-form__input',
                 'rows': 6,
                 'placeholder': 'Décrivez votre projet...'
             }),

@@ -1,0 +1,35 @@
+/**
+ * Pages légales
+ */
+
+.archi-legal-page { max-width: 700px; margin: 0 auto; }
+.archi-legal-page h1 { font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: var(--space-xl); }
+
+.archi-legal-page section { margin-bottom: var(--space-lg); }
+
+.archi-legal-page h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--rule-width) solid var(--color-border);
+}
+
+.archi-legal-page p,
+.archi-legal-page li { color: var(--color-ink-soft); line-height: var(--leading-normal); margin-bottom: 0.5rem; }
+
+.archi-legal-page ul { list-style: disc; margin-left: 1.5rem; }
+
+.archi-404 {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.archi-404__code {
+    font-family: var(--font-heading);
+    font-size: clamp(4rem, 12vw, 7rem);
+    color: var(--color-accent);
+    line-height: 1;
+}
