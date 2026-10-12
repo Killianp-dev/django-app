@@ -191,20 +191,19 @@ html[data-theme="dark"] .theme-toggle__mark {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 50%;
-  width: 0;
+  left: 0;
+  width: 100%;
   height: 2px;
   background: var(--color-accent-bright);
-  transition: width 0.25s var(--ease-out), left 0.25s var(--ease-out);
-  transform: translateX(-50%);
   border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.28s var(--ease-out);
 }
 
 .nav-links a:hover::after,
 .nav-links a.active::after {
-  width: 100%;
-  left: 0;
-  transform: none;
+  transform: scaleX(1);
 }
 
 .link-hover-effect {

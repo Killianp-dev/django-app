@@ -12,13 +12,13 @@
 /* Components */
 @import 'components/_buttons.css';
 @import 'components/_nav.css';
-@import 'components/_footer.css';
+@import 'components/_footer.css?v=20261012-footer';
 @import 'components/_project-card.css';
 @import 'components/_mission-card.css';
 @import 'components/_gallery.css';
 
 /* Sections */
-@import 'sections/_hero.css';
+@import 'sections/_hero.css?v=20261012-hero';
 @import 'sections/_section.css';
 
 /* Pages */

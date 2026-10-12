@@ -374,7 +374,7 @@
     <header class="projects__header">
         <p class="section-eyebrow">Sélection</p>
         <h2 id="projects-title">Projets</h2>
-        <p>Des bases réutilisables, pensées pour la production plutôt que pour la démo.</p>
+        <p>Des bases réutilisables, pensées pour la production, et une vitrine en ligne.</p>
     </header>
 
     <div class="projects__list">
@@ -474,6 +474,32 @@
                 </ul>
                 <a class="project__link" href="https://github.com/Killianp-dev/o-notify" target="_blank" rel="noopener noreferrer">
                     Voir le dépôt
+                    <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M7 17L17 7"></path>
+                        <path d="M8 7h9v9"></path>
+                    </svg>
+                </a>
+            </div>
+        </article>
+
+        <article class="project">
+            <div class="project__media">
+                <img src="/media/archi/site/hero_maison.jpg" alt="Maison contemporaine, page d'accueil de la démo Atelier Lyon" width="1400" height="933" loading="lazy" decoding="async">
+            </div>
+            <div class="project__body">
+                <span class="project__index">05</span>
+                <h3 class="project__title">Atelier Lyon</h3>
+                <p class="project__excerpt">
+                    Site vitrine pour un cabinet d'architecte. Projets, galerie photo et formulaire,
+                    hébergés à part du blog.
+                </p>
+                <ul class="project__tags">
+                    <li>Django</li>
+                    <li>HTML/CSS</li>
+                    <li>Vitrine</li>
+                </ul>
+                <a class="project__link" href="{% url 'archi:home' %}">
+                    Voir la démo
                     <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M7 17L17 7"></path>
                         <path d="M8 7h9v9"></path>
