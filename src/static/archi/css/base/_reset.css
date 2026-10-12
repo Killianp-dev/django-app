@@ -60,6 +60,12 @@ a {
 
 a:hover { text-decoration: none; color: var(--color-accent-hover); }
 
+/* NB: a:hover (tag + pseudo-classe) a plus de spécificité qu'une simple
+   classe comme .archi-btn--primary. Toute variante de .archi-btn qui est
+   un <a> DOIT donc redéfinir explicitement `color` dans son état :hover,
+   sinon le texte prend var(--color-accent-hover) et peut se confondre
+   avec un fond de la même couleur (texte invisible). */
+
 ul, ol { list-style: none; }
 
 h1, h2, h3, h4, h5, h6 {

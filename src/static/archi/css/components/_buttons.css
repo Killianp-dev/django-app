@@ -35,6 +35,7 @@
 .archi-btn--primary:hover {
     background-color: var(--color-accent-hover);
     border-color: var(--color-accent-hover);
+    color: var(--color-on-accent);
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
 }
@@ -48,6 +49,7 @@
 .archi-btn--secondary:hover {
     border-color: var(--color-ink);
     background-color: var(--color-surface);
+    color: var(--color-ink);
 }
 
 .archi-btn--outline {
@@ -71,6 +73,7 @@
 .archi-btn--ghost-light:hover {
     background-color: rgba(255, 255, 255, 0.12);
     border-color: #fff;
+    color: #fff;
 }
 
 .archi-btn--sm { padding: 0.6rem 1.25rem; font-size: var(--text-xs); min-height: 40px; }
