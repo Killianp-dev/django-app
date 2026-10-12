@@ -32,6 +32,16 @@
 
 .archi-header__logo:hover { color: var(--color-ink); }
 
+/* Menu mobile ouvert : le nom du cabinet est au-dessus de liens en --text-xl.
+   Même corps, même graisse, sinon « Atelier Lyon » paraît plus petit. */
+@media (max-width: 859px) {
+    .archi-header__logo {
+        font-size: var(--text-xl);
+        font-weight: 500;
+        letter-spacing: 0;
+    }
+}
+
 .archi-header__logo-img { max-height: 44px; width: auto; }
 
 /* Navigation desktop */
@@ -191,7 +201,7 @@
     inset: 0;
     top: 73px;
     background-color: var(--color-bg);
-    padding: var(--space-lg) var(--space-md);
+    padding: var(--space-sm) var(--space-md) var(--space-lg);
     overflow-y: auto;
     z-index: 99;
 }

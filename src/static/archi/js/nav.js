@@ -7,21 +7,36 @@
     
     const toggle = document.querySelector('.archi-nav-mobile-toggle');
     const nav = document.getElementById('archi-nav-mobile');
+    const header = document.querySelector('.archi-header');
     
     if (!toggle || !nav) return;
+
+    function placeNav() {
+        const bar = header || document.querySelector('.archi-header');
+        if (!bar) return;
+        nav.style.top = bar.getBoundingClientRect().bottom + 'px';
+    }
     
-    toggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
         const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
         
-        // Toggle état
-        toggle.setAttribute('aria-expanded', !isExpanded);
+        toggle.setAttribute('aria-expanded', String(!isExpanded));
         nav.hidden = isExpanded;
         
-        // Piège focus si ouvert
         if (!isExpanded) {
+            placeNav();
             nav.querySelector('a')?.focus();
         }
     });
+
+    window.addEventListener('resize', function() {
+        if (!nav.hidden) placeNav();
+    });
+
+    window.addEventListener('scroll', function() {
+        if (!nav.hidden) placeNav();
+    }, { passive: true });
     
     // Fermer avec Échap
     document.addEventListener('keydown', function(e) {
