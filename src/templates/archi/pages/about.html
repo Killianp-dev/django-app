@@ -1,0 +1,23 @@
+{% extends 'archi/base.html' %}
+
+{% block title %}Agence — {{ site.nom_cabinet|default:"" }}{% endblock %}
+
+{% block content %}
+<article class="archi-container archi-container--narrow" style="padding:3rem 0;">
+    <header style="text-align:center;margin-bottom:3rem;">
+        <h1 style="font-size:2.5rem;">{{ site.nom_cabinet|default:"L'agence" }}</h1>
+    </header>
+    
+    {% if site.photo_architecte %}
+    <div style="text-align:center;margin-bottom:3rem;">
+        <img src="{{ site.photo_architecte.url }}" alt="{{ site.nom_architecte }}" style="max-width:400px;border-radius:var(--radius-lg);margin:0 auto;">
+    </div>
+    {% endif %}
+    
+    {% if site.texte_a_propos %}
+    <div style="line-height:1.8;font-size:1.125rem;">
+        {{ site.texte_a_propos|linebreaks }}
+    </div>
+    {% endif %}
+</article>
+{% endblock %}

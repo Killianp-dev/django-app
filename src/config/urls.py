@@ -25,7 +25,9 @@ from .views import HomeView
 from contact_form.views import SuccessView
 from . import settings
 from .sitemaps import BlogSitemap, StaticSitemap
+from archi.admin_demo import demo_admin_site  # Admin démo
 
+# Sitemaps : PAS de sitemap archi (mode démo, noindex)
 sitemaps = {
     'blog': BlogSitemap,
     'static': StaticSitemap,
@@ -43,6 +45,11 @@ urlpatterns = [
     path('', HomeView.as_view(), name='index'),
     path('success/', SuccessView.as_view(), name='success'),
     path('secure-admin-portal/', admin.site.urls),
+    
+    # Démo architecte (admin démo + pages)
+    path('demo-architecte/admin/', demo_admin_site.urls),  # Admin démo limité
+    path('demo-architecte/', include('archi.urls')),  # Pages publiques
+    
     path('blog/', include('blog.urls')),
     path('contact/', include('contact_form.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

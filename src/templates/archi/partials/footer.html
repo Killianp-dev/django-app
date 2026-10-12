@@ -1,0 +1,59 @@
+<footer class="archi-footer" role="contentinfo">
+    <div class="archi-container">
+        <div class="archi-footer__grid">
+            
+            {# NAP (Nom Adresse Téléphone) #}
+            <div class="archi-footer__col archi-footer__col--contact">
+                <h2 class="archi-footer__title">{{ site.nom_cabinet|default:"Cabinet" }}</h2>
+                
+                {% if site.adresse %}
+                <address class="archi-footer__address">
+                    {{ site.adresse|linebreaksbr }}<br>
+                    {% if site.code_postal %}{{ site.code_postal }}{% endif %} 
+                    {% if site.ville %}{{ site.ville }}{% endif %}
+                </address>
+                {% endif %}
+                
+                {% if site.telephone %}
+                <p class="archi-footer__contact-item">
+                    <a href="tel:{{ site.telephone|cut:' ' }}" class="archi-footer__link">{{ site.telephone }}</a>
+                </p>
+                {% endif %}
+                
+                {% if site.email %}
+                <p class="archi-footer__contact-item">
+                    <a href="mailto:{{ site.email }}" class="archi-footer__link">{{ site.email }}</a>
+                </p>
+                {% endif %}
+            </div>
+            
+            {# Navigation #}
+            <div class="archi-footer__col archi-footer__col--nav">
+                <h3 class="archi-footer__title">Navigation</h3>
+                <ul class="archi-footer__nav-list">
+                    <li><a href="{% url 'archi:home' %}" class="archi-footer__link">Accueil</a></li>
+                    <li><a href="{% url 'archi:portfolio_list' %}" class="archi-footer__link">Projets</a></li>
+                    <li><a href="{% url 'archi:about' %}" class="archi-footer__link">Agence</a></li>
+                    <li><a href="{% url 'archi:contact' %}" class="archi-footer__link">Contact</a></li>
+                </ul>
+            </div>
+            
+            {# Légal #}
+            <div class="archi-footer__col archi-footer__col--legal">
+                <h3 class="archi-footer__title">Informations</h3>
+                {% include 'archi/partials/legal_block.html' %}
+                <ul class="archi-footer__legal-list">
+                    <li><a href="{% url 'archi:legal_notice' %}" class="archi-footer__link">Mentions légales</a></li>
+                    <li><a href="{% url 'archi:privacy' %}" class="archi-footer__link">Confidentialité</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        {# Copyright #}
+        <div class="archi-footer__bottom">
+            <p class="archi-footer__copyright">
+                © {% now "Y" %} {{ site.nom_cabinet|default:"Cabinet d'architecture" }}. Tous droits réservés.
+            </p>
+        </div>
+    </div>
+</footer>

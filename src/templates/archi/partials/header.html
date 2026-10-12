@@ -1,0 +1,65 @@
+<header class="archi-header" role="banner">
+    <div class="archi-container">
+        <div class="archi-header__inner">
+            
+            {# Logo / Nom #}
+            <a href="{% url 'archi:home' %}" class="archi-header__logo">
+                {% if site.logo %}
+                <img src="{{ site.logo.url }}" alt="{{ site.nom_cabinet }}" class="archi-header__logo-img">
+                {% else %}
+                <span class="archi-header__logo-text">{{ site.nom_cabinet|default:"Cabinet" }}</span>
+                {% endif %}
+            </a>
+            
+            {# Navigation desktop #}
+            <nav class="archi-nav" role="navigation" aria-label="Navigation principale">
+                <ul class="archi-nav__list">
+                    <li class="archi-nav__item">
+                        <a href="{% url 'archi:portfolio_list' %}" class="archi-nav__link" {% if request.resolver_match.url_name == 'portfolio_list' or request.resolver_match.url_name == 'project_detail' %}aria-current="page"{% endif %}>
+                            Projets
+                        </a>
+                    </li>
+                    
+                    {# Types de mission (menu déroulant simple ou liens directs selon design) #}
+                    {% if mission_types %}
+                    <li class="archi-nav__item archi-nav__item--dropdown">
+                        <button class="archi-nav__link archi-nav__toggle" aria-expanded="false" aria-controls="archi-nav-missions">
+                            Missions
+                        </button>
+                        <ul class="archi-nav__submenu" id="archi-nav-missions">
+                            {% for mission in mission_types %}
+                            <li class="archi-nav__subitem">
+                                <a href="{% url 'archi:mission_detail' mission.slug %}" class="archi-nav__sublink">
+                                    {{ mission.name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="archi-nav__item">
+                        <a href="{% url 'archi:about' %}" class="archi-nav__link" {% if request.resolver_match.url_name == 'about' %}aria-current="page"{% endif %}>
+                            Agence
+                        </a>
+                    </li>
+                    <li class="archi-nav__item">
+                        <a href="{% url 'archi:contact' %}" class="archi-nav__link archi-nav__link--cta" {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            {# Bouton menu mobile #}
+            <button class="archi-nav-mobile-toggle" aria-label="Menu" aria-expanded="false" aria-controls="archi-nav-mobile">
+                <span class="archi-nav-mobile-toggle__bar"></span>
+                <span class="archi-nav-mobile-toggle__bar"></span>
+                <span class="archi-nav-mobile-toggle__bar"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+{# Navigation mobile (hors flux, overlay) #}
+{% include 'archi/partials/nav_mobile.html' %}

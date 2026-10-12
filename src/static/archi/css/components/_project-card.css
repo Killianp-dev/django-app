@@ -1,0 +1,93 @@
+/**
+ * Cartes projet
+ */
+
+.archi-projects-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .archi-projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .archi-projects-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.archi-project-card {
+    background-color: var(--color-bg);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.archi-project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.archi-project-card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.archi-project-card__image {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-surface);
+}
+
+.archi-project-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.archi-project-card:hover .archi-project-card__image img {
+    transform: scale(1.05);
+}
+
+.archi-project-card__content {
+    padding: 1.5rem;
+}
+
+.archi-project-card__title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.archi-project-card__meta {
+    color: var(--color-ink-soft);
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.archi-project-card__tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.archi-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--color-surface);
+    color: var(--color-ink-soft);
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+}
+
+.archi-tag--sm {
+    font-size: 0.675rem;
+    padding: 0.2rem 0.6rem;
+}

@@ -1,0 +1,26 @@
+/**
+ * Classes globales et utilitaires
+ */
+
+/* Conteneur */
+.archi-container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+}
+
+.archi-container--narrow {
+    max-width: 800px;
+}
+
+.archi-container--wide {
+    max-width: 1440px;
+}
+
+/* Main */
+.archi-main {
+    min-height: 60vh;
+}

@@ -1,0 +1,49 @@
+/**
+ * Page d'accueil spécifique
+ */
+
+.archi-page--home .archi-section--featured {
+    background-color: var(--color-bg);
+}
+
+.archi-page--home .archi-section--missions {
+    background-color: var(--color-surface);
+}
+
+.archi-page--home .archi-section--about {
+    background-color: var(--color-bg);
+}
+
+/* About preview sur home */
+.archi-about-preview {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .archi-about-preview {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+.archi-about-preview__image {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.archi-about-preview__image img {
+    width: 100%;
+    height: auto;
+}
+
+.archi-about-preview__title {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.archi-about-preview__text {
+    color: var(--color-ink-soft);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}

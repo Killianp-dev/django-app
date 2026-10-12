@@ -1,0 +1,53 @@
+{% extends 'archi/base.html' %}
+
+{% block title %}{{ project.titre }} — {{ site.nom_cabinet|default:"" }}{% endblock %}
+
+{% block content %}
+<article class="archi-project-detail archi-container" style="padding:3rem 0;">
+    <header style="margin-bottom:2rem;">
+        <h1 style="font-size:2.5rem;margin-bottom:1rem;">{{ project.titre }}</h1>
+        <p style="color:var(--color-ink-soft);font-size:1.125rem;">
+            {{ project.ville }}{% if project.annee %} — {{ project.annee }}{% endif %}
+        </p>
+        {% if project.types_mission.exists %}
+        <ul style="display:flex;gap:0.5rem;margin-top:1rem;flex-wrap:wrap;">
+            {% for mission in project.types_mission.all %}
+            <li class="archi-tag">{{ mission.name }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </header>
+    
+    {% if project.description %}
+    <div style="max-width:800px;margin-bottom:3rem;line-height:1.7;">
+        {{ project.description|linebreaks }}
+    </div>
+    {% endif %}
+    
+    {# Galerie photos (TODO: composant galerie + lightbox) #}
+    {% if project.photos.exists %}
+    <div style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-bottom:3rem;">
+        {% for photo in project.photos.all %}
+        <div>
+            <img src="{{ photo.image.url }}" alt="{{ photo.alt }}" style="width:100%;border-radius:var(--radius-md);" loading="lazy">
+            {% if photo.legende %}
+            <p style="margin-top:0.5rem;font-size:0.875rem;color:var(--color-ink-soft);">{{ photo.legende }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {# Projets liés #}
+    {% if related_projects %}
+    <section style="margin-top:4rem;">
+        <h2 style="font-size:1.75rem;margin-bottom:2rem;">Projets similaires</h2>
+        <div class="archi-projects-grid">
+            {% for related in related_projects|slice:":3" %}
+            {% include 'archi/components/project_card.html' with project=related %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</article>
+{% endblock %}

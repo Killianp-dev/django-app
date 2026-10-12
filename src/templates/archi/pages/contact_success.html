@@ -1,0 +1,16 @@
+{% extends 'archi/base.html' %}
+
+{% block title %}Message envoyé — {{ site.nom_cabinet|default:"" }}{% endblock %}
+
+{% block content %}
+<section class="archi-container archi-container--narrow" style="padding:4rem 0;text-align:center;">
+    <h1 style="font-size:2.5rem;margin-bottom:1rem;">Message envoyé ✓</h1>
+    <p style="font-size:1.125rem;color:var(--color-ink-soft);margin-bottom:2rem;">
+        Nous avons bien reçu votre message et vous répondrons dans les plus brefs délais.
+        {% if demo_mode %}<br><em style="color:#92400e;font-size:0.875rem;">(Ceci est une démonstration, aucun email réel n'a été envoyé à l'architecte fictif.)</em>{% endif %}
+    </p>
+    <a href="{% url 'archi:home' %}" class="archi-btn archi-btn--primary">
+        Retour à l'accueil
+    </a>
+</section>
+{% endblock %}

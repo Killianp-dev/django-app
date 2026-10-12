@@ -1,0 +1,23 @@
+/**
+ * Utilitaires responsive
+ */
+
+/* Visibilité */
+@media (max-width: 767px) {
+    .archi-hide-mobile {
+        display: none !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .archi-hide-desktop {
+        display: none !important;
+    }
+}
+
+/* Espacements adaptatifs */
+@media (max-width: 767px) {
+    .archi-section {
+        padding: 2rem 0;
+    }
+}

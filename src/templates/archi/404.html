@@ -1,0 +1,15 @@
+{% extends 'archi/base.html' %}
+
+{% block title %}Page non trouvée (404){% endblock %}
+
+{% block content %}
+<section class="archi-container archi-container--narrow" style="padding:4rem 0;text-align:center;">
+    <h1 style="font-size:3rem;margin-bottom:1rem;">404</h1>
+    <p style="font-size:1.25rem;color:var(--color-ink-soft);margin-bottom:2rem;">
+        La page que vous recherchez n'existe pas.
+    </p>
+    <a href="{% url 'archi:home' %}" class="archi-btn archi-btn--primary">
+        Retour à l'accueil
+    </a>
+</section>
+{% endblock %}

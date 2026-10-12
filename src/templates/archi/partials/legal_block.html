@@ -1,0 +1,6 @@
+<div class="archi-legal-block">
+    <p class="archi-legal-block__text">
+        {{ site.nom_architecte|default:"" }}{% if site.titre_architecte %}, architecte {{ site.titre_architecte }}{% endif %}<br>
+        Inscrit(e) à l'Ordre des architectes{% if site.conseil_regional %}, {{ site.conseil_regional }}{% endif %}{% if site.numero_ordre %}, n° {{ site.numero_ordre }}{% endif %}
+    </p>
+</div>

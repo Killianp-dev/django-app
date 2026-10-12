@@ -1,0 +1,36 @@
+{% extends 'archi/base.html' %}
+
+{% block title %}Projets — {{ site.nom_cabinet|default:"Cabinet" }}{% endblock %}
+
+{% block content %}
+<section class="archi-section">
+    <div class="archi-container">
+        <header class="archi-section__header">
+            <h1 class="archi-section__title">Nos projets</h1>
+        </header>
+        
+        {# Filtre par mission #}
+        {% if mission_types %}
+        <div class="archi-filter" style="text-align:center;margin-bottom:2rem;">
+            <a href="{% url 'archi:portfolio_list' %}" class="archi-btn archi-btn--sm {% if not current_mission %}archi-btn--primary{% else %}archi-btn--outline{% endif %}">
+                Tous
+            </a>
+            {% for mission in mission_types %}
+            <a href="{% url 'archi:portfolio_list' %}?mission={{ mission.slug }}" class="archi-btn archi-btn--sm {% if current_mission == mission.slug %}archi-btn--primary{% else %}archi-btn--outline{% endif %}">
+                {{ mission.name }}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {# Grille projets #}
+        <div class="archi-projects-grid">
+            {% for project in projects %}
+            {% include 'archi/components/project_card.html' with project=project %}
+            {% empty %}
+            <p style="text-align:center;color:var(--color-ink-soft);">Aucun projet à afficher.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

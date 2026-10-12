@@ -1,0 +1,25 @@
+<article class="archi-project-card">
+    <a href="{% url 'archi:project_detail' project.slug %}" class="archi-project-card__link">
+        {% with photo=project.get_main_photo %}
+        {% if photo %}
+        <div class="archi-project-card__image">
+            <img src="{{ photo.image.url }}" alt="{{ photo.alt }}" loading="lazy">
+        </div>
+        {% endif %}
+        {% endwith %}
+        
+        <div class="archi-project-card__content">
+            <h3 class="archi-project-card__title">{{ project.titre }}</h3>
+            <p class="archi-project-card__meta">
+                {{ project.ville }}{% if project.annee %} — {{ project.annee }}{% endif %}
+            </p>
+            {% if project.types_mission.exists %}
+            <ul class="archi-project-card__tags">
+                {% for mission in project.types_mission.all|slice:":2" %}
+                <li class="archi-tag archi-tag--sm">{{ mission.name }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </a>
+</article>

@@ -1,0 +1,40 @@
+{% extends 'archi/base.html' %}
+
+{% block title %}Politique de confidentialité — {{ site.nom_cabinet|default:"" }}{% endblock %}
+
+{% block content %}
+<article class="archi-container archi-container--narrow" style="padding:3rem 0;">
+    <h1 style="font-size:2.5rem;margin-bottom:2rem;">Politique de confidentialité</h1>
+    
+    <section style="margin-bottom:2rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Données collectées</h2>
+        <p>Lors de l'envoi du formulaire de contact, nous collectons :</p>
+        <ul style="margin-left:2rem;list-style:disc;">
+            <li>Votre nom</li>
+            <li>Votre adresse email</li>
+            <li>Votre numéro de téléphone (optionnel)</li>
+            <li>Les informations relatives à votre projet</li>
+        </ul>
+    </section>
+    
+    <section style="margin-bottom:2rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Utilisation des données</h2>
+        <p>Ces données sont utilisées uniquement pour répondre à votre demande de contact. Elles ne sont jamais transmises à des tiers.</p>
+    </section>
+    
+    <section style="margin-bottom:2rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Durée de conservation</h2>
+        <p>Les messages sont conservés pendant 3 ans maximum, puis supprimés.</p>
+    </section>
+    
+    <section style="margin-bottom:2rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Cookies et traceurs</h2>
+        <p>Ce site n'utilise aucun cookie de traçage ni outil de mesure d'audience.</p>
+    </section>
+    
+    <section>
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Vos droits (RGPD)</h2>
+        <p>Vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour exercer ces droits, contactez-nous à : <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+    </section>
+</article>
+{% endblock %}

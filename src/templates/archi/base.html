@@ -1,0 +1,94 @@
+{% load static %}<!DOCTYPE html>
+<html lang="fr" class="archi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {# Title #}
+    <title>{% block title %}{{ site.title_default|default:"Cabinet d'architecture" }}{% endblock %}</title>
+    
+    {# Meta SEO #}
+    {% block meta_description %}
+    <meta name="description" content="{{ site.description_default|default:'' }}">
+    {% endblock %}
+    
+    {% if demo_mode %}
+    {# Mode démo : noindex #}
+    <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+    
+    {# Canonical #}
+    {% block canonical %}
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    {% endblock %}
+    
+    {# Open Graph #}
+    {% block og %}
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="{% block og_title %}{{ site.nom_cabinet|default:'Cabinet d\'architecture' }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ site.description_default|default:'' }}{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    {% if site.image_og %}
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ site.image_og.url }}">
+    {% endif %}
+    {% endblock %}
+    
+    {# JSON-LD (désactivé en mode démo) #}
+    {% if not demo_mode %}
+    {% block jsonld %}
+    {% include 'archi/partials/jsonld_architect.html' %}
+    {% endblock %}
+    {% endif %}
+    
+    {# Favicon #}
+    {% if site.favicon %}
+    <link rel="icon" href="{{ site.favicon.url }}">
+    {% endif %}
+    
+    {# Thème CSS (variables dynamiques) #}
+    {% include 'archi/partials/head_theme.html' %}
+    
+    {# CSS principal #}
+    <link rel="stylesheet" href="{% static 'archi/css/main.css' %}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="archi {% block body_class %}{% endblock %}">
+    
+    {# Skip link (accessibilité) #}
+    {% include 'archi/partials/skip_link.html' %}
+    
+    {# Bandeau démo (seulement en mode démo) #}
+    {% if demo_mode %}
+    {% include 'archi/partials/demo_banner.html' %}
+    {% endif %}
+    
+    {# Header + Nav #}
+    {% block header %}
+    {% include 'archi/partials/header.html' %}
+    {% endblock %}
+    
+    {# Breadcrumb #}
+    {% block breadcrumb %}{% endblock %}
+    
+    {# Contenu principal #}
+    <main id="contenu" class="archi-main">
+        {% block content %}{% endblock %}
+    </main>
+    
+    {# CTA avant footer #}
+    {% block cta %}
+    {% include 'archi/partials/cta_contact.html' %}
+    {% endblock %}
+    
+    {# Footer #}
+    {% block footer %}
+    {% include 'archi/partials/footer.html' %}
+    {% endblock %}
+    
+    {# JS #}
+    <script src="{% static 'archi/js/nav.js' %}" defer></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

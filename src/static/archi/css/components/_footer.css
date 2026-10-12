@@ -1,0 +1,66 @@
+/**
+ * Footer
+ */
+
+.archi-footer {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: 3rem 0 1.5rem;
+    margin-top: 4rem;
+}
+
+.archi-footer__grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+    .archi-footer__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.archi-footer__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.archi-footer__address {
+    font-style: normal;
+    color: var(--color-ink-soft);
+}
+
+.archi-footer__contact-item,
+.archi-footer__nav-list li,
+.archi-footer__legal-list li {
+    margin-bottom: 0.5rem;
+}
+
+.archi-footer__link {
+    color: var(--color-ink-soft);
+    transition: color var(--transition-fast);
+}
+
+.archi-footer__link:hover {
+    color: var(--color-accent);
+}
+
+.archi-footer__bottom {
+    border-top: 1px solid var(--color-border);
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    text-align: center;
+}
+
+.archi-footer__copyright {
+    color: var(--color-ink-soft);
+    font-size: 0.875rem;
+}
+
+.archi-legal-block {
+    font-size: 0.875rem;
+    color: var(--color-ink-soft);
+    margin-bottom: 1rem;
+}

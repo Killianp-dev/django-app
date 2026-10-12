@@ -1,0 +1,62 @@
+/**
+ * Boutons
+ */
+
+.archi-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    border: 2px solid transparent;
+    min-height: 44px; /* Accessibilité : zone tactile ≥ 44px */
+}
+
+.archi-btn:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+/* Primary */
+.archi-btn--primary {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    border-color: var(--color-accent);
+}
+
+.archi-btn--primary:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    text-decoration: none;
+}
+
+/* Secondary (outline) */
+.archi-btn--outline {
+    background-color: transparent;
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.archi-btn--outline:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    text-decoration: none;
+}
+
+/* Sizes */
+.archi-btn--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.archi-btn--lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}

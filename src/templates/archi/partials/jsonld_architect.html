@@ -1,0 +1,31 @@
+{% if site %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Architect",
+  "name": "{{ site.nom_cabinet|escapejs }}",
+  {% if site.logo %}"logo": "{{ request.scheme }}://{{ request.get_host }}{{ site.logo.url }}",{% endif %}
+  {% if site.adresse or site.ville %}
+  "address": {
+    "@type": "PostalAddress"
+    {% if site.adresse %},"streetAddress": "{{ site.adresse|escapejs }}"{% endif %}
+    {% if site.code_postal %},"postalCode": "{{ site.code_postal }}"{% endif %}
+    {% if site.ville %},"addressLocality": "{{ site.ville|escapejs }}"{% endif %}
+    ,"addressCountry": "FR"
+  },
+  {% endif %}
+  {% if site.telephone %}"telephone": "{{ site.telephone|escapejs }}",{% endif %}
+  {% if site.email %}"email": "{{ site.email|escapejs }}",{% endif %}
+  {% if site.latitude and site.longitude %}
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "{{ site.latitude }}",
+    "longitude": "{{ site.longitude }}"
+  },
+  {% endif %}
+  {% if site.zone_intervention %}"areaServed": "{{ site.zone_intervention|escapejs }}",{% endif %}
+  {% if site.horaires %}"openingHours": "{{ site.horaires|escapejs }}",{% endif %}
+  "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'archi:home' %}"
+}
+</script>
+{% endif %}

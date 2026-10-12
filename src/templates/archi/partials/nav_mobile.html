@@ -1,0 +1,33 @@
+<nav class="archi-nav-mobile" id="archi-nav-mobile" role="navigation" aria-label="Navigation mobile" hidden>
+    <ul class="archi-nav-mobile__list">
+        <li class="archi-nav-mobile__item">
+            <a href="{% url 'archi:home' %}" class="archi-nav-mobile__link">Accueil</a>
+        </li>
+        <li class="archi-nav-mobile__item">
+            <a href="{% url 'archi:portfolio_list' %}" class="archi-nav-mobile__link">Projets</a>
+        </li>
+        
+        {# Missions #}
+        {% if mission_types %}
+        <li class="archi-nav-mobile__item archi-nav-mobile__item--section">
+            <span class="archi-nav-mobile__section-title">Missions</span>
+            <ul class="archi-nav-mobile__sublist">
+                {% for mission in mission_types %}
+                <li class="archi-nav-mobile__subitem">
+                    <a href="{% url 'archi:mission_detail' mission.slug %}" class="archi-nav-mobile__sublink">
+                        {{ mission.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endif %}
+        
+        <li class="archi-nav-mobile__item">
+            <a href="{% url 'archi:about' %}" class="archi-nav-mobile__link">Agence</a>
+        </li>
+        <li class="archi-nav-mobile__item">
+            <a href="{% url 'archi:contact' %}" class="archi-nav-mobile__link archi-nav-mobile__link--cta">Contact</a>
+        </li>
+    </ul>
+</nav>

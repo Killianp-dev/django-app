@@ -61,6 +61,10 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'blog',
     'contact_form',
+    # Démo architecte
+    'archi.cabinet',
+    'archi.portfolio',
+    'archi.contact',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'archi.middleware.ArchiDemoGuard',  # Sécurité démo
     'livereload.middleware.LiveReloadScript',
 ]
 
@@ -177,3 +182,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Site ID requis pour les sitemaps
 SITE_ID = env.int('SITE_ID')
+
+# ===== ARCHI DEMO =====
+ARCHI_URL_PREFIX = 'demo-architecte/'
+ARCHI_DEMO_MODE = True
+ARCHI_DEMO_NOTIFY_EMAIL = 'contact@killianp-dev.fr'
+ADMIN_URL = 'secure-admin-portal/'  # Pour le middleware ArchiDemoGuard

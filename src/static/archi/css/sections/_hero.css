@@ -1,0 +1,64 @@
+/**
+ * Section Hero (accueil)
+ */
+
+.archi-hero {
+    padding: 3rem 0;
+}
+
+@media (min-width: 768px) {
+    .archi-hero {
+        padding: 4rem 0;
+    }
+}
+
+.archi-hero__content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.archi-hero__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .archi-hero__title {
+        font-size: 3.5rem;
+    }
+}
+
+.archi-hero__subtitle {
+    font-size: 1.125rem;
+    color: var(--color-ink-soft);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.archi-hero__text {
+    font-size: 1.25rem;
+    color: var(--color-ink-soft);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.archi-hero__actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.archi-hero__image {
+    margin-top: 3rem;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.archi-hero__image img {
+    width: 100%;
+    height: auto;
+}

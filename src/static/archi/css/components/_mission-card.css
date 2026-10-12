@@ -1,0 +1,64 @@
+/**
+ * Cartes mission
+ */
+
+.archi-missions-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .archi-missions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .archi-missions-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.archi-mission-card {
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition-base);
+}
+
+.archi-mission-card:hover {
+    transform: translateY(-2px);
+}
+
+.archi-mission-card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.archi-mission-card__image {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--color-bg);
+}
+
+.archi-mission-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.archi-mission-card__content {
+    padding: 1.5rem;
+}
+
+.archi-mission-card__title {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.archi-mission-card__text {
+    color: var(--color-ink-soft);
+    font-size: 0.875rem;
+}

@@ -1,0 +1,153 @@
+{% extends 'archi/base.html' %}
+{% load static %}
+
+{% block title %}{{ site.nom_cabinet|default:"Cabinet d'architecture" }} — Architecte à {{ site.ville|default:"" }}{% endblock %}
+
+{% block body_class %}archi-page--home{% endblock %}
+
+{% block content %}
+
+{# Hero / Accroche #}
+<section class="archi-hero">
+    <div class="archi-container">
+        <div class="archi-hero__content">
+            <h1 class="archi-hero__title">
+                {{ site.nom_cabinet|default:"Cabinet d'architecture" }}
+            </h1>
+            
+            {% if site.nom_architecte and site.titre_architecte and site.numero_ordre and site.ville %}
+            <p class="archi-hero__subtitle">
+                {{ site.nom_architecte }}, architecte {{ site.titre_architecte }}<br>
+                Inscrit à l'Ordre n° {{ site.numero_ordre }} — {{ site.ville }}
+            </p>
+            {% endif %}
+            
+            {% if site.accroche_accueil %}
+            <p class="archi-hero__text">
+                {{ site.accroche_accueil }}
+            </p>
+            {% endif %}
+            
+            <div class="archi-hero__actions">
+                <a href="{% url 'archi:portfolio_list' %}" class="archi-btn archi-btn--primary archi-btn--lg">
+                    Découvrir nos projets
+                </a>
+                <a href="{% url 'archi:contact' %}" class="archi-btn archi-btn--secondary archi-btn--lg">
+                    Nous contacter
+                </a>
+            </div>
+        </div>
+        
+        {% if site.image_accueil %}
+        <div class="archi-hero__image">
+            <img src="{{ site.image_accueil.url }}" alt="" loading="eager" fetchpriority="high">
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{# Projets mis en avant #}
+{% if featured_projects %}
+<section class="archi-section archi-section--featured">
+    <div class="archi-container">
+        <header class="archi-section__header">
+            <h2 class="archi-section__title">Projets récents</h2>
+        </header>
+        
+        <div class="archi-projects-grid">
+            {% for project in featured_projects %}
+            <article class="archi-project-card">
+                <a href="{% url 'archi:project_detail' project.slug %}" class="archi-project-card__link">
+                    {% with photo=project.get_main_photo %}
+                    {% if photo %}
+                    <div class="archi-project-card__image">
+                        <img src="{{ photo.image.url }}" alt="{{ photo.alt }}" loading="lazy">
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                    
+                    <div class="archi-project-card__content">
+                        <h3 class="archi-project-card__title">{{ project.titre }}</h3>
+                        <p class="archi-project-card__meta">
+                            {{ project.ville }}{% if project.annee %} — {{ project.annee }}{% endif %}
+                        </p>
+                        {% if project.types_mission.exists %}
+                        <ul class="archi-project-card__tags">
+                            {% for mission in project.types_mission.all|slice:":2" %}
+                            <li class="archi-tag archi-tag--sm">{{ mission.name }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <div class="archi-section__footer">
+            <a href="{% url 'archi:portfolio_list' %}" class="archi-btn archi-btn--outline">
+                Voir tous les projets
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# Types de mission (cartes) #}
+{% if mission_types %}
+<section class="archi-section archi-section--missions">
+    <div class="archi-container">
+        <header class="archi-section__header">
+            <h2 class="archi-section__title">Nos missions</h2>
+        </header>
+        
+        <div class="archi-missions-grid">
+            {% for mission in mission_types %}
+            <article class="archi-mission-card">
+                <a href="{% url 'archi:mission_detail' mission.slug %}" class="archi-mission-card__link">
+                    {% if mission.image %}
+                    <div class="archi-mission-card__image">
+                        <img src="{{ mission.image.url }}" alt="" loading="lazy">
+                    </div>
+                    {% endif %}
+                    
+                    <div class="archi-mission-card__content">
+                        <h3 class="archi-mission-card__title">{{ mission.name }}</h3>
+                        {% if mission.accroche %}
+                        <p class="archi-mission-card__text">{{ mission.accroche }}</p>
+                        {% endif %}
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# Présentation courte #}
+{% if site.texte_a_propos %}
+<section class="archi-section archi-section--about">
+    <div class="archi-container archi-container--narrow">
+        <div class="archi-about-preview">
+            {% if site.photo_architecte %}
+            <div class="archi-about-preview__image">
+                <img src="{{ site.photo_architecte.url }}" alt="{{ site.nom_architecte }}" loading="lazy">
+            </div>
+            {% endif %}
+            
+            <div class="archi-about-preview__content">
+                <h2 class="archi-about-preview__title">À propos</h2>
+                <div class="archi-about-preview__text">
+                    {{ site.texte_a_propos|linebreaks|truncatewords_html:50 }}
+                </div>
+                <a href="{% url 'archi:about' %}" class="archi-btn archi-btn--outline">
+                    En savoir plus
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

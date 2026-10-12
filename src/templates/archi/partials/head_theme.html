@@ -1,0 +1,18 @@
+<style>
+:root {
+    /* Couleurs par défaut (surchargées si SiteSettings rempli) */
+    --color-bg: {{ site.color_bg|default:'#ffffff' }};
+    --color-surface: {{ site.color_surface|default:'#f5f5f5' }};
+    --color-ink: {{ site.color_ink|default:'#1a1a1a' }};
+    --color-ink-soft: {{ site.color_ink_soft|default:'#6b7280' }};
+    --color-accent: {{ site.color_accent|default:'#2563eb' }};
+    --color-accent-hover: {{ site.color_accent_hover|default:'#1d4ed8' }};
+    --color-on-accent: {{ site.color_on_accent|default:'#ffffff' }};
+    --color-border: {{ site.color_border|default:'#d1d5db' }};
+    --focus-ring: {{ site.color_focus|default:'#2563eb' }};
+    
+    /* Polices */
+    --font-heading: {{ site.font_heading|default:'Inter' }}, system-ui, sans-serif;
+    --font-body: {{ site.font_body|default:'system-ui' }}, -apple-system, sans-serif;
+}
+</style>

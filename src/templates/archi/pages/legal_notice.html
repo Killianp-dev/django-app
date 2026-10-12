@@ -1,0 +1,35 @@
+{% extends 'archi/base.html' %}
+
+{% block title %}Mentions légales — {{ site.nom_cabinet|default:"" }}{% endblock %}
+
+{% block content %}
+<article class="archi-container archi-container--narrow" style="padding:3rem 0;">
+    <h1 style="font-size:2.5rem;margin-bottom:2rem;">Mentions légales</h1>
+    
+    <section style="margin-bottom:2rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Éditeur du site</h2>
+        <p><strong>{{ site.nom_cabinet }}</strong></p>
+        {% if site.forme_juridique %}<p>{{ site.forme_juridique }}</p>{% endif %}
+        {% if site.siret %}<p>SIRET : {{ site.siret }}</p>{% endif %}
+        {% if site.adresse %}<p>{{ site.adresse|linebreaksbr }}</p>{% endif %}
+        {% if site.email %}<p>Email : <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>{% endif %}
+    </section>
+    
+    <section style="margin-bottom:2rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Architecte</h2>
+        {% include 'archi/partials/legal_block.html' %}
+    </section>
+    
+    {% if site.hebergeur %}
+    <section style="margin-bottom:2rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Hébergement</h2>
+        <p>{{ site.hebergeur }}</p>
+    </section>
+    {% endif %}
+    
+    <section>
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;">Propriété intellectuelle</h2>
+        <p>L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés.</p>
+    </section>
+</article>
+{% endblock %}

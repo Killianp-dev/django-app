@@ -1,0 +1,27 @@
+/**
+ * Main CSS pour archi
+ * Chargement dans l'ordre : base → components → sections → pages → utilities
+ */
+
+/* Base */
+@import 'base/_reset.css';
+@import 'base/_variables.css';
+@import 'base/_global.css';
+
+/* Components */
+@import 'components/_buttons.css';
+@import 'components/_nav.css';
+@import 'components/_footer.css';
+@import 'components/_project-card.css';
+@import 'components/_mission-card.css';
+
+/* Sections */
+@import 'sections/_hero.css';
+@import 'sections/_section.css';
+
+/* Pages */
+@import 'pages/_home.css';
+
+/* Utilities */
+@import 'utilities/_responsive.css';
+@import 'utilities/_accessibility.css';
