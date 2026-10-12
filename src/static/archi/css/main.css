@@ -23,9 +23,9 @@
 
 /* Pages */
 @import 'pages/_home.css';
-@import 'pages/_project.css';
+@import 'pages/_project.css?v=20261012-filters';
 @import 'pages/_about.css';
-@import 'pages/_contact.css';
+@import 'pages/_contact.css?v=20261012-contact';
 @import 'pages/_legal.css';
 
 /* Utilities */

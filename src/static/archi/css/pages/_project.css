@@ -83,3 +83,27 @@
 }
 
 .archi-project-nav__link:hover { color: var(--color-accent); }
+
+/* Filtres de la liste projets : colonnes égales, bords alignés */
+.archi-filter {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+    max-width: 36rem;
+    margin: 0 auto 2rem;
+}
+
+.archi-filter .archi-btn {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.3;
+    padding-inline: 0.7rem;
+}
+
+@media (min-width: 768px) {
+    .archi-filter {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        max-width: 52rem;
+    }
+}

@@ -6,7 +6,26 @@
 .archi-contact-hero__title { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: var(--space-sm); }
 .archi-contact-hero__text { color: var(--color-ink-soft); font-size: var(--text-lg); }
 
+.archi-contact {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .archi-form { max-width: 620px; margin: 0 auto; }
+
+.archi-hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 
 .archi-form__field { margin-bottom: var(--space-md); }
 
@@ -48,6 +67,57 @@
 .archi-form__checkbox-row label { font-size: var(--text-sm); color: var(--color-ink-soft); }
 
 .archi-form__submit { width: 100%; margin-top: var(--space-sm); }
+
+@media (max-width: 767px) {
+    .archi-contact {
+        padding-top: 2.25rem;
+        padding-bottom: 2.5rem;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .archi-contact-hero {
+        margin-bottom: var(--space-lg);
+    }
+
+    .archi-contact-hero__text {
+        font-size: var(--text-base);
+    }
+
+    .archi-form__field {
+        margin-bottom: 1.05rem;
+    }
+
+    .archi-form__label {
+        margin-bottom: 0.35rem;
+    }
+
+    .archi-form__input,
+    .archi-form select,
+    .archi-form textarea {
+        font-size: 1rem;
+        padding: 0.8rem 0.85rem;
+        max-width: 100%;
+    }
+
+    .archi-form textarea {
+        min-height: 8.5rem;
+    }
+
+    .archi-form__checkbox-row {
+        align-items: flex-start;
+    }
+
+    .archi-form__checkbox-row label {
+        flex: 1;
+        min-width: 0;
+        line-height: 1.45;
+    }
+
+    .archi-form__submit {
+        margin-top: 0.35rem;
+    }
+}
 
 .archi-contact-success {
     text-align: center;

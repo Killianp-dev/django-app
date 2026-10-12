@@ -15,7 +15,7 @@ class ContactForm(forms.ModelForm):
     website = forms.CharField(
         required=False,
         widget=forms.TextInput(attrs={
-            'style': 'position:absolute;left:-9999px;',
+            'class': 'archi-hp',
             'tabindex': '-1',
             'aria-hidden': 'true',
             'autocomplete': 'off'
