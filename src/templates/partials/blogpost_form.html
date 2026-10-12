@@ -1,4 +1,7 @@
 <article class="form-article">
+  {% if show_image_library and request.GET.images == 'ajoutees' %}
+  <p class="blog-images__notice" role="status">Images enregistrées. Copiez leur balise HTML dans le contenu, puis enregistrez.</p>
+  {% endif %}
   <form method="POST" enctype="multipart/form-data" class="form">
     {% csrf_token %}
     {% for field in form %}
@@ -12,6 +15,9 @@
       <span class="error">{{ error }}</span>
       {% endfor %}
     </div>
+    {% if field.name == 'new_images' and show_image_library %}
+      {% include 'partials/blogpost_images.html' %}
+    {% endif %}
     {% endfor %}
     <div class="form-actions">
       <input type="submit" value="{{ submit_label }}" class="btn">

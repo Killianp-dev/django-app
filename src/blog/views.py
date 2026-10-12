@@ -1,8 +1,9 @@
+from django.db import models, transaction
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
-from django.urls import reverse_lazy
-from django.db import models
 
-from .models import BlogPost
+from .forms import IMAGE_FORMSET_PREFIX, BlogImageFormSet, BlogPostForm, BlogPostUpdateForm
+from .models import BlogImage, BlogPost
 
 
 class BlogHome(ListView):
@@ -18,22 +19,63 @@ class BlogHome(ListView):
         return queryset.filter(published=True)  # display only published posts.
 
 
-class BlogCreate(CreateView):
+class BlogImageUploadMixin:
+    def form_valid(self, form):
+        self.uploaded_new_images = bool(form.cleaned_data.get("new_images"))
+        with transaction.atomic():
+            response = super().form_valid(form)
+            for uploaded in form.cleaned_data.get("new_images") or []:
+                BlogImage.objects.create(post=self.object, image=uploaded)
+        return response
+
+    def get_success_url(self):
+        if getattr(self, "uploaded_new_images", False):
+            return (
+                reverse("blog:edit", kwargs={"slug": self.object.slug})
+                + "?images=ajoutees"
+            )
+        return super().get_success_url()
+
+
+class BlogCreate(BlogImageUploadMixin, CreateView):
     model = BlogPost
     template_name = "blog/blogpost_create.html"
-    fields = ['title', 'content', 'created_on']
+    form_class = BlogPostForm
 
 
-class BlogPostUpdate(UpdateView):
+class BlogPostUpdate(BlogImageUploadMixin, UpdateView):
     model = BlogPost
     template_name = "blog/blogpost_edit.html"
-    fields = ['title', 'content', 'created_on', 'published']
+    form_class = BlogPostUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["show_image_library"] = True
+        context.setdefault("image_formset", self._image_formset())
+        return context
+
+    def _image_formset(self):
+        kwargs = {"instance": self.object, "prefix": IMAGE_FORMSET_PREFIX}
+        if self.request.method == "POST":
+            return BlogImageFormSet(self.request.POST, **kwargs)
+        return BlogImageFormSet(**kwargs)
+
+    def form_valid(self, form):
+        image_formset = self._image_formset()
+        if not image_formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(form=form, image_formset=image_formset)
+            )
+        with transaction.atomic():
+            response = super().form_valid(form)
+            image_formset.save()
+        return response
 
 
 class BlogPostDetail(DetailView):
     model = BlogPost
     context_object_name = "post"
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         

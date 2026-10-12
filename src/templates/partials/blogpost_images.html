@@ -1,0 +1,29 @@
+<section class="blog-images" aria-labelledby="blog-images-title">
+  <h2 id="blog-images-title" class="blog-images__title">Images de l'article</h2>
+  <p class="blog-images__intro">Copiez la balise dans le contenu. « Retirer » supprime le fichier : enlevez aussi la balise du texte si vous l'aviez collée.</p>
+  {{ image_formset.management_form }}
+  {{ image_formset.non_form_errors }}
+  {% if image_formset.forms %}
+  <ul class="blog-images__list">
+    {% for image_form in image_formset %}
+    <li class="blog-image">
+      {{ image_form.id }}
+      <img class="blog-image__preview" src="{{ image_form.instance.image.url }}" alt="" width="160" height="120">
+      <div class="blog-image__fields">
+        <label class="blog-image__tag">
+          <span>Balise HTML</span>
+          <input type="text" readonly value='<img src="{{ image_form.instance.image.url }}" alt="">' onclick="this.select()">
+        </label>
+        {{ image_form.non_field_errors }}
+        <label class="blog-image__delete">
+          {{ image_form.DELETE }}
+          <span>Retirer</span>
+        </label>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="blog-images__empty">Aucune image pour le moment. Elles apparaîtront ici après l'enregistrement.</p>
+  {% endif %}
+</section>
