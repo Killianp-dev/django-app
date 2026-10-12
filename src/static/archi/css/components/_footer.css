@@ -57,7 +57,13 @@
     text-align: center;
 }
 
-.archi-footer__copyright { color: rgba(250, 248, 244, 0.5); font-size: var(--text-xs); }
+.archi-footer__copyright {
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(250, 248, 244, 0.5);
+    font-size: var(--text-xs);
+}
 
 .archi-legal-block {
     font-size: var(--text-sm);
