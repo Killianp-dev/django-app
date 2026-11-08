@@ -18,7 +18,7 @@
 @import url('./components/cookie-modal.css');
 
 /* 3. Sections - Sections spécifiques de la page */
-@import url('./sections/_hero.css?v=20261108-hero-photo');
+@import url('./sections/_hero.css?v=20261108-hero-type');
 @import url('./sections/_skills.css?v=20261108-code-fade');
 @import url('./sections/_asymetric.css');
 @import url('./sections/_parallax.css?v=20260909-city');
