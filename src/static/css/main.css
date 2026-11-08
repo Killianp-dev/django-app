@@ -4,13 +4,13 @@
    ================================================= */
 
 /* 1. Base - Reset, variables et styles globaux */
-@import url('./base/_variables.css');
+@import url('./base/_variables.css?v=20261108-nav-light');
 @import url('./base/_reset.css');
 @import url('./base/_global.css');
 @import url('./base/_naming-conventions.css');
 
 /* 2. Components - Éléments réutilisables */
-@import url('./components/_navbar.css');
+@import url('./components/_navbar.css?v=20261108-nav-light');
 @import url('./components/_buttons.css');
 @import url('./components/_cards.css');
 @import url('./components/_footer.css');
@@ -18,20 +18,20 @@
 @import url('./components/cookie-modal.css');
 
 /* 3. Sections - Sections spécifiques de la page */
-@import url('./sections/_hero.css?v=20260909-hero-enter2');
-@import url('./sections/_skills.css?v=20260909-code-window');
+@import url('./sections/_hero.css?v=20261108-hero-light');
+@import url('./sections/_skills.css?v=20261108-code-fade');
 @import url('./sections/_asymetric.css');
 @import url('./sections/_parallax.css?v=20260909-city');
-@import url('./sections/_carousel.css?v=20260909-swipe');
+@import url('./sections/_carousel.css?v=20261108-cta-quiet');
 @import url('./sections/_blog.css');
 
 /* 4. Pages - Styles spécifiques à certaines pages */
 @import url('./pages/_article.css?v=20260822-code-block');
-@import url('./pages/_success.css');
+@import url('./pages/_success.css?v=20261108-icon-center');
 
 /* 5. Utilities - Animations, lumieres et responsive */
 @import url('./utilities/_animations.css');
-@import url('./utilities/_lights.css?v=20260826-snippet-glow');
+@import url('./utilities/_lights.css?v=20261108-hero-light');
 @import url('./utilities/_responsive.css');
 
 @property --stack-spin {

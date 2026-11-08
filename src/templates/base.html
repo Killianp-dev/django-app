@@ -37,7 +37,7 @@
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
     </noscript>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261012-blog-images">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261108-hero-light">
     <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20260822" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20260822">
     <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20260822">
@@ -70,48 +70,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <nav class="nav-menu" id="site-nav">
         <div class="nav-menu__atmosphere" aria-hidden="true"></div>
         <div class="nav-menu__panel">
-            <p class="nav-menu__kicker" aria-hidden="true">
-                <span class="nav-menu__kicker-mark" aria-hidden="true"></span>
-                <span>Navigation</span>
-                <span class="nav-menu__kicker-count">04</span>
-            </p>
             <ul class="nav-links">
-                <li>
-                    <a href="{% url 'index' %}">
-                        <span class="nav-link__index">01</span>
-                        <span class="nav-link__copy">
-                            <strong>Accueil</strong>
-                            <span>Vue d'ensemble</span>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'index' %}#projets">
-                        <span class="nav-link__index">02</span>
-                        <span class="nav-link__copy">
-                            <strong>Projets</strong>
-                            <span>Une sélection</span>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'blog:home' %}">
-                        <span class="nav-link__index">03</span>
-                        <span class="nav-link__copy">
-                            <strong>Blog</strong>
-                            <span>Articles & notes</span>
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'index' %}#form">
-                        <span class="nav-link__index">04</span>
-                        <span class="nav-link__copy">
-                            <strong>Contact</strong>
-                            <span>Écrire</span>
-                        </span>
-                    </a>
-                </li>
+                <li><a href="{% url 'index' %}">Accueil</a></li>
+                <li><a href="{% url 'index' %}#projets">Projets</a></li>
+                <li><a href="{% url 'blog:home' %}">Blog</a></li>
+                <li><a href="{% url 'index' %}#form">Contact</a></li>
             </ul>
         </div>
     </nav>

@@ -38,8 +38,11 @@
   --color-code-inline-bg: #dceeea;
   --color-code-inline-text: #0c5751;
   --focus-ring: rgba(15, 110, 102, 0.16);
-  --navbar-bg: rgba(20, 24, 31, 0.92);
-  --navbar-bg-scrolled: rgba(20, 24, 31, 0.96);
+  --navbar-bg: rgba(255, 252, 247, 0.82);
+  --navbar-bg-scrolled: rgba(255, 252, 247, 0.94);
+  --navbar-fg: #14181f;
+  --navbar-border: rgba(20, 24, 31, 0.08);
+  --navbar-shadow: 0 8px 24px rgba(20, 24, 31, 0.05);
   color-scheme: light;
 
   /* Typo */
@@ -115,6 +118,9 @@ html[data-theme="dark"] {
   --focus-ring: rgba(45, 212, 191, 0.22);
   --navbar-bg: rgba(10, 12, 16, 0.94);
   --navbar-bg-scrolled: rgba(8, 10, 14, 0.98);
+  --navbar-fg: #f3efe6;
+  --navbar-border: rgba(255, 255, 255, 0.06);
+  --navbar-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.32);
   --shadow-lg: 0 24px 54px rgba(0, 0, 0, 0.42);

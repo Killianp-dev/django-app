@@ -23,48 +23,11 @@
         <nav class="nav-menu" id="site-nav">
             <div class="nav-menu__atmosphere" aria-hidden="true"></div>
             <div class="nav-menu__panel">
-                <p class="nav-menu__kicker" aria-hidden="true">
-                    <span class="nav-menu__kicker-mark" aria-hidden="true"></span>
-                    <span>Navigation</span>
-                    <span class="nav-menu__kicker-count">04</span>
-                </p>
                 <ul class="nav-links">
-                    <li>
-                        <a href="#hero">
-                            <span class="nav-link__index">01</span>
-                            <span class="nav-link__copy">
-                                <strong>Accueil</strong>
-                                <span>Vue d'ensemble</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#projets">
-                            <span class="nav-link__index">02</span>
-                            <span class="nav-link__copy">
-                                <strong>Projets</strong>
-                                <span>Une sélection</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#latest-posts">
-                            <span class="nav-link__index">03</span>
-                            <span class="nav-link__copy">
-                                <strong>Blog</strong>
-                                <span>Articles & notes</span>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#form">
-                            <span class="nav-link__index">04</span>
-                            <span class="nav-link__copy">
-                                <strong>Contact</strong>
-                                <span>Écrire</span>
-                            </span>
-                        </a>
-                    </li>
+                    <li><a href="#hero">Accueil</a></li>
+                    <li><a href="#projets">Projets</a></li>
+                    <li><a href="#latest-posts">Blog</a></li>
+                    <li><a href="#form">Contact</a></li>
                 </ul>
             </div>
         </nav>
@@ -302,9 +265,11 @@
               <h3 class="featured-rotator__title">{{ post.title }}</h3>
               <p class="featured-rotator__excerpt">{{ post.content|striptags|truncatewords:22 }}</p>
               <div class="featured-rotator__meta">
-                <span>Par {{ post.author_or_default }}</span>
-                <span>{{ post.created_on|date:"d F Y" }}</span>
-                <span class="featured-rotator__cta">Lire l'article</span>
+                <span class="featured-rotator__byline">
+                  <span>Par {{ post.author_or_default }}</span>
+                  <span>{{ post.created_on|date:"d F Y" }}</span>
+                </span>
+                <span class="featured-rotator__cta">Lire<span class="featured-rotator__cta-arrow" aria-hidden="true"></span></span>
               </div>
             </div>
           </a>
