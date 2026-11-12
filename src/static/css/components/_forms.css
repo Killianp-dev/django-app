@@ -136,6 +136,16 @@
   display: none;
 }
 
+/* Piège anti-spam : hors écran, sans display:none, ignoré par les lecteurs d'écran. */
+.contact-hp {
+  position: absolute;
+  left: 0;
+  top: -10000px;
+  width: 200px;
+  height: auto;
+  overflow: hidden;
+}
+
 #contact-form form > * {
   grid-column: 1 / -1;
 }

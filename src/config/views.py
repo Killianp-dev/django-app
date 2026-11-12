@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from blog.models import BlogPost
 from contact_form.forms import ContactForm
 from contact_form.models import Contact  # Importez le modèle
+from contact_form.views import spam_rejection_reason
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -25,6 +26,8 @@ class HomeView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         form = ContactForm(request.POST)
+        if spam_rejection_reason(form):
+            return redirect('success')
         if form.is_valid():
             # On récupère les données validées
             name = form.cleaned_data['name']

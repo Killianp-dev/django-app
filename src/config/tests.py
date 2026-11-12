@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from blog.models import BlogPost
 from contact_form.models import Contact
+from contact_form.tests import contact_payload
 
 
 class StaticPageTests(TestCase):
@@ -31,12 +32,7 @@ class StaticPageTests(TestCase):
     def test_home_contact_post_saves_and_redirects(self):
         response = self.client.post(
             reverse("index"),
-            {
-                "name": "Jean",
-                "email": "jean@example.com",
-                "subject": "Accueil",
-                "message": "Un message suffisamment long.",
-            },
+            contact_payload(subject="Accueil"),
         )
         self.assertRedirects(response, reverse("success"))
         self.assertEqual(Contact.objects.count(), 1)
