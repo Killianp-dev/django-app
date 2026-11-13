@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from blog.models import BlogPost
+from config.projects import projets
 from contact_form.forms import ContactForm
 from contact_form.models import Contact  # Importez le modèle
 from contact_form.views import spam_rejection_reason
@@ -14,13 +15,9 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Logique de filtrage des posts
-        if self.request.user.is_staff:
-            latest_posts = BlogPost.objects.all().order_by('-created_on')[:10]
-        else:
-            latest_posts = BlogPost.objects.filter(published=True).order_by('-created_on')[:10]
-
-        context['latest_posts'] = latest_posts
+        # Trois derniers articles publiés, pour la section blog de l'accueil.
+        context['latest_posts'] = BlogPost.objects.filter(published=True).order_by('-created_on', '-id')[:3]
+        context['projets'] = projets()
         context['form'] = ContactForm()
         return context
 

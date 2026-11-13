@@ -1,0 +1,254 @@
+/* ==================================================
+   SECTION À PROPOS (accueil)
+   Bande pleine largeur, portrait légendé, texte
+   d'introduction en serif et deux panneaux.
+   ================================================= */
+
+.about {
+  position: relative;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--section-space) var(--page-gutter);
+  scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
+  /* Bande pleine largeur sans débordement horizontal */
+  background: var(--color-bg-alt);
+  box-shadow: 0 0 0 100vmax var(--color-bg-alt);
+  clip-path: inset(0 -100vmax);
+}
+
+.about__layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) minmax(0, 1fr);
+  gap: 2rem 4.5rem;
+  align-items: start;
+  text-align: left;
+}
+
+/* ---------- Colonne portrait ---------- */
+
+.about__aside {
+  position: sticky;
+  top: calc(var(--navbar-height) + 1.75rem);
+}
+
+.about__portrait {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.about__portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.about__portrait figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 3rem 1.15rem 1rem;
+  color: #fff;
+  background: linear-gradient(180deg, transparent, rgba(8, 10, 14, 0.82));
+}
+
+.about__portrait figcaption strong {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.about__portrait figcaption span {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.about__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about__stack li {
+  padding: 0.3rem 0.72rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--color-ink-soft);
+}
+
+/* ---------- Texte ---------- */
+
+.about__body {
+  min-width: 0;
+}
+
+.about__body > p {
+  max-width: 40rem;
+  margin: 0 0 1rem;
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+}
+
+.about__body > .about__lead {
+  margin-bottom: 1.6rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.3vw, 1.85rem);
+  line-height: 1.32;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+
+/* ---------- Panneaux ---------- */
+
+.about__panels {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 1.25rem;
+  margin-top: 2.25rem;
+}
+
+.about__panel {
+  min-width: 0;
+  padding: 1.6rem 1.6rem 1.35rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.about__panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+
+.about__panel h3::before {
+  content: "";
+  flex: none;
+  width: 1.1rem;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.about__panel p {
+  margin: 0 0 0.85rem;
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: var(--color-ink-soft);
+}
+
+.about__panel p:last-child {
+  margin-bottom: 0;
+}
+
+.about__panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about__panel li {
+  position: relative;
+  margin: 0 0 0.75rem;
+  padding-left: 1.7rem;
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+
+.about__panel li:last-child {
+  margin-bottom: 0;
+}
+
+.about__panel li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  width: 1.1rem;
+  height: 1.1rem;
+  background: var(--color-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+html[data-theme="dark"] .about__panel li::before {
+  background: var(--color-accent-bright);
+}
+
+.about__signature {
+  margin: 2rem 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.7rem;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+  .about__layout {
+    gap: 2rem 3rem;
+  }
+
+  .about__panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .about__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about__aside {
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(140px, 190px) minmax(0, 1fr);
+    gap: 1.25rem;
+    align-items: end;
+  }
+
+  .about__stack {
+    margin: 0;
+    align-content: flex-end;
+  }
+}
+
+@media (max-width: 520px) {
+  .about__aside {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about__portrait {
+    max-width: 260px;
+  }
+
+  .about__panel {
+    padding: 1.35rem 1.2rem 1.15rem;
+  }
+}

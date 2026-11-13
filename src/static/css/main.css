@@ -6,24 +6,27 @@
 /* 1. Base - Reset, variables et styles globaux */
 @import url('./base/_variables.css?v=20261108-nav-light');
 @import url('./base/_reset.css');
-@import url('./base/_global.css');
+@import url('./base/_global.css?v=20261113-about-home');
 @import url('./base/_naming-conventions.css');
 
 /* 2. Components - Éléments réutilisables */
-@import url('./components/_navbar.css?v=20261108-nav-light');
+@import url('./components/_navbar.css?v=20261113-nav-drop');
 @import url('./components/_buttons.css');
 @import url('./components/_cards.css');
-@import url('./components/_footer.css');
-@import url('./components/_forms.css?v=20261113-hp-hidden');
-@import url('./components/cookie-modal.css');
+@import url('./components/_footer.css?v=20261113-theme');
+@import url('./components/_forms.css?v=20261113-sections2');
+@import url('./components/cookie-modal.css?v=20261113-copy');
 
 /* 3. Sections - Sections spécifiques de la page */
-@import url('./sections/_hero.css?v=20261108-hero-type');
+@import url('./sections/_hero.css?v=20261113-dev-hero5');
 @import url('./sections/_skills.css?v=20261108-code-fade');
-@import url('./sections/_asymetric.css');
+@import url('./sections/_asymetric.css?v=20261113-sections');
 @import url('./sections/_parallax.css?v=20260909-city');
 @import url('./sections/_carousel.css?v=20261108-cta-quiet');
 @import url('./sections/_blog.css');
+@import url('./sections/_blog-integration.css?v=20261113b');
+@import url('./sections/_offer.css?v=20261113-sections');
+@import url('./sections/_about.css?v=20261113-sections');
 
 /* 4. Pages - Styles spécifiques à certaines pages */
 @import url('./pages/_article.css?v=20260822-code-block');
@@ -31,8 +34,8 @@
 
 /* 5. Utilities - Animations, lumieres et responsive */
 @import url('./utilities/_animations.css');
-@import url('./utilities/_lights.css?v=20261108-hero-light');
-@import url('./utilities/_responsive.css');
+@import url('./utilities/_lights.css?v=20261113-footer');
+@import url('./utilities/_responsive.css?v=20261113-sections');
 
 @property --stack-spin {
   syntax: "<angle>";

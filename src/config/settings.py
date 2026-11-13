@@ -61,10 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'blog',
     'contact_form',
-    # Démo architecte
-    'archi.cabinet',
-    'archi.portfolio',
-    'archi.contact',
+    'vitrines',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +72,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'archi.middleware.ArchiDemoGuard',  # Sécurité démo
     'livereload.middleware.LiveReloadScript',
 ]
 
@@ -151,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr-fr'
 
 TIME_ZONE = 'UTC'
 
@@ -183,8 +179,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Site ID requis pour les sitemaps
 SITE_ID = env.int('SITE_ID')
 
-# ===== ARCHI DEMO =====
-ARCHI_URL_PREFIX = 'demo-architecte/'
-ARCHI_DEMO_MODE = True
-ARCHI_DEMO_NOTIFY_EMAIL = 'contact@killianp-dev.fr'
-ADMIN_URL = 'secure-admin-portal/'  # Pour le middleware ArchiDemoGuard
+# Vitrines de démonstration (commerces fictifs).
+VITRINE_DEMO_NOTIFY_EMAIL = 'contact@killianp-dev.fr'

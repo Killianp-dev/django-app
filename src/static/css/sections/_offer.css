@@ -1,0 +1,122 @@
+/* ==================================================
+   SECTION DÉROULEMENT
+   Trois étapes reliées, avec icône et numéro.
+   ================================================= */
+
+.offer {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--section-space) var(--page-gutter);
+  scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
+}
+
+.offer-steps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 800px) {
+  .offer-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+}
+
+.offer-step {
+  position: relative;
+  padding: 1.75rem 1.6rem 1.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.4s var(--ease-out), border-color 0.3s ease, box-shadow 0.4s var(--ease-out);
+}
+
+.offer-step:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+/* Filet qui relie les étapes */
+@media (min-width: 800px) {
+  .offer-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 2.95rem;
+    right: -1.75rem;
+    width: 1.75rem;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, var(--color-border-strong) 0 4px, transparent 4px 8px);
+    pointer-events: none;
+  }
+}
+
+.offer-step__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.offer-step__icon {
+  box-sizing: content-box;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.7rem;
+  border-radius: 14px;
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+html[data-theme="dark"] .offer-step__icon {
+  color: var(--color-accent-bright);
+}
+
+.offer-step__index {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-border-strong);
+  transition: color 0.3s ease;
+}
+
+.offer-step:hover .offer-step__index {
+  color: var(--color-accent);
+}
+
+html[data-theme="dark"] .offer-step:hover .offer-step__index {
+  color: var(--color-accent-bright);
+}
+
+.offer-step__title {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+.offer-step__text {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--color-ink-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offer-step,
+  .offer-step__index {
+    transition: none;
+  }
+
+  .offer-step:hover {
+    transform: none;
+  }
+}

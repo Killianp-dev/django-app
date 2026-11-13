@@ -113,6 +113,7 @@ body {
   justify-content: center;
   overflow: hidden;
   margin: 1.5rem 0 2.5rem;
+  scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
 }
 
 .section-divider::before,

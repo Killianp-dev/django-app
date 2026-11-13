@@ -38,10 +38,6 @@
 
 /* Barre de navigation mobile */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0 var(--page-gutter);
-  }
-
   .form-article {
     padding: 1.25rem var(--page-gutter);
     margin: 1.25rem var(--page-gutter) 3rem;
@@ -58,14 +54,6 @@
 
   .parallax__content {
     padding: 1.5rem var(--page-gutter);
-  }
-
-  .navbar.scrolled .logo a {
-    font-size: 1.3rem;
-  }
-
-  .logo a {
-    font-size: 1.3rem;
   }
 
   .scroll-right,
@@ -85,12 +73,6 @@
 
 /* Contact form responsive */
 @media (max-width: 600px) {
-  #contact-form {
-    padding: 2rem var(--page-gutter);
-    width: auto;
-    margin-left: var(--page-gutter);
-    margin-right: var(--page-gutter);
-  }
 
   #contact-form > h2,
   .contact-intro h2 {

@@ -1,16 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Killian P. — Développeur Backend & Python{% endblock %}
+{% block title %}Killian P. — Sites vitrines pour les commerces{% endblock %}
 {% block extra_head %}
-<link rel="preload" as="image" href="{% static 'ressources/hero.jpg' %}" fetchpriority="high">
 <noscript>
     <style>
-        .hero.is-loading .hero__eyebrow,
-        .hero.is-loading .hero__title,
-        .hero.is-loading .hero__subtitle,
-        .hero.is-loading .hero__actions,
-        .hero.is-loading .hero__guide,
+        .hero.is-loading .hero__overlay > *,
+        .hero.is-loading .hero__code,
         .hero.is-loading .hero__scroll { opacity: 1 !important; }
         .hero.is-loading .hero__overlay,
         .hero.is-loading .hero__scroll { pointer-events: auto; }
@@ -20,450 +16,103 @@
 {% block body_class %}home-page{% endblock %}
 
 {% block nav %}
-        <nav class="nav-menu" id="site-nav">
-            <div class="nav-menu__atmosphere" aria-hidden="true"></div>
-            <div class="nav-menu__panel">
-                <ul class="nav-links">
-                    <li><a href="#hero">Accueil</a></li>
-                    <li><a href="#projets">Projets</a></li>
-                    <li><a href="#latest-posts">Blog</a></li>
-                    <li><a href="#form">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
+{% include "partials/site_nav.html" with on_home=True %}
 {% endblock %}
 
 {% block content %}
-<section class="hero is-loading" id="hero">
-    <div class="hero__media" aria-hidden="true">
-        <img src="{% static 'ressources/hero.jpg' %}" alt="" width="2400" height="1600" fetchpriority="high" decoding="async">
+<section class="hero is-loading" id="hero" aria-labelledby="hero-title">
+    <div class="hero__bg" aria-hidden="true">
+        <span class="hero__grid"></span>
+        <span class="hero__halo hero__halo--a"></span>
+        <span class="hero__halo hero__halo--b"></span>
     </div>
-    <div class="hero__veil" aria-hidden="true"></div>
-    <div class="hero__overlay">
-        <p class="hero__eyebrow">Killian P. · Portfolio</p>
-        <h1 class="hero__title">Un site qui vous ressemble</h1>
-        <p class="hero__subtitle">
-            Un site vitrine, du Python, du Django. Le code de cette page, quelques projets, des notes.
-        </p>
-        <div class="hero__actions">
-            <a href="#projets" class="hero-btn">Voir les projets</a>
-            <a href="#form" class="hero-btn">Contact</a>
+
+    <div class="hero__inner">
+        <div class="hero__overlay">
+            <p class="hero__eyebrow">
+                <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+                Développeur web · Python &amp; Django
+            </p>
+            <h1 class="hero__title" id="hero-title">Le site de votre commerce, <em>écrit avec rigueur.</em></h1>
+            <p class="hero__subtitle">
+                Je suis Killian. J'écris des sites vitrines pour les commerces de proximité.
+                Vous voyez un exemple de votre métier avant d'en parler.
+            </p>
+            <div class="hero__actions">
+                <a href="#exemples" class="hero-btn">Voir les exemples</a>
+                <a href="#form" class="hero-btn">Me contacter</a>
+            </div>
+            <ul class="hero__facts">
+                <li><strong>{{ projets|length }}</strong><span>démos par métier</span></li>
+                <li><strong>Django</strong><span>framework principal</span></li>
+                <li><strong>1</strong><span>interlocuteur</span></li>
+            </ul>
         </div>
-        <nav class="hero__guide" aria-label="Parcourir le site">
-            <a class="hero__guide-item" href="#stack">
-                <span class="hero__guide-index">01</span>
-                <span class="hero__guide-copy">
-                    <strong>Stack</strong>
-                    <span>Le code de ce site</span>
-                </span>
-            </a>
-            <a class="hero__guide-item" href="#latest-posts">
-                <span class="hero__guide-index">02</span>
-                <span class="hero__guide-copy">
-                    <strong>Journal</strong>
-                    <span>Articles et notes</span>
-                </span>
-            </a>
-            <a class="hero__guide-item" href="#projets">
-                <span class="hero__guide-index">03</span>
-                <span class="hero__guide-copy">
-                    <strong>Projets</strong>
-                    <span>Une sélection</span>
-                </span>
-            </a>
-        </nav>
+
+        <figure class="hero__code" aria-label="Extrait de code Python : la vue d'une page d'accueil écrite avec Django">
+            <div class="hero__window">
+                <div class="hero__window-bar" aria-hidden="true">
+                    <span class="hero__window-dots"><i></i><i></i><i></i></span>
+                    <span class="hero__window-file">vitrine/views.py</span>
+                    <span class="hero__window-lang">Python</span>
+                </div>
+                <pre><code><span class="ln"><span class="kw">from</span> django.views.generic <span class="kw">import</span> <span class="cls">TemplateView</span></span>
+<span class="ln"></span>
+<span class="ln"><span class="kw">class</span> <span class="cls">Accueil</span>(<span class="cls">TemplateView</span>):</span>
+<span class="ln">    <span class="doc">"""Ce que vos clients voient en premier."""</span></span>
+<span class="ln"></span>
+<span class="ln">    template_name = <span class="str">"accueil.html"</span></span>
+<span class="ln"></span>
+<span class="ln">    <span class="kw">def</span> <span class="fn">get_context_data</span>(<span class="bi">self</span>, **kwargs):</span>
+<span class="ln">        ctx = <span class="bi">super</span>().get_context_data(**kwargs)</span>
+<span class="ln">        ctx[<span class="str">"metier"</span>] = <span class="str">"votre commerce"</span></span>
+<span class="ln">        ctx[<span class="str">"horaires"</span>] = Horaires.<span class="fn">du_jour</span>()</span>
+<span class="ln">        ctx[<span class="str">"contact"</span>] = FormulaireContact()</span>
+<span class="ln">        <span class="kw">return</span> ctx<span class="caret" aria-hidden="true"></span></span></code></pre>
+                <div class="hero__window-status" aria-hidden="true">
+                    <span class="hero__window-ok">en ligne</span>
+                </div>
+            </div>
+            <div class="hero__chip" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.4 3.1 8.1 7.5 9.5 4.4-1.4 7.5-5.1 7.5-9.5V6L12 3Z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg>
+                <span>Formulaire protégé<small>CSRF et anti-spam</small></span>
+            </div>
+        </figure>
     </div>
-    <a class="hero__scroll" href="#stack" aria-label="Découvrir la suite">
+
+    <a class="hero__scroll" href="#exemples" aria-label="Découvrir la suite">
         <span class="hero__scroll-line" aria-hidden="true"></span>
         Explorer
     </a>
 </section>
 
-<section class="stack" id="stack" aria-labelledby="stack-title">
-    <div class="stack__inner">
-        <header class="stack__header">
-            <p class="section-eyebrow">Stack</p>
-            <h2 id="stack-title">Le code de ce site</h2>
-            <p>Python et Django au cœur, HTML/CSS maison, un JavaScript volontairement léger.</p>
-        </header>
-
-        <div class="stack__layout">
-            <figure
-                class="stack-graph"
-                data-default="Django au centre : le framework qui relie le langage, la base et les pages."
-                aria-label="Graphe de la stack de ce site"
-            >
-                <div class="stack-graph__stage">
-                    <svg class="stack-graph__svg" viewBox="0 0 580 385" aria-hidden="true" focusable="false">
-                        <defs>
-                            <filter id="stackNeonBloom" x="-80%" y="-80%" width="260%" height="260%">
-                                <feGaussianBlur in="SourceGraphic" stdDeviation="1.05" result="blur"></feGaussianBlur>
-                                <feMerge>
-                                    <feMergeNode in="blur"></feMergeNode>
-                                    <feMergeNode in="SourceGraphic"></feMergeNode>
-                                </feMerge>
-                            </filter>
-                        </defs>
-                        <circle class="stack-graph__orbit" cx="290" cy="200" r="145"></circle>
-                        <circle class="stack-graph__halo" cx="290" cy="200" r="58"></circle>
-                        <g class="stack-graph__sparks">
-                            <circle class="stack-graph__spark" cx="353" cy="69" r="1.6"></circle>
-                            <circle class="stack-graph__spark" cx="431" cy="168" r="1.6"></circle>
-                            <circle class="stack-graph__spark" cx="403" cy="290" r="1.6"></circle>
-                            <circle class="stack-graph__spark" cx="290" cy="345" r="1.6"></circle>
-                            <circle class="stack-graph__spark" cx="177" cy="290" r="1.6"></circle>
-                            <circle class="stack-graph__spark" cx="149" cy="168" r="1.6"></circle>
-                            <circle class="stack-graph__spark" cx="227" cy="69" r="1.6"></circle>
-                        </g>
-                        <g class="stack-graph__glows" filter="url(#stackNeonBloom)">
-                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="python" pathLength="1" x1="290" y1="200" x2="290" y2="55"></line>
-                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="postgres" pathLength="1" x1="290" y1="200" x2="403" y2="110"></line>
-                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="html" pathLength="1" x1="290" y1="200" x2="431" y2="232"></line>
-                            <line class="stack-graph__link stack-graph__edge-glow" data-from="django" data-to="linux" pathLength="1" x1="290" y1="200" x2="149" y2="232"></line>
-                            <line class="stack-graph__link stack-graph__edge-glow" data-from="html" data-to="css" pathLength="1" x1="431" y1="232" x2="353" y2="331"></line>
-                            <line class="stack-graph__link stack-graph__edge-glow" data-from="html" data-to="js" pathLength="1" x1="431" y1="232" x2="227" y2="331"></line>
-                            <line class="stack-graph__link stack-graph__edge-glow" data-from="js" data-to="gsap" pathLength="1" x1="227" y1="331" x2="177" y2="110"></line>
-                        </g>
-                        <g class="stack-graph__edges">
-                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="python" pathLength="1" x1="290" y1="200" x2="290" y2="55"></line>
-                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="postgres" pathLength="1" x1="290" y1="200" x2="403" y2="110"></line>
-                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="html" pathLength="1" x1="290" y1="200" x2="431" y2="232"></line>
-                            <line class="stack-graph__link stack-graph__edge" data-from="django" data-to="linux" pathLength="1" x1="290" y1="200" x2="149" y2="232"></line>
-                            <line class="stack-graph__link stack-graph__edge" data-from="html" data-to="css" pathLength="1" x1="431" y1="232" x2="353" y2="331"></line>
-                            <line class="stack-graph__link stack-graph__edge" data-from="html" data-to="js" pathLength="1" x1="431" y1="232" x2="227" y2="331"></line>
-                            <line class="stack-graph__link stack-graph__edge" data-from="js" data-to="gsap" pathLength="1" x1="227" y1="331" x2="177" y2="110"></line>
-                        </g>
-                        <g class="stack-graph__currents" filter="url(#stackNeonBloom)">
-                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="python" pathLength="1" x1="290" y1="200" x2="290" y2="55"></line>
-                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="postgres" pathLength="1" x1="290" y1="200" x2="403" y2="110"></line>
-                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="html" pathLength="1" x1="290" y1="200" x2="431" y2="232"></line>
-                            <line class="stack-graph__link stack-graph__current" data-from="django" data-to="linux" pathLength="1" x1="290" y1="200" x2="149" y2="232"></line>
-                            <line class="stack-graph__link stack-graph__current" data-from="html" data-to="css" pathLength="1" x1="431" y1="232" x2="353" y2="331"></line>
-                            <line class="stack-graph__link stack-graph__current" data-from="html" data-to="js" pathLength="1" x1="431" y1="232" x2="227" y2="331"></line>
-                            <line class="stack-graph__link stack-graph__current" data-from="js" data-to="gsap" pathLength="1" x1="227" y1="331" x2="177" y2="110"></line>
-                        </g>
-                    </svg>
-                    <ul class="stack-graph__nodes">
-                        <li class="stack-graph__node" style="--x: 50%; --y: 14.29%;" data-node="python">
-                            <a class="stack-graph__pill" href="https://www.python.org/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="Python — le langage du backend.">Python</a>
-                        </li>
-                        <li class="stack-graph__node" style="--x: 69.48%; --y: 28.57%;" data-node="postgres">
-                            <a class="stack-graph__pill" href="https://www.postgresql.org/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="PostgreSQL — la base qui stocke articles et messages.">PostgreSQL</a>
-                        </li>
-                        <li class="stack-graph__node" style="--x: 74.31%; --y: 60.26%;" data-node="html">
-                            <a class="stack-graph__pill" href="https://developer.mozilla.org/fr/docs/Web/HTML" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="HTML — les pages rendues par les templates Django.">HTML</a>
-                        </li>
-                        <li class="stack-graph__node" style="--x: 60.86%; --y: 85.97%;" data-node="css">
-                            <a class="stack-graph__pill" href="https://developer.mozilla.org/fr/docs/Web/CSS" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="CSS — la mise en page, écrite à la main.">CSS</a>
-                        </li>
-                        <li class="stack-graph__node" style="--x: 39.14%; --y: 85.97%;" data-node="js">
-                            <a class="stack-graph__pill" href="https://developer.mozilla.org/fr/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="JavaScript — quelques interactions, volontairement légères.">JavaScript</a>
-                        </li>
-                        <li class="stack-graph__node" style="--x: 25.69%; --y: 60.26%;" data-node="linux">
-                            <a class="stack-graph__pill" href="https://www.kernel.org/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="Linux — le système qui héberge le serveur.">Linux</a>
-                        </li>
-                        <li class="stack-graph__node" style="--x: 30.52%; --y: 28.57%;" data-node="gsap">
-                            <a class="stack-graph__pill" href="https://gsap.com/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="GSAP — les animations au scroll, déjà sur cette page.">GSAP</a>
-                        </li>
-                        <li class="stack-graph__node is-core" style="--x: 50%; --y: 51.95%;" data-node="django">
-                            <a class="stack-graph__pill" href="https://www.djangoproject.com/" target="_blank" rel="noopener noreferrer" aria-describedby="stack-graph-role" data-role="Django — cœur du site : modèles, vues, templates.">Django</a>
-                        </li>
-                    </ul>
-                </div>
-                <figcaption class="stack-graph__caption">
-                    <p class="stack-graph__role" id="stack-graph-role" aria-live="polite">Django au centre : le framework qui relie le langage, la base et les pages.</p>
-                    <p class="stack-graph__hint">
-                        <span class="stack-graph__hint-hover">Survolez une techno pour voir ses liens, cliquez pour ouvrir sa page.</span>
-                        <span class="stack-graph__hint-touch">Touchez une techno pour voir ses liens, touchez à nouveau pour ouvrir sa page.</span>
-                    </p>
-                </figcaption>
-            </figure>
-
-            <article class="stack__code" aria-label="Extrait du code source">
-                <div class="stack__code-bar">
-                    <span class="stack__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                    <span class="stack__file">blog/models.py</span>
-                    <span class="stack__code-tags" aria-hidden="true">
-                        <span>Django 5.2</span>
-                        <span>PostgreSQL</span>
-                    </span>
-                </div>
-                <div class="stack__source" role="region" aria-label="Extrait de blog/models.py">
-                    <div class="stack__line"><span class="stack__ln">11</span><code><span class="tok-kw">class</span> <span class="tok-fn">BlogPost</span>(models.Model):</code></div>
-                    <div class="stack__line"><span class="stack__ln">12</span><code>    title = models.<span class="tok-fn">CharField</span>(max_length=<span class="tok-num">255</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">13</span><code>    slug = models.<span class="tok-fn">SlugField</span>(unique=<span class="tok-bool">True</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">14</span><code>    author = models.<span class="tok-fn">ForeignKey</span>(User, null=<span class="tok-bool">True</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">15</span><code>    created_on = models.<span class="tok-fn">DateField</span>(null=<span class="tok-bool">True</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">16</span><code>    published = models.<span class="tok-fn">BooleanField</span>(default=<span class="tok-bool">False</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">17</span><code>    content = models.<span class="tok-fn">TextField</span>(blank=<span class="tok-bool">True</span>)</code></div>
-                    <div class="stack__line"><span class="stack__ln">18</span><code>    thumbnail = models.<span class="tok-fn">ImageField</span>(blank=<span class="tok-bool">True</span>)</code></div>
-                </div>
-            </article>
-        </div>
-    </div>
-</section>
-
-<!-- Séparateur horizontal avec une icône différente -->
-<div class="section-divider" id="latest-posts">
-    <div class="divider-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-            <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path>
-        </svg>
-    </div>
-</div>
-
-<!-- Section des derniers articles — à la une -->
-<section class="latest-posts">
-  <div class="container">
-    <div class="news__header">
-      <p class="section-eyebrow">Journal</p>
-      <h2 class="news__title">Articles & notes</h2>
-      <p class="news__subtitle">Réflexions sur le développement web, Python et les architectures modernes.</p>
-    </div>
-
-    {% if latest_posts %}
-    {% with featured_posts=latest_posts|slice:":3" %}
-    <div
-      class="featured-rotator"
-      data-hold="6500"
-      aria-roledescription="carousel"
-      aria-label="Articles à la une"
-    >
-      <div class="featured-rotator__stage">
-        {% for post in featured_posts %}
-        <article
-          class="featured-rotator__slide{% if forloop.first %} is-active{% endif %}"
-          data-index="{{ forloop.counter0 }}"
-          aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
-          aria-label="Article {{ forloop.counter }} sur {{ featured_posts|length }}"
-        >
-          <a class="featured-rotator__link" href="{% url 'blog:detail' post.slug %}" draggable="false">
-            <div class="featured-rotator__media">
-              {% if post.thumbnail %}
-                <img
-                  src="{{ post.thumbnail.url }}"
-                  alt=""
-                  width="1200"
-                  height="675"
-                  draggable="false"
-                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
-                >
-              {% else %}
-                <img
-                  src="{% static 'ressources/' %}{{ forloop.counter }}.jpg"
-                  alt=""
-                  width="1200"
-                  height="675"
-                  draggable="false"
-                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
-                >
-              {% endif %}
-            </div>
-            <div class="featured-rotator__content">
-              <span class="featured-rotator__badge">À la une</span>
-              <h3 class="featured-rotator__title">{{ post.title }}</h3>
-              <p class="featured-rotator__excerpt">{{ post.content|striptags|truncatewords:22 }}</p>
-              <div class="featured-rotator__meta">
-                <span class="featured-rotator__byline">
-                  <span>Par {{ post.author_or_default }}</span>
-                  <span>{{ post.created_on|date:"d F Y" }}</span>
-                </span>
-                <span class="featured-rotator__cta">Lire<span class="featured-rotator__cta-arrow" aria-hidden="true"></span></span>
-              </div>
-            </div>
-          </a>
-        </article>
-        {% endfor %}
-      </div>
-
-      {% if featured_posts|length > 1 %}
-      <div class="featured-rotator__progress" role="tablist" aria-label="Choisir un article à la une">
-        {% for post in featured_posts %}
-        <button
-          type="button"
-          class="featured-rotator__bar{% if forloop.first %} is-active{% endif %}"
-          role="tab"
-          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-          aria-label="Afficher : {{ post.title }}"
-          data-index="{{ forloop.counter0 }}"
-        >
-          <span class="featured-rotator__bar-fill"></span>
-        </button>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-    {% endwith %}
-    {% else %}
-      <p class="news__empty">Les articles arrivent bientôt. Restez dans les parages.</p>
-    {% endif %}
-
-    <div class="news__more">
-      <a href="{% url 'blog:home' %}" class="btn btn--outline">Tous les articles</a>
-    </div>
-  </div>
-</section>
-
-<!-- Séparateur horizontal avec une icône différente -->
-<div class="section-divider">
-    <div class="divider-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"></path>
-        </svg>
-    </div>
-</div>
-
-<!-- Section parallax -->
-<section class="parallax" id="contact">
-    <div class="parallax__media" aria-hidden="true">
-        <img src="{% static 'ressources/parallax.jpg' %}?v=20260909-city" alt="" width="1920" height="2402" loading="lazy" decoding="async">
-    </div>
-    <div class="parallax__veil" aria-hidden="true"></div>
-    <div class="parallax__content">
-        <p class="parallax__title">Code. Create. Collaborate.</p>
-        <span class="parallax__lead">Transformons vos idées en solutions numériques fiables.</span>
-    </div>
-</section>
-
-<!-- Séparateur horizontal -->
-<div class="section-divider" id="projets">
-    <div class="divider-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path>
-        </svg>
-    </div>
-</div>
-
-<section class="projects" id="asym" aria-labelledby="projects-title">
+<section class="projects" id="exemples" aria-labelledby="projects-title">
     <header class="projects__header">
-        <p class="section-eyebrow">Sélection</p>
-        <h2 id="projects-title">Projets</h2>
-        <p>Des bases réutilisables, pensées pour la production, et une vitrine en ligne.</p>
+        <p class="section-eyebrow">Exemples</p>
+        <h2 id="projects-title">Des sites pour des commerces</h2>
+        <p>Six démonstrations, six métiers. Chaque commerce est fictif ; le site montre ce que vos clients verraient.</p>
     </header>
 
     <div class="projects__list">
-        <article class="project">
-            <div class="project__media">
-                <img src="{% static 'ressources/django-auth.jpg' %}" alt="Écran de connexion Django" width="1400" height="933" loading="lazy" decoding="async">
-            </div>
+        {% for projet in projets %}
+        <article class="project{% if forloop.counter|divisibleby:2 %} project--reverse{% endif %}">
+            <a class="project__media" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
+                <span class="project__bar" aria-hidden="true">
+                    <span class="project__dots"><i></i><i></i><i></i></span>
+                    <span class="project__url">killianp.dev{{ projet.url }}</span>
+                </span>
+                <span class="project__shot">
+                    <img src="{% static projet.apercu %}" alt="{{ projet.alt }}" width="1400" height="933" loading="lazy" decoding="async">
+                </span>
+            </a>
             <div class="project__body">
-                <span class="project__index">01</span>
-                <h3 class="project__title">Authentification Django</h3>
-                <p class="project__excerpt">
-                    Système d'authentification prêt à l'emploi avec Django 5.1 et django-allauth.
-                    Connexion sociale, récupération de mot de passe et profils personnalisés, sécurisés pour une intégration rapide.
-                </p>
+                <span class="project__index">{{ forloop.counter|stringformat:"02d" }}<small>/ {{ projets|length|stringformat:"02d" }}</small></span>
+                <h3 class="project__title">{{ projet.titre }}</h3>
+                <p class="project__excerpt">{{ projet.extrait }}</p>
                 <ul class="project__tags">
-                    <li>Django</li>
-                    <li>allauth</li>
-                    <li>Auth</li>
+                    {% for tag in projet.tags %}<li>{{ tag }}</li>{% endfor %}
                 </ul>
-                <a class="project__link" href="https://github.com/Killianp-dev/users" target="_blank" rel="noopener noreferrer">
-                    Voir le dépôt
-                    <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M7 17L17 7"></path>
-                        <path d="M8 7h9v9"></path>
-                    </svg>
-                </a>
-            </div>
-        </article>
-
-        <article class="project project--reverse">
-            <div class="project__media">
-                <img src="{% static 'ressources/blog-django.jpg' %}" alt="Interface d'un blog Django" width="1400" height="933" loading="lazy" decoding="async">
-            </div>
-            <div class="project__body">
-                <span class="project__index">02</span>
-                <h3 class="project__title">Blog Django de référence</h3>
-                <p class="project__excerpt">
-                    Un backend de blog construit avec Django 5 et Python 3.12.
-                    Articles, catégories, utilisateurs et administration personnalisée, prêts pour un déploiement réel.
-                </p>
-                <ul class="project__tags">
-                    <li>Django</li>
-                    <li>Python</li>
-                    <li>CMS</li>
-                </ul>
-                <a class="project__link" href="https://github.com/Killianp-dev/blog-django-ref" target="_blank" rel="noopener noreferrer">
-                    Voir le dépôt
-                    <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M7 17L17 7"></path>
-                        <path d="M8 7h9v9"></path>
-                    </svg>
-                </a>
-            </div>
-        </article>
-
-        <article class="project">
-            <div class="project__media">
-                <img src="{% static 'ressources/autosave.jpg' %}" alt="Disque de sauvegarde et terminal de backup" width="1400" height="933" loading="lazy" decoding="async">
-            </div>
-            <div class="project__body">
-                <span class="project__index">03</span>
-                <h3 class="project__title">Sauvegardes automatiques</h3>
-                <p class="project__excerpt">
-                    Script Python configurable pour des sauvegardes quotidiennes, hebdomadaires et mensuelles.
-                    Gestion de l'espace disque et rotation des archives, sans dépendre d'un outil lourd.
-                </p>
-                <ul class="project__tags">
-                    <li>Python</li>
-                    <li>Linux</li>
-                    <li>Backup</li>
-                </ul>
-                <a class="project__link" href="https://github.com/Killianp-dev/auto-save" target="_blank" rel="noopener noreferrer">
-                    Voir le dépôt
-                    <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M7 17L17 7"></path>
-                        <path d="M8 7h9v9"></path>
-                    </svg>
-                </a>
-            </div>
-        </article>
-
-        <article class="project project--reverse">
-            <div class="project__media">
-                <img src="{% static 'ressources/o-notify.jpg' %}" alt="Lingots d'or dans un coffre, visuel du projet o-notify" width="1400" height="933" loading="lazy" decoding="async">
-            </div>
-            <div class="project__body">
-                <span class="project__index">04</span>
-                <h3 class="project__title">o-notify</h3>
-                <p class="project__excerpt">
-                    Outil Python pour suivre les produits AuCoffre.com, extraire le premium et le label LSP,
-                    puis envoyer des alertes via Pushover. Une veille automatisée sur les métaux précieux.
-                </p>
-                <ul class="project__tags">
-                    <li>Python</li>
-                    <li>Scraping</li>
-                    <li>Pushover</li>
-                </ul>
-                <a class="project__link" href="https://github.com/Killianp-dev/o-notify" target="_blank" rel="noopener noreferrer">
-                    Voir le dépôt
-                    <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M7 17L17 7"></path>
-                        <path d="M8 7h9v9"></path>
-                    </svg>
-                </a>
-            </div>
-        </article>
-
-        <article class="project">
-            <div class="project__media">
-                <img src="/media/archi/site/hero_maison.jpg" alt="Exemple de site vitrine pour un professionnel" width="1400" height="933" loading="lazy" decoding="async">
-            </div>
-            <div class="project__body">
-                <span class="project__index">05</span>
-                <h3 class="project__title">Site pour professionnels</h3>
-                <p class="project__excerpt">
-                    Création d'un site vitrine pour un professionnel. Présentation, galerie et prise de contact,
-                    à adapter selon le métier.
-                </p>
-                <ul class="project__tags">
-                    <li>Django</li>
-                    <li>HTML/CSS</li>
-                    <li>Vitrine</li>
-                </ul>
-                <a class="project__link" href="{% url 'archi:home' %}">
+                <a class="project__link" href="{{ projet.url }}">
                     Voir la démo
                     <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M7 17L17 7"></path>
@@ -472,8 +121,115 @@
                 </a>
             </div>
         </article>
+        {% endfor %}
     </div>
 </section>
+
+<section class="about" id="a-propos" aria-labelledby="about-title">
+    <header class="projects__header">
+        <p class="section-eyebrow">À propos</p>
+        <h2 id="about-title">Killian P.</h2>
+        <p>J'écris des sites vitrines pour les commerces de proximité.</p>
+    </header>
+    <div class="about__layout">
+        <aside class="about__aside">
+            <figure class="about__portrait">
+                <img src="{% static 'ressources/killian-aplat.jpg' %}?v=20261113-yeux" alt="Portrait de Killian P." width="864" height="1152">
+                <figcaption>
+                    <strong>Killian P.</strong>
+                    <span>Licence d'informatique · Cnam</span>
+                </figcaption>
+            </figure>
+            <ul class="about__stack" aria-label="Technologies et domaines">
+                <li>Python</li>
+                <li>Django</li>
+                <li>HTML / CSS</li>
+                <li>JavaScript</li>
+                <li>Java</li>
+                <li>Cybersécurité</li>
+            </ul>
+        </aside>
+        <div class="about__body">
+            <p class="about__lead">Je m'appelle Killian. J'écris des sites vitrines pour les commerces de proximité : le métier, les horaires, ce que vous proposez, et un moyen de vous écrire.</p>
+            <p>Le site reste simple. Pas de catalogue à tenir à jour, pas d'espace à administrer. Les textes sont les vôtres. Je les mets en page pour que quelqu'un qui ne vous connaît pas comprenne en une minute.</p>
+            <p>On commence par un exemple de votre métier. Vous voyez les pages avant de décider. Rien n'est mis en ligne que vous n'ayez pas lu. Si une phrase ne vous ressemble pas, on la reprend.</p>
+            <p>Je travaille seul. Vous m'écrivez, je réponds, et c'est moi qui prépare le site. Trois temps : on en parle, je prépare les pages, le site est en ligne.</p>
+
+            <div class="about__panels">
+                <section class="about__panel" aria-labelledby="about-shows">
+                    <h3 id="about-shows">Ce que le site montre</h3>
+                    <ul>
+                        <li>L'accueil, avec ce que vos clients doivent trouver tout de suite.</li>
+                        <li>Ce que vous proposez, page par page.</li>
+                        <li>Qui vous êtes, et où vous trouver.</li>
+                        <li>Un formulaire, pour écrire sans passer par un compte.</li>
+                    </ul>
+                </section>
+                <section class="about__panel" aria-labelledby="about-path">
+                    <h3 id="about-path">Le parcours</h3>
+                    <p>Je suis en 3<sup>e</sup> année de licence d'informatique au Cnam (accès L3, L1 et L2 validées). J'ai aussi suivi des formations concrètes en Python, Django, web et Java, chez OpenClassrooms et Udemy.</p>
+                    <p>Je me suis formé à la cybersécurité. Sur un site de commerce, ça se voit peu : le formulaire n'accepte pas n'importe quoi, les messages arrivent au bon endroit, et les cookies de mesure d'audience attendent votre choix. Sans jargon, et sans outil dont vous n'avez pas besoin.</p>
+                </section>
+            </div>
+            <p class="about__signature">Killian P.</p>
+        </div>
+    </div>
+</section>
+
+<section class="offer" id="deroulement" aria-labelledby="offer-title">
+    <header class="projects__header">
+        <p class="section-eyebrow">Déroulement</p>
+        <h2 id="offer-title">Comment ça se passe</h2>
+        <p>Trois étapes, du premier message au site en ligne.</p>
+    </header>
+    <ol class="offer-steps">
+        <li class="offer-step">
+            <div class="offer-step__head">
+                <svg class="offer-step__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>
+                <span class="offer-step__index">01</span>
+            </div>
+            <h3 class="offer-step__title">On en parle</h3>
+            <p class="offer-step__text">Vous décrivez le commerce, ce que les clients doivent trouver, et ce qui peut attendre.</p>
+        </li>
+        <li class="offer-step">
+            <div class="offer-step__head">
+                <svg class="offer-step__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/></svg>
+                <span class="offer-step__index">02</span>
+            </div>
+            <h3 class="offer-step__title">Je prépare le site</h3>
+            <p class="offer-step__text">Vous voyez les pages : accueil, ce que vous proposez, qui vous êtes, et le formulaire.</p>
+        </li>
+        <li class="offer-step">
+            <div class="offer-step__head">
+                <svg class="offer-step__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+                <span class="offer-step__index">03</span>
+            </div>
+            <h3 class="offer-step__title">Il est en ligne</h3>
+            <p class="offer-step__text">Le site est publié avec vos textes, vos horaires et un moyen de vous écrire.</p>
+        </li>
+    </ol>
+</section>
+
+{% if latest_posts %}
+<section class="projects blog-section" id="blog" aria-labelledby="blog-title">
+    <header class="projects__header">
+        <p class="section-eyebrow">Blog</p>
+        <h2 id="blog-title">Notes de développeur</h2>
+        <p>Python, données et ce qui se passe sous le capot d'un site. Pour ceux qui aiment savoir comment c'est fait.</p>
+    </header>
+    <div class="blog-grid">
+        {% for post in latest_posts %}
+        {% include "blog/partials/post_card.html" with heading="h3" %}
+        {% endfor %}
+    </div>
+    <p class="blog-section__more">
+        <a class="blog-section__link" href="{% url 'blog:home' %}">
+            Tous les articles
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+    </p>
+</section>
+{% endif %}
 
 <!-- Séparateur horizontal avec une icône différente -->
 <div class="section-divider" id="form">
@@ -490,14 +246,25 @@
     <div class="contact-layout">
         <div class="contact-intro">
             <p class="section-eyebrow">Contact</p>
-            <h2>Créons ensemble</h2>
+            <h2>Parlons de votre commerce</h2>
             <p>
-                Un projet web, une architecture backend ou un besoin d'automatisation ?
-                Écrivez-moi, je vous réponds rapidement.
+                Dites-moi le métier et ce que le site doit montrer.
+                Je vous réponds avec la suite.
             </p>
+            <ul class="contact-points">
+                <li>Je réponds personnellement</li>
+                <li>Aucun compte à créer</li>
+                <li>Un exemple de votre métier avant de décider</li>
+            </ul>
             <div class="contact-links">
-                <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>
-                <a href="https://github.com/Killianp-dev" target="_blank" rel="noopener">github.com/Killianp-dev</a>
+                <a href="mailto:contact@killianp-dev.fr">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                    <span>contact@killianp-dev.fr</span>
+                </a>
+                <a href="https://github.com/Killianp-dev" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg>
+                    <span>github.com/Killianp-dev</span>
+                </a>
             </div>
         </div>
         <form method="post" novalidate>

@@ -1,17 +1,34 @@
 /* ==================================================
    PIED DE PAGE
+   Tokens propres au thème : papier en clair, encre en sombre.
    ================================================= */
 
 .footer {
-  background: var(--color-chrome);
-  color: rgba(247, 244, 238, 0.78);
+  --footer-bg: var(--color-bg-alt);
+  --footer-fg: var(--color-ink-soft);
+  --footer-strong: var(--color-ink);
+  --footer-heading: var(--color-accent);
+  --footer-link-hover: var(--color-accent);
+  --footer-line: var(--color-border);
+
+  background: var(--footer-bg);
+  color: var(--footer-fg);
   text-align: left;
   padding: 3.25rem 2rem 1.5rem;
   margin-top: auto;
   width: 100%;
   position: relative;
   z-index: 10;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--footer-line);
+}
+
+html[data-theme="dark"] .footer {
+  --footer-bg: var(--color-chrome);
+  --footer-fg: rgba(247, 244, 238, 0.78);
+  --footer-strong: #f7f4ee;
+  --footer-heading: var(--color-accent-bright);
+  --footer-link-hover: var(--color-accent-bright);
+  --footer-line: rgba(255, 255, 255, 0.08);
 }
 
 .footer__inner {
@@ -26,7 +43,7 @@
 .footer__brand {
   font-family: var(--font-serif);
   font-size: 1.7rem;
-  color: #f7f4ee;
+  color: var(--footer-strong);
   margin-bottom: 0.65rem;
   letter-spacing: -0.02em;
 }
@@ -43,7 +60,7 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-accent-bright);
+  color: var(--footer-heading);
   margin-bottom: 1rem;
 }
 
@@ -56,13 +73,13 @@
 }
 
 .footer a {
-  color: rgba(247, 244, 238, 0.82);
+  color: var(--footer-strong);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .footer a:hover {
-  color: var(--color-accent-bright);
+  color: var(--footer-link-hover);
   text-decoration: none;
 }
 
@@ -70,7 +87,7 @@
   max-width: var(--content-max);
   margin: 0 auto;
   padding-top: 1.35rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--footer-line);
   display: flex;
   justify-content: space-between;
   gap: 1rem;

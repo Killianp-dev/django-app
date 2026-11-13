@@ -1,0 +1,24 @@
+{% comment %}
+Navigation principale, partagée par base.html et index.html.
+`on_home` : liens d'ancre relatifs (#section) pour le défilement doux sur la page d'accueil.
+{% endcomment %}
+{% url 'index' as index_url %}
+<nav class="nav-menu" id="site-nav" aria-label="Navigation principale">
+    <div class="nav-menu__panel">
+        <p class="nav-menu__kicker" aria-hidden="true">Menu</p>
+        <ul class="nav-links">
+            <li><a href="{% if on_home %}#hero{% else %}{{ index_url }}{% endif %}"><span class="nav-links__index" aria-hidden="true">01</span><span class="nav-links__label">Accueil</span></a></li>
+            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__index" aria-hidden="true">02</span><span class="nav-links__label">Exemples</span></a></li>
+            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#a-propos"><span class="nav-links__index" aria-hidden="true">03</span><span class="nav-links__label">À propos</span></a></li>
+            <li><a href="{% if on_home %}#blog{% else %}{% url 'blog:home' %}{% endif %}"{% if request.resolver_match.namespace == 'blog' %} class="active" aria-current="page"{% endif %}><span class="nav-links__index" aria-hidden="true">04</span><span class="nav-links__label">Blog</span></a></li>
+        </ul>
+        <div class="nav-menu__footer">
+            <p class="nav-menu__status"><span class="status-dot" aria-hidden="true"></span>Disponible pour de nouveaux projets</p>
+            <a class="nav-menu__cta" href="{% if not on_home %}{{ index_url }}{% endif %}#form">
+                Démarrer un projet
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="nav-menu__mail" href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>
+        </div>
+    </div>
+</nav>

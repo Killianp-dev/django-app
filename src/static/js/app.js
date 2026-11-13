@@ -147,7 +147,7 @@
   }
 
   function getNavFocusable() {
-    return navMenu ? Array.from(navMenu.querySelectorAll('.nav-links a')) : [];
+    return navMenu ? Array.from(navMenu.querySelectorAll('a[href]')) : [];
   }
 
   function syncNavOrigin() {
@@ -157,15 +157,33 @@
     navMenu.style.setProperty('--nav-origin-y', `${(rect.top + rect.height / 2).toFixed(1)}px`);
   }
 
+  function preventBackgroundScroll(event) {
+    if (!isNavOpen()) return;
+    event.preventDefault();
+  }
+
+  function setScrollLock(locked) {
+    const method = locked ? 'addEventListener' : 'removeEventListener';
+    window[method]('wheel', preventBackgroundScroll, { passive: false });
+    window[method]('touchmove', preventBackgroundScroll, { passive: false });
+  }
+
+  function placeNav() {
+    const bar = document.querySelector('.navbar');
+    if (!bar || !navMenu) return;
+    navMenu.style.top = `${bar.getBoundingClientRect().bottom}px`;
+  }
+
   function setMobileMenuState(isOpen) {
     if (!hamburger || !navMenu) return;
 
     const shouldOpen = Boolean(isOpen) && isMobileNav();
-    syncNavOrigin();
+    if (shouldOpen) placeNav();
 
     hamburger.classList.toggle('is-open', shouldOpen);
     navMenu.classList.toggle('is-open', shouldOpen);
     document.documentElement.classList.toggle('nav-open', shouldOpen);
+    setScrollLock(shouldOpen);
     hamburger.setAttribute('aria-expanded', String(shouldOpen));
     hamburger.setAttribute('aria-label', shouldOpen ? 'Fermer le menu' : 'Ouvrir le menu');
     navMenu.setAttribute('aria-hidden', isMobileNav() ? String(!shouldOpen) : 'false');
@@ -197,12 +215,11 @@
       setMobileMenuState(!isNavOpen());
     });
 
-    navLinks.forEach((link) => {
-      link.addEventListener('click', closeMobileMenu);
-    });
-
+    // Ferme le menu sur tout lien suivi, ou sur un clic hors du panneau.
     navMenu.addEventListener('click', (event) => {
-      if (!event.target.closest('.nav-menu__panel')) closeMobileMenu();
+      if (event.target.closest('a[href]') || !event.target.closest('.nav-menu__panel')) {
+        closeMobileMenu();
+      }
     });
 
     document.addEventListener('keydown', (event) => {
@@ -211,6 +228,11 @@
       if (event.key === 'Escape') {
         event.preventDefault();
         closeMobileMenu();
+        return;
+      }
+
+      if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
+        event.preventDefault();
         return;
       }
 
@@ -232,7 +254,13 @@
       }
     });
 
-    window.addEventListener('resize', utils.debounce(syncNavOrigin, 120));
+    window.addEventListener('resize', utils.debounce(() => {
+      if (isNavOpen()) placeNav();
+    }, 120));
+
+    window.addEventListener('scroll', () => {
+      if (isNavOpen()) placeNav();
+    }, { passive: true });
 
     const onViewportChange = () => {
       if (!isMobileNav()) {
@@ -263,22 +291,32 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    document.querySelectorAll('.project').forEach((block) => {
-      gsap.fromTo(block,
-        { opacity: 0, y: 28 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: block,
-            start: "top 88%",
-            once: true
+    const revealBlocks = (selector, stagger = false) => {
+      document.querySelectorAll(selector).forEach((block, index) => {
+        gsap.fromTo(block,
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            delay: stagger ? (index % 3) * 0.1 : 0,
+            ease: "power2.out",
+            // Rend la main au CSS (survols) une fois l'apparition terminée
+            clearProps: "opacity,transform",
+            scrollTrigger: {
+              trigger: block,
+              start: "top 88%",
+              once: true
+            }
           }
-        }
-      );
-    });
+        );
+      });
+    };
+
+    revealBlocks('.project');
+    revealBlocks('.offer-step', true);
+    revealBlocks('.about__panel', true);
+    revealBlocks('.about__aside');
   }
 
   // Fallback for browsers without GSAP
@@ -297,7 +335,7 @@
       threshold: 0.1
     });
 
-    document.querySelectorAll('.project').forEach((block) => {
+    document.querySelectorAll('.project, .offer-step, .about__panel, .about__aside').forEach((block) => {
       block.classList.add('scroll-up');
       observer.observe(block);
     });
@@ -316,12 +354,13 @@
       return;
     }
 
-    const heroImg = hero.querySelector('.hero__media img');
     const heroEyebrow = hero.querySelector('.hero__eyebrow');
     const heroTitle = hero.querySelector('.hero__title');
     const heroSubtitle = hero.querySelector('.hero__subtitle');
     const heroActions = hero.querySelector('.hero__actions');
-    const heroGuide = hero.querySelector('.hero__guide');
+    const heroFacts = hero.querySelector('.hero__facts');
+    const heroCode = hero.querySelector('.hero__code');
+    const heroLines = hero.querySelectorAll('.hero__code .ln');
     const heroScroll = hero.querySelector('.hero__scroll');
 
     if (!heroTitle || !heroSubtitle || !heroActions) {
@@ -329,10 +368,12 @@
       return;
     }
 
-    const intro = [heroEyebrow, heroTitle, heroSubtitle, heroActions, heroGuide, heroScroll].filter(Boolean);
+    const intro = [heroEyebrow, heroTitle, heroSubtitle, heroActions, heroFacts, heroCode, heroScroll].filter(Boolean);
 
     gsap.set(intro, { autoAlpha: 0, y: 14 });
     gsap.set(heroTitle, { y: 18 });
+    if (heroCode) gsap.set(heroCode, { y: 26 });
+    if (heroLines.length) gsap.set(heroLines, { autoAlpha: 0, x: -8 });
     revealHero();
 
     const tl = gsap.timeline({
@@ -342,32 +383,38 @@
       },
       onComplete() {
         gsap.set(intro, { clearProps: 'transform' });
+        if (heroLines.length) gsap.set(heroLines, { clearProps: 'transform' });
       }
     });
-
-    if (heroImg && window.innerWidth > MOBILE_BREAKPOINT) {
-      tl.fromTo(
-        heroImg,
-        { scale: 1.045 },
-        { scale: 1, duration: 1.55, ease: 'power1.out', clearProps: 'transform' },
-        0
-      );
-    }
 
     if (heroEyebrow) {
       tl.to(heroEyebrow, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.06);
     }
 
     tl.to(heroTitle, { autoAlpha: 1, y: 0, duration: 0.72 }, 0.14)
-      .to(heroSubtitle, { autoAlpha: 0.92, y: 0, duration: 0.58 }, 0.26)
+      .to(heroSubtitle, { autoAlpha: 1, y: 0, duration: 0.58 }, 0.26)
       .to(heroActions, { autoAlpha: 1, y: 0, duration: 0.52 }, 0.4);
 
-    if (heroGuide) {
-      tl.to(heroGuide, { autoAlpha: 1, y: 0, duration: 0.58 }, 0.5);
+    if (heroFacts) {
+      tl.to(heroFacts, { autoAlpha: 1, y: 0, duration: 0.58 }, 0.5);
+    }
+
+    if (heroCode) {
+      tl.to(heroCode, { autoAlpha: 1, y: 0, duration: 0.85 }, 0.3);
+    }
+
+    if (heroLines.length) {
+      tl.to(heroLines, {
+        autoAlpha: 1,
+        x: 0,
+        duration: 0.4,
+        stagger: 0.055,
+        ease: 'power1.out'
+      }, 0.7);
     }
 
     if (heroScroll) {
-      tl.to(heroScroll, { autoAlpha: 1, y: 0, duration: 0.45 }, 0.64);
+      tl.to(heroScroll, { autoAlpha: 1, y: 0, duration: 0.45 }, 0.9);
     }
   }
 
@@ -691,14 +738,6 @@
 
     const logo = navbar.querySelector('.logo a');
 
-    navLinks.forEach(link => {
-      if (!link.querySelector('.link-hover-effect')) {
-        const linkEffect = document.createElement('span');
-        linkEffect.classList.add('link-hover-effect');
-        link.appendChild(linkEffect);
-      }
-    });
-
     const syncScrolledState = () => {
       navbar.classList.toggle('scrolled', window.scrollY > 24);
     };
@@ -711,7 +750,7 @@
     const hasPlayedAnimation = sessionStorage.getItem('navbarAnimationPlayed');
     if (hasPlayedAnimation) return;
 
-    const introItems = [logo, ...(!isMobileNav() ? Array.from(navLinks) : [])].filter(Boolean);
+    const introItems = [logo, !isMobileNav() && navMenu, navbar.querySelector('.navbar-actions')].filter(Boolean);
     if (introItems.length) {
       gsap.from(introItems, {
         y: -16,
@@ -1212,18 +1251,32 @@
     const sectionTitles = document.querySelectorAll('.projects__header h2, .news__title, .parallax__title, .stack__header h2');
 
     sectionTitles.forEach(title => {
-      // Character animation
-      const text = title.textContent;
+      // Animation par caractère, mots insécables : le titre peut passer
+      // à la ligne et les lecteurs d'écran lisent le texte entier.
+      const text = title.textContent.trim();
+      const chars = [];
+      title.setAttribute('aria-label', text);
       title.innerHTML = '';
 
-      text.split('').forEach(char => {
-        const span = document.createElement('span');
-        span.textContent = char === ' ' ? '\u00A0' : char;
-        span.style.display = 'inline-block';
-        title.appendChild(span);
+      text.split(/\s+/).forEach((word, wordIndex, words) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.setAttribute('aria-hidden', 'true');
+        wordSpan.style.display = 'inline-block';
+        wordSpan.style.whiteSpace = 'nowrap';
+
+        word.split('').forEach(char => {
+          const span = document.createElement('span');
+          span.textContent = char;
+          span.style.display = 'inline-block';
+          wordSpan.appendChild(span);
+          chars.push(span);
+        });
+
+        title.appendChild(wordSpan);
+        if (wordIndex < words.length - 1) title.appendChild(document.createTextNode(' '));
       });
 
-      gsap.fromTo(title.children,
+      gsap.fromTo(chars,
         {
           y: 30,
           opacity: 0,
@@ -1331,14 +1384,12 @@
     // Check if user has already made a choice
     const cookieChoice = localStorage.getItem('cookie-consent');
     
-    // Show modal only if no choice was made before (first visit)
     if (cookieChoice === null) {
       setTimeout(() => {
         showCookieModal();
-      }, 1000); // Show after 1 second to let the page load
+      }, 600);
     }
     
-    // Event listeners for buttons
     acceptBtn.addEventListener('click', () => {
       acceptCookies();
       hideCookieModal();
@@ -1349,31 +1400,12 @@
       hideCookieModal();
     });
     
-    // Close modal on overlay click
-    cookieModal.addEventListener('click', (e) => {
-      if (e.target === cookieModal) {
-        // If user clicks outside without choosing, consider it as decline
-        declineCookies();
-        hideCookieModal();
-      }
-    });
-    
-    // Prevent modal from closing when clicking inside
-    cookieModal.querySelector('.cookie-modal').addEventListener('click', (e) => {
-      e.stopPropagation();
-    });
-    
     function showCookieModal() {
       cookieModal.classList.add('show');
-      document.body.style.overflow = 'hidden'; // Prevent background scrolling
-      
-      // Focus management for accessibility
-      acceptBtn.focus();
     }
     
     function hideCookieModal() {
       cookieModal.classList.remove('show');
-      document.body.style.overflow = ''; // Restore scrolling
     }
     
     function acceptCookies() {
@@ -1401,6 +1433,32 @@
       
       console.log('Cookies declined - Analytics disabled');
     }
+  }
+
+  // ===== Reading progress (articles) =====
+  function initReadingProgress() {
+    const progress = document.querySelector('.reading-progress');
+    const body = document.querySelector('.article-body');
+    if (!progress || !body) return;
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      if (navbar) progress.style.top = `${navbar.getBoundingClientRect().bottom}px`;
+      const rect = body.getBoundingClientRect();
+      const total = rect.height - window.innerHeight * 0.6;
+      const ratio = total > 0 ? (window.innerHeight * 0.4 - rect.top) / total : 1;
+      progress.style.setProperty('--reading-progress', Math.min(1, Math.max(0, ratio)).toFixed(4));
+    };
+    const request = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
   }
 
   // ===== Theme toggle =====
@@ -1455,6 +1513,7 @@
     initActiveNavigation();
     initClickableCards();
     initCopyLink();
+    initReadingProgress();
     initArticleCopyBlocks();
     initPointerGlow();
     initSurfaceGlow();

@@ -36,6 +36,9 @@ db.sqlite3
 Thumbs.db
 desktop.ini
 
+# Skills Cursor locales à ce dépôt
+.cursor/
+
 # Fichiers créés par les IDE
 .vscode/
 .idea/

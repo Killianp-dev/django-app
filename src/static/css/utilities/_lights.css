@@ -87,80 +87,8 @@ html[data-theme="dark"] .pointer-glow.is-active {
   opacity: 0.35;
 }
 
-html[data-theme="dark"] .hero__title {
-  text-shadow:
-    0 2px 28px rgba(0, 0, 0, 0.55),
-    0 1px 2px rgba(0, 0, 0, 0.45),
-    0 0 42px rgba(26, 168, 156, 0.22);
-}
-
 html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
   box-shadow: 0 0 16px rgba(94, 234, 212, 0.55);
-}
-
-html[data-theme="dark"] .hero__eyebrow {
-  box-shadow: 0 0 24px rgba(26, 168, 156, 0.18);
-}
-
-.hero__stack span {
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-}
-
-html[data-theme="dark"] .hero__stack span {
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-}
-
-html[data-theme="dark"] .hero__stack span:hover {
-  border-color: rgba(94, 234, 212, 0.55);
-  background: rgba(26, 168, 156, 0.22);
-  box-shadow: 0 0 18px rgba(26, 168, 156, 0.28);
-}
-
-html[data-theme="dark"] .hero__title::after {
-  box-shadow: 0 0 18px rgba(94, 234, 212, 0.55);
-}
-
-/* Navbar */
-.navbar::after {
-  content: "";
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: -1px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-accent-bright), transparent);
-  box-shadow: 0 0 16px var(--glow-accent-strong);
-  opacity: 0.28;
-  pointer-events: none;
-  z-index: 3;
-  transition: opacity 0.35s ease;
-}
-
-html[data-theme="dark"] .navbar::after {
-  opacity: 0.55;
-}
-
-html.nav-open .navbar::after {
-  opacity: 0;
-}
-
-.logo-dot {
-  text-shadow: none;
-}
-
-html[data-theme="dark"] .logo-dot {
-  text-shadow: 0 0 14px rgba(94, 234, 212, 0.55);
-}
-
-@media (min-width: 769px) {
-  .nav-links a:hover::after,
-  .nav-links a.active::after {
-    box-shadow: 0 0 12px var(--color-accent-bright);
-  }
-}
-
-.theme-toggle:hover {
-  box-shadow: 0 0 18px var(--glow-accent);
 }
 
 /* Boutons */
@@ -273,11 +201,15 @@ html[data-theme="dark"] .has-surface-glow::after {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--color-accent-bright), transparent);
   box-shadow: 0 0 22px var(--glow-accent-strong);
-  opacity: 0.65;
+  opacity: 0.35;
   pointer-events: none;
 }
 
-.footer a:hover {
+html[data-theme="dark"] .footer::before {
+  opacity: 0.65;
+}
+
+html[data-theme="dark"] .footer a:hover {
   text-shadow: 0 0 16px rgba(94, 234, 212, 0.45);
 }
 

@@ -37,7 +37,7 @@
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
     </noscript>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261113-hp-hidden">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261113-footer">
     <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20260822" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20260822">
     <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20260822">
@@ -61,43 +61,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- Barre de navigation -->
 <header class="navbar">
     <div class="navbar__glass" aria-hidden="true"></div>
-    <div class="logo">
-        <a href="{% url 'index' %}">
-            <span class="logo-text">killianp<span class="logo-dot">.dev</span></span>
-        </a>
-    </div>
-    {% block nav %}
-    <nav class="nav-menu" id="site-nav">
-        <div class="nav-menu__atmosphere" aria-hidden="true"></div>
-        <div class="nav-menu__panel">
-            <ul class="nav-links">
-                <li><a href="{% url 'index' %}">Accueil</a></li>
-                <li><a href="{% url 'index' %}#projets">Projets</a></li>
-                <li><a href="{% url 'blog:home' %}">Blog</a></li>
-                <li><a href="{% url 'index' %}#form">Contact</a></li>
-            </ul>
+    <a class="skip-link" href="#main-content">Aller au contenu</a>
+    <div class="navbar__inner">
+        <div class="logo">
+            <a href="{% url 'index' %}" aria-label="killianp.dev — accueil">
+                <span class="logo-mark" aria-hidden="true">kp</span>
+                <span class="logo-text">killianp<span class="logo-dot">.dev</span></span>
+            </a>
         </div>
-    </nav>
-    {% endblock %}
+        {% block nav %}
+        {% include "partials/site_nav.html" with on_home=False %}
+        {% endblock %}
 
-    <div class="navbar-actions">
-        <button class="theme-toggle" type="button" aria-label="Activer le thème clair" aria-pressed="true">
-            <svg class="theme-toggle__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.75"></circle>
-                <path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor"></path>
-            </svg>
-        </button>
-        <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
-            <span class="hamburger__icon" aria-hidden="true">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </span>
-        </button>
+        <div class="navbar-actions">
+            <button class="theme-toggle" type="button" aria-label="Activer le thème clair" aria-pressed="true">
+                <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.75"/>
+                    <path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                </svg>
+                <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M20 14.6A8.3 8.3 0 0 1 9.4 4a8.3 8.3 0 1 0 10.6 10.6Z" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <a class="navbar-cta" href="{% url 'index' %}#form">
+                <span>Me contacter</span>
+                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
+                <span class="hamburger__icon" aria-hidden="true">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
+            </button>
+        </div>
     </div>
 </header>
 
 <!-- Contenu principal -->
+<div id="main-content" tabindex="-1"></div>
 {% block content %}{% endblock %}
 
 
@@ -106,13 +107,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="footer__inner">
         <div>
             <p class="footer__brand">killianp.dev</p>
-            <p class="footer__tagline">Backends Python, applications Django et automatisations pensées pour durer.</p>
+            <p class="footer__tagline">Sites vitrines pour les commerces de proximité.</p>
         </div>
         <div class="footer__col">
             <h3>Navigation</h3>
             <ul>
                 <li><a href="{% url 'index' %}">Accueil</a></li>
-                <li><a href="{% url 'index' %}#projets">Projets</a></li>
+                <li><a href="{% url 'index' %}#exemples">Exemples</a></li>
+                <li><a href="{% url 'index' %}#a-propos">À propos</a></li>
                 <li><a href="{% url 'blog:home' %}">Blog</a></li>
                 <li><a href="{% url 'index' %}#form">Contact</a></li>
             </ul>
@@ -132,47 +134,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 </footer>
 
-<!-- Modal de consentement aux cookies -->
-<div id="cookieModal" class="cookie-modal-overlay">
-    <div class="cookie-modal">
-        <div class="cookie-modal-header">
-            <div class="cookie-modal-icon">
-                <i class="fas fa-cookie-bite"></i>
-            </div>
-            <h2 class="cookie-modal-title">Gestion des cookies</h2>
-        </div>
-        
-        <div class="cookie-modal-content">
-            <p class="cookie-modal-text">
-                Nous utilisons des cookies pour améliorer votre expérience de navigation, analyser le trafic du site et personnaliser le contenu. 
-                En continuant à utiliser notre site, vous acceptez notre utilisation des cookies.
-            </p>
-            
-            <div class="cookie-modal-features">
-                <h4>Les cookies nous permettent de :</h4>
-                <ul>
-                    <li>Analyser les performances du site</li>
-                    <li>Personnaliser votre expérience</li>
-                    <li>Améliorer nos services</li>
-                    <li>Mesurer l'audience avec Google Analytics</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="cookie-modal-actions">
-            <button id="acceptCookies" class="cookie-modal-button primary">
-                <i class="fas fa-check"></i> Accepter
-            </button>
-            <button id="declineCookies" class="cookie-modal-button secondary">
-                <i class="fas fa-times"></i> Refuser
-            </button>
-        </div>
+<div id="cookieModal" class="cookie-bar" role="dialog" aria-labelledby="cookieBarTitle">
+    <div class="cookie-bar__text">
+        <p id="cookieBarTitle" class="cookie-bar__title">Cookies de mesure d'audience</p>
+        <p>Ce site dépose des cookies Google Analytics pour compter les visites et voir quelles pages sont consultées. Ils ne servent pas à afficher de publicité. Accepter active cette mesure ; refuser la laisse désactivée. Le choix est enregistré sur cet appareil.</p>
+    </div>
+    <div class="cookie-bar__actions">
+        <button id="declineCookies" class="cookie-bar__button" type="button">Refuser</button>
+        <button id="acceptCookies" class="cookie-bar__button cookie-bar__button--accept" type="button">Accepter</button>
     </div>
 </div>
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script defer src="{% static 'js/app.js' %}?v=20260909-swipe"></script>
+<script defer src="{% static 'js/app.js' %}?v=20261113-blog"></script>
 </body>
 
 </html>
