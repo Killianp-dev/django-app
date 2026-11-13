@@ -24,9 +24,9 @@
 @import url('./sections/_parallax.css?v=20260909-city');
 @import url('./sections/_carousel.css?v=20261108-cta-quiet');
 @import url('./sections/_blog.css');
-@import url('./sections/_blog-integration.css?v=20261113b');
+@import url('./sections/_blog-integration.css?v=20261114-blog-grid');
 @import url('./sections/_offer.css?v=20261113-sections');
-@import url('./sections/_about.css?v=20261113-sections');
+@import url('./sections/_about.css?v=20261114-aplat');
 
 /* 4. Pages - Styles spécifiques à certaines pages */
 @import url('./pages/_article.css?v=20260822-code-block');

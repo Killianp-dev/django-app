@@ -32,7 +32,21 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['killianp-dev.fr', 'www.killianp-dev.fr', '35.180.152.201', '127.0.0.1']
+ALLOWED_HOSTS = ['killianp-dev.fr', 'www.killianp-dev.fr', '127.0.0.1']
+
+# Production derrière Nginx : Nginx termine le TLS, redirige vers HTTPS et pose HSTS.
+if not DEBUG:
+    # Nginx transmet le protocole d'origine : Django sait que la requête est en HTTPS.
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    # Mêmes valeurs que les en-têtes ajoutés par Nginx, pour éviter deux valeurs contradictoires.
+    X_FRAME_OPTIONS = "SAMEORIGIN"
+    SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+    # HSTS (W004) et redirection HTTPS (W008) sont assurés par Nginx. Ne pas activer
+    # SECURE_SSL_REDIRECT ici : derrière le proxy, ce serait redondant, voire une boucle.
+    # W019 : SAMEORIGIN est choisi pour correspondre à Nginx ; il bloque tout cadrage par un autre site.
+    SILENCED_SYSTEM_CHECKS = ["security.W004", "security.W008", "security.W019"]
 
 # mail factice console
 

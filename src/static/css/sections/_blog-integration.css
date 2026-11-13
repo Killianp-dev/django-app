@@ -177,6 +177,22 @@ html[data-theme="dark"] .blog-card:hover .blog-card__more {
   margin-bottom: 0;
 }
 
+/* Trois articles : on saute la grille à deux colonnes, qui laisse
+   la dernière carte seule. Trois colonnes tant que ça tient, puis une. */
+@media (max-width: 1100px) {
+  .blog-section .blog-grid,
+  .related-posts .blog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .blog-section .blog-grid,
+  .related-posts .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .blog-section__more {
   margin: 2rem 0 0;
   text-align: right;
