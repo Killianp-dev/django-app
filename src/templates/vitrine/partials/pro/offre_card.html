@@ -1,0 +1,20 @@
+{% load static vitrine_tags %}
+{# Carte de prestation. `heading` : h2 (page liste) ou h3 (section). #}
+<a class="pro-card" href="{% site_url 'offre' offre.slug %}">
+    <span class="pro-card__media">
+        <img src="{% static offre.image %}" alt="" width="600" height="750" loading="lazy" decoding="async">
+    </span>
+    <span class="pro-card__body">
+        <span class="pro-card__index">0{{ forloop.counter }}</span>
+        {% if heading == 'h2' %}<h2 class="pro-card__title">{{ offre.nom }}</h2>{% else %}<h3 class="pro-card__title">{{ offre.nom }}</h3>{% endif %}
+        <span class="pro-card__text">{{ offre.accroche }}</span>
+        {% if offre.prix %}
+        <span class="pro-card__meta">
+            <span class="pro-card__price">{{ offre.prix }}</span>
+            {% if offre.duree %}<span>{{ offre.duree }}</span>{% endif %}
+        </span>
+        {% else %}
+        <span class="pro-card__meta"><span class="pro-card__price">{{ site.labels.more }} →</span></span>
+        {% endif %}
+    </span>
+</a>

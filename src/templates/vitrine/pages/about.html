@@ -1,0 +1,72 @@
+{% extends 'vitrine/base.html' %}
+{% load static vitrine_tags %}
+
+{% block title %}{{ site.labels.about }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ site.presentation }}{% endblock %}
+
+{% block content %}
+<div class="vitrine-container">
+    {% include 'vitrine/partials/pro/breadcrumb.html' with current=site.labels.about %}
+</div>
+
+<section class="vitrine-container pro-offre pro-story">
+    <div class="pro-offre__media">
+        <img src="{% static site.photos.about %}" alt="{{ site.labels.about }} — {{ site.nom }}" width="1200" height="1500">
+    </div>
+    <div class="pro-offre__body">
+        <span class="vitrine-section__kicker">{{ site.labels.about }}</span>
+        <h1 class="pro-offre__title">{{ site.labels.about_title|default:site.nom }}</h1>
+        <p class="pro-lead">{{ site.presentation }}</p>
+        <div class="pro-prose">
+            {% for paragraphe in site.a_propos %}<p>{{ paragraphe }}</p>{% endfor %}
+        </div>
+        <p class="pro-signature">{{ site.role_line }}</p>
+    </div>
+</section>
+
+{% if site.chiffres %}
+<section class="pro-band-chiffres" aria-label="En bref">
+    <div class="vitrine-container">
+        <dl class="pro-chiffres">
+            {% for chiffre in site.chiffres %}
+            <div><dt>{{ chiffre.valeur }}</dt><dd>{{ chiffre.label }}</dd></div>
+            {% endfor %}
+        </dl>
+    </div>
+</section>
+{% endif %}
+
+{% if site.equipe %}{% include 'vitrine/partials/pro/equipe.html' %}{% endif %}
+
+<section class="vitrine-section">
+    <div class="vitrine-container pro-rdv__inner">
+        <div>
+            <span class="vitrine-section__kicker">Infos pratiques</span>
+            <h2 class="pro-head__title">Nous trouver</h2>
+            <dl class="vitrine-faits">
+                {% for fait in site.faits %}
+                <div class="vitrine-faits__item"><dt>{{ fait.label }}</dt><dd>{{ fait.texte }}</dd></div>
+                {% endfor %}
+            </dl>
+            {% if site.gages %}
+            <ul class="pro-gages">
+                {% for gage in site.gages %}
+                <li><h3>{{ gage.titre }}</h3><p>{{ gage.texte }}</p></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% if site.horaires_semaine %}
+        <aside class="pro-card-panel">
+            {% include 'vitrine/partials/horaires.html' with titre=site.labels.horaires_title %}
+            <div class="pro-card-panel__actions">
+                <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary">{{ site.labels.nav_cta|default:"Contact" }}</a>
+                <a href="tel:{{ site.telephone_lien }}" class="vitrine-btn vitrine-btn--secondary">{{ site.telephone }}</a>
+            </div>
+        </aside>
+        {% endif %}
+    </div>
+</section>
+
+{% if site.avis %}{% include 'vitrine/partials/avis.html' %}{% endif %}
+{% endblock %}

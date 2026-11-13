@@ -1,0 +1,185 @@
+{% extends 'vitrine/base.html' %}
+{% load static vitrine_tags %}
+
+{% block title %}{{ site.titre }}{% endblock %}
+{% block body_class %}vitrine-page--home{% endblock %}
+{% block extra_head %}
+<link rel="preload" as="image" href="{% static site.photos.hero %}" fetchpriority="high">
+{% endblock %}
+
+{% block content %}
+{# ——— Hero ——— #}
+<section class="salon-hero" aria-labelledby="salon-hero-title">
+    <div class="vitrine-container salon-hero__inner">
+        <div class="salon-hero__content">
+            <span class="vitrine-eyebrow">{{ site.eyebrow }}</span>
+            <h1 class="salon-hero__title" id="salon-hero-title">{{ site.nom }}</h1>
+            <p class="salon-hero__lead">{{ site.accroche }}</p>
+            <div class="salon-hero__actions">
+                <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">{{ site.labels.nav_cta }}</a>
+                <a href="{% site_url 'offres' %}" class="vitrine-btn vitrine-btn--secondary vitrine-btn--lg">{{ site.labels.hero_primary }}</a>
+            </div>
+            <ul class="salon-engagements">
+                {% for engagement in site.engagements %}
+                <li>
+                    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    {{ engagement }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="salon-hero__visual">
+            <div class="salon-hero__arch">
+                <img src="{% static site.photos.hero %}" alt="Louise boucle les longueurs d'une cliente au fer" width="1400" height="1750" fetchpriority="high">
+            </div>
+            <div class="salon-hero__thumb" aria-hidden="true">
+                <img src="{% static 'vitrine/photos/coiffeur/couleur.jpg' %}" alt="" width="1200" height="1800" loading="lazy" decoding="async">
+            </div>
+            <div class="salon-hero__card">
+                <p class="vitrine-statut" data-statut hidden>
+                    <span class="vitrine-statut__dot" aria-hidden="true"></span>
+                    <span data-statut-texte></span>
+                </p>
+                <p class="salon-hero__card-line">{{ site.role_line }}</p>
+                <a class="salon-hero__card-phone" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# ——— Repères ——— #}
+<section class="vitrine-reperes" aria-label="Infos pratiques">
+    <div class="vitrine-container">
+        <ul class="vitrine-reperes__list">
+            {% for repere in site.reperes %}
+            <li class="vitrine-reperes__item">
+                <span class="vitrine-reperes__label">{{ repere.label }}</span>
+                {% if repere.href %}
+                <a class="vitrine-reperes__value" href="{{ repere.href }}">{{ repere.value }}</a>
+                {% else %}
+                <span class="vitrine-reperes__value">{{ repere.value }}</span>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# ——— Prestations ——— #}
+<section class="vitrine-section salon-prestations" aria-labelledby="prestations-title">
+    <div class="vitrine-container">
+        <header class="salon-split-header">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.offres_kicker }}</span>
+                <h2 class="vitrine-section__title" id="prestations-title">{{ site.labels.offres_title }}</h2>
+            </div>
+            <div class="salon-split-header__aside">
+                <p>{{ site.labels.offres_intro }}</p>
+                <a class="salon-link" href="{% site_url 'tarifs' %}">{{ site.labels.tarifs_link }}</a>
+            </div>
+        </header>
+        <ul class="salon-prestations__grid">
+            {% for offre in site.offres %}
+            <li>
+                <a class="salon-prestation" href="{% site_url 'offre' offre.slug %}">
+                    <span class="salon-prestation__image">
+                        <img src="{% static offre.image %}" alt="" width="600" height="750" loading="lazy" decoding="async">
+                    </span>
+                    <span class="salon-prestation__index">0{{ forloop.counter }}</span>
+                    <h3 class="salon-prestation__title">{{ offre.nom }}</h3>
+                    <span class="salon-prestation__text">{{ offre.accroche }}</span>
+                    <span class="salon-prestation__meta">
+                        <span>{{ offre.prix }}</span>
+                        <span>{{ offre.duree }}</span>
+                    </span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# ——— Engagements ——— #}
+<section class="salon-manifeste" aria-labelledby="manifeste-title">
+    <div class="vitrine-container">
+        <p class="salon-manifeste__quote" id="manifeste-title">«&nbsp;Le prix est dit avant le premier coup de ciseaux. Si la coupe ne vous va pas, je la reprends.&nbsp;»</p>
+        <p class="salon-manifeste__sign">— Louise Martin</p>
+        <ul class="salon-manifeste__gages">
+            {% for gage in site.gages %}
+            <li>
+                <span class="salon-manifeste__num">0{{ forloop.counter }}</span>
+                <h3>{{ gage.titre }}</h3>
+                <p>{{ gage.texte }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{# ——— Réalisations ——— #}
+<section class="vitrine-section salon-realisations" aria-labelledby="realisations-title">
+    <div class="vitrine-container">
+        <header class="salon-split-header">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.realisations_kicker }}</span>
+                <h2 class="vitrine-section__title" id="realisations-title">{{ site.labels.realisations_title }}</h2>
+            </div>
+            <div class="salon-split-header__aside">
+                <p>{{ site.labels.realisations_intro }}</p>
+                <a class="salon-link" href="{% site_url 'realisations' %}">Voir toutes les réalisations</a>
+            </div>
+        </header>
+        {% include 'vitrine/partials/realisations_grid.html' with items=site.realisations|slice:":5" compact=True %}
+    </div>
+</section>
+
+{% include 'vitrine/partials/avis.html' %}
+
+{# ——— Rendez-vous ——— #}
+<section class="vitrine-section salon-rdv" aria-labelledby="rdv-title">
+    <div class="vitrine-container salon-rdv__inner">
+        <div>
+            <span class="vitrine-section__kicker">{{ site.labels.steps_kicker }}</span>
+            <h2 class="vitrine-section__title" id="rdv-title">{{ site.labels.steps_title }}</h2>
+            <ol class="salon-steps">
+                {% for etape in site.etapes %}
+                <li class="salon-step">
+                    <span class="salon-step__index">{{ etape.numero }}</span>
+                    <div>
+                        <h3 class="salon-step__title">{{ etape.titre }}</h3>
+                        <p class="salon-step__text">{{ etape.texte }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <aside class="salon-rdv__card">
+            {% include 'vitrine/partials/horaires.html' with titre=site.labels.horaires_title %}
+            <div class="salon-rdv__actions">
+                <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary">{{ site.labels.nav_cta }}</a>
+                <a href="tel:{{ site.telephone_lien }}" class="vitrine-btn vitrine-btn--secondary">{{ site.telephone }}</a>
+            </div>
+        </aside>
+    </div>
+</section>
+
+{# ——— Le salon ——— #}
+<section class="vitrine-section vitrine-section--about salon-about" aria-labelledby="about-title">
+    <div class="vitrine-container vitrine-container--medium">
+        <div class="vitrine-about-preview">
+            <div class="vitrine-about-preview__image">
+                <img src="{% static site.photos.about %}" alt="Louise coiffe une cliente au salon, devant le miroir en arche" width="1200" height="1500" loading="lazy" decoding="async">
+            </div>
+            <div class="vitrine-about-preview__content">
+                <span class="vitrine-eyebrow">{{ site.labels.about }}</span>
+                <h2 class="vitrine-about-preview__title" id="about-title">Six ans rue des Martyrs</h2>
+                <p class="vitrine-about-preview__text">{{ site.presentation }}</p>
+                <p class="salon-signature">Louise Martin</p>
+                <a href="{% site_url 'about' %}" class="vitrine-btn vitrine-btn--outline">Découvrir le salon</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'vitrine/partials/faq.html' %}
+{% endblock %}

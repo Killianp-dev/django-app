@@ -1,0 +1,34 @@
+{% extends 'vitrine/pages/home.html' %}
+{% load vitrine_tags %}
+
+{% block signature %}
+<section class="pro-band avocat-honoraires" aria-labelledby="honoraires-title">
+    <div class="vitrine-container">
+        <header class="pro-head">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.signature_kicker }}</span>
+                <h2 class="pro-head__title" id="honoraires-title">{{ site.labels.signature_title }}</h2>
+            </div>
+            <div class="pro-head__aside">
+                <p>Trois façons de facturer, choisies avec vous et écrites dans une convention signée avant toute démarche.</p>
+                <a class="pro-link" href="{% site_url 'tarifs' %}">Le détail des honoraires</a>
+            </div>
+        </header>
+        <ul class="avocat-honoraires__grid">
+            {% for formule in site.honoraires %}
+            <li class="avocat-formule{% if formule.vedette %} avocat-formule--vedette{% endif %}">
+                {% if formule.vedette %}<span class="avocat-formule__badge">Le plus demandé</span>{% endif %}
+                <h3 class="avocat-formule__titre">{{ formule.titre }}</h3>
+                <p class="avocat-formule__prix">{{ formule.prix }} <span>{{ formule.unite }}</span></p>
+                <p class="avocat-formule__texte">{{ formule.texte }}</p>
+                <ul class="avocat-formule__points">
+                    {% for point in formule.points %}<li>{{ point }}</li>{% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+
+{% block equipe %}{% include 'vitrine/partials/pro/equipe.html' %}{% endblock %}

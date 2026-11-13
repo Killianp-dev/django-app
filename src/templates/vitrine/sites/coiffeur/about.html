@@ -1,0 +1,60 @@
+{% extends 'vitrine/base.html' %}
+{% load static vitrine_tags %}
+
+{% block title %}{{ site.labels.about }} — {{ site.nom }}{% endblock %}
+
+{% block content %}
+<section class="vitrine-container salon-story">
+    <div class="salon-story__media">
+        <img src="{% static site.photos.about %}" alt="Louise coiffe une cliente au salon, devant le miroir en arche" width="1200" height="1500">
+    </div>
+    <div class="salon-story__body">
+        <span class="vitrine-eyebrow">{{ site.labels.about }}</span>
+        <h1 class="salon-offre__title">Six ans rue des Martyrs</h1>
+        <p class="salon-offre__lead">{{ site.presentation }}</p>
+        <div class="salon-story__text">
+            {% for paragraphe in site.a_propos %}
+            <p>{{ paragraphe }}</p>
+            {% endfor %}
+        </div>
+        <p class="salon-signature">Louise Martin</p>
+    </div>
+</section>
+
+<section class="salon-chiffres" aria-label="Le salon en bref">
+    <div class="vitrine-container">
+        <ul class="salon-chiffres__list">
+            <li><strong>6 ans</strong><span>rue des Martyrs, dans le 9e</span></li>
+            <li><strong>1 coiffeuse</strong><span>la même à chaque rendez-vous</span></li>
+            <li><strong>10 jours</strong><span>pour une retouche offerte</span></li>
+            <li><strong>0 €</strong><span>pour le diagnostic du cheveu</span></li>
+        </ul>
+    </div>
+</section>
+
+<section class="vitrine-section">
+    <div class="vitrine-container salon-rdv__inner">
+        <div>
+            <span class="vitrine-section__kicker">Infos pratiques</span>
+            <h2 class="vitrine-section__title">Venir au salon</h2>
+            <dl class="vitrine-faits">
+                {% for fait in site.faits %}
+                <div class="vitrine-faits__item">
+                    <dt>{{ fait.label }}</dt>
+                    <dd>{{ fait.texte }}</dd>
+                </div>
+                {% endfor %}
+            </dl>
+        </div>
+        <aside class="salon-rdv__card">
+            {% include 'vitrine/partials/horaires.html' with titre=site.labels.horaires_title %}
+            <div class="salon-rdv__actions">
+                <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary">{{ site.labels.nav_cta }}</a>
+                <a href="tel:{{ site.telephone_lien }}" class="vitrine-btn vitrine-btn--secondary">{{ site.telephone }}</a>
+            </div>
+        </aside>
+    </div>
+</section>
+
+{% include 'vitrine/partials/avis.html' %}
+{% endblock %}

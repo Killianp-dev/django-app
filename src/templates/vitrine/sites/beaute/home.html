@@ -1,0 +1,41 @@
+{% extends 'vitrine/pages/home.html' %}
+{% load vitrine_tags %}
+
+{% block signature %}
+<section class="vitrine-section beaute-rituels" aria-labelledby="rituels-title">
+    <div class="vitrine-container">
+        <header class="pro-head">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.signature_kicker }}</span>
+                <h2 class="pro-head__title" id="rituels-title">{{ site.labels.signature_title }}</h2>
+            </div>
+            <div class="pro-head__aside">
+                <p>Trois soins composés, pour une première visite ou pour offrir. Le temps indiqué est le temps passé en cabine.</p>
+            </div>
+        </header>
+        <ul class="beaute-rituels__grid">
+            {% for rituel in site.rituels %}
+            <li class="beaute-rituel{% if rituel.vedette %} beaute-rituel--vedette{% endif %}">
+                <p class="beaute-rituel__duree">{{ rituel.duree }}</p>
+                <h3 class="beaute-rituel__nom">{{ rituel.nom }}</h3>
+                <p class="beaute-rituel__texte">{{ rituel.texte }}</p>
+                <ul class="beaute-rituel__inclus">{% for item in rituel.inclus %}<li>{{ item }}</li>{% endfor %}</ul>
+                <p class="beaute-rituel__prix">{{ rituel.prix }}</p>
+                <a class="vitrine-btn {% if rituel.vedette %}vitrine-btn--primary{% else %}vitrine-btn--secondary{% endif %}" href="{% site_url 'contact' %}">Réserver</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <aside class="beaute-cadeau" aria-labelledby="cadeau-title">
+            <div>
+                <p class="vitrine-section__kicker">Carte cadeau</p>
+                <h3 class="beaute-cadeau__titre" id="cadeau-title">{{ site.carte_cadeau.titre }}</h3>
+                <p class="beaute-cadeau__texte">{{ site.carte_cadeau.texte }}</p>
+            </div>
+            <ul class="beaute-cadeau__montants">
+                {% for montant in site.carte_cadeau.montants %}<li>{{ montant }}</li>{% endfor %}
+            </ul>
+            <a class="vitrine-btn vitrine-btn--primary" href="{% site_url 'contact' %}">Offrir un soin</a>
+        </aside>
+    </div>
+</section>
+{% endblock %}

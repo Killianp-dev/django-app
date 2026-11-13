@@ -1,0 +1,73 @@
+/**
+ * Maison Iris — institut.
+ * Marcellus, sauge et lin, formes ovales, beaucoup d'air.
+ */
+.vitrine--beaute {
+    --pro-radius: 24px;
+    --pro-media-radius: 999px 999px 999px 999px / 52% 52% 48% 48%;
+    --pro-btn-radius: 999px;
+    --pro-title-weight: 400;
+    --pro-title-tracking: 0.01em;
+    --pro-title-leading: 1.1;
+    --pro-band-bg: var(--color-hero);
+}
+
+.vitrine--beaute .vitrine-header__logo { letter-spacing: 0.16em; text-transform: uppercase; font-size: 1.25rem; }
+.vitrine--beaute .pro-hero--split { background: radial-gradient(ellipse 60% 70% at 80% 40%, rgba(199, 210, 191, 0.65), transparent 70%), var(--color-bg); }
+.vitrine--beaute .pro-hero__title { font-size: clamp(2.6rem, 5.6vw, 4.6rem); max-width: 14ch; }
+.vitrine--beaute .pro-hero__media { aspect-ratio: 4 / 5; }
+.vitrine--beaute .pro-hero__media img { object-position: 40% center; }
+.vitrine--beaute .pro-card__media { aspect-ratio: 3 / 4; }
+.vitrine--beaute .pro-about__media,
+.vitrine--beaute .pro-offre__media { border-radius: 999px 999px 24px 24px; }
+.vitrine--beaute .pro-step__index { border-radius: 50%; }
+.vitrine--beaute .vitrine-galerie__link { border-radius: 24px; }
+
+/* Rituels */
+.beaute-rituels__grid {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0 0 var(--space-xl);
+    padding: 0;
+}
+
+@media (min-width: 900px) { .beaute-rituels__grid { grid-template-columns: repeat(3, 1fr); } }
+
+.beaute-rituel {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.75rem 1.75rem;
+    border-radius: var(--pro-radius);
+    background: var(--color-surface);
+    text-align: center;
+}
+
+.beaute-rituel--vedette { background: var(--color-hero); color: rgba(255, 255, 255, 0.8); }
+.beaute-rituel__duree { margin: 0 auto 0.6rem; padding: 0.25rem 0.8rem; border-radius: 999px; border: 1px solid currentColor; font-size: var(--text-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.beaute-rituel--vedette .beaute-rituel__duree { color: var(--color-accent-soft); }
+.beaute-rituel__nom { font-size: 1.8rem; margin-bottom: 0.6rem; }
+.beaute-rituel--vedette .beaute-rituel__nom { color: #fff; }
+.beaute-rituel__texte { color: var(--color-ink-soft); margin-bottom: 1rem; }
+.beaute-rituel--vedette .beaute-rituel__texte { color: rgba(255, 255, 255, 0.75); }
+.beaute-rituel__inclus { list-style: none; margin: 0 0 1.25rem; padding: 1rem 0 0; border-top: 1px solid var(--color-border); display: grid; gap: 0.4rem; font-size: var(--text-sm); }
+.beaute-rituel--vedette .beaute-rituel__inclus { border-color: rgba(255, 255, 255, 0.18); }
+.beaute-rituel__prix { margin-top: auto; margin-bottom: 1rem; font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-ink); }
+.beaute-rituel--vedette .beaute-rituel__prix { color: #fff; }
+.beaute-rituel--vedette .vitrine-btn--primary { background: #fff; border-color: #fff; color: var(--color-hero); }
+
+.beaute-cadeau {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--pro-radius);
+    border: 1px dashed var(--color-accent);
+    background: linear-gradient(120deg, var(--color-surface), var(--color-bg));
+}
+
+@media (min-width: 900px) { .beaute-cadeau { grid-template-columns: 1.4fr 1fr auto; } }
+.beaute-cadeau__titre { font-size: 1.8rem; margin-bottom: 0.4rem; }
+.beaute-cadeau__texte { color: var(--color-ink-soft); }
+.beaute-cadeau__montants { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+.beaute-cadeau__montants li { padding: 0.45rem 0.9rem; border-radius: 999px; background: var(--color-bg); border: 1px solid var(--color-border); font-size: var(--text-sm); }

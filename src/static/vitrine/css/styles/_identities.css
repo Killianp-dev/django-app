@@ -1,0 +1,663 @@
+/* Quatre mises en page. Le cabinet reste centré sur une photo.
+   Le salon est une page magazine, le maçon une affiche de chantier,
+   la boulangerie une vitrine de comptoir. */
+
+.vitrine-photo {
+    margin: 0 0 var(--space-lg);
+}
+
+.vitrine-photo img {
+    display: block;
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+}
+
+/* ——— Salon : magazine, photo à gauche, texte à droite ——— */
+.vitrine--coiffeur h1,
+.vitrine--coiffeur h2,
+.vitrine--coiffeur h3 {
+    font-weight: 500;
+}
+
+.vitrine--coiffeur .vitrine-header__logo {
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+.vitrine--coiffeur .vitrine-btn {
+    border-radius: 999px;
+}
+
+.vitrine--coiffeur .vitrine-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    min-height: 0;
+    align-items: stretch;
+    color: var(--color-ink);
+    background: var(--color-bg);
+}
+
+.vitrine--coiffeur .vitrine-hero__bg {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    height: 100%;
+    min-height: 78vh;
+}
+
+.vitrine--coiffeur .vitrine-hero__bg::after {
+    display: none;
+}
+
+.vitrine--coiffeur .vitrine-hero__bg img {
+    position: absolute;
+    inset: 0;
+}
+
+.vitrine--coiffeur .vitrine-hero__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    max-width: none;
+    margin: 0;
+    padding: 3rem 8vw 3rem 3rem;
+}
+
+.vitrine--coiffeur .vitrine-hero__eyebrow,
+.vitrine--coiffeur .vitrine-hero__subtitle,
+.vitrine--coiffeur .vitrine-hero__text {
+    color: var(--color-ink-soft);
+}
+
+.vitrine--coiffeur .vitrine-hero__title {
+    color: var(--color-ink);
+    font-style: italic;
+    font-weight: 500;
+}
+
+.vitrine--coiffeur .vitrine-hero__text {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vitrine--coiffeur .vitrine-hero__actions {
+    justify-content: flex-start;
+}
+
+.vitrine--coiffeur .vitrine-hero .vitrine-btn--ghost-light {
+    color: var(--color-ink);
+    border-color: var(--color-ink);
+}
+
+.vitrine--coiffeur .vitrine-hero .vitrine-btn--ghost-light:hover {
+    background: var(--color-ink);
+    color: var(--color-bg);
+}
+
+.vitrine--coiffeur .vitrine-missions-grid {
+    grid-template-columns: 1fr;
+}
+
+.vitrine--coiffeur .vitrine-mission-card__image {
+    aspect-ratio: 4 / 5;
+    border-radius: 140px 140px 8px 8px;
+}
+
+.vitrine--coiffeur .vitrine-mission-card__image::after {
+    display: none;
+}
+
+.vitrine--coiffeur .vitrine-mission-card__content {
+    position: static;
+    padding: 0.9rem 0.2rem 0;
+}
+
+.vitrine--coiffeur .vitrine-mission-card__title {
+    color: var(--color-ink);
+    font-style: italic;
+}
+
+.vitrine--coiffeur .vitrine-mission-card__text {
+    color: var(--color-ink-soft);
+}
+
+.vitrine--coiffeur .vitrine-about-preview__image {
+    border-radius: 180px 180px 12px 12px;
+}
+
+.vitrine--coiffeur .vitrine-photo img {
+    border-radius: 140px 12px 140px 12px;
+}
+
+@media (min-width: 720px) {
+    .vitrine--coiffeur .vitrine-missions-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 800px) {
+    .vitrine--coiffeur .vitrine-hero {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+
+    .vitrine--coiffeur .vitrine-hero__bg {
+        min-height: 52vh;
+    }
+
+    .vitrine--coiffeur .vitrine-hero__content {
+        padding: 2rem var(--container-padding) 2.5rem;
+    }
+}
+
+/* Carte, repères, garanties — le salon affiche ce qu'un client demande avant d'appeler. */
+.vitrine--coiffeur .vitrine-mission-card__meta {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--color-accent);
+}
+
+.vitrine--coiffeur .vitrine-offre__meta {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 0.85rem;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--color-accent);
+}
+
+.vitrine--coiffeur .vitrine-offre__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.vitrine-reperes {
+    border-bottom: var(--rule-width) solid var(--color-border);
+    background: var(--color-bg);
+}
+
+.vitrine-reperes__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.vitrine-reperes__item {
+    padding: 1rem 0.25rem 1.05rem;
+    border-top: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine-reperes__item:nth-child(odd) {
+    padding-right: 1rem;
+}
+
+.vitrine-reperes__label {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.vitrine-reperes__value {
+    color: var(--color-ink);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+a.vitrine-reperes__value:hover {
+    color: var(--color-accent);
+}
+
+.vitrine-section--gages {
+    padding-top: 0;
+}
+
+.vitrine-gages {
+    display: grid;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.vitrine-gage {
+    padding-top: 0.85rem;
+    border-top: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine-gage__title {
+    font-style: italic;
+    font-weight: 500;
+    font-size: var(--text-xl);
+    margin-bottom: 0.4rem;
+}
+
+.vitrine-gage__text {
+    color: var(--color-ink-soft);
+    max-width: 36ch;
+}
+
+.vitrine-carte {
+    display: grid;
+    gap: var(--space-xl);
+}
+
+.vitrine-carte__title {
+    font-style: italic;
+    font-weight: 500;
+    font-size: var(--text-2xl);
+    margin-bottom: 0.35rem;
+}
+
+.vitrine-carte__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.vitrine-carte__ligne {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.85rem 0;
+    border-bottom: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine-carte__nom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.7rem;
+    align-items: baseline;
+}
+
+.vitrine-carte__note-ligne,
+.vitrine-carte__duree {
+    color: var(--color-ink-soft);
+    font-size: var(--text-sm);
+}
+
+.vitrine-carte__note-ligne::before,
+.vitrine-carte__duree::before {
+    content: "·";
+    margin-right: 0.7rem;
+}
+
+.vitrine-carte__prix {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--color-ink);
+}
+
+.vitrine-faits {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: var(--space-lg);
+    border-top: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine-faits__item {
+    padding: 0.9rem 0;
+    border-bottom: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine-faits dt {
+    margin-bottom: 0.2rem;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.vitrine-faits dd {
+    margin: 0;
+    color: var(--color-ink);
+}
+
+.vitrine-contact__layout:has(.vitrine-contact__aside) {
+    display: grid;
+    gap: var(--space-lg);
+    align-items: start;
+}
+
+.vitrine-contact__layout:has(.vitrine-contact__aside) .vitrine-form {
+    margin: 0;
+    max-width: none;
+}
+
+.vitrine-contact__aside {
+    padding: 1.5rem 1.35rem 1.4rem;
+    background: var(--color-surface);
+}
+
+.vitrine--coiffeur .vitrine-contact__aside {
+    border-radius: 28px;
+}
+
+.vitrine-contact__aside-title {
+    font-style: italic;
+    font-weight: 500;
+    font-size: var(--text-xl);
+    margin-bottom: 0.45rem;
+}
+
+.vitrine-contact__aside-text,
+.vitrine-contact__aside-line {
+    color: var(--color-ink-soft);
+    margin-bottom: 0.45rem;
+}
+
+.vitrine-contact__aside-phone {
+    display: block;
+    margin: 0.85rem 0 0.7rem;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    color: var(--color-ink);
+    text-decoration: none;
+}
+
+.vitrine-contact__aside-phone:hover {
+    color: var(--color-accent);
+}
+
+@media (min-width: 720px) {
+    .vitrine-reperes__list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .vitrine-reperes__item,
+    .vitrine-reperes__item:nth-child(odd) {
+        padding: 1.15rem 1.25rem 1.25rem;
+        border-top: 0;
+        border-left: var(--rule-width) solid var(--color-border);
+    }
+
+    .vitrine-reperes__item:first-child {
+        border-left: 0;
+        padding-left: 0;
+    }
+
+    .vitrine-gages {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-xl);
+    }
+
+    .vitrine-faits {
+        grid-template-columns: 1fr 1fr;
+        column-gap: var(--space-xl);
+    }
+
+    .vitrine-carte {
+        grid-template-columns: 1fr 1fr;
+        column-gap: var(--space-xl);
+    }
+}
+
+@media (min-width: 860px) {
+    .vitrine-contact__layout:has(.vitrine-contact__aside) {
+        grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.75fr);
+        gap: 2.5rem;
+    }
+}
+
+/* ——— Maçon : affiche, coins droits, texte en bas de la photo ——— */
+.vitrine--macon h1,
+.vitrine--macon h2,
+.vitrine--macon h3,
+.vitrine--macon .vitrine-header__logo {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.vitrine--macon .vitrine-btn,
+.vitrine--macon .vitrine-mission-card,
+.vitrine--macon .vitrine-photo img,
+.vitrine--macon .vitrine-about-preview__image {
+    border-radius: 0;
+}
+
+.vitrine--macon .vitrine-btn {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+}
+
+.vitrine--macon .vitrine-hero {
+    align-items: flex-end;
+    min-height: 88vh;
+}
+
+.vitrine--macon .vitrine-hero__bg::after {
+    background: linear-gradient(180deg, rgba(18, 14, 10, 0.05) 15%, rgba(18, 14, 10, 0.88) 100%);
+}
+
+.vitrine--macon .vitrine-hero__content {
+    text-align: left;
+    margin: 0;
+    max-width: 720px;
+    padding-bottom: 8vh;
+}
+
+.vitrine--macon .vitrine-hero__title {
+    font-weight: 700;
+    line-height: 0.92;
+    text-transform: uppercase;
+}
+
+.vitrine--macon .vitrine-hero__text {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vitrine--macon .vitrine-hero__actions {
+    justify-content: flex-start;
+}
+
+.vitrine--macon .vitrine-section__header {
+    text-align: left;
+    margin-left: 0;
+    max-width: none;
+}
+
+.vitrine--macon .vitrine-missions-grid {
+    gap: 0.85rem;
+}
+
+.vitrine--macon .vitrine-mission-card {
+    border: 2px solid var(--color-ink);
+    border-radius: 0;
+    background: var(--color-bg);
+}
+
+.vitrine--macon .vitrine-mission-card__image {
+    aspect-ratio: 16 / 10;
+    border-radius: 0;
+}
+
+.vitrine--macon .vitrine-mission-card__image::after {
+    display: none;
+}
+
+.vitrine--macon .vitrine-mission-card__content {
+    position: static;
+    padding: 0.85rem 1rem 1.1rem;
+}
+
+.vitrine--macon .vitrine-mission-card__index {
+    color: var(--color-accent);
+}
+
+.vitrine--macon .vitrine-mission-card__title,
+.vitrine--macon .vitrine-mission-card__text {
+    color: var(--color-ink);
+}
+
+.vitrine--macon .vitrine-steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+
+.vitrine--macon .vitrine-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1rem;
+    padding: 1.1rem 0;
+    border-top: 2px solid var(--color-ink);
+}
+
+.vitrine--macon .vitrine-step:last-child {
+    border-bottom: 2px solid var(--color-ink);
+}
+
+.vitrine--macon .vitrine-step__index {
+    grid-row: span 2;
+    margin: 0;
+    font-weight: 700;
+}
+
+.vitrine--macon .vitrine-step__text {
+    grid-column: 2;
+}
+
+/* ——— Boulangerie : carte posée sur la photo, médaillons ——— */
+.vitrine--boulangerie .vitrine-btn {
+    border-radius: 999px;
+}
+
+.vitrine--boulangerie .vitrine-header__logo {
+    font-weight: 560;
+}
+
+.vitrine--boulangerie .vitrine-hero {
+    align-items: flex-end;
+    min-height: 82vh;
+}
+
+.vitrine--boulangerie .vitrine-hero__bg::after {
+    background: linear-gradient(180deg, rgba(50, 28, 12, 0.05), rgba(50, 28, 12, 0.28));
+}
+
+.vitrine--boulangerie .vitrine-hero__content {
+    width: auto;
+    margin: 0 var(--container-padding) 6vh;
+    max-width: 620px;
+    padding: 1.6rem 1.7rem 1.5rem;
+    text-align: left;
+    color: var(--color-ink);
+    background: color-mix(in srgb, var(--color-bg) 94%, white);
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg);
+}
+
+.vitrine--boulangerie .vitrine-hero__title,
+.vitrine--boulangerie .vitrine-hero__subtitle,
+.vitrine--boulangerie .vitrine-hero__text {
+    color: var(--color-ink);
+}
+
+.vitrine--boulangerie .vitrine-hero__eyebrow {
+    color: var(--color-accent);
+}
+
+.vitrine--boulangerie .vitrine-hero__text {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.vitrine--boulangerie .vitrine-hero__actions {
+    justify-content: flex-start;
+}
+
+.vitrine--boulangerie .vitrine-hero .vitrine-btn--ghost-light {
+    color: var(--color-ink);
+    border-color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+}
+
+.vitrine--boulangerie .vitrine-hero .vitrine-btn--ghost-light:hover {
+    background: var(--color-ink);
+    color: var(--color-bg);
+}
+
+.vitrine--boulangerie .vitrine-missions-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+.vitrine--boulangerie .vitrine-mission-card__image {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 6px solid var(--color-surface);
+}
+
+.vitrine--boulangerie .vitrine-mission-card__image::after {
+    display: none;
+}
+
+.vitrine--boulangerie .vitrine-mission-card__content {
+    position: static;
+    padding: 0.8rem 0.4rem 0;
+    text-align: center;
+}
+
+.vitrine--boulangerie .vitrine-mission-card__index {
+    display: none;
+}
+
+.vitrine--boulangerie .vitrine-mission-card__title,
+.vitrine--boulangerie .vitrine-mission-card__text {
+    color: var(--color-ink);
+}
+
+.vitrine--boulangerie .vitrine-step {
+    text-align: center;
+}
+
+.vitrine--boulangerie .vitrine-step__index {
+    display: inline-grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-bottom: 0.7rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.vitrine--boulangerie .vitrine-about-preview__image,
+.vitrine--boulangerie .vitrine-photo img {
+    border-radius: 28px;
+}
+
+@media (min-width: 900px) {
+    .vitrine--boulangerie .vitrine-missions-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ——— Cabinet : photo plein cadre, légendes posées sur l'image ——— */
+.vitrine--avocat .vitrine-mission-card__index {
+    color: var(--color-accent-soft);
+}
+
+.vitrine--avocat .vitrine-about-preview__image,
+.vitrine--avocat .vitrine-photo img {
+    border-radius: 2px;
+}

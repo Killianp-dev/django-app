@@ -1,0 +1,46 @@
+{% load static %}
+{# Grille de réalisations. `items` : la liste ; `filtres` : boutons de tri (facultatif). #}
+<div class="vitrine-galerie" data-galerie>
+    {% if filtres %}
+    <div class="vitrine-galerie__filtres" role="group" aria-label="Filtrer les réalisations" data-galerie-filtres hidden>
+        <button type="button" class="vitrine-chip" aria-pressed="true" data-filtre="">Tout <span class="vitrine-chip__count">{{ items|length }}</span></button>
+        {% for filtre in filtres %}
+        <button type="button" class="vitrine-chip" aria-pressed="false" data-filtre="{{ filtre }}">{{ filtre }}</button>
+        {% endfor %}
+    </div>
+    <p class="vitrine-sr-only" aria-live="polite" data-galerie-statut></p>
+    {% endif %}
+    <ul class="vitrine-galerie__grid{% if compact %} vitrine-galerie__grid--compact{% endif %}">
+        {% for item in items %}
+        <li class="vitrine-galerie__item" data-filtre="{{ item.filtre }}">
+            <a class="vitrine-galerie__link" href="{% static item.image %}" data-galerie-ouvrir data-titre="{{ item.titre }}" data-filtre-label="{{ item.filtre }}">
+                <img src="{% static item.image %}" alt="{{ item.alt }}" width="900" height="1125" loading="lazy" decoding="async">
+                <span class="vitrine-galerie__caption">
+                    <span class="vitrine-galerie__tag">{{ item.filtre }}</span>
+                    <span class="vitrine-galerie__titre">{{ item.titre }}</span>
+                    {% if item.detail %}<span class="vitrine-galerie__detail">{{ item.detail }}</span>{% endif %}
+                </span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    <dialog class="vitrine-lightbox" aria-label="Réalisation agrandie" data-lightbox>
+        <figure class="vitrine-lightbox__figure">
+            <img class="vitrine-lightbox__img" src="" alt="" data-lightbox-img>
+            <figcaption class="vitrine-lightbox__caption">
+                <span class="vitrine-galerie__tag" data-lightbox-tag></span>
+                <span data-lightbox-titre></span>
+                <span class="vitrine-lightbox__count" data-lightbox-count></span>
+            </figcaption>
+        </figure>
+        <button type="button" class="vitrine-lightbox__btn vitrine-lightbox__btn--close" data-lightbox-fermer aria-label="Fermer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <button type="button" class="vitrine-lightbox__btn vitrine-lightbox__btn--prev" data-lightbox-prec aria-label="Réalisation précédente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="vitrine-lightbox__btn vitrine-lightbox__btn--next" data-lightbox-suiv aria-label="Réalisation suivante">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </dialog>
+</div>

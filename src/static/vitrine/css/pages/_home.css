@@ -1,0 +1,81 @@
+/**
+ * Page d'accueil
+ */
+
+.vitrine--avocat.vitrine-page--home .vitrine-section--missions { background-color: var(--color-ink); }
+.vitrine--avocat.vitrine-page--home .vitrine-section--missions .vitrine-section__title { color: #fff; }
+.vitrine--avocat.vitrine-page--home .vitrine-section--missions .vitrine-section__kicker { color: var(--color-accent-soft); }
+.vitrine-page--home .vitrine-section--about { background-color: var(--color-surface); }
+
+/* About preview sur home */
+.vitrine-about-preview {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .vitrine-about-preview { grid-template-columns: 0.9fr 1.1fr; }
+}
+
+.vitrine-about-preview__image { aspect-ratio: 4 / 5; overflow: hidden; }
+
+.vitrine-about-preview__image img { width: 100%; height: 100%; object-fit: cover; }
+
+.vitrine-about-preview__title { font-size: clamp(1.75rem, 3vw, 2.25rem); margin-bottom: var(--space-md); }
+
+.vitrine-about-preview__text {
+    color: var(--color-ink-soft);
+    margin-bottom: var(--space-lg);
+    line-height: var(--leading-normal);
+    font-size: var(--text-lg);
+}
+
+.vitrine-page--home .vitrine-section--missions .vitrine-mission-card--noimage {
+    background-color: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.vitrine-page--home .vitrine-section--missions .vitrine-mission-card--noimage .vitrine-mission-card__title,
+.vitrine-page--home .vitrine-section--missions .vitrine-mission-card--noimage .vitrine-mission-card__index {
+    color: #F6F3EE;
+}
+
+.vitrine-page--home .vitrine-section--missions .vitrine-mission-card--noimage .vitrine-mission-card__index {
+    color: var(--color-accent-soft);
+}
+
+.vitrine-page--home .vitrine-section--missions .vitrine-mission-card--noimage .vitrine-mission-card__text {
+    color: rgba(246, 243, 238, 0.82);
+}
+
+.vitrine-page--home .vitrine-section--missions .vitrine-mission-card--noimage:hover {
+    border-color: var(--color-accent-soft);
+}
+
+.vitrine-steps {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+@media (min-width: 800px) {
+    .vitrine-steps { grid-template-columns: repeat(3, 1fr); }
+}
+
+.vitrine-step__index {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+}
+
+.vitrine-step__title {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-xs);
+}
+
+.vitrine-step__text {
+    color: var(--color-ink-soft);
+    font-size: var(--text-base);
+}

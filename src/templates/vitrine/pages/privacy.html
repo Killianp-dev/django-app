@@ -1,0 +1,32 @@
+{% extends 'vitrine/base.html' %}
+
+{% block title %}Confidentialité — {{ site.nom }}{% endblock %}
+{% block cta %}{% endblock %}
+
+{% block content %}
+<article class="vitrine-container vitrine-container--narrow vitrine-legal-page" style="padding:var(--space-2xl) 0;">
+    <h1>Politique de confidentialité</h1>
+    <section>
+        <h2>Données collectées</h2>
+        <p>Le formulaire de contact demande votre nom, votre email, un téléphone facultatif, un sujet et votre message.</p>
+    </section>
+    <section>
+        <h2>Utilisation</h2>
+        <p>
+            Le message est envoyé par email à l'auteur de la démonstration, pour montrer le fonctionnement du formulaire.
+            Il n'est pas enregistré dans une base de données, ni transmis au commerce présenté.
+        </p>
+    </section>
+    <section>
+        <h2>Cookies</h2>
+        <p>Ce site n'utilise pas de cookie de mesure d'audience. Un cookie technique peut être déposé le temps d'envoyer le formulaire.</p>
+    </section>
+    <section>
+        <h2>Vos droits</h2>
+        <p>
+            Pour accéder à un message déjà envoyé, ou en demander la suppression, écrivez à
+            <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>.
+        </p>
+    </section>
+</article>
+{% endblock %}

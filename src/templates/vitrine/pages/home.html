@@ -1,0 +1,130 @@
+{% extends 'vitrine/base.html' %}
+{% load static vitrine_tags %}
+{% comment %}
+Accueil commun aux vitrines. Chaque commerce peut le surcharger dans
+vitrine/sites/<clé>/home.html et remplacer les blocs `hero` ou `signature`.
+Une section ne s'affiche que si le commerce fournit ses données.
+{% endcomment %}
+
+{% block title %}{{ site.titre }}{% endblock %}
+{% block body_class %}vitrine-page--home{% endblock %}
+{% block extra_head %}
+<link rel="preload" as="image" href="{% static site.photos.hero %}" fetchpriority="high">
+{% endblock %}
+
+{% block content %}
+{% block hero %}
+{% include 'vitrine/partials/pro/hero.html' %}
+{% endblock %}
+
+{% if site.reperes %}
+<section class="vitrine-reperes" aria-label="Infos pratiques">
+    <div class="vitrine-container">
+        <ul class="vitrine-reperes__list">
+            {% for repere in site.reperes %}
+            <li class="vitrine-reperes__item">
+                <span class="vitrine-reperes__label">{{ repere.label }}</span>
+                {% if repere.href %}<a class="vitrine-reperes__value" href="{{ repere.href }}">{{ repere.value }}</a>{% else %}<span class="vitrine-reperes__value">{{ repere.value }}</span>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endif %}
+
+<section class="vitrine-section pro-offres" aria-labelledby="offres-title">
+    <div class="vitrine-container">
+        <header class="pro-head">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.offres_kicker }}</span>
+                <h2 class="pro-head__title" id="offres-title">{{ site.labels.offres_title }}</h2>
+            </div>
+            <div class="pro-head__aside">
+                <p>{{ site.labels.offres_intro }}</p>
+                {% if site.labels.tarifs_link %}<a class="pro-link" href="{% site_url 'tarifs' %}">{{ site.labels.tarifs_link }}</a>{% endif %}
+            </div>
+        </header>
+        <ul class="pro-cards">
+            {% for offre in site.offres %}
+            <li>{% include 'vitrine/partials/pro/offre_card.html' with heading='h3' %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{% block signature %}{% endblock %}
+
+{% if site.realisations %}
+<section class="vitrine-section pro-realisations" aria-labelledby="realisations-title">
+    <div class="vitrine-container">
+        <header class="pro-head">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.realisations_kicker }}</span>
+                <h2 class="pro-head__title" id="realisations-title">{{ site.labels.realisations_title }}</h2>
+            </div>
+            <div class="pro-head__aside">
+                <p>{{ site.labels.realisations_intro }}</p>
+                <a class="pro-link" href="{% site_url 'realisations' %}">Tout voir</a>
+            </div>
+        </header>
+        {% include 'vitrine/partials/realisations_grid.html' with items=site.realisations|slice:":5" compact=True %}
+    </div>
+</section>
+{% endif %}
+
+{% block equipe %}{% endblock %}
+
+{% if site.avis %}{% include 'vitrine/partials/avis.html' %}{% endif %}
+
+<section class="vitrine-section pro-rdv" aria-labelledby="rdv-title">
+    <div class="vitrine-container pro-rdv__inner">
+        <div>
+            <span class="vitrine-section__kicker">{{ site.labels.steps_kicker }}</span>
+            <h2 class="pro-head__title" id="rdv-title">{{ site.labels.steps_title }}</h2>
+            <ol class="pro-steps">
+                {% for etape in site.etapes %}
+                <li class="pro-step">
+                    <span class="pro-step__index">{{ etape.numero }}</span>
+                    <div>
+                        <h3 class="pro-step__title">{{ etape.titre }}</h3>
+                        <p class="pro-step__text">{{ etape.texte }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% if site.horaires_semaine %}
+        <aside class="pro-card-panel">
+            {% include 'vitrine/partials/horaires.html' with titre=site.labels.horaires_title %}
+            <div class="pro-card-panel__actions">
+                <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary">{{ site.labels.nav_cta }}</a>
+                <a href="tel:{{ site.telephone_lien }}" class="vitrine-btn vitrine-btn--secondary">{{ site.telephone }}</a>
+            </div>
+        </aside>
+        {% endif %}
+    </div>
+</section>
+
+<section class="vitrine-section pro-about" aria-labelledby="about-title">
+    <div class="vitrine-container pro-about__inner">
+        <div class="pro-about__media">
+            <img src="{% static site.photos.about %}" alt="{{ site.labels.about }} — {{ site.nom }}" width="1200" height="1500" loading="lazy" decoding="async">
+        </div>
+        <div class="pro-about__body">
+            <span class="vitrine-section__kicker">{{ site.labels.about }}</span>
+            <h2 class="pro-head__title" id="about-title">{{ site.labels.about_title|default:site.nom }}</h2>
+            <p class="pro-lead">{{ site.presentation }}</p>
+            {% if site.chiffres %}
+            <dl class="pro-chiffres pro-chiffres--compact">
+                {% for chiffre in site.chiffres|slice:":3" %}
+                <div><dt>{{ chiffre.valeur }}</dt><dd>{{ chiffre.label }}</dd></div>
+                {% endfor %}
+            </dl>
+            {% endif %}
+            <a href="{% site_url 'about' %}" class="vitrine-btn vitrine-btn--outline">{{ site.labels.more }}</a>
+        </div>
+    </div>
+</section>
+
+{% if site.faq %}{% include 'vitrine/partials/faq.html' with limit=4 %}{% endif %}
+{% endblock %}

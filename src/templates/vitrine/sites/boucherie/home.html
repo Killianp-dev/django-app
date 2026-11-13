@@ -1,0 +1,73 @@
+{% extends 'vitrine/pages/home.html' %}
+
+{% block signature %}
+<section class="pro-band bouch-origine" aria-labelledby="origine-title">
+    <div class="vitrine-container">
+        <header class="pro-head">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.signature_kicker }}</span>
+                <h2 class="pro-head__title" id="origine-title">{{ site.labels.signature_title }}</h2>
+            </div>
+            <div class="pro-head__aside">
+                <p>Quatre éleveurs, des bêtes entières, et l'origine écrite sur chaque étiquette de l'étal.</p>
+            </div>
+        </header>
+        <div class="bouch-origine__table-wrap">
+            <table class="bouch-origine__table">
+                <thead><tr><th scope="col">Viande</th><th scope="col">Race</th><th scope="col">Éleveur</th><th scope="col">Commune</th><th scope="col">Particularité</th></tr></thead>
+                <tbody>
+                    {% for origine in site.origines %}
+                    <tr>
+                        <th scope="row">{{ origine.viande }}</th>
+                        <td>{{ origine.race }}</td>
+                        <td>{{ origine.eleveur }}</td>
+                        <td>{{ origine.lieu }}</td>
+                        <td>{{ origine.detail }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="vitrine-section bouch-calcul" aria-labelledby="calcul-title">
+    <div class="vitrine-container bouch-calcul__inner">
+        <div>
+            <span class="vitrine-section__kicker">{{ site.labels.calculateur_kicker }}</span>
+            <h2 class="pro-head__title" id="calcul-title">{{ site.labels.calculateur_title }}</h2>
+            <p class="pro-lead">Choisissez la pièce et le nombre de convives : on vous donne le poids à commander et le conseil de cuisson.</p>
+        </div>
+        <div class="bouch-calcul__card">
+            <form class="bouch-calcul__form" data-calculateur hidden>
+                <label class="bouch-calcul__field">
+                    <span>Pièce</span>
+                    <select name="piece" class="vitrine-form__input">
+                        {% for portion in site.portions %}
+                        <option value="{{ portion.grammes }}" data-conseil="{{ portion.conseil }}">{{ portion.nom }} · {{ portion.grammes }} g / pers.</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <div class="bouch-calcul__field">
+                    <span id="convives-label">Convives</span>
+                    <div class="bouch-calcul__stepper" role="group" aria-labelledby="convives-label">
+                        <button type="button" data-step="-1" aria-label="Un convive de moins">−</button>
+                        <input type="number" name="convives" value="4" min="1" max="40" inputmode="numeric" aria-labelledby="convives-label">
+                        <button type="button" data-step="1" aria-label="Un convive de plus">+</button>
+                    </div>
+                </div>
+                <output class="bouch-calcul__result" aria-live="polite">
+                    <span class="bouch-calcul__poids" data-calcul-poids></span>
+                    <span class="bouch-calcul__conseil" data-calcul-conseil></span>
+                </output>
+            </form>
+            <table class="bouch-calcul__fallback" data-calcul-fallback>
+                <caption>Quantités conseillées par personne</caption>
+                <tbody>
+                    {% for portion in site.portions %}<tr><th scope="row">{{ portion.nom }}</th><td>{{ portion.grammes }} g</td></tr>{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

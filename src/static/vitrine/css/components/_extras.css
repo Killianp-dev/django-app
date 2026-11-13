@@ -1,0 +1,525 @@
+/**
+ * Composants réutilisables par toutes les vitrines, activés par les données du site :
+ * statut d'ouverture, horaires, FAQ, avis, galerie + visionneuse, barre d'action mobile.
+ */
+
+/* ——— Statut d'ouverture ——— */
+.vitrine-statut {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-ink-soft);
+}
+
+.vitrine-statut__dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #A8A29E;
+    flex: none;
+}
+
+.vitrine-statut.is-open { color: var(--color-ink); }
+.vitrine-statut.is-open .vitrine-statut__dot { background: #2F8F5B; }
+.vitrine-statut.is-soon .vitrine-statut__dot { background: #C77D1A; }
+
+.vitrine-statut.is-open .vitrine-statut__dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: vitrinePulse 2.4s ease-out infinite;
+}
+
+@keyframes vitrinePulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* ——— Horaires ——— */
+.vitrine-horaires__title {
+    font-size: var(--text-xl);
+    margin-bottom: 0.6rem;
+}
+
+.vitrine-horaires .vitrine-statut { margin-bottom: 0.9rem; }
+
+.vitrine-horaires__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+}
+
+.vitrine-horaires__table th,
+.vitrine-horaires__table td {
+    padding: 0.55rem 0;
+    border-bottom: var(--rule-width) solid var(--color-border);
+    text-align: left;
+    font-weight: 400;
+    color: var(--color-ink-soft);
+}
+
+.vitrine-horaires__table td { text-align: right; }
+
+.vitrine-horaires__table tr:last-child th,
+.vitrine-horaires__table tr:last-child td { border-bottom: 0; }
+
+.vitrine-horaires__ferme { opacity: 0.7; }
+
+.vitrine-horaires__table tr.is-today th,
+.vitrine-horaires__table tr.is-today td {
+    color: var(--color-ink);
+    font-weight: 600;
+}
+
+.vitrine-horaires__table tr.is-today th::after {
+    content: "Aujourd'hui";
+    margin-left: 0.6rem;
+    padding: 0.12rem 0.5rem;
+    border-radius: 999px;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    vertical-align: 1px;
+}
+
+/* ——— FAQ ——— */
+.vitrine-faq {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+@media (min-width: 860px) {
+    .vitrine-faq { grid-template-columns: 0.8fr 1.2fr; gap: var(--space-xl); }
+}
+
+.vitrine-faq__list { border-top: var(--rule-width) solid var(--color-border); }
+
+.vitrine-faq__item { border-bottom: var(--rule-width) solid var(--color-border); }
+
+.vitrine-faq__question {
+    position: relative;
+    display: block;
+    padding: 1.15rem 2.5rem 1.15rem 0;
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    color: var(--color-ink);
+    cursor: pointer;
+    list-style: none;
+}
+
+.vitrine-faq__question::-webkit-details-marker { display: none; }
+
+.vitrine-faq__question::before,
+.vitrine-faq__question::after {
+    content: "";
+    position: absolute;
+    right: 0.35rem;
+    top: 50%;
+    width: 14px;
+    height: 1.5px;
+    background: var(--color-accent);
+    transition: transform var(--transition-base);
+}
+
+.vitrine-faq__question::after { transform: rotate(90deg); }
+.vitrine-faq__item[open] .vitrine-faq__question::after { transform: rotate(0deg); }
+
+.vitrine-faq__question:hover { color: var(--color-accent); }
+
+.vitrine-faq__question:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 4px;
+}
+
+.vitrine-faq__answer {
+    padding: 0 2.5rem 1.25rem 0;
+    color: var(--color-ink-soft);
+    line-height: var(--leading-normal);
+}
+
+/* ——— Avis ——— */
+.vitrine-avis {
+    display: grid;
+    gap: var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 860px) {
+    .vitrine-avis { grid-template-columns: repeat(3, 1fr); }
+}
+
+.vitrine-avis__item figure {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    padding: 1.75rem 1.6rem 1.5rem;
+    background: var(--color-bg);
+    border: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine-avis__stars {
+    color: var(--color-accent);
+    letter-spacing: 0.18em;
+    font-size: 0.95rem;
+}
+
+.vitrine-avis__text {
+    flex: 1;
+    margin: 0.9rem 0 1.4rem;
+    font-family: var(--font-heading);
+    font-size: 1.22rem;
+    line-height: 1.45;
+    color: var(--color-ink);
+}
+
+.vitrine-avis__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 1.1rem;
+    border-top: var(--rule-width) solid var(--color-border);
+    font-size: var(--text-sm);
+}
+
+.vitrine-avis__author strong { display: block; font-weight: 600; color: var(--color-ink); }
+
+.vitrine-avis__initial {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-accent);
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    flex: none;
+}
+
+.vitrine-avis__detail { color: var(--color-ink-soft); font-size: var(--text-xs); }
+
+.vitrine-avis__note {
+    margin: var(--space-md) auto 0;
+    text-align: center;
+    font-size: var(--text-xs);
+    color: var(--color-ink-soft);
+}
+
+/* ——— Galerie ——— */
+.vitrine-galerie__filtres {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: var(--space-lg);
+}
+
+.vitrine-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 40px;
+    padding: 0 1.05rem;
+    border: var(--rule-width) solid var(--color-border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-ink-soft);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.vitrine-chip:hover { border-color: var(--color-ink); color: var(--color-ink); }
+
+.vitrine-chip[aria-pressed="true"] {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-bg);
+}
+
+.vitrine-chip__count { font-size: var(--text-xs); opacity: 0.65; }
+
+.vitrine-chip:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+.vitrine-galerie__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 760px) {
+    .vitrine-galerie__grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+}
+
+/* Mosaïque compacte : la première photo prend deux rangs. */
+@media (min-width: 760px) {
+    .vitrine-galerie__grid--compact { grid-template-columns: repeat(4, 1fr); }
+    .vitrine-galerie__grid--compact .vitrine-galerie__item:first-child { grid-column: span 2; grid-row: span 2; }
+}
+
+.vitrine-galerie__item[hidden] { display: none; }
+
+.vitrine-galerie__link {
+    position: relative;
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-surface);
+    color: #fff;
+    text-decoration: none;
+}
+
+.vitrine-galerie__link img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.vitrine-galerie__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(20, 12, 10, 0.72) 100%);
+    opacity: 0.85;
+    transition: opacity var(--transition-base);
+}
+
+.vitrine-galerie__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: grid;
+    gap: 0.2rem;
+    padding: 1rem 1.05rem;
+}
+
+.vitrine-galerie__tag {
+    justify-self: start;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.vitrine-galerie__titre {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    line-height: 1.2;
+}
+
+.vitrine-galerie__link:hover img { transform: scale(1.05); }
+
+.vitrine-galerie__link:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+}
+
+/* ——— Visionneuse ——— */
+.vitrine-lightbox {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(92vw, 980px);
+    max-width: none;
+    max-height: 92vh;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    overflow: visible;
+}
+
+.vitrine-lightbox::backdrop {
+    background: rgba(18, 12, 10, 0.88);
+    backdrop-filter: blur(4px);
+}
+
+.vitrine-lightbox[open] { animation: vitrineZoom 280ms cubic-bezier(0.22, 1, 0.36, 1); }
+
+@keyframes vitrineZoom {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: none; }
+}
+
+.vitrine-lightbox__figure { margin: 0; text-align: center; }
+
+.vitrine-lightbox__img {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.vitrine-lightbox__caption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+}
+
+.vitrine-lightbox__count {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+}
+
+.vitrine-lightbox__btn {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.vitrine-lightbox__btn svg { width: 22px; height: 22px; }
+.vitrine-lightbox__btn:hover { background: rgba(255, 255, 255, 0.2); }
+.vitrine-lightbox__btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.vitrine-lightbox__btn--close { top: 1.25rem; right: 1.25rem; }
+.vitrine-lightbox__btn--prev { left: 1.25rem; top: 50%; transform: translateY(-50%); }
+.vitrine-lightbox__btn--next { right: 1.25rem; top: 50%; transform: translateY(-50%); }
+
+@media (max-width: 640px) {
+    .vitrine-lightbox__btn--prev,
+    .vitrine-lightbox__btn--next { top: auto; bottom: 1.25rem; transform: none; }
+}
+
+/* ——— Barre d'action mobile ——— */
+.vitrine-actionbar { display: none; }
+
+@media (max-width: 859px) {
+    .vitrine-actionbar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 90;
+        display: grid;
+        grid-template-columns: 1fr 1.6fr;
+        gap: 0.5rem;
+        padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+        background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-top: var(--rule-width) solid var(--color-border);
+    }
+
+    .vitrine-actionbar__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        min-height: 46px;
+        border: 1.5px solid var(--color-border);
+        border-radius: 999px;
+        color: var(--color-ink);
+        font-size: var(--text-sm);
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .vitrine-actionbar__btn svg { width: 17px; height: 17px; }
+
+    .vitrine-actionbar__btn--primary {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+        color: var(--color-on-accent);
+    }
+
+    /* La barre ne cache pas le pied de page. */
+    body:has(.vitrine-actionbar) .vitrine-footer { padding-bottom: 5.5rem; }
+}
+
+/* ——— Pages prestation et réalisations ——— */
+.vitrine-offre__subtitle {
+    font-size: var(--text-2xl);
+    margin: var(--space-xl) 0 var(--space-sm);
+}
+
+.vitrine-offre__carte,
+.vitrine-offre__realisations { margin-bottom: var(--space-lg); }
+
+.vitrine-realisations__note {
+    max-width: 52ch;
+    margin: var(--space-xl) auto 0;
+    text-align: center;
+    color: var(--color-ink-soft);
+}
+
+.vitrine-about__horaires {
+    max-width: 440px;
+    margin: var(--space-lg) 0;
+    padding: 1.5rem 1.5rem 1.1rem;
+    background: var(--color-surface);
+}
+
+.vitrine-contact__aside .vitrine-horaires {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: var(--rule-width) solid var(--color-border);
+}
+
+/* ——— Sous-menu enrichi ——— */
+.vitrine-nav__sublink {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.25rem;
+}
+
+.vitrine-nav__sublink-meta {
+    font-size: var(--text-xs);
+    color: var(--color-ink-soft);
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vitrine-statut.is-open .vitrine-statut__dot::after,
+    .vitrine-lightbox[open] { animation: none; }
+    .vitrine-galerie__link img,
+    .vitrine-faq__question::after { transition: none; }
+}
+
+/* Mosaïque compacte sur mobile : un nombre pair de vignettes. */
+@media (max-width: 759px) {
+    .vitrine-galerie__grid--compact .vitrine-galerie__item:nth-child(5) { display: none; }
+}

@@ -1,0 +1,60 @@
+/**
+ * Sections génériques — rythme vertical généreux
+ */
+
+.vitrine-section { padding: var(--space-2xl) 0; }
+
+@media (max-width: 767px) {
+    .vitrine-section { padding: var(--space-xl) 0; }
+}
+
+.vitrine-section__header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto var(--space-xl);
+}
+
+.vitrine-section__title {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+}
+
+.vitrine-section__kicker {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-xs);
+}
+
+.vitrine-section__intro {
+    margin-top: var(--space-sm);
+    color: var(--color-ink-soft);
+}
+
+.vitrine-section__intro a {
+    color: var(--color-accent);
+    text-underline-offset: 0.2em;
+}
+
+.vitrine-section__footer { text-align: center; margin-top: var(--space-xl); }
+
+/* CTA Section */
+.vitrine-cta {
+    padding: var(--space-2xl) 0;
+    background-color: var(--color-surface);
+    text-align: center;
+}
+
+.vitrine-cta__content { max-width: 600px; margin: 0 auto; }
+
+.vitrine-cta__title { font-size: clamp(1.75rem, 3vw, 2.25rem); margin-bottom: var(--space-sm); }
+
+.vitrine-cta__text {
+    color: var(--color-ink-soft);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-lg);
+}

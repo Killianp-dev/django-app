@@ -1,0 +1,84 @@
+/**
+ * Footer — structuré, sobre, séparateurs fins
+ */
+
+.vitrine-footer {
+    background-color: var(--color-ink);
+    color: rgba(250, 248, 244, 0.75);
+    padding: 2.75rem 0 1.15rem;
+    line-height: 1.45;
+}
+
+.vitrine-footer p {
+    max-width: none;
+    line-height: 1.45;
+}
+
+.vitrine-footer__grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+    .vitrine-footer__grid {
+        grid-template-columns: max-content max-content minmax(14rem, 1fr);
+        justify-content: start;
+        column-gap: 3rem;
+    }
+}
+
+.vitrine-footer__title {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.65rem;
+}
+
+.vitrine-footer__col--nav .vitrine-footer__title,
+.vitrine-footer__col--legal .vitrine-footer__title {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    color: rgba(250, 248, 244, 0.55);
+    font-weight: 600;
+}
+
+.vitrine-footer__address { font-style: normal; line-height: 1.4; margin-bottom: 0.45rem; }
+
+.vitrine-footer__contact-item,
+.vitrine-footer__nav-list li,
+.vitrine-footer__legal-list li { margin-bottom: 0.28rem; }
+
+.vitrine-footer__link {
+    color: rgba(250, 248, 244, 0.75);
+    font-size: var(--text-sm);
+}
+
+.vitrine-footer__link:hover { color: #fff; }
+
+.vitrine-footer__bottom {
+    border-top: var(--rule-width) solid rgba(250, 248, 244, 0.15);
+    margin-top: 0.35rem;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.vitrine-footer__copyright {
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(250, 248, 244, 0.5);
+    font-size: var(--text-xs);
+}
+
+.vitrine-legal-block {
+    font-size: var(--text-sm);
+    color: rgba(250, 248, 244, 0.75);
+    line-height: 1.4;
+    margin-bottom: 0.65rem;
+}

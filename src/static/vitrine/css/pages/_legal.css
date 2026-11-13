@@ -1,0 +1,35 @@
+/**
+ * Pages légales
+ */
+
+.vitrine-legal-page { max-width: 700px; margin: 0 auto; }
+.vitrine-legal-page h1 { font-size: clamp(2rem, 4vw, 2.75rem); margin-bottom: var(--space-xl); }
+
+.vitrine-legal-page section { margin-bottom: var(--space-lg); }
+
+.vitrine-legal-page h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine-legal-page p,
+.vitrine-legal-page li { color: var(--color-ink-soft); line-height: var(--leading-normal); margin-bottom: 0.5rem; }
+
+.vitrine-legal-page ul { list-style: disc; margin-left: 1.5rem; }
+
+.vitrine-404 {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.vitrine-404__code {
+    font-family: var(--font-heading);
+    font-size: clamp(4rem, 12vw, 7rem);
+    color: var(--color-accent);
+    line-height: 1;
+}

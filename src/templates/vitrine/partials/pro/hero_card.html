@@ -1,0 +1,17 @@
+{# Carte flottante du hero : état d'ouverture en direct, rôle, téléphone. #}
+<div class="pro-hero__card">
+    {% if site.horaires_semaine %}
+    <p class="vitrine-statut" data-statut hidden>
+        <span class="vitrine-statut__dot" aria-hidden="true"></span>
+        <span data-statut-texte></span>
+    </p>
+    {% endif %}
+    {% if site.fournees %}
+    <p class="pro-hero__fournee" data-fournee-prochaine hidden>
+        <span class="pro-hero__fournee-label">Prochaine fournée</span>
+        <strong data-fournee-texte></strong>
+    </p>
+    {% endif %}
+    <p class="pro-hero__card-line">{{ site.role_line }}</p>
+    <a class="pro-hero__card-phone" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+</div>

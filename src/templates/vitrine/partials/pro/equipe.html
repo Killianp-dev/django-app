@@ -1,0 +1,28 @@
+{% load static %}
+<section class="vitrine-section pro-equipe" aria-labelledby="equipe-title">
+    <div class="vitrine-container">
+        <header class="pro-head">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.equipe_kicker }}</span>
+                <h2 class="pro-head__title" id="equipe-title">{{ site.labels.equipe_title }}</h2>
+            </div>
+        </header>
+        <ul class="pro-equipe__list">
+            {% for membre in site.equipe %}
+            <li class="pro-membre">
+                <div class="pro-membre__photo">
+                    <img src="{% static membre.photo %}" alt="Portrait de {{ membre.nom }}" width="800" height="1000" loading="lazy" decoding="async">
+                </div>
+                <div class="pro-membre__body">
+                    <h3 class="pro-membre__name">{{ membre.nom }}</h3>
+                    <p class="pro-membre__role">{{ membre.role }} · {{ membre.barreau }}</p>
+                    <p class="pro-membre__bio">{{ membre.bio }}</p>
+                    <ul class="pro-tags">
+                        {% for domaine in membre.domaines %}<li>{{ domaine }}</li>{% endfor %}
+                    </ul>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

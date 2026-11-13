@@ -1,0 +1,7 @@
+from django.apps import AppConfig
+
+
+class VitrinesConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "vitrines"
+    verbose_name = "Vitrines de démonstration"

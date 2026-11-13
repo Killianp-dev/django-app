@@ -1,0 +1,12 @@
+{% load vitrine_tags %}
+<section class="vitrine-cta">
+    <div class="vitrine-container vitrine-container--narrow">
+        <div class="vitrine-cta__content">
+            <h2 class="vitrine-cta__title">{{ site.labels.cta_title }}</h2>
+            <p class="vitrine-cta__text">{{ site.labels.cta_text }}</p>
+            <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">
+                {{ site.labels.cta_button }}
+            </a>
+        </div>
+    </div>
+</section>

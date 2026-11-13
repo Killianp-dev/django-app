@@ -1,0 +1,47 @@
+{% load static vitrine_tags %}<!DOCTYPE html>
+<html lang="fr" class="vitrine">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site.titre }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ site.description }}{% endblock %}">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="{% block og_title %}{{ site.nom }}{% endblock %}">
+    <meta property="og:description" content="{{ site.description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <link rel="stylesheet" href="{% static 'vitrine/css/main.css' %}?v=20261113-pro">
+    <script type="application/ld+json">{{ schema_org|safe }}</script>
+    <style>
+        .vitrine {
+            {% for name, value in site.theme.items %}
+            {{ name }}: {{ value|safe }};
+            {% endfor %}
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="vitrine vitrine--{{ site.key }} {% block body_class %}{% endblock %}">
+    {% include 'vitrine/partials/skip_link.html' %}
+    {% include 'vitrine/partials/demo_banner.html' %}
+    {% include 'vitrine/partials/header.html' %}
+    <main id="contenu" class="vitrine-main">
+        {% block content %}{% endblock %}
+    </main>
+    {% block cta %}
+    {% include 'vitrine/partials/cta_contact.html' %}
+    {% endblock %}
+    {% include 'vitrine/partials/footer.html' %}
+    {% if site.horaires_semaine %}
+    <script type="application/json" id="vitrine-horaires">[{% for jour in site.horaires_semaine %}{"nom": "{{ jour.nom }}", "ouverture": "{{ jour.ouverture|default:'' }}", "fermeture": "{{ jour.fermeture|default:'' }}"}{% if not forloop.last %}, {% endif %}{% endfor %}]</script>
+    {% endif %}
+    {% if site.barre_mobile %}{% include 'vitrine/partials/mobile_actions.html' %}{% endif %}
+    <script src="{% static 'vitrine/js/nav.js' %}?v=1" defer></script>
+    {% if site.horaires_semaine or site.realisations %}
+    <script src="{% static 'vitrine/js/site.js' %}?v=2" defer></script>
+    {% endif %}
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'vitrine/pages/home.html' %}
+
+{% block signature %}
+<section class="vitrine-section boul-fournees" aria-labelledby="fournees-title">
+    <div class="vitrine-container">
+        <header class="pro-head">
+            <div>
+                <span class="vitrine-section__kicker">{{ site.labels.signature_kicker }}</span>
+                <h2 class="pro-head__title" id="fournees-title">{{ site.labels.signature_title }}</h2>
+            </div>
+            <div class="pro-head__aside">
+                <p>Cinq fournées par jour d'ouverture. La prochaine est signalée en direct, à l'heure de Paris.</p>
+                <p class="vitrine-statut" data-statut hidden><span class="vitrine-statut__dot" aria-hidden="true"></span><span data-statut-texte></span></p>
+            </div>
+        </header>
+        <ol class="boul-fournees__list" data-fournees>
+            {% for fournee in site.fournees %}
+            <li class="boul-fournee" data-heure="{{ fournee.heure }}">
+                <span class="boul-fournee__heure">{{ fournee.libelle }}</span>
+                <span class="boul-fournee__etat" data-fournee-etat></span>
+                <h3 class="boul-fournee__produit">{{ fournee.produit }}</h3>
+                <p class="boul-fournee__detail">{{ fournee.detail }}</p>
+            </li>
+            {% endfor %}
+        </ol>
+        <ul class="boul-gages">
+            {% for gage in site.gages %}
+            <li><h3>{{ gage.titre }}</h3><p>{{ gage.texte }}</p></li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}

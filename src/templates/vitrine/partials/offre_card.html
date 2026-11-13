@@ -1,0 +1,23 @@
+{% load static vitrine_tags %}
+<article class="vitrine-mission-card">
+    <a href="{% site_url 'offre' offre.slug %}" class="vitrine-mission-card__link">
+        <div class="vitrine-mission-card__image">
+            <img src="{% static offre.image %}" alt="{{ offre.nom }}" width="900" height="1100" loading="lazy" decoding="async">
+        </div>
+        <div class="vitrine-mission-card__content">
+            <span class="vitrine-mission-card__index">0{{ index }}</span>
+            {% if title_tag == "h2" %}
+            <h2 class="vitrine-mission-card__title">{{ offre.nom }}</h2>
+            {% else %}
+            <h3 class="vitrine-mission-card__title">{{ offre.nom }}</h3>
+            {% endif %}
+            <p class="vitrine-mission-card__text">{{ offre.accroche }}</p>
+            {% if offre.prix %}
+            <p class="vitrine-mission-card__meta">
+                <span>{{ offre.prix }}</span>
+                {% if offre.duree %}<span>{{ offre.duree }}</span>{% endif %}
+            </p>
+            {% endif %}
+        </div>
+    </a>
+</article>

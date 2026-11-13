@@ -1,0 +1,694 @@
+/**
+ * Salon Louise — identité propre au salon de coiffure.
+ * Éditorial, arches, italique Cormorant, rose poudré et prune.
+ * Tout est préfixé .vitrine--coiffeur : les trois autres vitrines ne sont pas touchées.
+ */
+
+.vitrine--coiffeur {
+    --salon-radius: 22px;
+    --salon-arch: 999px 999px var(--salon-radius) var(--salon-radius);
+    --salon-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ——— En-tête ——— */
+.vitrine--coiffeur .vitrine-header { background-color: color-mix(in srgb, var(--color-bg) 88%, transparent); }
+.vitrine--coiffeur .vitrine-header__logo { font-size: 1.65rem; }
+.vitrine--coiffeur .vitrine-nav__list { gap: 2rem; }
+.vitrine--coiffeur .vitrine-nav__link--cta { border-radius: 999px; padding: 0.7rem 1.4rem; }
+.vitrine--coiffeur .vitrine-nav__submenu { border-radius: 16px; padding: 0.5rem; min-width: 260px; }
+.vitrine--coiffeur .vitrine-nav__sublink { border-radius: 10px; }
+
+/* ——— Typo des titres de section ——— */
+.vitrine--coiffeur .vitrine-section__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.08;
+}
+
+.salon-split-header {
+    display: grid;
+    gap: var(--space-sm) var(--space-xl);
+    margin-bottom: var(--space-xl);
+    align-items: end;
+}
+
+@media (min-width: 860px) {
+    .salon-split-header { grid-template-columns: 1.1fr 0.9fr; }
+}
+
+.salon-split-header__aside p {
+    color: var(--color-ink-soft);
+    font-size: var(--text-lg);
+    margin-bottom: 0.6rem;
+}
+
+.salon-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--color-accent);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+}
+
+.salon-link::after { content: "→"; transition: transform var(--transition-fast); }
+.salon-link:hover { color: var(--color-accent-hover); }
+.salon-link:hover::after { transform: translateX(3px); }
+
+/* ——— Hero ——— */
+.salon-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3rem, 6vw, 5.5rem);
+    background:
+        radial-gradient(ellipse 60% 70% at 85% 30%, color-mix(in srgb, var(--color-accent-soft) 45%, transparent), transparent 70%),
+        var(--color-bg);
+}
+
+.salon-hero__inner {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .salon-hero__inner { grid-template-columns: 1.05fr 0.95fr; }
+}
+
+.salon-hero__title {
+    font-size: clamp(3.2rem, 8vw, 6.4rem);
+    font-style: italic;
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    margin-bottom: var(--space-md);
+}
+
+.salon-hero__lead {
+    max-width: 34ch;
+    font-family: var(--font-heading);
+    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+    line-height: 1.35;
+    color: var(--color-ink-soft);
+    margin-bottom: var(--space-lg);
+}
+
+.salon-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: var(--space-lg);
+}
+
+.salon-engagements {
+    display: grid;
+    gap: 0.55rem;
+    list-style: none;
+    margin: 0;
+    padding: var(--space-md) 0 0;
+    border-top: var(--rule-width) solid var(--color-border);
+    font-size: var(--text-sm);
+    color: var(--color-ink);
+}
+
+.salon-engagements li { display: flex; align-items: center; gap: 0.6rem; }
+
+.salon-engagements svg {
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-accent);
+    flex: none;
+}
+
+.salon-hero__visual {
+    position: relative;
+    max-width: 520px;
+    width: 100%;
+    justify-self: center;
+    padding: 0 0 2.5rem 2.5rem;
+}
+
+.salon-hero__arch {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--salon-arch);
+    background: var(--color-surface);
+    box-shadow: 0 40px 80px -30px color-mix(in srgb, var(--color-hero) 55%, transparent);
+}
+
+.salon-hero__arch img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+}
+
+.salon-hero__thumb {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 34%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: var(--salon-arch);
+    border: 6px solid var(--color-bg);
+    box-shadow: var(--shadow-md);
+}
+
+.salon-hero__thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+
+.salon-hero__card {
+    position: absolute;
+    right: -0.75rem;
+    bottom: 3.5rem;
+    display: grid;
+    gap: 0.3rem;
+    min-width: 230px;
+    padding: 1rem 1.15rem;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--color-bg) 94%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-lg);
+    border: var(--rule-width) solid var(--color-border);
+}
+
+.salon-hero__card-line { font-size: var(--text-xs); color: var(--color-ink-soft); margin: 0; }
+
+.salon-hero__card-phone {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--color-ink);
+    text-decoration: none;
+}
+
+.salon-hero__card-phone:hover { color: var(--color-accent); }
+
+@media (max-width: 899px) {
+    .salon-hero__visual { padding: 0 0 2rem 1.75rem; max-width: 440px; }
+    .salon-hero__card { right: 0; bottom: 2.75rem; min-width: 0; }
+}
+
+@media (max-width: 480px) {
+    .salon-hero__card { position: relative; right: auto; bottom: auto; margin: 1rem 0 0 -1.75rem; }
+    .salon-hero__visual { padding-bottom: 0; }
+    .salon-hero__thumb { bottom: 6.5rem; }
+}
+
+/* ——— Repères ——— */
+.vitrine--coiffeur .vitrine-reperes { background: var(--color-bg); }
+.vitrine--coiffeur .vitrine-reperes__value { font-style: italic; font-size: 1.3rem; }
+
+/* ——— Prestations ——— */
+.salon-prestations__grid {
+    display: grid;
+    gap: var(--space-lg) var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 1000px) {
+    .salon-prestations__grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.salon-prestation {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.salon-prestation__image {
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--salon-arch);
+    background: var(--color-surface);
+    margin-bottom: 1rem;
+}
+
+.salon-prestation__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms var(--salon-ease);
+}
+
+.salon-prestation:hover .salon-prestation__image img { transform: scale(1.06); }
+
+.salon-prestation__index {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-accent);
+}
+
+.salon-prestation__title {
+    margin: 0.2rem 0 0.25rem;
+    font-size: 1.85rem;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.salon-prestation__text {
+    flex: 1;
+    color: var(--color-ink-soft);
+    font-size: var(--text-sm);
+}
+
+.salon-prestation__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    padding-top: 0.7rem;
+    border-top: var(--rule-width) solid var(--color-border);
+    font-size: var(--text-sm);
+    color: var(--color-ink);
+}
+
+.salon-prestation__meta span:first-child { font-family: var(--font-heading); font-style: italic; font-size: 1.1rem; color: var(--color-accent); }
+.salon-prestation__meta span:last-child { color: var(--color-ink-soft); }
+
+.salon-prestation:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 6px; border-radius: 12px; }
+
+@media (max-width: 520px) {
+    .salon-prestations__grid { gap: var(--space-md) 0.85rem; }
+    .salon-prestation__title { font-size: 1.45rem; }
+    .salon-prestation__meta { flex-direction: column; gap: 0.1rem; }
+}
+
+/* ——— Manifeste ——— */
+.salon-manifeste {
+    padding: clamp(4rem, 9vw, 7rem) 0;
+    background:
+        radial-gradient(ellipse 50% 80% at 0% 0%, color-mix(in srgb, var(--color-accent) 35%, transparent), transparent 70%),
+        var(--color-hero);
+    color: #F7EDE8;
+}
+
+.salon-manifeste__quote {
+    max-width: 24ch;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.12;
+    color: #FFF8F4;
+}
+
+.salon-manifeste__sign {
+    margin: var(--space-md) 0 var(--space-xl);
+    color: var(--color-accent-soft);
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+}
+
+.salon-manifeste__gages {
+    display: grid;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 800px) {
+    .salon-manifeste__gages { grid-template-columns: repeat(3, 1fr); gap: var(--space-xl); }
+}
+
+.salon-manifeste__gages li {
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.salon-manifeste__num {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-accent-soft);
+}
+
+.salon-manifeste__gages h3 {
+    margin: 0.35rem 0 0.45rem;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.6rem;
+    color: #FFF8F4;
+}
+
+.salon-manifeste__gages p { color: rgba(247, 237, 232, 0.78); max-width: 34ch; }
+
+/* ——— Réalisations ——— */
+.vitrine--coiffeur .vitrine-galerie__link { border-radius: var(--salon-radius); }
+.vitrine--coiffeur .vitrine-galerie__grid--compact .vitrine-galerie__item:first-child .vitrine-galerie__link { border-radius: var(--salon-arch); }
+
+/* ——— Avis ——— */
+.vitrine--coiffeur .vitrine-section--avis { background: var(--color-surface); }
+.vitrine--coiffeur .vitrine-avis__item figure { border-radius: var(--salon-radius); border-color: transparent; box-shadow: var(--shadow-sm); }
+.vitrine--coiffeur .vitrine-avis__text { font-style: italic; }
+
+/* ——— Rendez-vous ——— */
+.salon-rdv__inner {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+@media (min-width: 900px) {
+    .salon-rdv__inner { grid-template-columns: 1.15fr 0.85fr; }
+}
+
+.salon-steps {
+    list-style: none;
+    margin: var(--space-lg) 0 0;
+    padding: 0;
+}
+
+.salon-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3.25rem 1fr;
+    gap: 1rem;
+    padding-bottom: var(--space-lg);
+}
+
+.salon-step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: calc(1.625rem - 0.5px);
+    top: 3.25rem;
+    bottom: 0.4rem;
+    width: 1px;
+    background: var(--color-border);
+}
+
+.salon-step__index {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-accent-soft);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--color-accent);
+    background: var(--color-bg);
+}
+
+.salon-step__title { font-size: 1.6rem; font-style: italic; font-weight: 500; margin: 0.3rem 0 0.3rem; }
+.salon-step__text { color: var(--color-ink-soft); max-width: 46ch; }
+
+.salon-rdv__card {
+    padding: 1.75rem 1.75rem 1.5rem;
+    border-radius: var(--salon-radius);
+    background: var(--color-surface);
+}
+
+@media (min-width: 900px) {
+    .salon-rdv__card { position: sticky; top: 7rem; }
+}
+
+.salon-rdv__card .vitrine-horaires__title { font-style: italic; font-size: 1.7rem; }
+
+.salon-rdv__actions {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+}
+
+/* ——— Le salon ——— */
+.vitrine--coiffeur .vitrine-about-preview__image { border-radius: var(--salon-arch); }
+.vitrine--coiffeur .vitrine-about-preview__title { font-style: italic; font-weight: 500; font-size: clamp(2rem, 3.6vw, 2.8rem); }
+
+.salon-signature {
+    margin: -0.75rem 0 var(--space-lg);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.9rem;
+    color: var(--color-accent);
+}
+
+/* ——— FAQ ——— */
+.vitrine--coiffeur .vitrine-faq__question { font-style: italic; font-size: 1.35rem; }
+
+/* ——— Pages intérieures ——— */
+.vitrine--coiffeur .vitrine-offre__subtitle { font-style: italic; font-weight: 500; }
+.vitrine--coiffeur .vitrine-about__horaires { border-radius: var(--salon-radius); }
+.vitrine--coiffeur .vitrine-photo img { max-height: 520px; object-position: center 30%; }
+
+/* ——— Appel final ——— */
+.vitrine--coiffeur .vitrine-cta {
+    background:
+        radial-gradient(ellipse 60% 90% at 50% 120%, color-mix(in srgb, var(--color-accent-soft) 55%, transparent), transparent 70%),
+        var(--color-bg);
+    border-top: var(--rule-width) solid var(--color-border);
+}
+
+.vitrine--coiffeur .vitrine-cta__title { font-style: italic; font-size: clamp(2.2rem, 4vw, 3.2rem); }
+
+@media (prefers-reduced-motion: reduce) {
+    .salon-prestation__image img,
+    .salon-link::after { transition: none; }
+}
+
+/* ——— Page prestation ——— */
+.salon-breadcrumb { padding-top: var(--space-md); }
+
+.salon-breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-xs);
+    color: var(--color-ink-soft);
+}
+
+.salon-breadcrumb li:not(:last-child)::after { content: "/"; margin-left: 0.4rem; opacity: 0.5; }
+.salon-breadcrumb a { color: inherit; text-decoration: none; }
+.salon-breadcrumb a:hover { color: var(--color-accent); }
+.salon-breadcrumb [aria-current] { color: var(--color-ink); }
+
+.salon-offre {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: start;
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-xl);
+}
+
+@media (min-width: 900px) {
+    .salon-offre { grid-template-columns: 0.9fr 1.1fr; gap: clamp(3rem, 6vw, 6rem); }
+    .salon-offre__media { position: sticky; top: 7rem; }
+}
+
+.salon-offre__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--salon-arch);
+    background: var(--color-surface);
+}
+
+.salon-offre__media img { width: 100%; height: 100%; object-fit: cover; }
+
+.salon-offre__title {
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: var(--space-md);
+}
+
+.salon-offre__lead {
+    font-family: var(--font-heading);
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
+    line-height: 1.4;
+    color: var(--color-ink-soft);
+    margin-bottom: var(--space-lg);
+}
+
+.salon-offre__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0 0 var(--space-lg);
+    border-top: var(--rule-width) solid var(--color-border);
+    border-bottom: var(--rule-width) solid var(--color-border);
+}
+
+.salon-offre__facts div { padding: 1rem 0; }
+.salon-offre__facts div + div { padding-left: 1.25rem; border-left: var(--rule-width) solid var(--color-border); }
+
+.salon-offre__facts dt {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.2rem;
+}
+
+.salon-offre__facts dd {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--color-ink);
+}
+
+.salon-offre__points {
+    display: grid;
+    gap: 0.65rem;
+    list-style: none;
+    margin: 0 0 var(--space-lg);
+    padding: 0;
+}
+
+.salon-offre__points li { display: flex; align-items: center; gap: 0.7rem; color: var(--color-ink); }
+
+.salon-offre__points svg {
+    width: 22px;
+    height: 22px;
+    padding: 3px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-accent);
+    flex: none;
+}
+
+.salon-offre__suite { color: var(--color-ink-soft); margin-bottom: var(--space-lg); }
+
+.salon-offre__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+.salon-offre__carte { padding-bottom: var(--space-lg); }
+
+.salon-offre__carte-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--salon-radius);
+    background: var(--color-surface);
+}
+
+.salon-offre__carte-inner .vitrine-offre__subtitle { margin-top: 0; }
+.salon-offre__carte-inner .vitrine-carte__ligne:last-child { border-bottom: 0; }
+.salon-offre__carte-note { margin-top: 1rem; font-size: var(--text-sm); color: var(--color-ink-soft); max-width: none; }
+
+.salon-offre__realisations { padding-top: var(--space-xl); }
+
+.salon-pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: var(--space-lg);
+    padding-bottom: var(--space-2xl);
+    border-top: var(--rule-width) solid var(--color-border);
+}
+
+.salon-pager__link { display: grid; gap: 0.15rem; text-decoration: none; color: var(--color-ink); }
+.salon-pager__link--next { text-align: right; }
+.salon-pager__label { font-size: var(--text-xs); letter-spacing: var(--tracking-wider); text-transform: uppercase; color: var(--color-ink-soft); }
+.salon-pager__name { font-family: var(--font-heading); font-style: italic; font-size: 1.6rem; }
+.salon-pager__link:hover .salon-pager__name { color: var(--color-accent); }
+
+/* ——— Page « Le salon » ——— */
+.salon-story {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+}
+
+@media (min-width: 900px) {
+    .salon-story { grid-template-columns: 0.85fr 1.15fr; gap: clamp(3rem, 6vw, 6rem); }
+}
+
+.salon-story__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--salon-arch);
+    background: var(--color-surface);
+}
+
+.salon-story__media img { width: 100%; height: 100%; object-fit: cover; }
+.salon-story__text p { color: var(--color-ink-soft); margin-bottom: 1rem; }
+.salon-story .salon-signature { margin-top: var(--space-md); }
+
+.salon-chiffres {
+    border-top: var(--rule-width) solid var(--color-border);
+    border-bottom: var(--rule-width) solid var(--color-border);
+    background: var(--color-surface);
+}
+
+.salon-chiffres__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 860px) {
+    .salon-chiffres__list { grid-template-columns: repeat(4, 1fr); }
+}
+
+.salon-chiffres__list li {
+    display: grid;
+    gap: 0.25rem;
+    padding: 1.75rem 1.25rem;
+    border-left: var(--rule-width) solid var(--color-border);
+}
+
+.salon-chiffres__list li:first-child,
+.salon-chiffres__list li:nth-child(3) { border-left: 0; }
+
+@media (min-width: 860px) {
+    .salon-chiffres__list li:nth-child(3) { border-left: var(--rule-width) solid var(--color-border); }
+    .salon-chiffres__list li:first-child { padding-left: 0; }
+}
+
+.salon-chiffres__list strong {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1;
+    color: var(--color-accent);
+}
+
+.salon-chiffres__list span { color: var(--color-ink-soft); font-size: var(--text-sm); }
+
+/* Titres des pages génériques (contact, tarifs, réalisations) */
+.vitrine--coiffeur .vitrine-contact-hero__title,
+.vitrine--coiffeur .vitrine-about-hero__title {
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 5vw, 3.8rem);
+}
+
+.vitrine--coiffeur .vitrine-carte__groupe {
+    padding: 1.6rem 1.6rem 0.6rem;
+    border-radius: var(--salon-radius);
+    background: var(--color-surface);
+}
+
+.vitrine--coiffeur .vitrine-carte__ligne:last-child { border-bottom: 0; }
+
+/* ——— Jetons du gabarit commun (liste des prestations, etc.) ——— */
+.vitrine--coiffeur {
+    --pro-radius: 22px;
+    --pro-media-radius: 999px 999px 22px 22px;
+    --pro-btn-radius: 999px;
+    --pro-title-style: italic;
+    --pro-title-weight: 500;
+}

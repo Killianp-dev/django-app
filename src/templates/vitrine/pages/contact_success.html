@@ -1,0 +1,19 @@
+{% extends 'vitrine/base.html' %}
+{% load vitrine_tags %}
+
+{% block title %}Message envoyé — {{ site.nom }}{% endblock %}
+{% block cta %}{% endblock %}
+
+{% block content %}
+<section class="vitrine-container vitrine-container--narrow" style="padding:var(--space-2xl) 0;">
+    <div class="vitrine-contact-success">
+        <div class="vitrine-contact-success__icon" aria-hidden="true">✓</div>
+        <h1 style="font-size:clamp(2rem,4vw,2.75rem);margin-bottom:var(--space-sm);">Message envoyé</h1>
+        <p style="font-size:var(--text-lg);color:var(--color-ink-soft);margin-bottom:var(--space-lg);">
+            Merci. Dans cette démonstration, le message n'est pas transmis à {{ site.nom }}.
+            Il part vers l'auteur du site.
+        </p>
+        <a href="{% site_url 'home' %}" class="vitrine-btn vitrine-btn--primary">Retour à l'accueil</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,84 @@
+/**
+ * Maison Caron — vitrine de comptoir.
+ * Fraunces, coins doux, crème et brun cuit.
+ */
+.vitrine--boulangerie {
+    --pro-radius: 18px;
+    --pro-media-radius: 22px;
+    --pro-btn-radius: 999px;
+    --pro-title-weight: 560;
+    --pro-title-tracking: -0.02em;
+    --pro-band-bg: var(--color-hero);
+}
+
+.vitrine--boulangerie .pro-hero--split {
+    background:
+        radial-gradient(ellipse 50% 60% at 85% 35%, rgba(230, 196, 138, 0.55), transparent 70%),
+        radial-gradient(ellipse 40% 50% at 10% 90%, rgba(243, 230, 200, 0.9), transparent 70%),
+        var(--color-bg);
+}
+
+.vitrine--boulangerie .pro-hero__media { aspect-ratio: 5 / 6; transform: rotate(1.5deg); }
+.vitrine--boulangerie .pro-hero__media img { object-position: 30% center; }
+.vitrine--boulangerie .pro-card__media { aspect-ratio: 1; border-radius: 50%; }
+.vitrine--boulangerie .pro-card { text-align: center; }
+.vitrine--boulangerie .pro-card__meta { justify-content: center; }
+
+/* Fournées */
+.boul-fournees { background: var(--color-surface); }
+
+.boul-fournees__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr));
+    gap: 1rem;
+    list-style: none;
+    margin: 0 0 var(--space-xl);
+    padding: 0;
+}
+
+.boul-fournee {
+    position: relative;
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+    padding: 1.35rem 1.25rem 1.25rem;
+    border-radius: var(--pro-radius);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    transition: opacity var(--transition-base), border-color var(--transition-base), transform var(--transition-base);
+}
+
+.boul-fournee__heure { font-family: var(--font-heading); font-size: 2.2rem; line-height: 1; color: var(--color-ink); font-variant-numeric: tabular-nums; }
+.boul-fournee__etat:empty { display: none; }
+.boul-fournee__etat {
+    justify-self: start;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-ink-soft);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.boul-fournee__produit { font-size: 1.15rem; margin-top: 0.3rem; }
+.boul-fournee__detail { color: var(--color-ink-soft); font-size: var(--text-sm); }
+
+.boul-fournee.is-done { opacity: 0.55; }
+.boul-fournee.is-off { opacity: 0.45; }
+.boul-fournee.is-next { border-color: var(--color-accent); box-shadow: 0 18px 40px -20px rgba(161, 92, 42, 0.6); transform: translateY(-4px); }
+.boul-fournee.is-next .boul-fournee__etat { background: var(--color-accent); color: var(--color-on-accent); }
+.boul-fournee.is-next .boul-fournee__heure { color: var(--color-accent); }
+
+.boul-gages {
+    display: grid;
+    gap: var(--space-lg);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 800px) { .boul-gages { grid-template-columns: repeat(3, 1fr); } }
+.boul-gages li { padding-top: 0.9rem; border-top: 2px solid var(--color-accent-soft); }
+.boul-gages h3 { font-size: 1.35rem; margin-bottom: 0.3rem; }
+.boul-gages p { color: var(--color-ink-soft); }

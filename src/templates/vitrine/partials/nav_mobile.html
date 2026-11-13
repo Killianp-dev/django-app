@@ -1,0 +1,39 @@
+{% load vitrine_tags %}
+<nav class="vitrine-nav-mobile" id="vitrine-nav-mobile" aria-label="Navigation mobile" hidden>
+    <ul class="vitrine-nav-mobile__list">
+        <li class="vitrine-nav-mobile__item">
+            <a href="{% site_url 'home' %}" class="vitrine-nav-mobile__link">Accueil</a>
+        </li>
+        <li class="vitrine-nav-mobile__item vitrine-nav-mobile__item--section">
+            <span class="vitrine-nav-mobile__section-title">{{ site.labels.offres }}</span>
+            <ul class="vitrine-nav-mobile__sublist">
+                {% for offre in site.offres %}
+                <li class="vitrine-nav-mobile__subitem">
+                    <a href="{% site_url 'offre' offre.slug %}" class="vitrine-nav-mobile__sublink">{{ offre.nom }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% if site.realisations %}
+        <li class="vitrine-nav-mobile__item">
+            <a href="{% site_url 'realisations' %}" class="vitrine-nav-mobile__link">{{ site.labels.realisations }}</a>
+        </li>
+        {% endif %}
+        {% if site.labels.tarifs %}
+        <li class="vitrine-nav-mobile__item">
+            <a href="{% site_url 'tarifs' %}" class="vitrine-nav-mobile__link">{{ site.labels.tarifs }}</a>
+        </li>
+        {% endif %}
+        {% if site.labels.faq_nav %}
+        <li class="vitrine-nav-mobile__item">
+            <a href="{% site_url 'faq' %}" class="vitrine-nav-mobile__link">{{ site.labels.faq_nav }}</a>
+        </li>
+        {% endif %}
+        <li class="vitrine-nav-mobile__item">
+            <a href="{% site_url 'about' %}" class="vitrine-nav-mobile__link">{{ site.labels.about_link }}</a>
+        </li>
+        <li class="vitrine-nav-mobile__item">
+            <a href="{% site_url 'contact' %}" class="vitrine-nav-mobile__link vitrine-nav-mobile__link--cta">{{ site.labels.nav_cta|default:"Contact" }}</a>
+        </li>
+    </ul>
+</nav>

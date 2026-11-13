@@ -1,0 +1,19 @@
+{# Horaires de la semaine. site.js marque le jour courant et calcule l'état (ouvert / fermé). #}
+<div class="vitrine-horaires" data-horaires>
+    {% if titre %}<h2 class="vitrine-horaires__title">{{ titre }}</h2>{% endif %}
+    <p class="vitrine-statut" data-statut hidden>
+        <span class="vitrine-statut__dot" aria-hidden="true"></span>
+        <span data-statut-texte></span>
+    </p>
+    <table class="vitrine-horaires__table">
+        <caption class="vitrine-sr-only">Horaires d'ouverture</caption>
+        <tbody>
+            {% for jour in site.horaires_semaine %}
+            <tr data-jour="{{ forloop.counter0 }}"{% if jour.ouverture %} data-ouverture="{{ jour.ouverture }}" data-fermeture="{{ jour.fermeture }}"{% endif %}>
+                <th scope="row">{{ jour.nom }}</th>
+                <td>{% if jour.ouverture %}{{ jour.ouverture|cut:":00" }}h – {{ jour.fermeture|cut:":00" }}h{% else %}<span class="vitrine-horaires__ferme">Fermé</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

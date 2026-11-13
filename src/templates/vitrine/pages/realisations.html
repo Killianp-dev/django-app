@@ -1,0 +1,19 @@
+{% extends 'vitrine/base.html' %}
+{% load vitrine_tags %}
+
+{% block title %}{{ site.labels.realisations }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ site.labels.realisations_intro }}{% endblock %}
+
+{% block content %}
+<section class="vitrine-section vitrine-realisations">
+    <div class="vitrine-container">
+        <header class="vitrine-section__header">
+            <span class="vitrine-section__kicker">{{ site.labels.realisations_kicker }}</span>
+            <h1 class="vitrine-section__title">{{ site.labels.realisations }}</h1>
+            <p class="vitrine-section__intro">{{ site.labels.realisations_intro }}</p>
+        </header>
+        {% include 'vitrine/partials/realisations_grid.html' with items=site.realisations filtres=filtres %}
+        <p class="vitrine-realisations__note">Une photo vous plaît ? Montrez-la au rendez-vous : on regarde ensemble ce qui est possible avec vos cheveux.</p>
+    </div>
+</section>
+{% endblock %}

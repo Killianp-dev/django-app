@@ -1,0 +1,22 @@
+/**
+ * Utilitaires responsive — audit multi-tailles (320 → 1920px)
+ */
+
+@media (max-width: 767px) {
+    .vitrine-hide-mobile { display: none !important; }
+}
+
+@media (min-width: 768px) {
+    .vitrine-hide-desktop { display: none !important; }
+}
+
+/* Très petits écrans (<= 380px) : réduction des paddings container */
+@media (max-width: 380px) {
+    .vitrine-container { padding-left: 1.125rem; padding-right: 1.125rem; }
+    .vitrine-btn { padding-left: 1.25rem; padding-right: 1.25rem; }
+}
+
+/* Grands écrans : limite la largeur du texte pour la lisibilité */
+@media (min-width: 1600px) {
+    .vitrine-container { max-width: 1440px; }
+}

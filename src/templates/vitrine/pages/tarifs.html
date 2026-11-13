@@ -1,0 +1,36 @@
+{% extends 'vitrine/base.html' %}
+{% load vitrine_tags %}
+
+{% block title %}{{ site.labels.tarifs }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ site.tarifs_note }}{% endblock %}
+
+{% block content %}
+<section class="vitrine-section">
+    <div class="vitrine-container vitrine-container--medium">
+        <header class="vitrine-section__header">
+            <span class="vitrine-section__kicker">{{ site.labels.tarifs_kicker }}</span>
+            <h1 class="vitrine-section__title">{{ site.labels.tarifs }}</h1>
+            <p class="vitrine-about-preview__text" style="margin-left:auto;margin-right:auto;">{{ site.tarifs_note }}</p>
+        </header>
+        <div class="vitrine-carte">
+            {% for groupe in site.tarifs %}
+            <section class="vitrine-carte__groupe">
+                <h2 class="vitrine-carte__title">{{ groupe.titre }}</h2>
+                <ul class="vitrine-carte__list">
+                    {% for ligne in groupe.lignes %}
+                    <li class="vitrine-carte__ligne">
+                        <div class="vitrine-carte__nom">
+                            <span>{{ ligne.nom }}</span>
+                            {% if ligne.note %}<span class="vitrine-carte__note-ligne">{{ ligne.note }}</span>{% endif %}
+                            <span class="vitrine-carte__duree">{{ ligne.duree }}</span>
+                        </div>
+                        <span class="vitrine-carte__prix">{{ ligne.prix }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

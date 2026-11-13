@@ -1,0 +1,17 @@
+{% extends 'vitrine/base.html' %}
+{% load vitrine_tags %}
+
+{% block title %}{{ site.labels.faq_nav }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ site.labels.faq_title }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for item in site.faq %}{"@type": "Question", "name": "{{ item.question|escapejs }}", "acceptedAnswer": {"@type": "Answer", "text": "{{ item.reponse|escapejs }}"}}{% if not forloop.last %}, {% endif %}{% endfor %}]}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="vitrine-container">
+    {% include 'vitrine/partials/pro/breadcrumb.html' with current=site.labels.faq_nav %}
+</div>
+{% include 'vitrine/partials/faq.html' %}
+{% endblock %}

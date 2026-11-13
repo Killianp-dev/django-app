@@ -1,0 +1,26 @@
+<section class="vitrine-section vitrine-section--avis" aria-labelledby="avis-title">
+    <div class="vitrine-container">
+        <header class="vitrine-section__header">
+            <span class="vitrine-section__kicker">{{ site.labels.avis_kicker }}</span>
+            <h2 class="vitrine-section__title" id="avis-title">{{ site.labels.avis_title }}</h2>
+        </header>
+        <ul class="vitrine-avis">
+            {% for avis in site.avis %}
+            <li class="vitrine-avis__item">
+                <figure>
+                    <span class="vitrine-avis__stars" role="img" aria-label="5 étoiles sur 5">★★★★★</span>
+                    <blockquote class="vitrine-avis__text"><p>{{ avis.texte }}</p></blockquote>
+                    <figcaption class="vitrine-avis__author">
+                        <span class="vitrine-avis__initial" aria-hidden="true">{{ avis.auteur|first }}</span>
+                        <span>
+                            <strong>{{ avis.auteur }}</strong>
+                            <span class="vitrine-avis__detail">{{ avis.detail }} · {{ avis.date }}</span>
+                        </span>
+                    </figcaption>
+                </figure>
+            </li>
+            {% endfor %}
+        </ul>
+        {% if site.avis_note %}<p class="vitrine-avis__note">{{ site.avis_note }}</p>{% endif %}
+    </div>
+</section>

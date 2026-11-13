@@ -1,0 +1,40 @@
+{% load static vitrine_tags %}
+{# Hero commun. site.hero_variant : "split" (texte + photo) ou "full" (photo plein cadre). #}
+<section class="pro-hero pro-hero--{{ site.hero_variant|default:'split' }}" aria-labelledby="hero-title">
+    {% if site.hero_variant == 'full' %}
+    <div class="pro-hero__bg" aria-hidden="true">
+        <img src="{% static site.photos.hero %}" alt="" width="1800" height="1200" fetchpriority="high">
+    </div>
+    {% endif %}
+    <div class="vitrine-container pro-hero__inner">
+        <div class="pro-hero__content">
+            <span class="pro-hero__eyebrow">{{ site.eyebrow }}</span>
+            <h1 class="pro-hero__title" id="hero-title">{{ site.hero_title|default:site.nom }}</h1>
+            <p class="pro-hero__lead">{{ site.accroche }}</p>
+            <div class="pro-hero__actions">
+                <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">{{ site.labels.nav_cta }}</a>
+                <a href="{% site_url 'offres' %}" class="vitrine-btn {% if site.hero_variant == 'full' %}vitrine-btn--ghost-light{% else %}vitrine-btn--secondary{% endif %} vitrine-btn--lg">{{ site.labels.hero_primary }}</a>
+            </div>
+            {% if site.engagements %}
+            <ul class="pro-engagements">
+                {% for engagement in site.engagements %}
+                <li>
+                    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    {{ engagement }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% if site.hero_variant != 'full' %}
+        <div class="pro-hero__visual">
+            <div class="pro-hero__media">
+                <img src="{% static site.photos.hero %}" alt="{{ site.nom }}" width="1800" height="1200" fetchpriority="high">
+            </div>
+            {% include 'vitrine/partials/pro/hero_card.html' %}
+        </div>
+        {% else %}
+        {% include 'vitrine/partials/pro/hero_card.html' %}
+        {% endif %}
+    </div>
+</section>

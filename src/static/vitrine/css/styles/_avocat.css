@@ -1,0 +1,74 @@
+/**
+ * Aubert & Clerc — cabinet.
+ * Playfair, marine et laiton, filets fins, angles quasi droits.
+ */
+.vitrine--avocat {
+    --pro-radius: 2px;
+    --pro-media-radius: 2px;
+    --pro-btn-radius: 2px;
+    --pro-title-weight: 500;
+    --pro-title-tracking: -0.015em;
+    --pro-band-bg: #17202E;
+}
+
+.vitrine--avocat .pro-hero--split {
+    background:
+        linear-gradient(90deg, var(--color-bg) 0%, var(--color-bg) 58%, #17202E 58%, #17202E 100%);
+}
+
+@media (max-width: 899px) {
+    .vitrine--avocat .pro-hero--split { background: var(--color-bg); }
+}
+
+.vitrine--avocat .pro-hero__title { font-size: clamp(2.6rem, 5.4vw, 4.4rem); max-width: 16ch; }
+.vitrine--avocat .pro-hero__media { aspect-ratio: 4 / 5; box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.6); }
+.vitrine--avocat .pro-hero__media img { object-position: 60% center; }
+.vitrine--avocat .pro-hero__card { border-top: 3px solid var(--color-accent); }
+.vitrine--avocat .pro-card__media { aspect-ratio: 3 / 4; }
+.vitrine--avocat .pro-card__media img { filter: saturate(0.85); }
+.vitrine--avocat .pro-cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+
+/* Honoraires */
+.avocat-honoraires__grid {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 900px) { .avocat-honoraires__grid { grid-template-columns: repeat(3, 1fr); align-items: stretch; } }
+
+.avocat-formule {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.75rem 1.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.avocat-formule--vedette { background: #FFFFFF; color: var(--color-ink-soft); border-color: #FFFFFF; }
+.avocat-formule__badge {
+    position: absolute;
+    top: -0.75rem;
+    left: 1.75rem;
+    padding: 0.25rem 0.7rem;
+    background: var(--color-accent);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.avocat-formule__titre { font-size: 1.5rem; color: #fff; margin-bottom: 0.75rem; }
+.avocat-formule--vedette .avocat-formule__titre { color: var(--color-ink); }
+.avocat-formule__prix { font-family: var(--font-heading); font-size: 2rem; color: var(--color-accent-soft); margin-bottom: 0.75rem; }
+.avocat-formule--vedette .avocat-formule__prix { color: var(--color-accent); }
+.avocat-formule__prix span { font-family: var(--font-body); font-size: var(--text-sm); color: inherit; opacity: 0.8; }
+.avocat-formule__texte { margin-bottom: 1.25rem; }
+.avocat-formule__points { list-style: none; margin: auto 0 0; padding: 1rem 0 0; border-top: 1px solid rgba(255, 255, 255, 0.16); display: grid; gap: 0.45rem; font-size: var(--text-sm); }
+.avocat-formule--vedette .avocat-formule__points { border-color: var(--color-border); }
+.avocat-formule__points li::before { content: "—"; margin-right: 0.5rem; color: var(--color-accent-soft); }
+.avocat-formule--vedette .avocat-formule__points li::before { color: var(--color-accent); }

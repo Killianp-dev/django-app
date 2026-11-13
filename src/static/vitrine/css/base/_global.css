@@ -1,0 +1,47 @@
+/**
+ * Classes globales
+ */
+
+.vitrine-container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+}
+
+.vitrine-container--narrow { max-width: 760px; }
+.vitrine-container--medium { max-width: 980px; }
+.vitrine-container--wide { max-width: 1520px; }
+
+.vitrine-main { min-height: 60vh; }
+
+/* Eyebrow : petit label au-dessus des titres de section (typique du "chic/éditorial") */
+.vitrine-eyebrow {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+}
+
+/* Trait fin décoratif */
+.vitrine-rule {
+    width: 48px;
+    height: var(--rule-width);
+    background-color: var(--color-accent);
+    border: none;
+    margin: var(--space-md) 0;
+}
+
+.vitrine-rule--center { margin-left: auto; margin-right: auto; }
+
+/* Sélection de texte élégante */
+.vitrine ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+}

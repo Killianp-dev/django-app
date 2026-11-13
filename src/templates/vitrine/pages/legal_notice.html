@@ -1,0 +1,34 @@
+{% extends 'vitrine/base.html' %}
+
+{% block title %}Mentions légales — {{ site.nom }}{% endblock %}
+{% block cta %}{% endblock %}
+
+{% block content %}
+<article class="vitrine-container vitrine-container--narrow vitrine-legal-page" style="padding:var(--space-2xl) 0;">
+    <h1>Mentions légales</h1>
+    <section>
+        <h2>Nature du site</h2>
+        <p>
+            Cette page présente {{ site.nature }}, « {{ site.nom }} », à titre d'exemple de site vitrine.
+            Les noms, l'adresse et le téléphone ne correspondent à aucun commerce réel.
+        </p>
+    </section>
+    <section>
+        <h2>Éditeur</h2>
+        <p><strong>killianp-dev</strong></p>
+        <p>Responsable de la publication : Killian P</p>
+        <p>Email : <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a></p>
+    </section>
+    <section>
+        <h2>Hébergement</h2>
+        <p>AWS — EC2</p>
+    </section>
+    <section>
+        <h2>Propriété intellectuelle</h2>
+        <p>
+            Sauf mention contraire, les contenus de cette démonstration peuvent être consultés et réutilisés.
+            Une attribution à killianp-dev est appréciée. Licence : Creative Commons CC0 1.0.
+        </p>
+    </section>
+</article>
+{% endblock %}

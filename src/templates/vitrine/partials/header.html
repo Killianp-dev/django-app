@@ -1,0 +1,69 @@
+{% load vitrine_tags %}
+<header class="vitrine-header" role="banner">
+    <div class="vitrine-container">
+        <div class="vitrine-header__inner">
+            <a href="{% site_url 'home' %}" class="vitrine-header__logo">
+                <span class="vitrine-header__logo-text">{{ site.nom }}</span>
+            </a>
+            <nav class="vitrine-nav" aria-label="Navigation principale">
+                <ul class="vitrine-nav__list">
+                    <li class="vitrine-nav__item vitrine-nav__item--dropdown">
+                        <button type="button" class="vitrine-nav__link vitrine-nav__toggle" aria-expanded="false" aria-controls="vitrine-nav-offres">
+                            {{ site.labels.offres }}
+                        </button>
+                        <ul class="vitrine-nav__submenu" id="vitrine-nav-offres">
+                            <li class="vitrine-nav__subitem">
+                                <a href="{% site_url 'offres' %}" class="vitrine-nav__sublink">Tout voir</a>
+                            </li>
+                            {% for offre in site.offres %}
+                            <li class="vitrine-nav__subitem">
+                                <a href="{% site_url 'offre' offre.slug %}" class="vitrine-nav__sublink">
+                                    <span class="vitrine-nav__sublink-name">{{ offre.nom }}</span>
+                                    {% if offre.prix %}<span class="vitrine-nav__sublink-meta">{{ offre.prix }}</span>{% endif %}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% if site.realisations %}
+                    <li class="vitrine-nav__item">
+                        <a href="{% site_url 'realisations' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'realisations' %}aria-current="page"{% endif %}>
+                            {{ site.labels.realisations }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if site.labels.tarifs %}
+                    <li class="vitrine-nav__item">
+                        <a href="{% site_url 'tarifs' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'tarifs' %}aria-current="page"{% endif %}>
+                            {{ site.labels.tarifs }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if site.labels.faq_nav %}
+                    <li class="vitrine-nav__item">
+                        <a href="{% site_url 'faq' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'faq' %}aria-current="page"{% endif %}>
+                            {{ site.labels.faq_nav }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="vitrine-nav__item">
+                        <a href="{% site_url 'about' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'about' %}aria-current="page"{% endif %}>
+                            {{ site.labels.about_link }}
+                        </a>
+                    </li>
+                    <li class="vitrine-nav__item">
+                        <a href="{% site_url 'contact' %}" class="vitrine-nav__link vitrine-nav__link--cta" {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>
+                            {{ site.labels.nav_cta|default:"Contact" }}
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <button class="vitrine-nav-mobile-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="vitrine-nav-mobile">
+                <span class="vitrine-nav-mobile-toggle__bar"></span>
+                <span class="vitrine-nav-mobile-toggle__bar"></span>
+                <span class="vitrine-nav-mobile-toggle__bar"></span>
+            </button>
+        </div>
+    </div>
+</header>
+{% include 'vitrine/partials/nav_mobile.html' %}
