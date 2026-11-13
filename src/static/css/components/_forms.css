@@ -136,14 +136,9 @@
   display: none;
 }
 
-/* Piège anti-spam : hors écran, sans display:none, ignoré par les lecteurs d'écran. */
+/* Piège anti-spam : présent dans le POST, jamais affiché dans la grille. */
 .contact-hp {
-  position: absolute;
-  left: 0;
-  top: -10000px;
-  width: 200px;
-  height: auto;
-  overflow: hidden;
+  display: none !important;
 }
 
 #contact-form form > * {

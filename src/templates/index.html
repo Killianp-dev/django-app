@@ -503,7 +503,7 @@
         <form method="post" novalidate>
             {% csrf_token %}
             {{ form.rendered_at }}
-            <span class="contact-hp" aria-hidden="true">
+            <span class="contact-hp" hidden aria-hidden="true">
                 <label for="{{ form.website.id_for_label }}">Site web</label>
                 {{ form.website }}
             </span>
