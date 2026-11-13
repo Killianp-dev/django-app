@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib.admin.views.decorators import staff_member_required
 from django.urls import path
+from .feeds import LatestPostsFeed
 from .views import BlogHome, BlogCreate, BlogPostUpdate, BlogPostDetail, BlogPostDelete
 
 app_name = "blog"
@@ -25,6 +26,7 @@ urlpatterns = [
     path('create/', staff_member_required(BlogCreate.as_view()), name="create"),
     path('edit/<str:slug>/', staff_member_required(BlogPostUpdate.as_view()), name="edit"),
     path('delete/<str:slug>/', staff_member_required(BlogPostDelete.as_view()), name="delete"),
+    path('rss/', LatestPostsFeed(), name="feed"),
     path('<str:slug>/', BlogPostDetail.as_view(), name="detail"),
 ]
 

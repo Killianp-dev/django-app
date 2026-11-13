@@ -1,0 +1,29 @@
+{% load static %}
+{# Carte d'article. `heading` : niveau du titre (h2 par défaut, h3 dans une section). #}
+<article class="blog-card">
+    <a class="blog-card__link" href="{{ post.get_absolute_url }}">
+        <div class="blog-card__media">
+            {% if post.thumbnail %}
+            <img src="{{ post.thumbnail.url }}" alt="" width="800" height="500" loading="lazy" decoding="async">
+            {% else %}
+            <img src="{% static 'ressources/1.jpg' %}" alt="" width="800" height="500" loading="lazy" decoding="async">
+            {% endif %}
+            {% if not post.published %}<span class="blog-card__draft">Brouillon</span>{% endif %}
+        </div>
+        <div class="blog-card__body">
+            <p class="blog-card__kicker">
+                {% if post.created_on %}<time datetime="{{ post.created_on|date:'Y-m-d' }}">{{ post.created_on|date:"j F Y" }}</time>{% endif %}
+                {% if post.reading_time %}<span>{{ post.reading_time }} min de lecture</span>{% endif %}
+            </p>
+            {% if heading == "h3" %}
+            <h3 class="blog-card__title">{{ post.title }}</h3>
+            {% else %}
+            <h2 class="blog-card__title">{{ post.title }}</h2>
+            {% endif %}
+            <p class="blog-card__excerpt">{{ post.excerpt }}</p>
+            <span class="blog-card__more" aria-hidden="true">Lire l'article
+                <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+        </div>
+    </a>
+</article>

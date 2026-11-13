@@ -1,29 +1,60 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block body_class %}article-page{% endblock %}
 
-{% block title %}{{ post.title }} — Killian P.{% endblock %}
+{% block title %}{{ post.title }} — Blog · killianp.dev{% endblock %}
 
 {% block extra_head %}
+<meta name="description" content="{{ post.excerpt }}">
+<link rel="canonical" href="{{ request.build_absolute_uri }}">
+<link rel="alternate" type="application/rss+xml" title="Blog — killianp.dev" href="{% url 'blog:feed' %}">
 <meta property="og:title" content="{{ post.title }}">
+<meta property="og:description" content="{{ post.excerpt }}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% if post.created_on %}<meta property="article:published_time" content="{{ post.created_on|date:'Y-m-d' }}">{% endif %}
 {% if post.thumbnail %}
 <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}">
 <meta name="twitter:card" content="summary_large_image">
 {% endif %}
+{% if not post.published %}<meta name="robots" content="noindex">{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ post.title|escapejs }}",
+  "description": "{{ post.excerpt|escapejs }}",
+  {% if post.created_on %}"datePublished": "{{ post.created_on|date:'Y-m-d' }}",{% endif %}
+  "dateModified": "{{ post.last_updated|date:'c' }}",
+  {% if post.thumbnail %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}",{% endif %}
+  "author": {"@type": "Person", "name": "{{ post.author_or_default|escapejs }}", "url": "{{ request.scheme }}://{{ request.get_host }}/"},
+  "mainEntityOfPage": "{{ request.build_absolute_uri }}"
+}
+</script>
 {% endblock %}
 
 {% block content %}
+<div class="reading-progress" aria-hidden="true"><span class="reading-progress__bar"></span></div>
+
 <main id="blog" class="article-shell">
-  <a href="{% url 'blog:home' %}" class="article-back">← Actualités</a>
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <ol>
+      <li><a href="{% url 'index' %}">Accueil</a></li>
+      <li><a href="{% url 'blog:home' %}">Blog</a></li>
+      <li aria-current="page">{{ post.title|truncatechars:48 }}</li>
+    </ol>
+  </nav>
 
   <article class="article">
     <header class="article-header">
-      <p class="section-eyebrow">Journal</p>
+      <p class="section-eyebrow">Blog{% if not post.published %} · brouillon{% endif %}</p>
       <h1 class="article-title">{{ post.title }}</h1>
       <div class="article-meta">
-        <span class="article-author">Par {{ post.author_or_default }}</span>
+        <span class="article-author">
+          <img class="article-author__avatar" src="{% static 'ressources/killian-aplat.jpg' %}" alt="" width="28" height="28">
+          {{ post.author_or_default }}
+        </span>
         {% if post.created_on %}
         <time class="article-date" datetime="{{ post.created_on|date:'Y-m-d' }}">{{ post.created_on|date:"j F Y" }}</time>
         {% endif %}
@@ -50,47 +81,15 @@
       <div class="article-share">
         <p class="article-share__label">Partager</p>
         <div class="article-share__actions">
-          <a
-            href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="article-share__btn"
-            title="Partager sur LinkedIn"
-          >
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener noreferrer" class="article-share__btn">
             <i class="fab fa-linkedin-in" aria-hidden="true"></i>
             <span>LinkedIn</span>
           </a>
-          <a
-            href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri|urlencode }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="article-share__btn"
-            title="Partager sur X"
-          >
+          <a href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri|urlencode }}" target="_blank" rel="noopener noreferrer" class="article-share__btn">
             <i class="fab fa-x-twitter" aria-hidden="true"></i>
             <span>X</span>
           </a>
-          <a
-            href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri|urlencode }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="article-share__btn"
-            title="Partager sur Facebook"
-          >
-            <i class="fab fa-facebook-f" aria-hidden="true"></i>
-            <span>Facebook</span>
-          </a>
-          <a
-            href="https://wa.me/?text={{ post.title|urlencode }}%20{{ request.build_absolute_uri|urlencode }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="article-share__btn"
-            title="Partager sur WhatsApp"
-          >
-            <i class="fab fa-whatsapp" aria-hidden="true"></i>
-            <span>WhatsApp</span>
-          </a>
-          <button type="button" class="article-share__btn" data-copy-link title="Copier le lien">
+          <button type="button" class="article-share__btn" data-copy-link>
             <i class="fas fa-link" aria-hidden="true"></i>
             <span>Copier le lien</span>
           </button>
@@ -104,17 +103,31 @@
       </div>
       {% endif %}
     </footer>
+
+    <aside class="author-card" aria-label="À propos de l'auteur">
+      <img class="author-card__photo" src="{% static 'ressources/killian-aplat.jpg' %}" alt="Portrait de Killian P." width="96" height="96" loading="lazy">
+      <div class="author-card__body">
+        <p class="author-card__eyebrow">Écrit par</p>
+        <p class="author-card__name">{{ post.author_or_default }}</p>
+        <p class="author-card__text">Développeur Python &amp; Django. Je conçois des sites vitrines pour les commerces de proximité, et j'écris ici sur ce que j'apprends en chemin.</p>
+        <div class="author-card__links">
+          <a href="{% url 'index' %}#a-propos">En savoir plus</a>
+          <a href="https://github.com/Killianp-dev" target="_blank" rel="noopener">GitHub</a>
+          <a href="{% url 'index' %}#form">Me contacter</a>
+        </div>
+      </div>
+    </aside>
   </article>
 
   {% if previous_post or next_post %}
-  <nav class="post-nav" aria-label="Autres articles">
+  <nav class="post-nav" aria-label="Article précédent et suivant">
     {% if previous_post %}
-    <a href="{% url 'blog:detail' previous_post.slug %}" class="post-nav-item post-nav-prev">
+    <a href="{{ previous_post.get_absolute_url }}" class="post-nav-item post-nav-prev" rel="prev">
       {% if previous_post.thumbnail %}
       <img class="post-nav-thumb" src="{{ previous_post.thumbnail.url }}" alt="" width="320" height="200" loading="lazy">
       {% endif %}
       <span class="post-nav-copy">
-        <span class="post-nav-direction">Plus récent</span>
+        <span class="post-nav-direction">← Plus récent</span>
         <span class="post-nav-title">{{ previous_post.title }}</span>
       </span>
     </a>
@@ -123,12 +136,12 @@
     {% endif %}
 
     {% if next_post %}
-    <a href="{% url 'blog:detail' next_post.slug %}" class="post-nav-item post-nav-next">
+    <a href="{{ next_post.get_absolute_url }}" class="post-nav-item post-nav-next" rel="next">
       {% if next_post.thumbnail %}
       <img class="post-nav-thumb" src="{{ next_post.thumbnail.url }}" alt="" width="320" height="200" loading="lazy">
       {% endif %}
       <span class="post-nav-copy">
-        <span class="post-nav-direction">Plus ancien</span>
+        <span class="post-nav-direction">Plus ancien →</span>
         <span class="post-nav-title">{{ next_post.title }}</span>
       </span>
     </a>
@@ -138,4 +151,20 @@
   </nav>
   {% endif %}
 </main>
+
+{% if related_posts %}
+<section class="projects related-posts" aria-labelledby="related-title">
+  <header class="projects__header">
+    <p class="section-eyebrow">À lire aussi</p>
+    <h2 id="related-title">D'autres notes</h2>
+    <p><a class="blog-section__link" href="{% url 'blog:home' %}">Tous les articles <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+  </header>
+  <div class="blog-grid">
+    {% for post in related_posts %}
+    {% include "blog/partials/post_card.html" with heading="h3" %}
+    {% endfor %}
+  </div>
+  {% include "blog/partials/cta_band.html" %}
+</section>
+{% endif %}
 {% endblock %}

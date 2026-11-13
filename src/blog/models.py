@@ -1,4 +1,4 @@
-import re
+from html import unescape
 import uuid
 from math import ceil
 from pathlib import Path
@@ -11,9 +11,14 @@ from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+from django.utils.html import strip_tags
+from django.utils.text import Truncator
 
 # Return the user model
 User = get_user_model()
+
+# Signature des articles quand le compte auteur n'a pas de nom renseigné.
+DEFAULT_AUTHOR_NAME = "Killian P."
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=255, unique=True, verbose_name="Titre")
@@ -38,29 +43,29 @@ class BlogPost(models.Model):
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    @property  # to use like a property in template html
+    @property
     def author_or_default(self):
-        return self.author.username if self.author else "auteur inconnu"
+        """Nom affiché : nom complet du compte, sinon la signature du site."""
+        if self.author:
+            full_name = self.author.get_full_name().strip()
+            if full_name:
+                return full_name
+        return DEFAULT_AUTHOR_NAME
+
+    @property
+    def plain_text(self):
+        return unescape(strip_tags(self.content or ""))
+
+    @property
+    def excerpt(self):
+        """Résumé court, pour les cartes et la meta description."""
+        return Truncator(" ".join(self.plain_text.split())).chars(160)
 
     @property
     def reading_time(self):
-        """
-        Calcule le temps de lecture approximatif en minutes.
-        Basé sur une moyenne de 200 mots par minute.
-        """
-        if not self.content:
-            return None
-            
-        # Retire les balises HTML
-        text_only = re.sub(r'<[^>]+>', '', self.content)
-        
-        # Calcule le nombre de mots
-        word_count = len(text_only.split())
-        
-        # Calcule le temps de lecture (arrondi au supérieur)
-        reading_time = ceil(word_count / 200)
-        
-        return reading_time
+        """Temps de lecture en minutes, à 200 mots par minute."""
+        words = len(self.plain_text.split())
+        return ceil(words / 200) if words else None
 
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={'slug': self.slug})

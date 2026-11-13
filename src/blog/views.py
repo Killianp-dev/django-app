@@ -6,17 +6,19 @@ from .forms import IMAGE_FORMSET_PREFIX, BlogImageFormSet, BlogPostForm, BlogPos
 from .models import BlogImage, BlogPost
 
 
+def visible_posts(user):
+    """Articles visibles : tous pour l'équipe, seulement les publiés pour les visiteurs."""
+    queryset = BlogPost.objects.select_related("author").order_by("-created_on", "-id")
+    return queryset if user.is_staff else queryset.filter(published=True)
+
+
 class BlogHome(ListView):
-    model = BlogPost
-    context_object_name = "posts"  # fetches all BlogPost objects.
+    context_object_name = "posts"
     template_name = "blog/blogpost_list.html"
+    paginate_by = 9
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        if self.request.user.is_staff:  # display to authenticated staff user.
-            return queryset
-
-        return queryset.filter(published=True)  # display only published posts.
+        return visible_posts(self.request.user)
 
 
 class BlogImageUploadMixin:
@@ -76,6 +78,10 @@ class BlogPostDetail(DetailView):
     model = BlogPost
     context_object_name = "post"
 
+    def get_queryset(self):
+        # Un brouillon ne doit pas être lisible par un visiteur qui devine son adresse.
+        return visible_posts(self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -122,7 +128,9 @@ class BlogPostDetail(DetailView):
                 context['next_post'] = queryset.filter(id__lt=current_post.id).order_by('-id').first()
             except Exception:
                 context['next_post'] = None
-            
+
+        excluded = [p.pk for p in (current_post, context.get('previous_post'), context.get('next_post')) if p]
+        context['related_posts'] = queryset.exclude(pk__in=excluded).order_by('-created_on', '-id')[:3]
         return context
 
 

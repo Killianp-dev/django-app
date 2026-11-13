@@ -25,12 +25,17 @@ class BlogPostModelTests(TestCase):
 
     def test_author_or_default_without_author(self):
         post = BlogPost.objects.create(title="Sans auteur")
-        self.assertEqual(post.author_or_default, "auteur inconnu")
+        self.assertEqual(post.author_or_default, "Killian P.")
 
-    def test_author_or_default_with_author(self):
-        user = User.objects.create_user(username="killian", password="pass")
+    def test_author_or_default_uses_full_name(self):
+        user = User.objects.create_user(username="killian", password="pass", first_name="Killian", last_name="Pasche")
         post = BlogPost.objects.create(title="Avec auteur", author=user)
-        self.assertEqual(post.author_or_default, "killian")
+        self.assertEqual(post.author_or_default, "Killian Pasche")
+
+    def test_author_or_default_without_full_name(self):
+        user = User.objects.create_user(username="admin42", password="pass")
+        post = BlogPost.objects.create(title="Avec compte", author=user)
+        self.assertEqual(post.author_or_default, "Killian P.")
 
     def test_reading_time_empty_content(self):
         post = BlogPost.objects.create(title="Vide", content="")
@@ -343,3 +348,40 @@ class BlogImageUploadTests(TestCase):
         self.post.delete()
         self.assertFalse(path.exists())
         self.assertEqual(BlogImage.objects.count(), 0)
+
+
+class BlogIntegrationTests(TestCase):
+    def setUp(self):
+        self.published = BlogPost.objects.create(
+            title="Publié", content="<p>Un article &amp; du texte.</p>", published=True, created_on=date(2025, 5, 1)
+        )
+        self.draft = BlogPost.objects.create(title="Brouillon", content="<p>Caché</p>", published=False)
+
+    def test_brouillon_invisible_pour_un_visiteur(self):
+        self.assertEqual(self.client.get(self.draft.get_absolute_url()).status_code, 404)
+
+    def test_brouillon_visible_pour_lequipe(self):
+        staff = User.objects.create_user(username="staff", password="pass", is_staff=True)
+        self.client.force_login(staff)
+        self.assertEqual(self.client.get(self.draft.get_absolute_url()).status_code, 200)
+
+    def test_accueil_affiche_les_derniers_articles_publies(self):
+        html = self.client.get(reverse("index")).content.decode()
+        self.assertIn('id="blog"', html)
+        self.assertIn("Publié", html)
+        self.assertNotIn(self.draft.get_absolute_url(), html)
+
+    def test_extrait_sans_html(self):
+        self.assertEqual(self.published.excerpt, "Un article & du texte.")
+
+    def test_article_donnees_structurees(self):
+        html = self.client.get(self.published.get_absolute_url()).content.decode()
+        self.assertIn('"@type": "BlogPosting"', html)
+        self.assertIn('<meta name="description" content="Un article &amp; du texte.">', html)
+
+    def test_flux_rss(self):
+        response = self.client.get(reverse("blog:feed"))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        self.assertIn("Publié", content)
+        self.assertNotIn("Brouillon", content)
