@@ -13,7 +13,7 @@
             <p class="vitrine-section__intro">{{ site.labels.realisations_intro }}</p>
         </header>
         {% include 'vitrine/partials/realisations_grid.html' with items=site.realisations filtres=filtres %}
-        <p class="vitrine-realisations__note">Une photo vous plaît ? Montrez-la au rendez-vous : on regarde ensemble ce qui est possible avec vos cheveux.</p>
+        {% if site.labels.realisations_note %}<p class="vitrine-realisations__note">{{ site.labels.realisations_note }}</p>{% endif %}
     </div>
 </section>
 {% endblock %}

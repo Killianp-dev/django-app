@@ -102,6 +102,7 @@ BEAUTE = _site(
         realisations_kicker="En images",
         realisations_title="L'institut en images",
         realisations_intro="Les cabines, l'espace d'accueil et quelques soins, photographiés à l'institut.",
+        realisations_note="Un soin vous tente ? Indiquez-le dans votre message, avec deux ou trois créneaux : on vous confirme le rendez-vous.",
         avis_kicker="Clientes",
         avis_title="Elles en parlent",
         faq_kicker="Avant votre soin",

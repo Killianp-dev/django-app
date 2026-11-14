@@ -60,6 +60,7 @@ COIFFEUR = _site(
         realisations_kicker="Le carnet",
         realisations_title="Sorties du fauteuil",
         realisations_intro="Des coupes et des couleurs faites au salon, pensées pour tenir au quotidien.",
+        realisations_note="Une photo vous plaît ? Montrez-la au rendez-vous : on regarde ensemble ce qui est possible avec vos cheveux.",
         offres_kicker="Salon",
         offres_title="Les prestations",
         offres_intro="Quatre prestations, de la coupe de vingt minutes à la couleur de deux heures.",

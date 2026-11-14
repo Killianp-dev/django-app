@@ -133,6 +133,7 @@ MACON = _site(
         realisations_kicker="Chantiers récents",
         realisations_title="Ce qui a été construit",
         realisations_intro="Des chantiers de maison et de petit collectif, à Paris et autour. Chaque photo indique le lieu et la durée.",
+        realisations_note="Un chantier ressemble au vôtre ? Dites-le à la visite : on part de ce qui a été fait pour chiffrer le vôtre.",
         avis_kicker="Clients",
         avis_title="Ils ont fait construire",
         faq_kicker="Avant de commencer",

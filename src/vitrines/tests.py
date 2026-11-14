@@ -59,6 +59,17 @@ class VitrinesCommunesTests(TestCase):
                 self.assertEqual(data["address"]["addressLocality"], "Paris")
                 self.assertTrue(data["address"]["postalCode"].startswith("75"))
 
+    def test_pas_de_vocabulaire_coiffeur_ailleurs(self):
+        """Les gabarits sont partagés : aucun texte propre au salon ne doit fuiter chez les autres."""
+        for key, prefix in PREFIXES.items():
+            if key == "coiffeur":
+                continue
+            for page in ["", "realisations/", "contact/"]:
+                html = self.client.get(prefix + page).content.decode()
+                with self.subTest(site=key, page=page):
+                    self.assertNotIn("possible avec vos cheveux", html)
+                    self.assertNotIn("Contacter le salon", html)
+
     def test_horaires_structures(self):
         for key, prefix in PREFIXES.items():
             with self.subTest(site=key):

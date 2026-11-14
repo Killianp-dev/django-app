@@ -110,6 +110,7 @@ BOULANGERIE = _site(
         realisations_kicker="Au fournil",
         realisations_title="Le fournil et la vitrine",
         realisations_intro="Le façonnage du matin, les plaques qui sortent du four, et les gâteaux qui partent l'après-midi.",
+        realisations_note="Un gâteau vous fait envie ? Les entremets et les pièces d'anniversaire se commandent deux jours à l'avance, en boutique ou par téléphone.",
         avis_kicker="Au comptoir",
         avis_title="Ce qu'en disent les habitués",
         faq_kicker="Bon à savoir",

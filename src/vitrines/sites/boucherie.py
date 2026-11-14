@@ -109,6 +109,7 @@ BOUCHERIE = _site(
         realisations_kicker="Sur commande",
         realisations_title="Pièces de fête et découpes",
         realisations_intro="Côtes maturées, rôtis ficelés, tournedos : ce que l'on prépare pour vous sur commande.",
+        realisations_note="Une pièce vous tente ? Dites le poids ou le nombre de personnes : on la réserve et on la prépare pour le jour dit.",
         avis_kicker="Clients",
         avis_title="Ce que disent les clients du quartier",
         faq_kicker="Bon à savoir",
