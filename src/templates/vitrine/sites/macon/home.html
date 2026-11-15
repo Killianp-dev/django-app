@@ -1,77 +1,252 @@
-{% extends 'vitrine/pages/home.html' %}
+{% extends 'vitrine/sites/macon/base.html' %}
+{% load static vitrine_tags %}
 
-{% block signature %}
-<section class="pro-band macon-devis" aria-labelledby="devis-title">
-    <div class="vitrine-container">
-        <header class="pro-head">
-            <div>
-                <span class="vitrine-section__kicker">{{ site.labels.signature_kicker }}</span>
-                <h2 class="pro-head__title" id="devis-title">{{ site.labels.signature_title }}</h2>
-            </div>
-            <div class="pro-head__aside">
-                <p>Voici un devis réel, anonymisé. Chaque ligne se vérifie : vous savez ce que vous payez, et ce qui reste à prévoir.</p>
-            </div>
-        </header>
+{% block title %}{{ site.titre }}{% endblock %}
+{% block body_class %}page-accueil{% endblock %}
+{% block extra_head %}
+<link rel="preload" as="image" href="{% static site.photos.hero %}" fetchpriority="high">
+{% if site.faq %}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for item in site.faq %}{"@type": "Question", "name": "{{ item.question|escapejs }}", "acceptedAnswer": {"@type": "Answer", "text": "{{ item.reponse|escapejs }}"}}{% if not forloop.last %}, {% endif %}{% endfor %}]}
+</script>
+{% endif %}
+{% endblock %}
 
-        <div class="macon-devis__layout" data-devis>
-            <article class="macon-devis__doc" aria-label="Exemple de devis">
-                <header class="macon-devis__doc-head">
-                    <div>
-                        <p class="macon-devis__ref">{{ site.devis.reference }}</p>
-                        <p class="macon-devis__client">{{ site.devis.client }}</p>
-                    </div>
-                    <p class="macon-devis__brand">{{ site.nom }}</p>
-                </header>
-                <p class="macon-devis__objet"><span>Objet</span>{{ site.devis.objet }}</p>
-                <div class="macon-devis__table-wrap">
-                    <table class="macon-devis__table">
-                        <thead>
-                            <tr><th scope="col">Poste</th><th scope="col">Qté</th><th scope="col">Unité</th><th scope="col">PU HT</th><th scope="col">Total HT</th></tr>
-                        </thead>
-                        <tbody>
-                            {% for poste in site.devis.postes %}
-                            <tr>
-                                <th scope="row"><strong>{{ poste.poste }}</strong><span>{{ poste.detail }}</span></th>
-                                <td>{{ poste.quantite }}</td>
-                                <td>{{ poste.unite }}</td>
-                                <td>{{ poste.prix_unitaire_txt }}</td>
-                                <td>{{ poste.total_txt }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <dl class="macon-devis__totaux">
-                    <div><dt>Total HT</dt><dd>{{ site.devis.total_ht_txt }}</dd></div>
-                    {% with taux=site.devis.taux.0 %}
-                    <div><dt>TVA <span data-devis-taux-label>{{ taux.valeur }} %</span></dt><dd data-devis-tva>{{ taux.tva_txt }}</dd></div>
-                    <div class="macon-devis__ttc"><dt>Total TTC</dt><dd data-devis-ttc>{{ taux.ttc_txt }}</dd></div>
-                    {% endwith %}
-                </dl>
-                <footer class="macon-devis__doc-foot">
-                    <span>Délai : {{ site.devis.delai }}</span>
-                    <span>{{ site.devis.validite }}</span>
-                    <span>{{ site.devis.exclusions }}</span>
-                </footer>
-            </article>
+{% block content %}
+{# ——— Hero : la photo du chantier en pleine largeur, cotée comme un plan ; le cartouche en bandeau dessous ——— #}
+<section class="hero" aria-labelledby="hero-title">
+    <figure class="hero__fond">
+        <div class="hero__cadre">
+            <img src="{% static site.photos.hero %}" alt="Un maçon pose un parpaing sur un lit de mortier, contre la règle d'aplomb" width="1800" height="1200" fetchpriority="high">
+            {% comment %}Cotes calées sur la photo hero-parpaing.jpg (repère 1800 × 1200) : la face du bloc de gauche, 20 × 20 cm.
+            Photo (object-position: left) et calque (xMinYMid slice) sont recadrés de la même façon : les cotes restent sur le bloc.{% endcomment %}
+            <svg class="cotes" viewBox="0 0 1800 1200" preserveAspectRatio="xMinYMid slice" aria-hidden="true" focusable="false">
+                <g class="cotes__halo">
+                    <path d="M482 478 V398 M905 470 V398 M482 425 H905" />
+                    <path d="M470 492 H372 M470 898 H372 M398 492 V898" />
+                </g>
+                <g class="cotes__trait">
+                    <path pathLength="1" d="M482 478 V398 M905 470 V398" />
+                    <path pathLength="1" d="M482 425 H905" />
+                    <path pathLength="1" d="M470 492 H372 M470 898 H372" />
+                    <path pathLength="1" d="M398 492 V898" />
+                    <path class="cotes__tic" d="M470 437 L494 413 M893 437 L917 413 M386 504 L410 480 M386 910 L410 886" />
+                </g>
+                <text class="cotes__valeur" x="693" y="400" text-anchor="middle">20 cm</text>
+                <text class="cotes__valeur" x="372" y="695" text-anchor="middle" transform="rotate(-90 372 695)">20 cm</text>
+            </svg>
+        </div>
+        <div class="hero__carte">
+            {% if site.horaires_semaine %}
+            <p class="vitrine-statut" data-statut hidden>
+                <span class="vitrine-statut__dot" aria-hidden="true"></span>
+                <span data-statut-texte></span>
+            </p>
+            {% endif %}
+            <p class="hero__carte-role">{{ site.role_line }}</p>
+            <a class="hero__carte-tel" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+        </div>
+        <figcaption class="hero__legende">Parpaing de 20 : un bloc de 20 × 20 × 50 cm, celui des murs porteurs.</figcaption>
+    </figure>
 
-            <div class="macon-devis__side">
-                <fieldset class="macon-devis__taux">
-                    <legend>Taux de TVA applicable</legend>
-                    {% for taux in site.devis.taux %}
-                    <label class="macon-devis__option">
-                        <input type="radio" name="devis-taux" value="{{ taux.valeur }}" data-tva="{{ taux.tva_txt }}" data-ttc="{{ taux.ttc_txt }}"{% if forloop.first %} checked{% endif %}>
-                        <span><strong>{{ taux.label }}</strong>{{ taux.aide }}</span>
-                    </label>
-                    {% endfor %}
-                </fieldset>
-                <ol class="macon-devis__notes">
-                    {% for note in site.devis.notes %}
-                    <li><h3>{{ note.titre }}</h3><p>{{ note.texte }}</p></li>
-                    {% endfor %}
-                </ol>
+    <div class="container hero__contenu">
+        <div class="hero__texte">
+            {% if site.horaires_semaine %}
+            {# Mobile : l'état d'ouverture remplace la carte flottante (site.js met à jour tous les [data-statut]). #}
+            <p class="vitrine-statut hero__statut" data-statut hidden>
+                <span class="vitrine-statut__dot" aria-hidden="true"></span>
+                <span data-statut-texte></span>
+            </p>
+            {% endif %}
+            <p class="kicker kicker--clair">{{ site.eyebrow }}</p>
+            <h1 class="hero__titre" id="hero-title">{{ site.hero_title }}</h1>
+            <p class="hero__accroche">{{ site.accroche }}</p>
+            <div class="hero__actions">
+                <a class="btn btn--primary btn--lg" href="{% site_url 'contact' %}">{{ site.labels.nav_cta }}</a>
+                <a class="btn btn--verre btn--lg" href="{% site_url 'offres' %}">{{ site.labels.hero_primary }}</a>
             </div>
+            {% if site.engagements %}
+            <ul class="engagements">
+                {% for engagement in site.engagements %}
+                <li>
+                    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    {{ engagement }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
     </div>
 </section>
+
+{% if site.reperes %}
+<div class="container bandeau-cartouche">
+    <dl class="cartouche cartouche--bandeau">
+        {% for repere in site.reperes %}
+        <div class="cartouche__ligne">
+            <dt>{{ repere.label }}</dt>
+            <dd>{% if repere.href %}<a href="{{ repere.href }}">{{ repere.value }}</a>{% else %}{{ repere.value }}{% endif %}</dd>
+        </div>
+        {% endfor %}
+    </dl>
+</div>
+{% endif %}
+
+{# ——— Savoir-faire : le bordereau, chaque ligne cliquable ——— #}
+<section class="section savoir-faire" aria-labelledby="savoir-faire-title">
+    <div class="container">
+        <header class="section__tete">
+            <div>
+                <p class="kicker">{{ site.labels.offres_kicker }}</p>
+                <h2 class="section__titre" id="savoir-faire-title">{{ site.labels.offres_title }}</h2>
+            </div>
+            <div class="section__aside">
+                <p class="section__intro">{{ site.labels.offres_intro }}</p>
+                {% if site.tarifs %}<a class="lien-fleche" href="{% site_url 'tarifs' %}">{{ site.labels.tarifs_link }} <span aria-hidden="true">→</span></a>{% endif %}
+            </div>
+        </header>
+        {% include 'vitrine/sites/macon/partials/nomenclature.html' with heading='h3' %}
+    </div>
+</section>
+
+{# ——— Carnet de chantier : bande sombre, le document posé dessus. Pour un autre métier, seules les données changent (site.carnet). ——— #}
+{% if site.carnet %}
+<section class="section carnet" aria-labelledby="carnet-title">
+    <div class="container">
+        <header class="section__tete">
+            <div>
+                <p class="kicker">{{ site.labels.signature_kicker }}</p>
+                <h2 class="section__titre" id="carnet-title">{{ site.labels.signature_title }}</h2>
+            </div>
+            <div class="section__aside">
+                <p class="section__intro">{{ site.labels.signature_intro }}</p>
+            </div>
+        </header>
+
+        <div class="carnet__grille">
+            <article class="carnet__doc" aria-labelledby="carnet-chantier">
+                <header class="carnet__entete">
+                    <p class="carnet__type">{{ site.labels.signature_kicker }}</p>
+                    <h3 class="carnet__chantier" id="carnet-chantier">{{ site.carnet.chantier }}</h3>
+                    <dl class="carnet__infos">
+                        <div><dt>Lieu</dt><dd>{{ site.carnet.lieu }}</dd></div>
+                        <div><dt>Durée</dt><dd>{{ site.carnet.duree }}</dd></div>
+                        <div><dt>Responsable</dt><dd>{{ site.carnet.responsable }}</dd></div>
+                    </dl>
+                </header>
+                <ol class="carnet__jours">
+                    {% for entree in site.carnet.entrees %}
+                    <li class="carnet__jour{% if entree.image %} carnet__jour--photo{% endif %}">
+                        <p class="carnet__date"><span class="carnet__numero">Jour {{ forloop.counter }}</span>{{ entree.jour }}</p>
+                        <div class="carnet__texte">
+                            <h4 class="carnet__titre">{{ entree.titre }}</h4>
+                            <p>{{ entree.texte }}</p>
+                        </div>
+                        {% if entree.image %}<div class="carnet__photo"><img src="{% static entree.image %}" alt="" width="600" height="400" loading="lazy" decoding="async"></div>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </article>
+
+            {% if site.carnet.notes %}
+            <ul class="carnet__notes">
+                {% for note in site.carnet.notes %}
+                <li><h3>{{ note.titre }}</h3><p>{{ note.texte }}</p></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{# ——— Chantiers : mosaïque, une grande photo et quatre petites ——— #}
+{% if site.realisations %}
+<section class="section chantiers" aria-labelledby="chantiers-title">
+    <div class="container">
+        <header class="section__tete">
+            <div>
+                <p class="kicker">{{ site.labels.realisations_kicker }}</p>
+                <h2 class="section__titre" id="chantiers-title">{{ site.labels.realisations_title }}</h2>
+            </div>
+            <div class="section__aside">
+                <p class="section__intro">{{ site.labels.realisations_intro }}</p>
+                <a class="lien-fleche" href="{% site_url 'realisations' %}">Voir les {{ site.realisations|length }} chantiers <span aria-hidden="true">→</span></a>
+            </div>
+        </header>
+        <div class="mosaique">
+            {% include 'vitrine/partials/realisations_grid.html' with items=site.realisations|slice:":5" compact=True %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if site.avis %}{% include 'vitrine/sites/macon/partials/avis.html' %}{% endif %}
+
+{# ——— Déroulé (une vraie séquence : numérotée) et bureau ——— #}
+<section class="section deroule" aria-labelledby="deroule-title">
+    <div class="container deroule__grille">
+        <div>
+            <p class="kicker">{{ site.labels.steps_kicker }}</p>
+            <h2 class="section__titre" id="deroule-title">{{ site.labels.steps_title }}</h2>
+            <ol class="etapes">
+                {% for etape in site.etapes %}
+                <li class="etape">
+                    <span class="etape__num" aria-hidden="true">{{ etape.numero }}</span>
+                    <div>
+                        <h3 class="etape__titre">{{ etape.titre }}</h3>
+                        <p class="etape__texte">{{ etape.texte }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% if site.horaires_semaine %}{% include 'vitrine/sites/macon/partials/bureau.html' %}{% endif %}
+    </div>
+</section>
+
+{# ——— L'entreprise ——— #}
+<section class="section entreprise" aria-labelledby="entreprise-title">
+    <div class="container entreprise__grille">
+        <div class="entreprise__media">
+            <img src="{% static site.photos.about %}" alt="Main d'un maçon qui ajuste une brique sur un mur en cours de montage" width="1200" height="1500" loading="lazy" decoding="async">
+        </div>
+        <div class="entreprise__texte">
+            <p class="kicker">{{ site.labels.about }}</p>
+            <h2 class="section__titre" id="entreprise-title">{{ site.labels.about_title }}</h2>
+            <p class="chapeau">{{ site.presentation }}</p>
+            {% if site.chiffres %}
+            <dl class="chiffres">
+                {% for chiffre in site.chiffres|slice:":3" %}
+                <div class="chiffres__item"><dt>{{ chiffre.label|capfirst }}</dt><dd>{{ chiffre.valeur }}</dd></div>
+                {% endfor %}
+            </dl>
+            {% endif %}
+            <a class="btn btn--trait" href="{% site_url 'about' %}">Comment l'entreprise travaille</a>
+        </div>
+    </div>
+</section>
+
+{# ——— Questions (données structurées FAQPage dans le <head>) ——— #}
+{% if site.faq %}
+<section class="section faq" aria-labelledby="faq-title">
+    <div class="container faq__grille">
+        <div>
+            <p class="kicker">{{ site.labels.faq_kicker }}</p>
+            <h2 class="section__titre" id="faq-title">{{ site.labels.faq_title }}</h2>
+        </div>
+        <div class="faq__liste">
+            {% for item in site.faq %}
+            <details class="faq__item"{% if forloop.first %} open{% endif %}>
+                <summary class="faq__question">
+                    {{ item.question }}
+                    <svg class="faq__icone" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h12M8 2v12" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+                </summary>
+                <p class="faq__reponse">{{ item.reponse }}</p>
+            </details>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}

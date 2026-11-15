@@ -1,0 +1,21 @@
+/* Cartouche : le tableau d'informations en bas d'un plan. Sert à toutes les données clés du site. */
+.cartouche {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, max-content) 1fr;
+  border: 1px solid var(--filet-fort); border-radius: var(--rayon);
+  overflow: hidden;
+  background: var(--papier);
+  margin-block: 1.5rem;
+}
+.cartouche__ligne {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid; column-gap: 1.25rem;
+  padding: 0.55rem 0.9rem;
+}
+.cartouche__ligne + .cartouche__ligne { border-top: 1px solid var(--filet); }
+.cartouche dt { font-size: var(--t-sm); color: var(--graphite-doux); align-self: center; }
+.cartouche dd {
+  font-family: var(--font-titre); font-weight: 600; font-size: 1.2rem; line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.cartouche dd a { color: var(--cordeau); }

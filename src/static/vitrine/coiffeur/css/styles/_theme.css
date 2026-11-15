@@ -1,0 +1,15 @@
+/* Identité de la démo (anciennement injectée en <style> depuis site.py), importée en dernier. */
+.vitrine {
+    --font-heading: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    --color-bg: #FBF6F3;
+    --color-surface: #F3E8E2;
+    --color-ink: #2A211E;
+    --color-ink-soft: #6E5E58;
+    --color-accent: #8E4B45;
+    --color-accent-hover: #6E3530;
+    --color-accent-soft: #E7B7B0;
+    --color-on-accent: #FFFFFF;
+    --color-border: #E4D4CC;
+    --focus-ring: #8E4B45;
+    --color-hero: #4A2C32;
+}

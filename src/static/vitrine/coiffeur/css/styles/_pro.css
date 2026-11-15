@@ -1,0 +1,395 @@
+/**
+ * Gabarit « pro » commun aux vitrines.
+ * La forme vient de tokens que chaque commerce redéfinit (fichiers styles/_<clé>.css) :
+ * arrondis des cartes et des photos, casse et graisse des titres, fond des bandeaux.
+ */
+
+.vitrine {
+    --pro-radius: 6px;
+    --pro-media-radius: 6px;
+    --pro-btn-radius: 2px;
+    --pro-title-transform: none;
+    --pro-title-style: normal;
+    --pro-title-weight: 600;
+    --pro-title-tracking: -0.01em;
+    --pro-title-leading: 1.08;
+    --pro-band-bg: var(--color-hero);
+    --pro-band-fg: #FFFFFF;
+    --pro-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vitrine .vitrine-btn { border-radius: var(--pro-btn-radius); }
+.vitrine .vitrine-nav__link--cta { border-radius: var(--pro-btn-radius); }
+
+/* ——— Titres et en-têtes de section ——— */
+.pro-head__title,
+.vitrine-section__title,
+.vitrine-cta__title,
+.vitrine-contact-hero__title {
+    font-style: var(--pro-title-style);
+    font-weight: var(--pro-title-weight);
+    text-transform: var(--pro-title-transform);
+    letter-spacing: var(--pro-title-tracking);
+    line-height: var(--pro-title-leading);
+}
+
+.pro-head {
+    display: grid;
+    gap: var(--space-sm) var(--space-xl);
+    align-items: end;
+    margin-bottom: var(--space-xl);
+}
+
+@media (min-width: 860px) {
+    .pro-head { grid-template-columns: 1.1fr 0.9fr; }
+}
+
+.pro-head--page { margin-top: var(--space-md); }
+
+.pro-head__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--color-ink);
+}
+
+.pro-head__aside p {
+    color: var(--color-ink-soft);
+    font-size: var(--text-lg);
+    margin-bottom: 0.6rem;
+}
+
+.pro-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-bottom: 2px;
+    border-bottom: 1px solid currentColor;
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pro-link::after { content: "→"; transition: transform var(--transition-fast); }
+.pro-link:hover { color: var(--color-accent-hover); }
+.pro-link:hover::after { transform: translateX(3px); }
+
+
+
+
+
+
+
+/* ——— Fil d'Ariane ——— */
+.pro-breadcrumb { padding-top: var(--space-md); }
+
+.pro-breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-xs);
+    color: var(--color-ink-soft);
+}
+
+.pro-breadcrumb li:not(:last-child)::after { content: "/"; margin-left: 0.4rem; opacity: 0.5; }
+.pro-breadcrumb a { color: inherit; text-decoration: none; }
+.pro-breadcrumb a:hover { color: var(--color-accent); }
+.pro-breadcrumb [aria-current] { color: var(--color-ink); }
+
+/* ——— Hero ——— */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Variante « split » : texte à gauche, photo à droite. */
+.pro-hero--split {
+    padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(3rem, 6vw, 5.5rem);
+    background:
+        radial-gradient(ellipse 55% 70% at 88% 30%, color-mix(in srgb, var(--color-accent-soft) 40%, transparent), transparent 70%),
+        var(--color-bg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Variante « full » : photo plein cadre, texte en surimpression. */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ——— Cartes de prestation ——— */
+.pro-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+    gap: var(--space-lg) var(--space-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.pro-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.pro-card__media {
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: var(--pro-media-radius);
+    background: var(--color-surface);
+    margin-bottom: 1rem;
+}
+
+.pro-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms var(--pro-ease);
+}
+
+.pro-card:hover .pro-card__media img { transform: scale(1.05); }
+
+.pro-card__body { display: flex; flex-direction: column; flex: 1; }
+
+.pro-card__index {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-accent);
+}
+
+.pro-card__title {
+    margin: 0.2rem 0 0.3rem;
+    font-size: 1.6rem;
+    font-style: var(--pro-title-style);
+    font-weight: var(--pro-title-weight);
+    text-transform: var(--pro-title-transform);
+    letter-spacing: var(--pro-title-tracking);
+    line-height: 1.15;
+}
+
+.pro-card__text { flex: 1; color: var(--color-ink-soft); font-size: var(--text-sm); }
+
+.pro-card__meta {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    margin-top: 0.9rem;
+    padding-top: 0.75rem;
+    border-top: var(--rule-width) solid var(--color-border);
+    font-size: var(--text-sm);
+    color: var(--color-ink-soft);
+}
+
+.pro-card__price { color: var(--color-accent); font-weight: 600; }
+
+.pro-card:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 6px; }
+
+/* ——— Panneau (horaires, carte de prix) ——— */
+
+
+
+
+
+
+
+/* ——— Étapes ——— */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ——— À propos ——— */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ——— Page prestation et page « à propos » ——— */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ——— Équipe ——— */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ——— Bandeau de section signature ——— */
+
+
+
+
+
+
+/* ——— Divers ——— */
+.vitrine-faq__more { margin-top: var(--space-md); }
+.vitrine-section--avis { background: var(--color-surface); }
+.vitrine .vitrine-avis__item figure { border-radius: var(--pro-radius); border-color: transparent; box-shadow: var(--shadow-sm); }
+.vitrine .vitrine-galerie__link { border-radius: var(--pro-media-radius); }
+.vitrine .vitrine-galerie__detail { font-size: var(--text-xs); opacity: 0.85; }
+.vitrine-carte__groupe { padding: 1.5rem 1.5rem 0.6rem; border-radius: var(--pro-radius); background: var(--color-surface); }
+.vitrine-carte__groupe .vitrine-carte__ligne:last-child { border-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+    .pro-card__media img,
+    .pro-link::after { transition: none; }
+}
+
+
+
+/* Mobile : deux cartes par ligne, plus compactes. */
+@media (max-width: 520px) {
+    .pro-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md) 0.85rem; }
+    .pro-card__title { font-size: 1.2rem; }
+    .pro-card__text { font-size: var(--text-xs); }
+    .pro-card__meta { flex-direction: column; gap: 0.1rem; font-size: var(--text-xs); }
+}

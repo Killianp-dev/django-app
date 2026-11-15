@@ -1,0 +1,55 @@
+{% extends 'vitrine/sites/macon/base.html' %}
+{% load static vitrine_tags %}
+
+{% block title %}{{ site.labels.about }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ site.presentation }}{% endblock %}
+
+{% block content %}
+<div class="container page">
+    {% include 'vitrine/sites/macon/partials/fil.html' with current=site.labels.about %}
+
+    <article class="fiche">
+        <img class="fiche__photo" src="{% static site.photos.about %}" alt="Main d'un maçon qui ajuste une brique sur un mur en cours de montage" width="1200" height="1500">
+        <div class="fiche__texte">
+            <p class="kicker">{{ site.labels.about }}</p>
+            <h1 class="page__titre">{{ site.labels.about_title }}</h1>
+            <p class="chapeau">{{ site.presentation }}</p>
+            <div class="prose">
+                {% for paragraphe in site.a_propos %}<p>{{ paragraphe }}</p>{% endfor %}
+            </div>
+            <p class="signature">{{ site.role_line }}</p>
+            {% if site.chiffres %}
+            <dl class="cartouche">
+                {% for chiffre in site.chiffres %}
+                <div class="cartouche__ligne"><dt>{{ chiffre.label|capfirst }}</dt><dd>{{ chiffre.valeur }}</dd></div>
+                {% endfor %}
+            </dl>
+            {% endif %}
+        </div>
+    </article>
+</div>
+
+<section class="section deroule" aria-labelledby="pratique-title">
+    <div class="container deroule__grille">
+        <div>
+            <p class="kicker">Infos pratiques</p>
+            <h2 class="section__titre" id="pratique-title">Avant la visite</h2>
+            <dl class="faits">
+                {% for fait in site.faits %}
+                <div class="faits__ligne"><dt>{{ fait.label }}</dt><dd>{{ fait.texte }}</dd></div>
+                {% endfor %}
+            </dl>
+            {% if site.gages %}
+            <ul class="gages">
+                {% for gage in site.gages %}
+                <li><h3>{{ gage.titre }}</h3><p>{{ gage.texte }}</p></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% if site.horaires_semaine %}{% include 'vitrine/sites/macon/partials/bureau.html' %}{% endif %}
+    </div>
+</section>
+
+{% if site.avis %}{% include 'vitrine/sites/macon/partials/avis.html' %}{% endif %}
+{% endblock %}

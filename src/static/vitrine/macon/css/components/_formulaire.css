@@ -1,0 +1,20 @@
+.formulaire { display: grid; gap: 1.25rem; max-width: 640px; }
+.formulaire__champ { display: grid; gap: 0.4rem; }
+.formulaire__champ label { font-weight: 600; }
+.formulaire__requis { font-weight: 400; color: var(--graphite-doux); }
+.vitrine-form__input {
+  width: 100%; min-height: 48px; padding: 0.7rem 0.85rem;
+  background: #fff; border: 1px solid #8A8F95; border-radius: var(--rayon);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+textarea.vitrine-form__input { min-height: 9rem; resize: vertical; }
+.vitrine-form__input:focus { border-color: var(--cordeau); box-shadow: 0 0 0 4px var(--cordeau-pale); outline: none; }
+.formulaire__case { display: flex; gap: 0.75rem; align-items: flex-start; }
+.formulaire__case input { width: 22px; height: 22px; margin-top: 0.1rem; flex: none; accent-color: var(--cordeau); }
+.formulaire__case label { color: var(--graphite-doux); }
+.formulaire__erreur, .formulaire__erreurs { color: var(--erreur); font-weight: 500; font-size: var(--t-sm); }
+.formulaire__erreurs { padding: 0.85rem 1.1rem; border-radius: var(--rayon); background: #FBEDEC; }
+.formulaire .btn { justify-self: start; }
+.formulaire .btn:disabled { opacity: 0.7; cursor: wait; }
+/* Piège à robots du formulaire partagé : hors de vue, hors tabulation (tabindex -1 dans forms.py). */
+.vitrine-hp { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

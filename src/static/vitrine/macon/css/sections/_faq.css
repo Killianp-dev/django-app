@@ -1,0 +1,28 @@
+.faq__grille { display: grid; gap: 2.5rem; }
+@media (min-width: 900px) { .faq__grille { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 5rem; } }
+.faq__item { border-top: 1px solid var(--filet-fort); }
+.faq__item:last-child { border-bottom: 1px solid var(--filet-fort); }
+.faq__question {
+  display: flex; justify-content: space-between; gap: 1.5rem; align-items: center;
+  padding: 1.25rem 0; cursor: pointer; list-style: none;
+  font-family: var(--font-titre); font-weight: 600; font-size: 1.45rem; line-height: 1.2;
+  transition: color 0.2s;
+}
+.faq__question::-webkit-details-marker { display: none; }
+.faq__question:hover { color: var(--cordeau); }
+.faq__icone {
+  width: 2.25rem; height: 2.25rem; padding: 0.55rem; flex: none;
+  color: var(--cordeau); border: 1px solid var(--filet-fort); border-radius: 50%; background: #fff;
+  transition: background-color 0.2s, color 0.2s;
+}
+.faq__icone path { transform-box: view-box; transform-origin: 50% 50%; transition: transform 0.35s var(--ease); }
+.faq__item[open] .faq__icone { background: var(--cordeau); border-color: var(--cordeau); color: #fff; }
+.faq__item[open] .faq__icone path { transform: rotate(45deg); }
+.faq__reponse { padding: 0 3.75rem 1.4rem 0; color: var(--graphite-doux); }
+
+/* Ouverture animée là où le navigateur sait animer la hauteur (::details-content) */
+@supports selector(::details-content) {
+  :root { interpolate-size: allow-keywords; }
+  .faq__item::details-content { height: 0; overflow: clip; transition: height 0.4s var(--ease), content-visibility 0.4s allow-discrete; }
+  .faq__item[open]::details-content { height: auto; }
+}

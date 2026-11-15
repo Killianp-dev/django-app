@@ -1,0 +1,13 @@
+.footer { background: var(--graphite); color: var(--papier); padding-top: 4rem; }
+.footer a { color: #D8DADC; text-decoration: none; text-underline-offset: 0.25em; transition: color 0.2s; }
+.footer a:hover { color: #fff; text-decoration: underline; }
+.footer__titre { margin-bottom: 1rem; font-family: var(--font-texte); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8FB0E6; }
+.footer__grid { display: grid; gap: 2.5rem; grid-template-columns: 1.3fr 1fr 1fr; }
+.footer__nom { font-family: var(--font-titre); font-weight: 700; font-size: 1.6rem; margin-bottom: 0.75rem; }
+.footer address { font-style: normal; margin-bottom: 0.75rem; }
+.footer__societe p + p { margin-top: 0.75rem; }
+.footer__nav li + li, .footer__legal li + li { margin-top: 0.4rem; }
+.footer__legal p { margin-bottom: 0.75rem; color: #C9CBCD; }
+.footer__bas { margin-top: 3rem; padding-block: 1.25rem; border-top: 1px solid #3A3F44; font-size: var(--t-sm); color: #C9CBCD; }
+@media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr 1fr; } .footer__societe { grid-column: 1 / -1; } }
+@media (max-width: 520px) { .footer__grid { grid-template-columns: 1fr; } }

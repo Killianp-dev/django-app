@@ -1,0 +1,63 @@
+{% extends 'vitrine/sites/macon/base.html' %}
+{% load static vitrine_tags %}
+
+{% block title %}{{ offre.nom }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ offre.intro }}{% endblock %}
+
+{% block content %}
+{% site_url 'offres' as offres_url %}
+<div class="container page">
+    {% include 'vitrine/sites/macon/partials/fil.html' with parent_label=site.labels.offres parent_url=offres_url current=offre.nom %}
+
+    <article class="fiche">
+        <img class="fiche__photo" src="{% static offre.image %}" alt="{{ offre.nom }} : chantier de Bertrand Maçonnerie" width="1200" height="900">
+        <div class="fiche__texte">
+            <p class="kicker">{{ site.labels.offre_eyebrow }}</p>
+            <h1 class="page__titre">{{ offre.nom }}</h1>
+            <p class="chapeau">{{ offre.intro }}</p>
+            {% if offre.prix %}
+            <dl class="cartouche">
+                <div class="cartouche__ligne"><dt>{{ site.labels.offre_meta_prix }}</dt><dd>{{ offre.prix }}</dd></div>
+                {% if offre.duree %}<div class="cartouche__ligne"><dt>{{ site.labels.offre_meta_duree }}</dt><dd>{{ offre.duree|capfirst }}</dd></div>{% endif %}
+            </dl>
+            {% endif %}
+            <h2 class="fiche__sous-titre">Ce que comprend le chantier</h2>
+            <ul class="fiche__points">
+                {% for point in offre.points %}<li>{{ point }}</li>{% endfor %}
+            </ul>
+            {% if offre.suite %}<p class="fiche__suite">{{ offre.suite }}</p>{% endif %}
+            <div class="fiche__actions">
+                <a class="btn btn--primary btn--lg" href="{% site_url 'contact' %}?prestation={{ offre.nom|urlencode }}">{{ site.labels.detail_button }}</a>
+                <a class="btn btn--trait btn--lg" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+            </div>
+        </div>
+    </article>
+
+    {% if tarifs_groupe %}
+    <div class="fiche__prix">
+        {% include 'vitrine/sites/macon/partials/bordereau.html' with groupe=tarifs_groupe titre_tag="h2" %}
+        {% if site.tarifs_note %}<p class="note">{{ site.tarifs_note }}</p>{% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% if realisations_liees %}
+<section class="section chantiers" aria-labelledby="offre-chantiers-title">
+    <div class="container">
+        <header class="section__tete">
+            <h2 class="section__titre" id="offre-chantiers-title">{{ site.labels.realisations }} : {{ offre.nom|lower }}</h2>
+        </header>
+        {% include 'vitrine/partials/realisations_grid.html' with items=realisations_liees %}
+    </div>
+</section>
+{% endif %}
+
+<nav class="container pager" aria-label="Autres savoir-faire">
+    {% if offre_precedente %}
+    <a class="pager__lien" href="{% site_url 'offre' offre_precedente.slug %}" rel="prev"><span>Précédent</span>{{ offre_precedente.nom }}</a>
+    {% else %}<span></span>{% endif %}
+    {% if offre_suivante %}
+    <a class="pager__lien pager__lien--suivant" href="{% site_url 'offre' offre_suivante.slug %}" rel="next"><span>Suivant</span>{{ offre_suivante.nom }}</a>
+    {% endif %}
+</nav>
+{% endblock %}

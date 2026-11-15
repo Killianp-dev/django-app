@@ -42,13 +42,14 @@ class VitrinesCommunesTests(TestCase):
                 self.assertEqual(self.client.get(prefix + "questions/").status_code, attendu_faq)
 
     def test_au_moins_quatre_entrees_dans_le_menu(self):
+        """Chaque démo a sa propre mise en page : on vérifie les destinations du menu, pas son HTML."""
+        rubriques = ("offres/", "realisations/", "tarifs/", "questions/", "presentation/")
         for key, prefix in PREFIXES.items():
             with self.subTest(site=key):
                 html = self.client.get(prefix).content.decode()
-                nav = re.search(r'<ul class="vitrine-nav__list">(.*?)</nav>', html, re.S).group(1)
-                entrees = re.findall(r'<li class="vitrine-nav__item(?: vitrine-nav__item--dropdown)?">', nav)
-                cta = nav.count("vitrine-nav__link--cta")
-                self.assertGreaterEqual(len(entrees) - cta, 4)
+                nav = re.search(r'<nav[^>]*aria-label="Navigation principale"[^>]*>(.*?)</nav>', html, re.S).group(1)
+                liens = set(re.findall(r'href="' + re.escape(prefix) + r'([a-z-]+/)"', nav))
+                self.assertGreaterEqual(len(liens & set(rubriques)), 4)
 
     def test_toutes_les_vitrines_sont_a_paris(self):
         for key, prefix in PREFIXES.items():
@@ -91,14 +92,51 @@ class SalonDemoTests(TestCase):
         self.assertIn("Réalisées au salon", html)
 
 
-class SectionsSignatureTests(TestCase):
-    def test_devis_du_macon(self):
-        devis = SITES["macon"].devis
-        self.assertEqual(devis.total_ht_txt, "4\u202f334,65\u00a0€")
-        self.assertEqual([t.ttc_txt for t in devis.taux], ["4\u202f768,11\u00a0€", "5\u202f201,58\u00a0€"])
+class DemosAutonomesTests(TestCase):
+    """Chaque démo a son propre front : ses templates et sa propre feuille, jamais l'ancienne feuille commune."""
+
+    def test_chaque_demo_charge_sa_propre_feuille(self):
+        for key, prefix in PREFIXES.items():
+            site = SITES[key]
+            pages = ["", "offres/", f"offres/{site.offres[0].slug}/", "presentation/", "tarifs/",
+                     "contact/", "contact/succes/", "mentions-legales/", "confidentialite/"]
+            if getattr(site, "realisations", None):
+                pages.append("realisations/")
+            if getattr(site.labels, "faq_nav", None):
+                pages.append("questions/")
+            for page in pages:
+                with self.subTest(site=key, page=page):
+                    html = self.client.get(prefix + page).content.decode()
+                    self.assertIn(f"vitrine/{key}/css/main.css", html)
+                    self.assertNotIn("vitrine/css/main.css", html)
+                    self.assertNotIn("site.theme", html)
+
+
+class MaconAutonomeTests(TestCase):
+    """Particularités de la démo maçon."""
+
+    def test_hero_cote_et_cartouche(self):
         html = self.client.get("/demo-macon/").content.decode()
-        self.assertIn("data-devis", html)
-        self.assertIn('data-ttc="5\u202f201,58\u00a0€"', html)
+        self.assertIn('class="cotes"', html)
+        self.assertEqual(html.count('class="cartouche__ligne"'), len(SITES["macon"].reperes))
+        self.assertIn("data-statut", html)                     # carte d'ouverture en direct
+        self.assertIn('"@type": "FAQPage"', html)               # FAQ balisée pour les moteurs
+
+    def test_texte_legal_partage(self):
+        for prefix in ("/demo-macon/", "/demo-coiffeur/"):
+            html = self.client.get(prefix + "mentions-legales/").content.decode()
+            with self.subTest(prefix=prefix):
+                self.assertIn("Agence web de développement de petits sites vitrines.", html)
+
+
+class SectionsSignatureTests(TestCase):
+    def test_carnet_du_macon(self):
+        carnet = SITES["macon"].carnet
+        html = self.client.get("/demo-macon/").content.decode()
+        self.assertEqual(html.count('<li class="carnet__jour'), len(carnet.entrees))
+        for entree in carnet.entrees:
+            self.assertIn(entree.titre, html)
+        self.assertNotIn("data-devis", html)
 
     def test_fournees_de_la_boulangerie(self):
         html = self.client.get("/demo-boulangerie/").content.decode()
@@ -129,3 +167,8 @@ class PortfolioTests(TestCase):
             with self.subTest(prefix=prefix):
                 self.assertIn(f'href="{prefix}"', html)
         self.assertIn("<small>/ 06</small>", html)
+
+    def test_accueil_presente_l_agence(self):
+        html = self.client.get("/").content.decode()
+        self.assertIn("Agence web", html)
+        self.assertIn("petits sites vitrines", html)

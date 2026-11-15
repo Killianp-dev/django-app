@@ -1,0 +1,14 @@
+{% load vitrine_tags %}
+<section class="cta" aria-labelledby="cta-title">
+    <div class="container cta__inner">
+        <div class="cta__texte">
+            <p class="kicker kicker--clair">{{ site.labels.nav_cta }}</p>
+            <h2 class="cta__titre" id="cta-title">{{ site.labels.cta_title }}</h2>
+            <p>{{ site.labels.cta_text }}</p>
+        </div>
+        <div class="cta__actions">
+            <a class="btn btn--inverse btn--lg" href="{% site_url 'contact' %}">{{ site.labels.cta_button }}</a>
+            <a class="cta__tel" href="tel:{{ site.telephone_lien }}">ou appeler le {{ site.telephone }}</a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,74 @@
+/* Galerie partagée (vitrine/partials/realisations_grid.html) : site.js s'accroche aux data-*
+   et à .vitrine-galerie__item. Légende posée sur la photo, tag en pastille. */
+.vitrine-galerie__filtres { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; }
+.vitrine-chip {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1.1rem;
+  background: var(--papier); border: 1px solid var(--filet-fort); border-radius: 999px;
+  font-weight: 600; cursor: pointer; transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.vitrine-chip:hover { border-color: var(--graphite); }
+.vitrine-chip[aria-pressed="true"] { background: var(--graphite); border-color: var(--graphite); color: var(--papier); }
+.vitrine-chip__count { display: inline-grid; place-items: center; min-width: 1.5rem; height: 1.5rem; padding: 0 0.35rem; border-radius: 999px; font-size: 0.75rem; background: var(--cordeau); color: #fff; }
+
+.vitrine-galerie__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 17rem; gap: 1rem; }
+.vitrine-galerie__item[hidden] { display: none; }
+.vitrine-galerie__link { position: relative; display: block; height: 100%; overflow: hidden; border-radius: var(--rayon-carte); color: var(--papier); text-decoration: none; background: var(--graphite); }
+.vitrine-galerie__link img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease), opacity 0.4s; }
+.vitrine-galerie__link::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(30, 31, 34, 0.78) 100%);
+  transition: opacity 0.4s;
+}
+.vitrine-galerie__caption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; display: grid; gap: 0.2rem; padding: 1.1rem 1.2rem; }
+.vitrine-galerie__tag {
+  justify-self: start; padding: 0.25rem 0.65rem; margin-bottom: 0.35rem; border-radius: 999px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.18); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #fff;
+}
+.vitrine-galerie__titre { font-family: var(--font-titre); font-weight: 600; font-size: 1.45rem; line-height: 1.1; }
+.vitrine-galerie__detail { font-size: var(--t-sm); opacity: 0.85; }
+.vitrine-galerie__link:hover img, .vitrine-galerie__link:focus-visible img { transform: scale(1.04); }
+.vitrine-galerie__link:focus-visible { outline: 3px solid var(--cordeau); outline-offset: 3px; }
+
+/* Accueil : mosaïque, une grande photo et quatre petites */
+.mosaique .vitrine-galerie__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 15rem; }
+.mosaique .vitrine-galerie__item:first-child { grid-column: span 2; grid-row: span 2; }
+.mosaique .vitrine-galerie__item:first-child .vitrine-galerie__titre { font-size: 2rem; }
+
+@media (max-width: 900px) {
+  .vitrine-galerie__grid, .mosaique .vitrine-galerie__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 13rem; }
+}
+@media (max-width: 520px) {
+  .vitrine-galerie__grid, .mosaique .vitrine-galerie__grid { grid-template-columns: 1fr; grid-auto-rows: 15rem; }
+  .mosaique .vitrine-galerie__item:first-child { grid-column: auto; grid-row: span 1; }
+  .mosaique .vitrine-galerie__item:nth-child(n+4) { display: none; }
+}
+
+/* Visionneuse (dialog natif) */
+.vitrine-lightbox {
+  position: fixed; inset: 0; margin: auto; width: min(92vw, 1000px); max-width: none; max-height: 92vh;
+  padding: 0; border: 0; background: transparent; color: var(--papier);
+}
+.vitrine-lightbox::backdrop { background: rgba(29, 32, 35, 0.94); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.vitrine-lightbox[open] { animation: ouvrir 0.35s var(--ease); }
+@keyframes ouvrir { from { opacity: 0; transform: scale(0.97); } }
+.vitrine-lightbox__figure { margin: 0; }
+.vitrine-lightbox__img { max-width: 100%; max-height: 80vh; margin: 0 auto; object-fit: contain; border-radius: var(--rayon-carte); }
+.vitrine-lightbox__caption {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.75rem; margin-top: 0.9rem;
+  font-family: var(--font-titre); font-weight: 600; font-size: 1.3rem;
+}
+.vitrine-lightbox__count { font-family: var(--font-texte); font-size: var(--t-sm); opacity: 0.75; font-variant-numeric: tabular-nums; }
+.vitrine-lightbox__btn {
+  position: fixed; display: grid; place-items: center; width: 48px; height: 48px;
+  background: rgba(248, 248, 245, 0.92); color: var(--graphite); border: 0; border-radius: 50%; cursor: pointer;
+}
+.vitrine-lightbox__btn svg { width: 22px; height: 22px; }
+.vitrine-lightbox__btn:hover { background: var(--cordeau); color: #fff; }
+.vitrine-lightbox__btn:focus-visible { outline: 3px solid var(--cordeau-pale); outline-offset: 2px; }
+.vitrine-lightbox__btn--close { top: 1.25rem; right: 1.25rem; }
+.vitrine-lightbox__btn--prev { left: 1.25rem; top: 50%; transform: translateY(-50%); }
+.vitrine-lightbox__btn--next { right: 1.25rem; top: 50%; transform: translateY(-50%); }
+@media (max-width: 640px) {
+  .vitrine-lightbox__btn--prev, .vitrine-lightbox__btn--next { top: auto; bottom: 1.25rem; transform: none; }
+}

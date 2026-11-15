@@ -1,0 +1,86 @@
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gouttiere);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-titre);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+p { max-width: 68ch; text-wrap: pretty; }
+
+main { display: block; outline: none; }
+section[id], [id$="-title"] { scroll-margin-top: calc(var(--header-h) + 1.5rem); }
+
+/* ——— Étiquette au-dessus des titres : un trait de cordeau, puis le libellé ——— */
+.kicker {
+  display: inline-flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--cordeau);
+}
+.kicker::before { content: ""; width: 1.5rem; height: 1px; background: currentColor; flex: none; }
+.kicker--clair { color: var(--cordeau-pale); }
+
+/* ——— Sections ——— */
+.section { padding-block: var(--section); }
+/* Rendu différé des sections basses : le navigateur ne les calcule qu'à l'approche. */
+.section:not(.hero) { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
+.section__tete {
+  display: grid;
+  gap: 1.25rem 4rem;
+  margin-bottom: 3.5rem;
+}
+@media (min-width: 900px) {
+  .section__tete { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: end; }
+}
+.section__titre { font-size: var(--t-2xl); max-width: 18ch; }
+.section__aside { display: grid; gap: 1rem; justify-items: start; }
+.section__intro { color: var(--graphite-doux); font-size: 1.125rem; line-height: 1.55; max-width: 48ch; }
+.section__suite { margin-top: 2.5rem; }
+
+.chapeau { font-size: var(--t-lg); line-height: 1.5; color: var(--graphite); margin-block: 1.25rem 1.75rem; max-width: 52ch; }
+.note { margin-top: 1.5rem; font-size: var(--t-sm); color: var(--graphite-doux); }
+.note--encadre { padding: 1.1rem 1.35rem; border-radius: var(--rayon-carte); background: var(--papier); box-shadow: var(--ombre-douce); }
+
+/* ——— Liens ——— */
+.lien {
+  font-weight: 600; color: var(--cordeau);
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.3em;
+}
+.lien:hover { color: var(--cordeau-fonce); }
+
+/* Lien d'action : au repos, un filet discret ; au survol, un trait plein se trace
+   de gauche à droite sur toute la largeur, et la flèche avance. */
+.lien-fleche {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  padding-bottom: 0.3rem;
+  font-weight: 600; color: var(--cordeau); text-decoration: none;
+  background:
+    linear-gradient(currentColor, currentColor) left bottom / 0% 2px no-repeat,
+    linear-gradient(var(--cordeau-pale), var(--cordeau-pale)) left bottom / 100% 2px no-repeat;
+  transition: background-size 0.45s var(--ease), color 0.2s;
+}
+.lien-fleche span { transition: transform 0.3s var(--ease); }
+.lien-fleche:hover, .lien-fleche:focus-visible { color: var(--cordeau-fonce); background-size: 100% 2px, 100% 2px; }
+.lien-fleche:hover span, .lien-fleche:focus-visible span { transform: translateX(4px); }
+
+.prose p + p { margin-top: 1rem; }
+.signature { margin-top: 1.5rem; font-weight: 600; color: var(--graphite-doux); }
+
+/* Liste cochée (fiche savoir-faire) */
+.fiche__points li { position: relative; padding-left: 1.6rem; }
+.fiche__points li::before {
+  content: ""; position: absolute; left: 0; top: 0.78em;
+  width: 0.95rem; height: 2px; background: var(--cordeau);
+}
+
+/* Photo qui se rapproche au survol de son bloc (cartes, lignes, mosaïque) */
+.zoom { overflow: hidden; }
+.zoom img { transition: transform 0.7s var(--ease); }

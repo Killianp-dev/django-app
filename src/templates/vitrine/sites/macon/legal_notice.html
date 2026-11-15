@@ -1,0 +1,14 @@
+{% extends 'vitrine/sites/macon/base.html' %}
+
+{% block title %}Mentions légales — {{ site.nom }}{% endblock %}
+{% block cta %}{% endblock %}
+
+{% block content %}
+<div class="container page page--etroite">
+    {% include 'vitrine/sites/macon/partials/fil.html' with current="Mentions légales" %}
+    <article class="legal">
+        <h1 class="page__titre">Mentions légales</h1>
+        {% include 'vitrine/partials/legal/mentions.html' %}
+    </article>
+</div>
+{% endblock %}

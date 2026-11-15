@@ -1,0 +1,21 @@
+{% extends 'vitrine/sites/macon/base.html' %}
+{% load vitrine_tags %}
+
+{% block title %}{{ site.labels.tarifs }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ site.tarifs_note }}{% endblock %}
+
+{% block content %}
+<div class="container page">
+    {% include 'vitrine/sites/macon/partials/fil.html' with current=site.labels.tarifs %}
+    <header class="page__tete">
+        <p class="kicker">{{ site.labels.tarifs_kicker }}</p>
+        <h1 class="page__titre">{{ site.labels.tarifs }}</h1>
+        <p class="page__intro">{{ site.tarifs_note }}</p>
+    </header>
+    <div class="tarifs">
+        {% for groupe in site.tarifs %}
+        {% include 'vitrine/sites/macon/partials/bordereau.html' with groupe=groupe titre_tag="h2" %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

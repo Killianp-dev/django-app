@@ -1,0 +1,68 @@
+/**
+ * Variables CSS — design system "chic / sobre / élégant"
+ * Portée : .vitrine uniquement (pas :root global)
+ */
+
+.vitrine {
+    --color-bg: #F6F3EE;
+    --color-surface: #EBE6DC;
+    --color-ink: #1A2332;
+    --color-ink-soft: #5C6573;
+    --color-accent: #8A6840;
+    --color-accent-hover: #6B4E2E;
+    --color-accent-soft: #D9B48F;
+    --color-on-accent: #FFFFFF;
+    --color-border: #D8D0C4;
+    --focus-ring: #8A6840;
+    --color-hero: #2A384C;
+    --font-heading: "Playfair Display", Georgia, serif;
+    --font-body: "Inter", -apple-system, system-ui, sans-serif;
+
+    /* Espacements (échelle généreuse, respiration) */
+    --space-3xs: 0.25rem;
+    --space-2xs: 0.5rem;
+    --space-xs: 0.75rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
+    --space-3xl: 9rem;
+
+    /* Conteneur */
+    --container-max-width: 1320px;
+    --container-padding: 1.5rem;
+
+    /* Typographie */
+    --text-xs: 0.8125rem;
+    --text-sm: 0.9375rem;
+    --text-base: 1.0625rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 2.75rem;
+    --text-4xl: 3.75rem;
+    --leading-tight: 1.15;
+    --leading-snug: 1.35;
+    --leading-normal: 1.7;
+    --tracking-wide: 0.04em;
+    --tracking-wider: 0.12em;
+
+    /* Rayons (discrets, pas arrondis façon "app") */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 6px;
+
+    /* Ombres (très douces, diffuses) */
+    --shadow-sm: 0 1px 3px rgba(20, 16, 10, 0.06);
+    --shadow-md: 0 8px 24px -4px rgba(20, 16, 10, 0.10);
+    --shadow-lg: 0 24px 48px -8px rgba(20, 16, 10, 0.16);
+
+    /* Transitions (douces et lentes = chic) */
+    --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 700ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Largeur trait fin (séparateurs élégants) */
+    --rule-width: 1px;
+}

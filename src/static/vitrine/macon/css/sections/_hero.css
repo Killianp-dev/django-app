@@ -1,0 +1,111 @@
+/* Hero : la photo du chantier en pleine largeur, cotée comme un plan.
+   La photo part du bord droit de la colonne de texte ; le graphite se fond dedans sur son bord gauche.
+   Photo (object-position: left) et calque des cotes (xMinYMid slice) sont recadrés pareil : les cotes restent sur le bloc. */
+.hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; align-items: center;
+  min-height: clamp(36rem, 84vh, 52rem);
+  padding-block: 5rem 7rem;
+  background: var(--graphite); color: #fff;
+}
+.hero__fond { position: absolute; inset: 0; z-index: -1; margin: 0; }
+/* La photo démarre au bord droit de la colonne de texte (calculé d'après le conteneur) et va jusqu'au bord de l'écran. */
+.hero__cadre {
+  position: absolute; top: 0; bottom: 0; right: 0;
+  left: calc(max(0px, (100% - var(--container)) / 2) + 31rem);
+}
+.hero__cadre img { width: 100%; height: 100%; object-fit: cover; object-position: left center; }
+/* Fondu du graphite vers la photo, sur son bord gauche ; léger voile en bas pour le bandeau */
+.hero__cadre::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--graphite) 0%, rgba(30, 31, 34, 0.55) 12%, rgba(30, 31, 34, 0) 30%),
+    linear-gradient(0deg, rgba(30, 31, 34, 0.6) 0%, rgba(30, 31, 34, 0) 26%);
+}
+.hero__legende {
+  position: absolute; right: var(--gouttiere); top: 1.5rem; z-index: 1; max-width: 22rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  font-size: 0.8rem; color: rgba(255, 255, 255, 0.8); text-align: right;
+}
+
+.hero__contenu { position: relative; display: grid; align-items: end; }
+.hero__texte { max-width: 34rem; }
+.hero__titre { font-size: var(--t-hero); font-weight: 700; line-height: 0.96; max-width: 10ch; color: #fff; }
+.hero__accroche { margin-top: 1.5rem; font-size: var(--t-lg); line-height: 1.6; color: rgba(255, 255, 255, 0.78); max-width: 38ch; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
+.btn--verre {
+  background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.35); color: #fff;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.btn--verre:hover { background: rgba(255, 255, 255, 0.16); border-color: #fff; }
+
+.engagements { display: grid; gap: 0.65rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.16); font-weight: 500; color: rgba(255, 255, 255, 0.9); }
+.engagements li { display: flex; align-items: center; gap: 0.75rem; }
+.engagements svg { width: 22px; height: 22px; padding: 4px; flex: none; border-radius: 50%; color: #fff; background: rgba(143, 176, 230, 0.28); }
+
+/* Carte flottante, posée sur la photo : état d'ouverture en direct (site.js), rôle, téléphone.
+   Elle est dans le bloc de la photo : placée par rapport au hero, alignée sur le bord droit du conteneur. */
+.hero__carte {
+  position: absolute; right: calc(max(0px, (100% - var(--container)) / 2) + var(--gouttiere)); bottom: 4.75rem; z-index: 2;
+  display: grid; gap: 0.25rem; min-width: 15.5rem; padding: 1.1rem 1.25rem;
+  background: rgba(248, 248, 245, 0.92); color: var(--graphite);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6); border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-haute);
+}
+.hero__carte .vitrine-statut { margin: 0 0 0.25rem; font-size: var(--t-sm); }
+.hero__carte-role { font-size: 0.8rem; color: var(--graphite-doux); }
+.hero__carte-tel { font-family: var(--font-titre); font-weight: 600; font-size: 1.45rem; text-decoration: none; }
+.hero__carte-tel:hover { color: var(--cordeau); }
+
+/* Le cartouche en bandeau, à cheval sur le bas du hero */
+.bandeau-cartouche { position: relative; z-index: 3; margin-top: -3.25rem; }
+.cartouche--bandeau {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0;
+  border: 0; border-radius: var(--rayon-carte); box-shadow: var(--ombre-haute);
+}
+.cartouche--bandeau .cartouche__ligne {
+  grid-column: auto; display: flex; flex-direction: column; gap: 0.2rem; padding: 1.1rem 1.4rem;
+}
+.cartouche--bandeau .cartouche__ligne + .cartouche__ligne { border-top: 0; border-left: 1px solid var(--filet); }
+.cartouche--bandeau dt { align-self: auto; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.cartouche--bandeau dd { font-size: 1.25rem; }
+.page-accueil .savoir-faire { padding-top: calc(var(--section) - 1rem); }
+
+/* Les cotes, en unités de la photo (1800 × 1200) */
+.cotes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.cotes path { fill: none; stroke-linecap: round; }
+.cotes__halo path { stroke: rgba(248, 248, 245, 0.92); stroke-width: 9; }
+.cotes__trait path { stroke: var(--cordeau); stroke-width: 3.5; }
+.cotes__trait .cotes__tic { stroke-width: 4.5; }
+.cotes__valeur {
+  font-family: var(--font-titre); font-weight: 600; font-size: 44px;
+  fill: var(--cordeau); stroke: var(--papier); stroke-width: 12px; paint-order: stroke; stroke-linejoin: round;
+}
+
+/* Tablette et mobile : une seule composition. La photo occupe le haut du hero et se fond dans l'anthracite ;
+   le texte se pose sur le fondu. Le cadre garde le 3:2 de la photo (les cotes restent alignées) et se décale
+   de 13 % vers la gauche pour garder le bloc coté et ses deux cotes dans l'écran. */
+.hero__statut { display: none; }
+@media (max-width: 999px) {
+  .hero { --photo-h: clamp(26rem, 118vw, 44rem); display: block; min-height: 0; padding-block: calc(var(--photo-h) - 4.5rem) 3rem; }
+  .hero__fond { position: absolute; inset: 0 0 auto 0; height: var(--photo-h); z-index: -1; overflow: hidden; }
+  .hero__fond::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(30, 31, 34, 0.25) 0%, rgba(30, 31, 34, 0) 22%, rgba(30, 31, 34, 0) 50%, rgba(30, 31, 34, 0.85) 82%, var(--graphite) 100%);
+  }
+  .hero__cadre { inset: 0 auto auto 0; width: max(calc(var(--photo-h) * 1.5), 122vw); height: auto; aspect-ratio: 3 / 2; transform: translateX(-13%); }
+  .hero__cadre::after { display: none; }
+  .hero__carte, .hero__legende { display: none; }
+  .hero__statut { display: inline-flex; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.85); font-size: var(--t-sm); }
+  .hero__statut.is-open { color: #fff; }
+  .bandeau-cartouche { margin-top: 1.5rem; }
+  .cartouche--bandeau { grid-template-columns: repeat(2, minmax(0, 1fr)); box-shadow: var(--ombre-douce); }
+  .cartouche--bandeau .cartouche__ligne:nth-child(3) { border-left: 0; }
+  .cartouche--bandeau .cartouche__ligne:nth-child(n+3) { border-top: 1px solid var(--filet); }
+}
+@media (max-width: 640px) { .cotes__valeur { font-size: 84px; } .cotes__trait path { stroke-width: 7; } .hero__legende { display: none; } }
+@media (max-width: 420px) {
+  .cartouche--bandeau { grid-template-columns: 1fr; }
+  .cartouche--bandeau .cartouche__ligne + .cartouche__ligne { border-left: 0; border-top: 1px solid var(--filet); }
+}

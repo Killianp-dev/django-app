@@ -60,10 +60,11 @@ class SiteMixin:
         return site
 
     def get_template_names(self):
-        """Un site peut surcharger une page : vitrine/sites/<clé>/<page>.html."""
+        """Chaque démo a son propre front : la page « vitrine/pages/<page>.html » se lit dans
+        vitrine/sites/<clé>/<page>.html. Il n'y a plus de gabarit commun de repli."""
         names = super().get_template_names()
         key = self.site().key
-        return [name.replace("vitrine/pages/", f"vitrine/sites/{key}/") for name in names] + names
+        return [name.replace("vitrine/pages/", f"vitrine/sites/{key}/") for name in names]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,4 +1,4 @@
-{% extends 'vitrine/pages/home.html' %}
+{% extends 'vitrine/sites/boucherie/home_commun.html' %}
 
 {% block signature %}
 <section class="pro-band bouch-origine" aria-labelledby="origine-title">
@@ -19,10 +19,10 @@
                     {% for origine in site.origines %}
                     <tr>
                         <th scope="row">{{ origine.viande }}</th>
-                        <td>{{ origine.race }}</td>
-                        <td>{{ origine.eleveur }}</td>
-                        <td>{{ origine.lieu }}</td>
-                        <td>{{ origine.detail }}</td>
+                        <td data-label="Race">{{ origine.race }}</td>
+                        <td data-label="Éleveur">{{ origine.eleveur }}</td>
+                        <td data-label="Commune">{{ origine.lieu }}</td>
+                        <td data-label="Particularité">{{ origine.detail }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

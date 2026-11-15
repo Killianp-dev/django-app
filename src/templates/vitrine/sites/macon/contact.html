@@ -1,0 +1,59 @@
+{% extends 'vitrine/sites/macon/base.html' %}
+{% load static vitrine_tags %}
+
+{% block title %}Contact — {{ site.nom }}{% endblock %}
+{% block cta %}{% endblock %}
+
+{% block content %}
+<div class="container page">
+    {% include 'vitrine/sites/macon/partials/fil.html' with current="Contact" %}
+    <div class="contact">
+        <div class="contact__formulaire">
+            <header class="page__tete">
+                <p class="kicker">Contact</p>
+                <h1 class="page__titre">{{ site.labels.contact_title }}</h1>
+                <p class="page__intro">{{ site.labels.contact_text }}</p>
+            </header>
+            {# Classes vitrine-form et vitrine-form__submit : accroches de form.js (bouton désactivé pendant l'envoi). #}
+            <form method="post" class="formulaire vitrine-form" novalidate>
+                {% csrf_token %}
+                {% if form.non_field_errors %}<div class="formulaire__erreurs" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+                {% for field in form %}
+                    {% if field.name == 'website' %}
+                        {{ field }}
+                    {% elif field.name == 'consent' %}
+                        <div class="formulaire__case">
+                            {{ field }}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        </div>
+                        {% if field.errors %}<p class="formulaire__erreur" id="{{ field.id_for_label }}-erreur">{{ field.errors.0 }}</p>{% endif %}
+                    {% else %}
+                        <div class="formulaire__champ">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="formulaire__requis">(obligatoire)</span>{% endif %}</label>
+                            {{ field }}
+                            {% if field.errors %}<p class="formulaire__erreur" id="{{ field.id_for_label }}-erreur">{{ field.errors.0 }}</p>{% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn--primary btn--lg vitrine-form__submit">Envoyer la demande</button>
+            </form>
+        </div>
+
+        <aside class="contact__marge">
+            {% if site.contact_aside %}
+            <h2 class="contact__titre">{{ site.contact_aside.titre }}</h2>
+            <p>{{ site.contact_aside.texte }}</p>
+            {% for lien in site.contact_aside.liens %}<a class="contact__tel" href="{{ lien.href }}">{{ lien.label }}</a>{% endfor %}
+            {% for ligne in site.contact_aside.lignes %}<p class="contact__ligne">{{ ligne }}</p>{% endfor %}
+            {% endif %}
+            {% if site.horaires_semaine %}
+            <div class="bureau">{% include 'vitrine/partials/horaires.html' with titre=site.labels.horaires_title %}</div>
+            {% endif %}
+        </aside>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'vitrine/js/form.js' %}" defer></script>
+{% endblock %}

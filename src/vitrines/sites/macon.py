@@ -1,45 +1,21 @@
 """Bertrand Maçonnerie — entreprise de maçonnerie fictive."""
-from ._base import _etape, _eur, _groupe, _jour, _ligne, _ns, _offre, _realisation, _site
+from ._base import _etape, _groupe, _jour, _ligne, _ns, _offre, _realisation, _site
 
 
 def _chantier(image, titre, filtre, offre, alt, detail):
     return _realisation(image, titre, filtre, offre, alt, detail=detail, key="macon")
 
 
-def _poste(poste, detail, quantite, unite, prix_unitaire):
-    total = round(quantite * prix_unitaire, 2)
-    return _ns(
-        poste=poste, detail=detail, unite=unite, total=total,
-        quantite=f"{quantite:g}".replace(".", ","),
-        prix_unitaire_txt=_eur(prix_unitaire), total_txt=_eur(total),
-    )
-
-
-def _taux(valeur, label, aide):
-    tva = round(_TOTAL_HT * valeur / 100, 2)
-    return _ns(valeur=valeur, label=label, aide=aide, tva_txt=_eur(tva), ttc_txt=_eur(_TOTAL_HT + tva))
-
-
-_POSTES = [
-    _poste("Installation de chantier", "Protection des sols, bâches, accès", 1, "forfait", 380),
-    _poste("Étaiement provisoire", "Chandelles et bastaings, de part et d'autre du mur", 1, "forfait", 640),
-    _poste("Ouverture du mur porteur", "Sciage et démolition, parpaing de 20 cm, 3,00 × 2,15 m", 6.45, "m²", 165),
-    _poste("Linteau métallique", "2 IPN de 180, platines et calage au mortier sans retrait", 1, "ensemble", 1480),
-    _poste("Reprises en tableau", "Jambages et sous-face, enduit au mortier bâtard", 7.3, "ml", 48),
-    _poste("Évacuation des gravats", "Benne 3 m³ et mise en décharge agréée", 1, "forfait", 420),
-]
-_TOTAL_HT = round(sum(p.total for p in _POSTES), 2)
-_TAUX = [
-    _taux(10, "TVA 10 %", "Logement de plus de deux ans"),
-    _taux(20, "TVA 20 %", "Construction neuve ou local professionnel"),
-]
+def _jour_chantier(jour, titre, texte, image=""):
+    """Une entrée du carnet de chantier. `image` : chemin statique facultatif."""
+    return _ns(jour=jour, titre=titre, texte=texte, image=image)
 
 
 MACON = _site(
     key="macon",
     nom="Bertrand Maçonnerie",
     ville="Paris",
-    eyebrow="Maçonnerie générale — Paris et petite couronne",
+    eyebrow="Maçonnerie générale à Paris et en petite couronne",
     role_line="Julien Bertrand, artisan maçon",
     footer_line="Julien Bertrand, artisan maçon — SIRET fictif",
     nature="une entreprise de maçonnerie fictive",
@@ -53,7 +29,6 @@ MACON = _site(
     zone="Paris et petite couronne",
     titre="Bertrand Maçonnerie — Maçon à Paris",
     description="Entreprise de maçonnerie fictive à Paris. Gros œuvre, rénovation, extension, extérieurs. Devis détaillé après visite. Démonstration de site vitrine.",
-    hero_variant="full",
     hero_title="Des murs droits, un devis lisible.",
     accroche="Gros œuvre, rénovation et extensions, à Paris et en petite couronne. On visite, on chiffre poste par poste, on tient le planning.",
     presentation=(
@@ -139,8 +114,9 @@ MACON = _site(
         faq_kicker="Avant de commencer",
         faq_title="Les questions qu'on nous pose",
         horaires_title="Bureau et visites",
-        signature_kicker="Le devis",
-        signature_title="Un devis que l'on peut lire",
+        signature_kicker="Carnet de chantier",
+        signature_title="Un chantier, jour par jour",
+        signature_intro="Le carnet d'un chantier récent, tel que le client l'a reçu chaque soir. Ce que l'on a fait, ce qui reste, et rien de caché.",
     ),
     mail_tag="macon",
     photos=_ns(hero="vitrine/photos/macon/hero-parpaing.jpg", about="vitrine/photos/macon/entreprise.jpg"),
@@ -154,21 +130,30 @@ MACON = _site(
         _jour("Samedi", "Sam"),
         _jour("Dimanche", "Dim"),
     ],
-    devis=_ns(
-        reference="Devis n° 2026-118",
-        client="Maison individuelle — Montreuil",
-        objet="Création d'une ouverture de 3 m dans un mur porteur, entre cuisine et séjour",
-        postes=_POSTES,
-        total_ht_txt=_eur(_TOTAL_HT),
-        taux=_TAUX,
-        delai="5 jours ouvrés",
-        validite="Devis valable 3 mois",
-        notes=[
-            _ns(titre="Chaque poste est chiffré", texte="Quantité, unité, prix unitaire. Rien n'est caché dans un forfait global."),
-            _ns(titre="Le calcul de structure est prévu", texte="Le linteau est dimensionné par un bureau d'études. La note de calcul vous est remise."),
-            _ns(titre="Ce qui n'est pas inclus est écrit", texte="Peinture, électricité et sol restent à prévoir : c'est indiqué en bas du devis."),
+    carnet=_ns(
+        chantier="Ouverture d'un mur porteur de 3 m, entre cuisine et séjour",
+        lieu="Maison individuelle, Montreuil",
+        duree="5 jours ouvrés, comme annoncé au devis",
+        responsable="Julien Bertrand",
+        entrees=[
+            _jour_chantier("Lundi", "Protection et étaiement",
+                           "Sols protégés, bâches tendues entre la cuisine et le séjour. Les étais sont posés de part et d'autre du mur avant toute découpe."),
+            _jour_chantier("Mardi", "Ouverture du mur",
+                           "Sciage du parpaing sur 3,00 × 2,15 m. La poussière reste derrière les bâches : la cuisine reste utilisable le soir."),
+            _jour_chantier("Mercredi", "Pose du linteau",
+                           "Deux poutres métalliques calées au mortier sans retrait, dimensionnées par le bureau d'études. Note de calcul remise au client.",
+                           "vitrine/photos/macon/realisations/mur-brique.jpg"),
+            _jour_chantier("Jeudi", "Reprises des tableaux",
+                           "Jambages et dessous de l'ouverture repris à l'enduit. Les étais restent en place pendant la prise."),
+            _jour_chantier("Vendredi", "Dépose des étais et réception",
+                           "Étais et gravats évacués. Tour du chantier avec les clients, aucune réserve. Le point écrit de la semaine part le soir même.",
+                           "vitrine/photos/macon/renovation-enduit.jpg"),
         ],
-        exclusions="Non compris : peinture, reprise électrique, revêtement de sol.",
+        notes=[
+            _ns(titre="Un point écrit chaque soir", texte="Ce qui a été fait, avec une photo, et ce qui est prévu le lendemain."),
+            _ns(titre="Les imprévus notés tout de suite", texte="Si quelque chose change le planning ou le prix, vous le lisez le jour même, avant que l'on continue."),
+            _ns(titre="Un seul interlocuteur", texte="Le responsable du chantier signe chaque entrée du carnet. Vous savez qui appeler."),
+        ],
     ),
     tarifs_note=(
         "Prix constatés sur nos chantiers récents, hors taxes, pour un accès normal. "
@@ -196,26 +181,12 @@ MACON = _site(
             _ligne("Escalier extérieur en béton", "dès 1 800 € HT", "3 jours"),
         ]),
     ],
-    theme={
-        "--font-heading": '"Barlow Condensed", "Arial Narrow", Impact, sans-serif',
-        "--color-bg": "#F4F1EC",
-        "--color-surface": "#E9E4DC",
-        "--color-ink": "#23201D",
-        "--color-ink-soft": "#5A544E",
-        "--color-accent": "#B4471A",
-        "--color-accent-hover": "#8E3612",
-        "--color-accent-soft": "#F0B98F",
-        "--color-on-accent": "#FFFFFF",
-        "--color-border": "#D6CEC2",
-        "--focus-ring": "#B4471A",
-        "--color-hero": "#1F1C19",
-    },
     offres=[
         _offre(
             "gros-oeuvre", "Gros œuvre", "Murs porteurs, dalles, ouvertures.",
             "On reprend un mur porteur, on coule une dalle, on ouvre une baie. L'étaiement, le linteau et les reprises sont dans le devis, avec la note de calcul du bureau d'études.",
             ["Ouverture de mur porteur", "Dalle et fondations", "Murs en parpaing ou en brique", "Linteaux et chaînages"],
-            "vitrine/photos/macon/gros-oeuvre-mur.jpg",
+            "vitrine/photos/macon/realisations/maison-elevation.jpg",
             prix="dès 2 900 € HT", duree="3 à 5 jours",
             suite="Pour une ouverture de 3 m dans un mur porteur, comptez une semaine, étaiement compris. Le chantier reste habitable : la poussière est confinée par des bâches.",
         ),
@@ -245,14 +216,14 @@ MACON = _site(
         ),
     ],
     realisations=[
-        _chantier("maison-elevation.jpg", "Maison R+1, élévation des murs", "Gros œuvre", "gros-oeuvre", "Maison à étage en cours de construction, murs en briques montés", "Fontenay-sous-Bois · 9 semaines"),
-        _chantier("dalle.jpg", "Coulage d'une dalle de 60 m²", "Gros œuvre", "gros-oeuvre", "Deux maçons tirent le béton d'une dalle armée", "Vincennes · 3 jours"),
-        _chantier("mur-pierre.jpg", "Mur en pierre rejointoyé", "Rénovation", "renovation", "Mur de pierres sèches rejointoyé à la chaux", "Paris 20e · 6 jours"),
-        _chantier("escalier-pierre.jpg", "Escalier et murs de terrasse", "Extérieur", "exterieur", "Terrasse entourée de murs en pierre avec un escalier", "Saint-Maur · 2 semaines"),
-        _chantier("mur-brique.jpg", "Cloison porteuse en brique", "Gros œuvre", "gros-oeuvre", "Maçon posant une brique au mortier à la truelle", "Paris 11e · 4 jours"),
-        _chantier("allee-pierre.jpg", "Allée et murets de jardin", "Extérieur", "exterieur", "Allée en pierre bordée de murets et de pots de fleurs", "Sceaux · 8 jours"),
-        _chantier("pierre-taille.jpg", "Façade en pierre de taille", "Rénovation", "renovation", "Parement en pierre de taille restauré", "Paris 6e · 3 semaines"),
-        _chantier("maison-livree.jpg", "Extension de plain-pied livrée", "Extension", "extension", "Maison de plain-pied en briques avec panneaux solaires", "Montreuil · 7 semaines"),
+        _chantier("escalier-pierre.jpg", "Escalier et murs de terrasse", "Extérieur", "exterieur", "Terrasse entourée de murs en pierre avec un escalier", "Saint-Maur, 2 semaines"),
+        _chantier("maison-elevation.jpg", "Maison R+1, élévation des murs", "Gros œuvre", "gros-oeuvre", "Maison à étage en cours de construction, murs en briques montés", "Fontenay-sous-Bois, 9 semaines"),
+        _chantier("dalle.jpg", "Coulage d'une dalle de 60 m²", "Gros œuvre", "gros-oeuvre", "Deux maçons tirent le béton d'une dalle armée", "Vincennes, 3 jours"),
+        _chantier("mur-pierre.jpg", "Mur en pierre rejointoyé", "Rénovation", "renovation", "Mur de pierres sèches rejointoyé à la chaux", "Paris 20e, 6 jours"),
+        _chantier("mur-brique.jpg", "Cloison porteuse en brique", "Gros œuvre", "gros-oeuvre", "Maçon posant une brique au mortier à la truelle", "Paris 11e, 4 jours"),
+        _chantier("allee-pierre.jpg", "Allée et murets de jardin", "Extérieur", "exterieur", "Allée en pierre bordée de murets et de pots de fleurs", "Sceaux, 8 jours"),
+        _chantier("pierre-taille.jpg", "Façade en pierre de taille", "Rénovation", "renovation", "Parement en pierre de taille restauré", "Paris 6e, 3 semaines"),
+        _chantier("maison-livree.jpg", "Extension de plain-pied livrée", "Extension", "extension", "Maison de plain-pied en briques avec panneaux solaires", "Montreuil, 7 semaines"),
     ],
     avis=[
         _ns(texte="Le devis faisait deux pages, chaque poste expliqué. Le chantier a duré exactement ce qui était prévu, et la cuisine est restée utilisable.", auteur="Nadia et Paul L.", detail="Ouverture de mur porteur", date="Septembre 2026"),

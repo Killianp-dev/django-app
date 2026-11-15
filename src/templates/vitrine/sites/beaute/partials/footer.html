@@ -1,0 +1,50 @@
+{% load vitrine_tags %}
+<footer class="vitrine-footer" role="contentinfo">
+    <div class="vitrine-container">
+        <div class="vitrine-footer__grid">
+            <div class="vitrine-footer__col vitrine-footer__col--contact">
+                <h2 class="vitrine-footer__title">{{ site.nom }}</h2>
+                <address class="vitrine-footer__address">
+                    {{ site.adresse }}<br>
+                    {{ site.code_postal }} {{ site.ville }}
+                </address>
+                <p class="vitrine-footer__contact-item">{{ site.horaires }}</p>
+                <p class="vitrine-footer__contact-item">
+                    <a href="tel:{{ site.telephone_lien }}" class="vitrine-footer__link">{{ site.telephone }}</a>
+                </p>
+                <p class="vitrine-footer__contact-item">
+                    <a href="mailto:{{ site.email }}" class="vitrine-footer__link">{{ site.email }}</a>
+                </p>
+            </div>
+            <div class="vitrine-footer__col vitrine-footer__col--nav">
+                <h3 class="vitrine-footer__title">Navigation</h3>
+                <ul class="vitrine-footer__nav-list">
+                    <li><a href="{% site_url 'home' %}" class="vitrine-footer__link">Accueil</a></li>
+                    <li><a href="{% site_url 'offres' %}" class="vitrine-footer__link">{{ site.labels.offres }}</a></li>
+                    {% if site.realisations %}
+                    <li><a href="{% site_url 'realisations' %}" class="vitrine-footer__link">{{ site.labels.realisations }}</a></li>
+                    {% endif %}
+                    {% if site.labels.tarifs %}
+                    <li><a href="{% site_url 'tarifs' %}" class="vitrine-footer__link">{{ site.labels.tarifs }}</a></li>
+                    {% endif %}
+                    {% if site.labels.faq_nav %}
+                    <li><a href="{% site_url 'faq' %}" class="vitrine-footer__link">{{ site.labels.faq_nav }}</a></li>
+                    {% endif %}
+                    <li><a href="{% site_url 'about' %}" class="vitrine-footer__link">{{ site.labels.about_link }}</a></li>
+                    <li><a href="{% site_url 'contact' %}" class="vitrine-footer__link">Contact</a></li>
+                </ul>
+            </div>
+            <div class="vitrine-footer__col vitrine-footer__col--legal">
+                <h3 class="vitrine-footer__title">Informations</h3>
+                <p class="vitrine-legal-block">{{ site.footer_line }}</p>
+                <ul class="vitrine-footer__legal-list">
+                    <li><a href="{% site_url 'legal_notice' %}" class="vitrine-footer__link">Mentions légales</a></li>
+                    <li><a href="{% site_url 'privacy' %}" class="vitrine-footer__link">Confidentialité</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="vitrine-footer__bottom">
+            <p class="vitrine-footer__copyright">© {% now "Y" %} {{ site.nom }}. Exemple fictif.</p>
+        </div>
+    </div>
+</footer>

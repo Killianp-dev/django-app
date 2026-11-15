@@ -1,0 +1,20 @@
+{% load vitrine_tags %}
+<section class="vitrine-section vitrine-section--faq" aria-labelledby="faq-title">
+    <div class="vitrine-container vitrine-container--medium vitrine-faq">
+        <header class="vitrine-faq__header">
+            <span class="vitrine-section__kicker">{{ site.labels.faq_kicker }}</span>
+            <h2 class="vitrine-section__title" id="faq-title">{{ site.labels.faq_title }}</h2>
+            {% if limit and site.labels.faq_nav %}<p class="vitrine-faq__more"><a class="pro-link" href="{% site_url 'faq' %}">Toutes les questions</a></p>{% endif %}
+        </header>
+        <div class="vitrine-faq__list">
+            {% for item in site.faq %}
+            {% if not limit or forloop.counter <= limit %}
+            <details class="vitrine-faq__item"{% if forloop.first %} open{% endif %}>
+                <summary class="vitrine-faq__question">{{ item.question }}</summary>
+                <p class="vitrine-faq__answer">{{ item.reponse }}</p>
+            </details>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>

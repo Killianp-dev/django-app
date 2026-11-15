@@ -1,0 +1,15 @@
+/* Identité de la démo (anciennement injectée en <style> depuis site.py), importée en dernier. */
+.vitrine {
+    --font-heading: "Marcellus", "Cormorant Garamond", Georgia, serif;
+    --color-bg: #F7F6F1;
+    --color-surface: #ECEEE5;
+    --color-ink: #2A2C27;
+    --color-ink-soft: #62665E;
+    --color-accent: #5F7259;
+    --color-accent-hover: #485943;
+    --color-accent-soft: #C7D2BF;
+    --color-on-accent: #FFFFFF;
+    --color-border: #DADED1;
+    --focus-ring: #5F7259;
+    --color-hero: #2F3A2C;
+}

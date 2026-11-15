@@ -1,0 +1,78 @@
+/* ——— Nomenclature : les savoir-faire en bordereau. Toute la ligne est cliquable (lien étiré). ——— */
+.nomenclature { background: var(--papier); border: 1px solid var(--filet); border-radius: var(--rayon-grand); box-shadow: var(--ombre-douce); overflow: hidden; }
+.nomenclature__entete {
+  display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 10rem 9rem 3rem; gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--graphite-doux);
+  border-bottom: 1px solid var(--filet);
+}
+.nomenclature__entete span:first-child { grid-column: 1 / 3; }
+.nomenclature__ligne {
+  position: relative; display: grid; grid-template-columns: 9.5rem minmax(0, 1fr) 10rem 9rem 3rem; gap: 1.5rem; align-items: center;
+  padding: 1.1rem 1.5rem;
+  transition: background-color 0.3s;
+}
+.nomenclature__ligne + .nomenclature__ligne { border-top: 1px solid var(--filet); }
+.nomenclature__ligne::before {
+  content: ""; position: absolute; left: 0; top: 1.25rem; bottom: 1.25rem; width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--cordeau); transform: scaleY(0); transition: transform 0.35s var(--ease);
+}
+.nomenclature__ligne:hover, .nomenclature__ligne:focus-within { background: #FFFFFF; }
+.nomenclature__ligne:hover::before, .nomenclature__ligne:focus-within::before { transform: scaleY(1); }
+
+.nomenclature__photo { overflow: hidden; aspect-ratio: 3 / 2; border-radius: var(--rayon); }
+.nomenclature__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease); }
+.nomenclature__ligne:hover .nomenclature__photo img { transform: scale(1.05); }
+
+.nomenclature__titre { font-size: 1.7rem; line-height: 1.05; }
+.nomenclature__nom { text-decoration: none; }
+.nomenclature__nom::after { content: ""; position: absolute; inset: 0; }   /* lien étiré sur toute la ligne */
+.nomenclature__nom:focus-visible { outline: none; }
+.nomenclature__ligne:has(.nomenclature__nom:focus-visible) { outline: 2px solid var(--cordeau); outline-offset: -4px; border-radius: var(--rayon-carte); }
+.nomenclature__accroche { margin-top: 0.3rem; color: var(--graphite-doux); }
+
+.nomenclature__donnees { display: contents; font-variant-numeric: tabular-nums; }
+.nomenclature__donnees dt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.nomenclature__prix dd { font-family: var(--font-titre); font-weight: 600; font-size: 1.35rem; color: var(--cordeau); }
+.nomenclature__duree dd { color: var(--graphite-doux); }
+.nomenclature__fleche { width: 40px; height: 40px; padding: 10px; justify-self: end; border-radius: 50%; color: var(--graphite); background: var(--beton); transition: transform 0.35s var(--ease), color 0.25s, background-color 0.25s; }
+.nomenclature__ligne:hover .nomenclature__fleche { transform: translateX(4px); color: #fff; background: var(--cordeau); }
+
+@media (max-width: 1000px) {
+  .nomenclature__entete { display: none; }
+  .nomenclature__ligne { grid-template-columns: 7.5rem minmax(0, 1fr) 2rem; row-gap: 0.75rem; }
+  .nomenclature__donnees { display: grid; grid-column: 2; grid-row: 2; grid-template-columns: auto auto; justify-content: start; gap: 2rem; }
+  .nomenclature__donnees dt { position: static; width: auto; height: auto; overflow: visible; clip: auto; font-size: 0.75rem; color: var(--graphite-doux); }
+  .nomenclature__fleche { grid-column: 3; grid-row: 1 / 3; }
+}
+@media (max-width: 520px) {
+  .nomenclature__ligne { grid-template-columns: 5.5rem minmax(0, 1fr); padding: 1rem; }
+  .nomenclature__titre { font-size: 1.45rem; }
+  .nomenclature__donnees { grid-column: 1 / -1; }
+  .nomenclature__fleche { display: none; }
+}
+
+/* ——— Bordereau : les prix indicatifs d'un groupe ——— */
+.bordereau + .bordereau { margin-top: 3.5rem; }
+.bordereau__titre { font-size: var(--t-xl); padding-bottom: 0.7rem; border-bottom: 1px solid var(--filet-fort); }
+.bordereau__table { width: 100%; font-variant-numeric: tabular-nums; }
+.bordereau__table thead th {
+  padding: 0.6rem 0.75rem; text-align: left;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--graphite-doux);
+  border-bottom: 1px solid var(--filet);
+}
+.bordereau__table thead th:first-child { padding-left: 0; }
+.bordereau__table tbody tr { border-bottom: 1px solid var(--filet); transition: background-color 0.2s; }
+.bordereau__table tbody tr:hover { background: var(--papier); }
+.bordereau__table th[scope="row"] { padding: 0.95rem 0.75rem 0.95rem 0; text-align: left; font-weight: 500; }
+.bordereau__note { display: block; font-weight: 400; font-size: var(--t-sm); color: var(--graphite-doux); }
+.bordereau__prix { padding: 0.95rem 0.75rem; font-family: var(--font-titre); font-weight: 600; font-size: 1.3rem; color: var(--cordeau); white-space: nowrap; }
+.bordereau__duree { padding: 0.95rem 0; color: var(--graphite-doux); }
+
+@media (max-width: 640px) {
+  .bordereau__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .bordereau__table, .bordereau__table tbody, .bordereau__table tr { display: block; }
+  .bordereau__table tr { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 1rem; padding: 0.85rem 0; }
+  .bordereau__table th[scope="row"] { grid-column: 1 / -1; padding: 0; }
+  .bordereau__prix, .bordereau__duree { padding: 0; }
+}

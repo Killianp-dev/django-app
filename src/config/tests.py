@@ -41,6 +41,10 @@ class StaticPageTests(TestCase):
     def test_mentions_legales_ok(self):
         response = self.client.get(reverse("mentions_legales"))
         self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "Agence web de développement de petits sites vitrines",
+        )
 
     def test_robots_txt(self):
         response = self.client.get("/robots.txt")

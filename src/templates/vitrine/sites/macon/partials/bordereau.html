@@ -1,0 +1,29 @@
+{# Un groupe de prix indicatifs (site.tarifs). `groupe` : le groupe ; `titre_tag` : h2 ou h3. #}
+<section class="bordereau" aria-labelledby="bordereau-{{ groupe.titre|slugify }}">
+    {% if titre_tag == "h3" %}
+    <h3 class="bordereau__titre" id="bordereau-{{ groupe.titre|slugify }}">{{ groupe.titre }}</h3>
+    {% else %}
+    <h2 class="bordereau__titre" id="bordereau-{{ groupe.titre|slugify }}">{{ groupe.titre }}</h2>
+    {% endif %}
+    <table class="bordereau__table">
+        <thead>
+            <tr>
+                <th scope="col">Ouvrage</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Durée</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ligne in groupe.lignes %}
+            <tr>
+                <th scope="row">
+                    {{ ligne.nom }}
+                    {% if ligne.note %}<span class="bordereau__note">{{ ligne.note }}</span>{% endif %}
+                </th>
+                <td class="bordereau__prix" data-label="Prix">{{ ligne.prix }}</td>
+                <td class="bordereau__duree" data-label="Durée">{{ ligne.duree }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>

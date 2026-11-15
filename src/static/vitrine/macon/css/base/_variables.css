@@ -1,0 +1,55 @@
+/* ==================================================
+   VARIABLES — Bertrand Maçonnerie
+   ================================================= */
+:root {
+  /* Matières */
+  --beton: #E3E2DD;          /* fond de page : béton lissé */
+  --beton-fonce: #DAD9D3;    /* fonds de section plus soutenus */
+  --papier: #F8F8F5;         /* documents, plans, champs */
+  --graphite: #1E1F22;       /* texte, aplats sombres : anthracite neutre */
+  --graphite-doux: #50555B;  /* texte secondaire (5,8:1 sur béton) */
+  --parpaing: #A9A8A2;       /* traits fins, séparateurs (décoratif uniquement) */
+  --cordeau: #1F4FA3;        /* l'accent : boutons, liens, cotes (5,9:1 sur béton) */
+  --cordeau-fonce: #173C7D;
+  --cordeau-pale: #DCE4F2;
+  --ouvert: #2F7D57;
+  --bientot: #A35F00;
+  --erreur: #A3241E;
+
+  /* Typographie */
+  --font-titre: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-texte: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --t-sm: 0.875rem;
+  --t-base: 1.0625rem;
+  --t-lg: 1.25rem;
+  --t-xl: 1.75rem;
+  --t-2xl: clamp(2.25rem, 1.7rem + 2.2vw, 3.25rem);
+  --t-page: clamp(2.5rem, 1.9rem + 2.6vw, 4rem);
+  --t-hero: clamp(3rem, 1.7rem + 5.2vw, 5.75rem);
+
+  /* Traits */
+  --trait-fort: 2px;
+  --trait: 1px;
+  --filet: rgba(30, 31, 34, 0.12);      /* bordures douces */
+  --filet-fort: rgba(30, 31, 34, 0.22);
+  --rayon: 10px;                         /* boutons, champs, pastilles */
+  --rayon-carte: 16px;                   /* cartes, panneaux, photos */
+  --rayon-grand: 24px;                   /* grands aplats */
+  --ombre-douce: 0 1px 2px rgba(30, 31, 34, 0.05), 0 10px 30px -14px rgba(30, 31, 34, 0.22);
+  --ombre-haute: 0 2px 6px rgba(30, 31, 34, 0.06), 0 28px 60px -28px rgba(30, 31, 34, 0.38);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Mise en page */
+  --container: 1240px;
+  --gouttiere: 1.5rem;
+  --section: 6rem;
+  --header-h: 76px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --gouttiere: 1.25rem;
+    --section: 4rem;
+    --header-h: 64px;
+  }
+}

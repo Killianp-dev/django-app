@@ -173,20 +173,6 @@ BOUCHERIE = _site(
             _ligne("Plat du jour à emporter", "9,50 €", "la part", "Du mardi au vendredi"),
         ]),
     ],
-    theme={
-        "--font-heading": '"DM Serif Display", "Playfair Display", Georgia, serif',
-        "--color-bg": "#F7F2EB",
-        "--color-surface": "#EEE4D7",
-        "--color-ink": "#1E1917",
-        "--color-ink-soft": "#5C524C",
-        "--color-accent": "#9B1C24",
-        "--color-accent-hover": "#771219",
-        "--color-accent-soft": "#E8B4AA",
-        "--color-on-accent": "#FFFFFF",
-        "--color-border": "#DED1C1",
-        "--focus-ring": "#9B1C24",
-        "--color-hero": "#1C1312",
-    },
     offres=[
         _offre(
             "boeuf-mature", "Bœuf maturé", "Charolaise, trois à six semaines en cave.",

@@ -5,9 +5,9 @@
 (function() {
     'use strict';
 
-    const toggle = document.querySelector('.vitrine-nav-mobile-toggle');
+    const toggle = document.querySelector('[data-nav-toggle], .vitrine-nav-mobile-toggle');
     const nav = document.getElementById('vitrine-nav-mobile');
-    const header = document.querySelector('.vitrine-header');
+    const header = document.querySelector('[data-nav-header], .vitrine-header');
     const CLOSE_MS = 450;
 
     if (!toggle || !nav) return;
@@ -19,7 +19,7 @@
     }
 
     function placeNav() {
-        const bar = header || document.querySelector('.vitrine-header');
+        const bar = header;
         if (!bar) return;
         nav.style.top = bar.getBoundingClientRect().bottom + 'px';
     }

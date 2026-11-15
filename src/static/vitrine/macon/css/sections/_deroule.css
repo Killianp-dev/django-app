@@ -1,0 +1,37 @@
+/* Le déroulé : une vraie séquence, numéros encadrés reliés par un trait de cordeau */
+.deroule { background: var(--papier); }
+.deroule__grille { display: grid; gap: 3.5rem; align-items: start; }
+@media (min-width: 1000px) { .deroule__grille { grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr); gap: 5rem; } }
+.deroule .section__titre { margin-bottom: 2.75rem; }
+
+.etapes { position: relative; display: grid; gap: 2.25rem; }
+.etapes::before { content: ""; position: absolute; left: calc(1.5rem - 1px); top: 1.5rem; bottom: 1.5rem; width: 2px; background: var(--cordeau-pale); }
+.etape { position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.5rem; }
+.etape__num {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 3rem; height: 3rem;
+  font-family: var(--font-titre); font-weight: 600; font-size: 1.2rem;
+  color: var(--cordeau); background: var(--papier); border: 1px solid var(--cordeau); border-radius: 50%;
+  transition: background-color 0.25s, color 0.25s;
+}
+.etape:hover .etape__num { background: var(--cordeau); color: #fff; }
+.etape__titre { font-size: 1.6rem; margin-bottom: 0.35rem; padding-top: 0.45rem; }
+.etape__texte { color: var(--graphite-doux); }
+
+/* Le bureau : horaires en direct, puis les deux façons de joindre l'entreprise */
+.bureau {
+  position: sticky; top: calc(var(--header-h) + 1.5rem);
+  padding: 1.9rem; background: #fff;
+  border: 1px solid var(--filet); border-radius: var(--rayon-grand); box-shadow: var(--ombre-haute);
+}
+.bureau__texte { margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--filet); color: var(--graphite-doux); font-size: var(--t-sm); }
+.bureau__actions { display: grid; gap: 0.6rem; margin-top: 1.25rem; }
+@media (max-width: 999px) { .bureau { position: static; } }
+
+/* Infos pratiques (page entreprise) */
+.faits__ligne { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; padding: 0.85rem 0; border-top: 1px solid var(--filet); }
+.faits dt { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cordeau); padding-top: 0.2rem; }
+.gages { display: grid; gap: 1.5rem; margin-top: 2.75rem; }
+@media (min-width: 768px) { .gages { grid-template-columns: repeat(3, 1fr); } }
+.gages li { padding: 1.3rem 1.4rem; border-radius: var(--rayon-carte); background: var(--beton); }
+.gages h3 { font-size: 1.3rem; margin-bottom: 0.35rem; }
+.gages p { color: var(--graphite-doux); font-size: var(--t-sm); }

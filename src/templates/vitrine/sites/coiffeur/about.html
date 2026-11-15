@@ -1,4 +1,4 @@
-{% extends 'vitrine/base.html' %}
+{% extends 'vitrine/sites/coiffeur/base.html' %}
 {% load static vitrine_tags %}
 
 {% block title %}{{ site.labels.about }} — {{ site.nom }}{% endblock %}
@@ -56,5 +56,5 @@
     </div>
 </section>
 
-{% include 'vitrine/partials/avis.html' %}
+{% include 'vitrine/sites/coiffeur/partials/avis.html' %}
 {% endblock %}

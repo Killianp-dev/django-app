@@ -162,20 +162,6 @@ COIFFEUR = _site(
             _ligne("Barbe et coupe homme", "46 €", "45 min"),
         ]),
     ],
-    theme={
-        "--font-heading": '"Cormorant Garamond", "Playfair Display", Georgia, serif',
-        "--color-bg": "#FBF6F3",
-        "--color-surface": "#F3E8E2",
-        "--color-ink": "#2A211E",
-        "--color-ink-soft": "#6E5E58",
-        "--color-accent": "#8E4B45",
-        "--color-accent-hover": "#6E3530",
-        "--color-accent-soft": "#E7B7B0",
-        "--color-on-accent": "#FFFFFF",
-        "--color-border": "#E4D4CC",
-        "--focus-ring": "#8E4B45",
-        "--color-hero": "#4A2C32",
-    },
     offres=[
         _offre(
             "coupe", "Coupe", "Femme, homme, enfant.",

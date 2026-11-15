@@ -1,0 +1,8 @@
+{% load vitrine_tags %}
+<nav class="pro-breadcrumb" aria-label="Fil d'Ariane">
+    <ol>
+        <li><a href="{% site_url 'home' %}">Accueil</a></li>
+        {% if parent_label %}<li><a href="{{ parent_url }}">{{ parent_label }}</a></li>{% endif %}
+        <li aria-current="page">{{ current }}</li>
+    </ol>
+</nav>

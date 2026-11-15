@@ -1,0 +1,11 @@
+{% extends 'vitrine/sites/boucherie/base.html' %}
+
+{% block title %}Mentions légales — {{ site.nom }}{% endblock %}
+{% block cta %}{% endblock %}
+
+{% block content %}
+<article class="vitrine-container vitrine-container--narrow vitrine-legal-page" style="padding:var(--space-2xl) 0;">
+    <h1>Mentions légales</h1>
+    {% include 'vitrine/partials/legal/mentions.html' %}
+</article>
+{% endblock %}

@@ -1,0 +1,24 @@
+/**
+ * Aubert & Clerc — feuille propre à la démo (front indépendant).
+ * Mêmes modules et même ordre que l'ancien vitrine/css/main.css, sans les règles des autres démos.
+ */
+
+@import 'base/_fonts.css?v=20261113-pro';
+@import 'base/_reset.css';
+@import 'base/_variables.css';
+@import 'base/_global.css';
+@import 'components/_buttons.css';
+@import 'components/_nav.css?v=20261113-pro';
+@import 'components/_footer.css?v=20261012-footer';
+@import 'components/_extras.css?v=20261113-pro';
+@import 'sections/_section.css?v=20261113-salon';
+@import 'pages/_home.css';
+@import 'styles/_identities.css?v=20261113-salon';
+@import 'styles/_pro.css?v=20261113-pro3';
+@import 'styles/_boulangerie.css?v=20261113-pro';
+@import 'styles/_avocat.css?v=20261113-pro';
+@import 'pages/_contact.css?v=20261113-salon';
+@import 'pages/_legal.css';
+@import 'utilities/_responsive.css';
+@import 'utilities/_accessibility.css?v=20261113-banner';
+@import 'styles/_theme.css?v=1';

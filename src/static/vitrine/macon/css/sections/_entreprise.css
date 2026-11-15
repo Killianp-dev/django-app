@@ -1,0 +1,21 @@
+.entreprise__grille { display: grid; gap: 3.5rem; align-items: center; }
+@media (min-width: 900px) { .entreprise__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 5rem; } }
+/* Photo décalée sur un aplat graphite quadrillé */
+.entreprise__media { position: relative; isolation: isolate; padding: 0 1.5rem 1.5rem 0; }
+.entreprise__media::before {
+  content: ""; position: absolute; z-index: -1; inset: 2rem 0 0 2rem;
+  border-radius: var(--rayon-grand);
+  background: linear-gradient(160deg, var(--cordeau-pale), #C9D5EA);
+}
+.entreprise__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--rayon-grand); box-shadow: var(--ombre-haute); }
+
+/* Chiffres sur une ligne, séparés par des filets */
+.chiffres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0.5rem 0 2rem; border-block: 1px solid var(--filet); }
+.chiffres__item { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.3rem; padding: 1.1rem 1.25rem 1.1rem 0; }
+.chiffres__item + .chiffres__item { padding-left: 1.25rem; border-left: 1px solid var(--filet); }
+.chiffres dd { font-family: var(--font-titre); font-weight: 600; font-size: 2.4rem; line-height: 1; color: var(--cordeau); font-variant-numeric: tabular-nums; }
+.chiffres dt { font-size: var(--t-sm); color: var(--graphite-doux); line-height: 1.35; }
+@media (max-width: 520px) {
+  .chiffres { grid-template-columns: 1fr; }
+  .chiffres__item + .chiffres__item { padding-left: 0; border-left: 0; border-top: 1px solid var(--filet); }
+}

@@ -1,0 +1,24 @@
+/* Horaires partagés (vitrine/partials/horaires.html) : site.js calcule l'état et marque le jour. */
+.vitrine-horaires__title { font-size: var(--t-xl); margin-bottom: 0.75rem; }
+.vitrine-statut { display: inline-flex; align-items: center; gap: 0.55rem; margin-bottom: 1rem; font-weight: 500; color: var(--graphite-doux); }
+.vitrine-statut__dot { position: relative; width: 10px; height: 10px; border-radius: 50%; background: var(--parpaing); flex: none; }
+.vitrine-statut.is-open { color: var(--graphite); }
+.vitrine-statut.is-open .vitrine-statut__dot { background: var(--ouvert); }
+.vitrine-statut.is-soon .vitrine-statut__dot { background: var(--bientot); }
+.vitrine-statut.is-open .vitrine-statut__dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; background: inherit;
+  animation: pouls 2.4s ease-out infinite;
+}
+@keyframes pouls { from { transform: scale(1); opacity: 0.6; } to { transform: scale(2.6); opacity: 0; } }
+
+.vitrine-horaires__table { width: 100%; font-variant-numeric: tabular-nums; }
+.vitrine-horaires__table th, .vitrine-horaires__table td { padding: 0.55rem 0; border-bottom: 1px solid var(--filet); text-align: left; font-weight: 400; }
+.vitrine-horaires__table td { text-align: right; color: var(--graphite-doux); }
+.vitrine-horaires__table tr:last-child th, .vitrine-horaires__table tr:last-child td { border-bottom: 0; }
+.vitrine-horaires__table tr.is-today th, .vitrine-horaires__table tr.is-today td { color: var(--graphite); font-weight: 600; }
+.vitrine-horaires__table tr.is-today th::after {
+  content: "Aujourd\2019hui"; margin-left: 0.6rem; padding: 0.18rem 0.55rem; vertical-align: 0.1em; border-radius: 999px;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  background: var(--cordeau-pale); color: var(--cordeau-fonce);
+}
+.vitrine-horaires__ferme { color: var(--graphite-doux); }

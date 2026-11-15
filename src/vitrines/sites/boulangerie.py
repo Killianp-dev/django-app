@@ -166,20 +166,6 @@ BOULANGERIE = _site(
             _ligne("Formule sandwich, boisson, dessert", "9,50 €", "Jusqu'à 14h"),
         ]),
     ],
-    theme={
-        "--font-heading": '"Fraunces", "Playfair Display", Georgia, serif',
-        "--color-bg": "#FBF6EA",
-        "--color-surface": "#F3E6C8",
-        "--color-ink": "#3A2A1A",
-        "--color-ink-soft": "#6B5644",
-        "--color-accent": "#A15C2A",
-        "--color-accent-hover": "#7A431C",
-        "--color-accent-soft": "#E6C48A",
-        "--color-on-accent": "#FFFFFF",
-        "--color-border": "#E6D3AE",
-        "--focus-ring": "#A15C2A",
-        "--color-hero": "#4A2E1A",
-    },
     offres=[
         _offre(
             "pains", "Pains", "Levain, tradition, spéciaux.",

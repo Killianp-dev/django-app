@@ -1,0 +1,20 @@
+{% extends 'vitrine/sites/macon/base.html' %}
+{% load vitrine_tags %}
+
+{% block title %}{{ site.labels.realisations }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}{{ site.labels.realisations_intro }}{% endblock %}
+
+{% block content %}
+<div class="container page">
+    {% include 'vitrine/sites/macon/partials/fil.html' with current=site.labels.realisations %}
+    <header class="page__tete">
+        <p class="kicker">{{ site.labels.realisations_kicker }}</p>
+        <h1 class="page__titre">{{ site.labels.realisations_title }}</h1>
+        <p class="page__intro">{{ site.labels.realisations_intro }}</p>
+    </header>
+    <div class="chantiers">
+        {% include 'vitrine/partials/realisations_grid.html' with items=site.realisations filtres=filtres %}
+    </div>
+    {% if site.labels.realisations_note %}<p class="note note--encadre">{{ site.labels.realisations_note }}</p>{% endif %}
+</div>
+{% endblock %}

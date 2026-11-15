@@ -1,0 +1,8 @@
+.contact { display: grid; gap: 3rem; align-items: start; }
+@media (min-width: 960px) { .contact { grid-template-columns: 7fr 4fr; gap: 4rem; } }
+.contact__marge { padding: 1.9rem; background: #fff; border: 1px solid var(--filet); border-radius: var(--rayon-grand); box-shadow: var(--ombre-douce); }
+.contact__titre { font-size: var(--t-xl); margin-bottom: 0.5rem; }
+.contact__marge > p { color: var(--graphite-doux); }
+.contact__tel { display: inline-block; margin: 0.75rem 0; font-family: var(--font-titre); font-weight: 600; font-size: 1.8rem; color: var(--cordeau); text-decoration: none; }
+.contact__ligne { color: var(--graphite-doux); font-size: var(--t-sm); }
+.contact__marge .bureau { position: static; margin-top: 1.5rem; padding: 1.25rem 0 0; background: none; border: 0; border-radius: 0; box-shadow: none; border-top: 1px solid var(--filet); }
