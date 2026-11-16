@@ -2,14 +2,6 @@
    CARTES D'ARTICLE
    ================================================= */
 
-.cards {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
-  padding-bottom: 1rem;
-}
-
 .card {
   flex: 1 1 100%;
   max-width: 100%;
@@ -35,66 +27,8 @@
   border-color: var(--color-accent);
 }
 
-.card-link {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-
-.card-image {
-  overflow: hidden;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  display: block;
-  line-height: 0;
-  font-size: 0;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.card-image img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  object-position: center;
-  transition: transform .4s, filter .4s;
-  transform: scale(1.05);
-  display: block;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.card:hover .card-image img {
-  transform: scale(1.15);
-  filter: brightness(.9);
-}
-
-.card-content {
-  padding: 1.5rem;
-  flex: 1;
-  font-size: 1rem;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  margin-bottom: .5rem;
-  color: var(--color-dark);
-}
-
-.card-meta {
-  font-size: .875rem;
-  color: var(--color-grey);
-  margin-bottom: 1rem;
-}
-
-.card-excerpt {
-  text-align: left;
-}
-
 /* Actions communes */
-.card-actions,
+
 .article-actions,
 .form-actions {
   display: flex;
@@ -103,6 +37,3 @@
   justify-content: flex-end;
 }
 
-.card-actions {
-  padding: 0 1.5rem 1.5rem;
-}

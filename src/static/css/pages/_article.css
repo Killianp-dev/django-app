@@ -33,22 +33,6 @@ html:has(body.article-page) {
   contain: inline-size;
 }
 
-.article-back {
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 2.25rem;
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: var(--color-ink-muted);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.article-back:hover {
-  color: var(--color-accent);
-}
-
 .article {
   width: 100%;
   max-width: 100%;

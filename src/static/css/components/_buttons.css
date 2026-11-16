@@ -4,8 +4,7 @@
 
 .btn,
 .btn-secondary,
-.btn-delete,
-.btn-add {
+.btn-delete {
   display: inline-block;
   padding: 0.65rem 1.2rem;
   font-size: 0.92rem;
@@ -44,16 +43,6 @@
 
 .btn-delete:hover {
   background: var(--color-danger-hover);
-}
-
-.btn-add {
-  background: var(--color-success);
-  color: #fff;
-  padding: 0.65rem 1.25rem;
-}
-
-.btn-add:hover {
-  background: var(--color-success-hover);
 }
 
 .hero-btn {
@@ -99,30 +88,6 @@
 }
 
 .hero-btn::after {
-  display: none;
-}
-
-.btn.btn--primary {
-  align-self: flex-start;
-  padding: 0.65rem 1.25rem;
-  background-color: var(--color-accent);
-  color: white;
-  border: none;
-  border-radius: var(--radius-full);
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-decoration: none;
-  transition: all 0.25s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn.btn--primary:hover {
-  background-color: var(--color-accent-hover);
-  transform: translateY(-2px);
-}
-
-.btn.btn--primary::after {
   display: none;
 }
 

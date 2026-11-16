@@ -38,12 +38,6 @@ def _jour(nom, court, ouverture=None, fermeture=None):
     return _ns(nom=nom, court=court, ouverture=ouverture, fermeture=fermeture)
 
 
-def _eur(montant):
-    """Montant au format français : 1 234,50 € (espaces insécables fines)."""
-    entier, decimales = f"{montant:,.2f}".split(".")
-    return f"{entier.replace(',', '\u202f')},{decimales}\u00a0€"
-
-
 def _site(**kwargs):
     site = _ns(**kwargs)
     site.offres_par_slug = {offre.slug: offre for offre in site.offres}

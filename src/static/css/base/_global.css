@@ -40,13 +40,6 @@ body {
   margin: 0 0 2rem;
 }
 
-.container {
-  max-width: var(--content-max);
-  margin: 0 auto;
-  padding: 1rem var(--page-gutter) 2rem;
-  min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 20px);
-}
-
 .page-header {
   max-width: var(--content-max);
   margin: 2.5rem auto 1rem;
@@ -85,23 +78,6 @@ body {
   text-transform: uppercase;
   color: var(--color-accent);
   margin-bottom: 0.85rem;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 3.25rem;
-}
-
-.section-header h2 {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  margin-bottom: 0.65rem;
-}
-
-.section-header p {
-  color: var(--color-ink-muted);
-  max-width: 520px;
-  margin: 0 auto;
-  font-size: 1.05rem;
 }
 
 /* Separateur horizontal stylise */
@@ -160,15 +136,6 @@ body {
   transform: rotate(180deg);
 }
 
-.section-divider.animated .divider-line {
-  width: 0;
-  transition: width 1s ease;
-}
-
-.section-divider.animated.reveal .divider-line {
-  width: 100%;
-}
-
 /* Mentions legales */
 .mentions-legales {
   max-width: 760px;
@@ -201,9 +168,7 @@ body {
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: 1rem var(--page-gutter);
-  }
+  
 
   .page-header {
     margin: 1.5rem auto 1rem;
@@ -226,9 +191,7 @@ body {
 }
 
 @media (max-width: 400px) {
-  .container {
-    padding: 0.75rem var(--page-gutter);
-  }
+  
 
   .page-header {
     margin: 1.25rem auto 1rem;

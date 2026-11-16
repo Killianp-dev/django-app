@@ -2,11 +2,6 @@
    BLOG — LISTE DES ARTICLES
    ================================================= */
 
-.blog-container {
-  padding-top: 0.5rem;
-  padding-bottom: 5rem;
-}
-
 .blog-featured,
 .blog-grid {
   min-width: 0;
@@ -235,14 +230,6 @@
   padding: 1.25rem 1.3rem 1.4rem;
 }
 
-.blog-card__date {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
 .blog-card__title {
   font-family: var(--font-serif);
   font-size: 1.32rem;
@@ -264,35 +251,6 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   flex: 1;
-}
-
-.blog-card__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.45rem 0.9rem;
-  margin-top: 0.55rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid var(--color-border);
-  font-size: 0.8rem;
-  color: var(--color-ink-muted);
-}
-
-.blog-card__meta span:not(:first-child) {
-  position: relative;
-  padding-left: 0.9rem;
-}
-
-.blog-card__meta span:not(:first-child)::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: currentColor;
-  transform: translateY(-50%);
 }
 
 .blog-empty {
@@ -354,10 +312,7 @@
 }
 
 @media (max-width: 768px) {
-  .blog-container {
-    padding-top: 0;
-    padding-bottom: 3.5rem;
-  }
+  
 
   .blog-featured__media {
     min-height: 320px;

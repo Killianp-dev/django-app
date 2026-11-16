@@ -3,25 +3,6 @@
    ================================================= */
 
 /* Animations pour scroll - Version améliorée */
-.scroll-right,
-.scroll-left {
-  opacity: 0;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scroll-right {
-  transform: translateX(100px) scale(0.95);
-}
-
-.scroll-left {
-  transform: translateX(-100px) scale(0.95);
-}
-
-.scroll-right.visible,
-.scroll-left.visible {
-  transform: translateX(0) scale(1);
-  opacity: 1;
-}
 
 .scroll-up {
   opacity: 0;
@@ -36,8 +17,7 @@
 
 /* Support pour prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .scroll-right,
-  .scroll-left,
+  
   .project {
     transition: none !important;
     animation: none !important;

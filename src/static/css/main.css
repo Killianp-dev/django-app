@@ -7,7 +7,6 @@
 @import url('./base/_variables.css?v=20261108-nav-light');
 @import url('./base/_reset.css');
 @import url('./base/_global.css?v=20261113-about-home');
-@import url('./base/_naming-conventions.css');
 
 /* 2. Components - Éléments réutilisables */
 @import url('./components/_navbar.css?v=20261113-nav-drop');

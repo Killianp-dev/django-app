@@ -7,7 +7,7 @@ Les fichiers `apercu.jpg` sont des captures des démos, utilisées sur la page d
 Le détail du salon de coiffure est dans `coiffeur/CREDITS.md`.
 
 ## Maçonnerie (`macon/`)
-hero-parpaing i6V6diaf71A · gros-oeuvre-mur nZZfP9QiQ6w · renovation-enduit Re1O5byZ8bY ·
+hero-parpaing i6V6diaf71A · renovation-enduit Re1O5byZ8bY ·
 extension-elevation qwltbMlICgs · exterieur-terrasse bGaG3Cfp2WA · entreprise ztdLZIanrXc ·
 realisations : maison-elevation VggmWsUgA10, dalle 8eEkLj8HU_I, mur-pierre mdce0I_apXs,
 escalier-pierre yU6jgWSF0lI, mur-brique MXPWld5uysw, allee-pierre 7iDFxq7iGzg,

@@ -152,25 +152,6 @@
         window.setInterval(renderFournees, 60 * 1000);
     }
 
-    /* ---------- 1 ter. Devis : bascule du taux de TVA (maçon) ---------- */
-    document.querySelectorAll('[data-devis]').forEach((devis) => {
-        const tva = devis.querySelector('[data-devis-tva]');
-        const ttc = devis.querySelector('[data-devis-ttc]');
-        const label = devis.querySelector('[data-devis-taux-label]');
-        devis.addEventListener('change', (event) => {
-            const input = event.target.closest('input[name="devis-taux"]');
-            if (!input) return;
-            tva.textContent = input.dataset.tva;
-            ttc.textContent = input.dataset.ttc;
-            label.textContent = input.value + ' %';
-            [tva, ttc].forEach((el) => {
-                el.classList.remove('is-updated');
-                void el.offsetWidth;
-                el.classList.add('is-updated');
-            });
-        });
-    });
-
     /* ---------- 1 quater. Calculateur de quantités (boucherie) ---------- */
     document.querySelectorAll('[data-calculateur]').forEach((form) => {
         const select = form.querySelector('select[name="piece"]');

@@ -95,7 +95,6 @@ html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
 .hero-btn::before,
 .btn::before,
 .btn.btn--outline::before,
-.btn.btn--primary::before,
 #contact-form button[type="submit"]::before {
   content: "";
   display: block;
@@ -114,7 +113,6 @@ html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
 .hero-btn:hover::before,
 .btn:hover::before,
 .btn.btn--outline:hover::before,
-.btn.btn--primary:hover::before,
 #contact-form button[type="submit"]:hover::before {
   animation: shineSweep 0.7s var(--ease-out);
 }
@@ -132,7 +130,6 @@ html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
 
 .btn,
 .btn.btn--outline,
-.btn.btn--primary,
 #contact-form button[type="submit"] {
   position: relative;
   overflow: hidden;
@@ -178,11 +175,7 @@ html[data-theme="dark"] .has-surface-glow::after {
   box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
-
 /* Stack */
-.stack-graph {
-  position: relative;
-}
 
 .section-divider .divider-icon {
   box-shadow: var(--shadow-sm), 0 0 0 1px transparent, 0 0 18px var(--glow-accent);
@@ -239,7 +232,6 @@ html[data-theme="dark"] .footer a:hover {
   .hero-btn:hover::before,
   .btn:hover::before,
   .btn.btn--outline:hover::before,
-  .btn.btn--primary:hover::before,
   #contact-form button[type="submit"]:hover::before {
     animation: none;
   }

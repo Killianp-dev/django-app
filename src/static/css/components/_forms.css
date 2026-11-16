@@ -53,13 +53,6 @@
   background: var(--color-input);
 }
 
-.help {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.85rem;
-  color: var(--color-ink-muted);
-}
-
 .error {
   display: block;
   margin-top: 0.25rem;
@@ -301,17 +294,6 @@ html[data-theme="dark"] .contact-links a:focus-visible {
   padding: 0.95rem 2.2rem;
 }
 
-#contact-form .errorlist {
-  margin-top: 0.35rem;
-  list-style: none;
-  font-size: 0.85rem;
-  color: var(--color-danger);
-}
-
-#contact-form .errorlist li::before {
-  content: "⚠ ";
-}
-
 #contact-form .has-error .form-control {
   border-color: var(--color-danger);
 }
@@ -384,14 +366,6 @@ html[data-theme="dark"] .contact-links a:focus-visible {
   color: var(--color-ink-muted);
   font-size: 0.92rem;
   line-height: 1.5;
-}
-
-.blog-images .errorlist {
-  margin: 0.35rem 0 0;
-  padding: 0;
-  list-style: none;
-  color: var(--color-danger);
-  font-size: 0.85rem;
 }
 
 .blog-images__list {
