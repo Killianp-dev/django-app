@@ -314,8 +314,58 @@ html[data-theme="dark"] .contact-links a:focus-visible {
   padding: 0.95rem 2.2rem;
 }
 
-#contact-form .has-error .form-control {
+#contact-form .has-error .form-control,
+#contact-form .form-control[aria-invalid="true"] {
   border-color: var(--color-danger);
+}
+
+/* Erreurs : celles du serveur (.errorlist) et celles vérifiées dans le navigateur
+   (.field-error) ont le même aspect. */
+#contact-form .errorlist,
+#contact-form .field-error {
+  margin: 0.45rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  color: var(--color-danger);
+}
+
+html[data-theme="dark"] #contact-form .errorlist,
+html[data-theme="dark"] #contact-form .field-error {
+  color: #f0a39e;
+}
+
+#contact-form button[type="submit"][aria-busy="true"] {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.contact-draft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  margin: 0 0 1rem;
+  font-size: 0.84rem;
+  color: var(--color-ink-muted);
+}
+
+.contact-draft button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-strong);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.contact-draft button:hover {
+  color: var(--color-accent);
 }
 
 @media (max-width: 900px) {

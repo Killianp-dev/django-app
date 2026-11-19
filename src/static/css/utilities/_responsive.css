@@ -42,28 +42,14 @@
     padding: 1.25rem var(--page-gutter);
     margin: 1.25rem var(--page-gutter) 3rem;
   }
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 }
 
 /* Contact form responsive */
 @media (max-width: 600px) {
-
   #contact-form > h2,
   .contact-intro h2 {
     font-size: 1.6rem;
   }
-
 }
 
 /* Carousel Responsive */

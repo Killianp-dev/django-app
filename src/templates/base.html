@@ -4,14 +4,24 @@
 <html lang="fr" data-theme="light">
 
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8JDMEJJK4S"></script>
+<!-- Google Analytics : chargé uniquement après « Accepter » dans le bandeau cookies
+     (ou à la visite suivante si le visiteur avait déjà accepté). Rien n'est déposé avant. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8JDMEJJK4S');
+  window.loadAnalytics = function () {
+    if (window.analyticsLoaded) return;
+    window.analyticsLoaded = true;
+    var tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-8JDMEJJK4S';
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-8JDMEJJK4S');
+  };
+  try {
+    if (localStorage.getItem('cookie-consent') === 'accepted') window.loadAnalytics();
+  } catch (e) {}
 </script>
 
     <meta charset="UTF-8">
@@ -32,20 +42,15 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" media="print" onload="this.media='all'">
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
     </noscript>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261119-champagne">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261119-mort">
     <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20260822" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20260822">
     <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20260822">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    </noscript>
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
@@ -54,7 +59,6 @@
     <div class="site-lights__orb site-lights__orb--b"></div>
     <div class="site-lights__orb site-lights__orb--c"></div>
 </div>
-<div class="pointer-glow" aria-hidden="true"></div>
 <!-- Barre de navigation -->
 <header class="navbar">
     <div class="navbar__glass" aria-hidden="true"></div>
@@ -164,9 +168,26 @@
     </div>
 </div>
 
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script defer src="{% static 'js/app.js' %}?v=20261119-champagne"></script>
+<!-- Préchargement au survol (Speculation Rules, navigateurs récents) : la page visée est
+     téléchargée sans être exécutée, l'ouverture paraît instantanée. Admin et édition exclues. -->
+<script type="speculationrules">
+{
+  "prefetch": [{
+    "where": {
+      "and": [
+        { "href_matches": "/*" },
+        { "not": { "href_matches": "/secure-admin-portal/*" } },
+        { "not": { "href_matches": "/blog/create/*" } },
+        { "not": { "href_matches": "/blog/edit/*" } },
+        { "not": { "href_matches": "/blog/delete/*" } },
+        { "not": { "selector_matches": "[rel~=nofollow], [download]" } }
+      ]
+    },
+    "eagerness": "moderate"
+  }]
+}
+</script>
+<script defer src="{% static 'js/app.js' %}?v=20261119-plus2"></script>
 </body>
 
 </html>

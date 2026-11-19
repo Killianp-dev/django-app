@@ -310,6 +310,43 @@ html[data-theme="dark"] .logo-dot {
   box-shadow: var(--nav-thumb-shadow);
 }
 
+/* Pastille glissante : posée par le JS (.has-thumb), elle se déplace sous le lien
+   actif au lieu de sauter d'un lien à l'autre. Ordinateur seulement. */
+@media (min-width: 769px) {
+  .nav-links.has-thumb {
+    position: relative;
+  }
+
+  .nav-links.has-thumb::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: var(--thumb-w, 0);
+    border-radius: var(--radius-full);
+    background: var(--nav-thumb);
+    box-shadow: var(--nav-thumb-shadow);
+    opacity: var(--thumb-o, 0);
+    transform: translateX(var(--thumb-x, 0));
+    transition: transform 0.45s var(--nav-ease), width 0.45s var(--nav-ease), opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .nav-links.has-thumb.is-instant::before {
+    transition: none;
+  }
+
+  .nav-links.has-thumb a {
+    z-index: 1;
+  }
+
+  .nav-links.has-thumb a.active {
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
 /* ---------- Actions ---------- */
 .navbar-actions {
   justify-self: end;
@@ -807,7 +844,8 @@ html[data-theme="dark"] .navbar-cta {
   .theme-toggle,
   .hamburger,
   .navbar-cta,
-  .nav-menu__cta svg {
+  .nav-menu__cta svg,
+  .nav-links.has-thumb::before {
     transition: none !important;
   }
 

@@ -1,4 +1,4 @@
-// app.js (optimized)
+// app.js — site principal (les démos ont chacune leur propre script)
 
 (() => {
   // Constants
@@ -8,130 +8,79 @@
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
   const navLinks = document.querySelectorAll('.nav-links a');
-  const hero = document.querySelector('.hero');
   const navbar = document.querySelector('.navbar');
+
+  // Aperçu du hero, piloté aussi par les pastilles « Votre métier »
+  let heroPreview = null;
 
   // Utils
   const utils = {
-    // Debounce function to limit execution rate
+    // Limite la fréquence d'exécution (redimensionnement…)
     debounce: (func, delay) => {
       let timer;
       return function(...args) {
         clearTimeout(timer);
         timer = setTimeout(() => func.apply(this, args), delay);
       };
-    },
-    
-    // Check if GSAP and ScrollTrigger are available
-    hasGSAP: () => typeof gsap !== 'undefined',
-    hasScrollTrigger: () => typeof ScrollTrigger !== 'undefined'
+    }
   };
 
-  // ===== Navigation Active State =====
+  // ===== Lien actif du menu (page d'accueil) =====
+  // Le défilement vers les ancres est laissé au navigateur (scroll-behavior et
+  // scroll-margin-top en CSS) : l'URL suit, Retour fonctionne, « réduire les
+  // animations » est respecté. Ici, on ne fait que surligner la section lue.
   function initActiveNavigation() {
-    if (!navLinks.length) return;
+    if (!navLinks.length || !('IntersectionObserver' in window)) return;
 
-    // Get all target sections for navigation
-    const sections = [];
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      if (href && href.startsWith('#') && href.length > 1) {
-        const section = document.querySelector(href);
-        if (section) {
-          sections.push({ id: href, element: section, link });
-        }
-      }
+    const targets = [];
+    navLinks.forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      const section = href.startsWith('#') && href.length > 1 ? document.querySelector(href) : null;
+      if (section) targets.push({ link, section });
     });
+    if (!targets.length) return;
 
-    if (!sections.length) return;
+    // Le formulaire de contact n'a pas d'entrée dans le menu : arrivé là, plus rien n'est surligné.
+    const contact = document.getElementById('contact-form');
+    if (contact) targets.push({ link: null, section: contact });
 
-    // Sort sections by position (top to bottom)
-    sections.sort((a, b) => a.element.offsetTop - b.element.offsetTop);
-
-    // Add click event listeners to links
-    navLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href && href.startsWith('#') && href.length > 1) {
-          e.preventDefault();
-
-          // Update active class immediately
-          navLinks.forEach(navLink => navLink.classList.remove('active'));
-          this.classList.add('active');
-
-          // Smooth scroll to section
-          const targetSection = document.querySelector(href);
-          if (targetSection) {
-            const navbarHeight = navbar ? navbar.offsetHeight : 0;
-            const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-
-            window.scrollTo({
-              top: targetPosition,
-              behavior: 'smooth'
-            });
-          }
-        }
+    const visible = new Set();
+    const observer = new IntersectionObserver((records) => {
+      records.forEach((record) => {
+        if (record.isIntersecting) visible.add(record.target);
+        else visible.delete(record.target);
       });
-    });
+      const current = targets.find((target) => visible.has(target.section));
+      if (!current) return;
+      navLinks.forEach((link) => link.classList.toggle('active', link === current.link));
+      moveNavThumb();
+    }, { rootMargin: '-30% 0px -60% 0px' });
 
-    // Determine which section is currently visible
-    function highlightNavOnScroll() {
-      const navbarHeight = navbar ? navbar.offsetHeight : 0;
-      const scrollPosition = window.pageYOffset + navbarHeight + 5;
-      const windowHeight = window.innerHeight;
-      const windowBottom = scrollPosition + windowHeight * 0.5;
+    targets.forEach((target) => observer.observe(target.section));
+  }
 
-      let currentSectionIndex = -1;
+  // ===== Menu : pastille glissante sous le lien actif (ordinateur) =====
+  const navList = document.querySelector('.nav-links');
 
-      // Find section most visible on screen
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        const sectionTop = section.element.offsetTop - navbarHeight;
-        const sectionHeight = section.element.offsetHeight;
-        const sectionBottom = sectionTop + sectionHeight;
-
-        if ((scrollPosition >= sectionTop && scrollPosition < sectionBottom) ||
-            (sectionTop <= scrollPosition && sectionBottom >= scrollPosition)) {
-          currentSectionIndex = i;
-          break;
-        }
-      }
-
-      // Handle top of page (home/hero section)
-      if (currentSectionIndex === -1 && scrollPosition < 150) {
-        const homeLink = document.querySelector('.nav-links a[href="#hero"], .nav-links a[href="#home"], .nav-links a[href="#"]');
-        if (homeLink) {
-          navLinks.forEach(link => link.classList.remove('active'));
-          homeLink.classList.add('active');
-          return;
-        }
-
-        if (sections.length > 0 && sections[0].element.offsetTop - navbarHeight - 200 < scrollPosition) {
-          currentSectionIndex = 0;
-        }
-      }
-
-      // Update active state
-      if (currentSectionIndex !== -1) {
-        navLinks.forEach(link => link.classList.remove('active'));
-        sections[currentSectionIndex].link.classList.add('active');
-      }
+  function moveNavThumb(instant = false) {
+    if (!navList || !navList.classList.contains('has-thumb')) return;
+    const active = navList.querySelector('a.active');
+    navList.classList.toggle('is-instant', instant);
+    if (!active || isMobileNav()) {
+      navList.style.setProperty('--thumb-o', '0');
+      return;
     }
+    navList.style.setProperty('--thumb-x', `${active.offsetLeft}px`);
+    navList.style.setProperty('--thumb-w', `${active.offsetWidth}px`);
+    navList.style.setProperty('--thumb-o', '1');
+  }
 
-    // Initial state
-    highlightNavOnScroll();
-
-    // Optimize scroll event with requestAnimationFrame
-    let isScrolling = false;
-    window.addEventListener('scroll', () => {
-      if (!isScrolling) {
-        isScrolling = true;
-        requestAnimationFrame(() => {
-          highlightNavOnScroll();
-          isScrolling = false;
-        });
-      }
-    });
+  function initNavThumb() {
+    if (!navList) return;
+    navList.classList.add('has-thumb');
+    moveNavThumb(true);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => moveNavThumb(true));
+    window.addEventListener('resize', utils.debounce(() => moveNavThumb(true), 120));
   }
 
   // ===== Mobile Menu =====
@@ -280,200 +229,55 @@
     }
   }
 
-  // ===== Scroll Animations =====
-  function initScrollAnimations() {
-    if (prefersReducedMotion()) return;
+  // ===== Apparition des blocs au défilement =====
+  // Une seule fois par bloc, en CSS (.reveal / .is-visible). Les blocs déjà à
+  // l'écran au chargement ne sont jamais cachés. Une fois l'apparition finie,
+  // la classe est retirée pour rendre la main aux transitions de survol.
+  function initScrollReveal() {
+    if (prefersReducedMotion() || !('IntersectionObserver' in window)) return;
 
-    if (!utils.hasGSAP() || !utils.hasScrollTrigger()) {
-      initBasicScrollAnimations();
-      return;
-    }
+    const blocks = document.querySelectorAll(
+      '.projects__header, .project, .offer-step, .pricing-card, .pricing-plan, .about__panel, .about__aside'
+    );
+    if (!blocks.length) return;
 
-    gsap.registerPlugin(ScrollTrigger);
-
-    const revealBlocks = (selector, stagger = false) => {
-      document.querySelectorAll(selector).forEach((block, index) => {
-        gsap.fromTo(block,
-          { opacity: 0, y: 28 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: stagger ? (index % 3) * 0.1 : 0,
-            ease: "power2.out",
-            // Rend la main au CSS (survols) une fois l'apparition terminée
-            clearProps: "opacity,transform",
-            scrollTrigger: {
-              trigger: block,
-              start: "top 88%",
-              once: true
-            }
-          }
-        );
-      });
+    const settle = (el) => {
+      el.classList.remove('reveal', 'is-visible');
+      el.style.removeProperty('--reveal-delay');
     };
 
-    revealBlocks('.project');
-    revealBlocks('.offer-step', true);
-    revealBlocks('.pricing-card', true);
-    revealBlocks('.pricing-plan');
-    revealBlocks('.about__panel', true);
-    revealBlocks('.about__aside');
-  }
-
-  // Fallback for browsers without GSAP
-  function initBasicScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        } else {
-          entry.target.classList.remove('visible');
-        }
+    const observer = new IntersectionObserver((records) => {
+      records.forEach((record) => {
+        if (!record.isIntersecting) return;
+        const el = record.target;
+        observer.unobserve(el);
+        el.classList.add('is-visible');
+        const onEnd = (event) => {
+          if (event.target !== el) return;
+          el.removeEventListener('transitionend', onEnd);
+          settle(el);
+        };
+        el.addEventListener('transitionend', onEnd);
+        window.setTimeout(() => settle(el), 1600);
       });
-    }, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.1
-    });
+    }, { rootMargin: '0px 0px -10% 0px' });
 
-    document.querySelectorAll('.project, .offer-step, .pricing-card, .pricing-plan, .about__panel, .about__aside').forEach((block) => {
-      block.classList.add('scroll-up');
-      observer.observe(block);
+    blocks.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) return;
+      const index = Array.prototype.indexOf.call(el.parentElement.children, el);
+      el.style.setProperty('--reveal-delay', `${(index % 3) * 0.1}s`);
+      el.classList.add('reveal');
+      observer.observe(el);
     });
   }
 
-  // ===== Hero Animation =====
-  function initHeroAnimation() {
-    if (!hero) return;
-
-    const revealHero = () => {
-      hero.classList.remove('is-loading');
-    };
-
-    if (prefersReducedMotion() || !utils.hasGSAP()) {
-      revealHero();
-      return;
-    }
-
-    const heroEyebrow = hero.querySelector('.hero__eyebrow');
-    const heroTitle = hero.querySelector('.hero__title');
-    const heroSubtitle = hero.querySelector('.hero__subtitle');
-    const heroActions = hero.querySelector('.hero__actions');
-    const heroFacts = hero.querySelector('.hero__facts');
-    const heroCode = hero.querySelector('.hero__code');
-    const heroLines = hero.querySelectorAll('.hero__code .ln');
-    const heroScroll = hero.querySelector('.hero__scroll');
-
-    if (!heroTitle || !heroSubtitle || !heroActions) {
-      revealHero();
-      return;
-    }
-
-    const intro = [heroEyebrow, heroTitle, heroSubtitle, heroActions, heroFacts, heroCode, heroScroll].filter(Boolean);
-
-    gsap.set(intro, { autoAlpha: 0, y: 14 });
-    gsap.set(heroTitle, { y: 18 });
-    if (heroCode) gsap.set(heroCode, { y: 26 });
-    if (heroLines.length) gsap.set(heroLines, { autoAlpha: 0, x: -8 });
-    revealHero();
-
-    const tl = gsap.timeline({
-      defaults: {
-        ease: 'power2.out',
-        duration: 0.7
-      },
-      onComplete() {
-        gsap.set(intro, { clearProps: 'transform' });
-        if (heroLines.length) gsap.set(heroLines, { clearProps: 'transform' });
-      }
-    });
-
-    if (heroEyebrow) {
-      tl.to(heroEyebrow, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.06);
-    }
-
-    tl.to(heroTitle, { autoAlpha: 1, y: 0, duration: 0.72 }, 0.14)
-      .to(heroSubtitle, { autoAlpha: 1, y: 0, duration: 0.58 }, 0.26)
-      .to(heroActions, { autoAlpha: 1, y: 0, duration: 0.52 }, 0.4);
-
-    if (heroFacts) {
-      tl.to(heroFacts, { autoAlpha: 1, y: 0, duration: 0.58 }, 0.5);
-    }
-
-    if (heroCode) {
-      tl.to(heroCode, { autoAlpha: 1, y: 0, duration: 0.85 }, 0.3);
-    }
-
-    if (heroLines.length) {
-      tl.to(heroLines, {
-        autoAlpha: 1,
-        x: 0,
-        duration: 0.4,
-        stagger: 0.055,
-        ease: 'power1.out'
-      }, 0.7);
-    }
-
-    if (heroScroll) {
-      tl.to(heroScroll, { autoAlpha: 1, y: 0, duration: 0.45 }, 0.9);
-    }
-  }
-
-  // ===== Navbar Animations =====
-  function initNavbarAnimations() {
+  // ===== Barre de navigation : état « défilé » =====
+  function initNavbarState() {
     if (!navbar) return;
-
-    const logo = navbar.querySelector('.logo a');
-
-    const syncScrolledState = () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 24);
-    };
-
-    syncScrolledState();
-    window.addEventListener('scroll', syncScrolledState, { passive: true });
-
-    if (!utils.hasGSAP()) return;
-
-    const hasPlayedAnimation = sessionStorage.getItem('navbarAnimationPlayed');
-    if (hasPlayedAnimation) return;
-
-    const introItems = [logo, !isMobileNav() && navMenu, navbar.querySelector('.navbar-actions')].filter(Boolean);
-    if (introItems.length) {
-      gsap.from(introItems, {
-        y: -16,
-        opacity: 0,
-        duration: 0.4,
-        stagger: 0.05,
-        ease: 'power3.out',
-        clearProps: 'all'
-      });
-    }
-
-    sessionStorage.setItem('navbarAnimationPlayed', 'true');
-  }
-
-  // ===== Clickable Article Cards =====
-  function initClickableCards() {
-    const articleCards = document.querySelectorAll('.blog-card, .blog-featured');
-
-    articleCards.forEach(card => {
-      if (card.closest('.carousel, .featured-rotator')) return;
-      const mainLink = card.querySelector('a[href]');
-      if (!mainLink) return;
-
-      const targetUrl = mainLink.getAttribute('href');
-      card.style.cursor = 'pointer';
-
-      card.addEventListener('click', function(e) {
-        const isInteractiveElement = e.target.matches('a, button') || 
-                                   e.target.closest('a, button');
-        if (isInteractiveElement) return;
-        
-        window.location.href = targetUrl;
-      });
-
-    });
+    const sync = () => navbar.classList.toggle('scrolled', window.scrollY > 24);
+    sync();
+    window.addEventListener('scroll', sync, { passive: true });
   }
 
   // ===== Widgets "Copier" collés dans le HTML des articles =====
@@ -581,45 +385,6 @@
     return window.matchMedia('(pointer: fine)').matches;
   }
 
-  function initPointerGlow() {
-    const glow = document.querySelector('.pointer-glow');
-    if (!glow || prefersReducedMotion() || !hasFinePointer()) return;
-
-    const root = document.documentElement;
-    let currentX = window.innerWidth / 2;
-    let currentY = window.innerHeight / 3;
-    let targetX = currentX;
-    let targetY = currentY;
-    let ticking = false;
-
-    function update() {
-      currentX += (targetX - currentX) * 0.14;
-      currentY += (targetY - currentY) * 0.14;
-      root.style.setProperty('--pointer-x', `${currentX.toFixed(1)}px`);
-      root.style.setProperty('--pointer-y', `${currentY.toFixed(1)}px`);
-      ticking = false;
-      if (Math.abs(targetX - currentX) > 0.4 || Math.abs(targetY - currentY) > 0.4) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    }
-
-    window.addEventListener('pointermove', (event) => {
-      if (event.pointerType && event.pointerType !== 'mouse') return;
-      targetX = event.clientX;
-      targetY = event.clientY;
-      glow.classList.add('is-active');
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    }, { passive: true });
-
-    document.addEventListener('pointerleave', () => {
-      glow.classList.remove('is-active');
-    });
-  }
-
   function initSurfaceGlow() {
     if (prefersReducedMotion() || !hasFinePointer()) return;
 
@@ -637,196 +402,40 @@
     });
   }
 
-  // ===== Section Title Animations =====
-  function initSectionTitleAnimations() {
-    if (!utils.hasGSAP() || !utils.hasScrollTrigger()) return;
-    if (window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches) return;
-
-    const sectionTitles = document.querySelectorAll('.projects__header h2');
-
-    sectionTitles.forEach(title => {
-      // Animation par caractère, mots insécables : le titre peut passer
-      // à la ligne et les lecteurs d'écran lisent le texte entier.
-      const text = title.textContent.trim();
-      const chars = [];
-      title.setAttribute('aria-label', text);
-      title.innerHTML = '';
-
-      text.split(/\s+/).forEach((word, wordIndex, words) => {
-        const wordSpan = document.createElement('span');
-        wordSpan.setAttribute('aria-hidden', 'true');
-        wordSpan.style.display = 'inline-block';
-        wordSpan.style.whiteSpace = 'nowrap';
-
-        word.split('').forEach(char => {
-          const span = document.createElement('span');
-          span.textContent = char;
-          span.style.display = 'inline-block';
-          wordSpan.appendChild(span);
-          chars.push(span);
-        });
-
-        title.appendChild(wordSpan);
-        if (wordIndex < words.length - 1) title.appendChild(document.createTextNode(' '));
-      });
-
-      gsap.fromTo(chars,
-        {
-          y: 30,
-          opacity: 0,
-          rotationX: -90,
-          transformOrigin: "center bottom"
-        },
-        {
-          y: 0,
-          opacity: 1,
-          rotationX: 0,
-          duration: 0.8,
-          stagger: 0.02,
-          ease: "back.out(1.7)",
-          scrollTrigger: {
-            trigger: title,
-            start: "top 90%",
-            end: "bottom 10%",
-            toggleActions: "play none none reverse",
-            once: false,
-            invalidateOnRefresh: true
-          }
-        }
-      );
-    });
-  }
-
-  // ===== Scroll vers les ancres pour les redirections inter-pages =====
-  function handleAnchorScroll() {
-    // Vérifie si l'URL contient un hash (ancre)
-    if (location.hash) {
-      // Utiliser un délai plus long pour s'assurer que tout le DOM est chargé
-      setTimeout(() => {
-        const targetElement = document.querySelector(location.hash);
-        
-        if (targetElement) {
-          // Calcul de la position en tenant compte de la hauteur de la navbar
-          const navbarHeight = navbar ? navbar.offsetHeight : 0;
-          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
-          
-          // Scroll vers l'élément avec un peu plus de délai
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 500); // Délai augmenté à 500ms
-    }
-  }
-
-  // Ajout d'un gestionnaire d'événements spécifique pour les liens avec ancres
-  function initInterPageLinks() {
-    const interPageLinks = document.querySelectorAll('a[href*="#"]:not([href="#"])');
-    
-    interPageLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        // Si le lien pointe vers une autre page avec un hash
-        if (href.indexOf('#') !== -1 && !href.startsWith('#')) {
-          const targetPage = href.split('#')[0];
-          const currentPage = window.location.pathname;
-          
-          // Si nous sommes déjà sur la page cible, ne rien faire (la gestion standard s'en occupera)
-          if (targetPage === currentPage || targetPage === '') {
-            return;
-          }
-          
-          // Pour les liens vers d'autres pages avec ancre, on stocke l'ancre en localStorage
-          const hash = href.split('#')[1];
-          if (hash) {
-            sessionStorage.setItem('scrollToAnchor', hash);
-          }
-        }
-      });
-    });
-    
-    // Vérifier s'il y a une ancre stockée
-    const savedAnchor = sessionStorage.getItem('scrollToAnchor');
-    if (savedAnchor) {
-      sessionStorage.removeItem('scrollToAnchor');
-      
-      // Scroll vers l'ancre sauvegardée
-      setTimeout(() => {
-        const targetElement = document.querySelector('#' + savedAnchor);
-        if (targetElement) {
-          const navbarHeight = navbar ? navbar.offsetHeight : 0;
-          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navbarHeight;
-          
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        }
-      }, 500);
-    }
-  }
-
-  // ===== Cookie Modal Management =====
+  // ===== Bandeau cookies =====
+  // Google Analytics n'est chargé qu'après « Accepter » (voir window.loadAnalytics
+  // dans base.html) ; « Refuser » ne charge rien. Le choix est mémorisé.
   function initCookieModal() {
     const cookieModal = document.getElementById('cookieModal');
     const acceptBtn = document.getElementById('acceptCookies');
     const declineBtn = document.getElementById('declineCookies');
-    
     if (!cookieModal || !acceptBtn || !declineBtn) return;
-    
-    // Check if user has already made a choice
-    const cookieChoice = localStorage.getItem('cookie-consent');
-    
-    if (cookieChoice === null) {
-      setTimeout(() => {
-        showCookieModal();
-      }, 600);
+
+    const remember = (choice) => {
+      try {
+        localStorage.setItem('cookie-consent', choice);
+      } catch (e) {}
+    };
+
+    let choice = null;
+    try {
+      choice = localStorage.getItem('cookie-consent');
+    } catch (e) {}
+
+    if (choice === null) {
+      window.setTimeout(() => cookieModal.classList.add('show'), 600);
     }
-    
+
     acceptBtn.addEventListener('click', () => {
-      acceptCookies();
-      hideCookieModal();
-    });
-    
-    declineBtn.addEventListener('click', () => {
-      declineCookies();
-      hideCookieModal();
-    });
-    
-    function showCookieModal() {
-      cookieModal.classList.add('show');
-    }
-    
-    function hideCookieModal() {
+      remember('accepted');
+      if (typeof window.loadAnalytics === 'function') window.loadAnalytics();
       cookieModal.classList.remove('show');
-    }
-    
-    function acceptCookies() {
-      localStorage.setItem('cookie-consent', 'accepted');
-      
-      // Enable Google Analytics if not already enabled
-      if (typeof gtag !== 'undefined') {
-        gtag('consent', 'update', {
-          'analytics_storage': 'granted'
-        });
-      }
-      
-      console.log('Cookies accepted - Analytics enabled');
-    }
-    
-    function declineCookies() {
-      localStorage.setItem('cookie-consent', 'declined');
-      
-      // Disable Google Analytics
-      if (typeof gtag !== 'undefined') {
-        gtag('consent', 'update', {
-          'analytics_storage': 'denied'
-        });
-      }
-      
-      console.log('Cookies declined - Analytics disabled');
-    }
+    });
+
+    declineBtn.addEventListener('click', () => {
+      remember('declined');
+      cookieModal.classList.remove('show');
+    });
   }
 
   // ===== Reading progress (articles) =====
@@ -913,92 +522,326 @@
     });
   }
 
-  // ===== Initialization =====
+  // ===== Hero : aperçu des démos =====
+  // Les captures défilent en fondu ; l'adresse, le métier et le lien suivent.
+  // Pause au survol, au focus et quand l'onglet est caché ; pas de défilement
+  // automatique si l'utilisateur demande moins d'animations.
+  function initHeroPreview() {
+    const preview = document.querySelector('[data-hero-preview]');
+    if (!preview) return;
+
+    const shots = Array.from(preview.querySelectorAll('.hero__shot'));
+    const dots = Array.from(preview.querySelectorAll('[data-preview-index]'));
+    const url = preview.querySelector('[data-preview-url]');
+    const label = preview.querySelector('[data-preview-label]');
+    const link = preview.querySelector('[data-preview-link]');
+    if (shots.length < 2) return;
+
+    const DELAY = 4500;
+    let current = 0;
+    let timer = null;
+    let hovered = false;
+    let pinned = false;
+
+    function show(index) {
+      current = (index + shots.length) % shots.length;
+      const shot = shots[current];
+      shots.forEach((el, i) => el.classList.toggle('is-active', i === current));
+      dots.forEach((el, i) => {
+        el.classList.toggle('is-active', i === current);
+        if (i === current) el.setAttribute('aria-current', 'true');
+        else el.removeAttribute('aria-current');
+      });
+      if (url) url.textContent = shot.dataset.url;
+      if (label) label.textContent = shot.dataset.label;
+      if (link) {
+        link.href = shot.dataset.url;
+        link.setAttribute('aria-label', 'Ouvrir la démo : ' + shot.dataset.label);
+      }
+      preview.dispatchEvent(new CustomEvent('herodemo', { detail: { index: current } }));
+    }
+
+    function stop() {
+      window.clearInterval(timer);
+      timer = null;
+    }
+
+    function start() {
+      stop();
+      if (pinned || prefersReducedMotion() || hovered || document.hidden) return;
+      timer = window.setInterval(() => show(current + 1), DELAY);
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        show(Number(dot.dataset.previewIndex));
+        start();
+      });
+    });
+
+    preview.addEventListener('mouseenter', () => { hovered = true; stop(); });
+    preview.addEventListener('mouseleave', () => { hovered = false; start(); });
+    preview.addEventListener('focusin', () => { hovered = true; stop(); });
+    preview.addEventListener('focusout', (event) => {
+      if (!preview.contains(event.relatedTarget)) { hovered = false; start(); }
+    });
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+    heroPreview = {
+      element: preview,
+      // Affiche une démo choisie par le visiteur et arrête le défilement automatique.
+      pin(index) {
+        pinned = true;
+        stop();
+        show(index);
+      }
+    };
+
+    start();
+  }
+
+  // ===== Hero : pastilles « Votre métier » =====
+  // Sans JS, ce sont des liens vers les démos. Avec le JS, un clic affiche la démo
+  // dans l'aperçu, adapte le bouton principal et retient le métier pour le formulaire.
+  function initTradePicker() {
+    const picker = document.querySelector('[data-trade-picker]');
+    const cta = document.querySelector('[data-trade-cta-target]');
+    if (!picker || !cta) return;
+
+    const chips = Array.from(picker.querySelectorAll('.hero__trade'));
+    let engaged = false;
+
+    function select(chip) {
+      chips.forEach((el) => {
+        const on = el === chip;
+        el.classList.toggle('is-selected', on);
+        if (on) el.setAttribute('aria-current', 'true');
+        else el.removeAttribute('aria-current');
+      });
+      cta.textContent = chip.dataset.tradeCta;
+      cta.setAttribute('href', chip.getAttribute('href'));
+      try {
+        if (chip.dataset.trade === 'autre') sessionStorage.removeItem('contact-trade');
+        else sessionStorage.setItem('contact-trade', chip.dataset.trade);
+      } catch (e) {}
+    }
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', (event) => {
+        const index = chip.dataset.tradeIndex;
+        engaged = true;
+        select(chip);
+        if (index === undefined) return; // « Autre » : on suit le lien vers le formulaire
+        event.preventDefault();
+        if (heroPreview) heroPreview.pin(Number(index));
+      });
+    });
+
+    // Si le visiteur change de démo avec les points de l'aperçu, la pastille suit.
+    if (heroPreview) {
+      heroPreview.element.addEventListener('herodemo', (event) => {
+        if (!engaged) return;
+        const chip = chips.find((el) => Number(el.dataset.tradeIndex) === event.detail.index);
+        if (chip) select(chip);
+      });
+    }
+  }
+
+  // ===== Formulaire de contact =====
+  // Sujet pré-rempli, vérification avant envoi (mêmes règles que le serveur),
+  // bouton bloqué pendant l'envoi, brouillon gardé sur l'appareil.
+  function initContactForm() {
+    const form = document.querySelector('#contact-form form');
+    if (!form) return;
+
+    const fields = {
+      name: form.querySelector('[name="name"]'),
+      email: form.querySelector('[name="email"]'),
+      subject: form.querySelector('[name="subject"]'),
+      message: form.querySelector('[name="message"]')
+    };
+    const button = form.querySelector('button[type="submit"]');
+    if (!fields.name || !fields.email || !fields.message || !button) return;
+
+    const DRAFT_KEY = 'contact-draft';
+    const storage = {
+      get(key, area = localStorage) { try { return area.getItem(key); } catch (e) { return null; } },
+      set(key, value, area = localStorage) { try { area.setItem(key, value); } catch (e) {} },
+      remove(key, area = localStorage) { try { area.removeItem(key); } catch (e) {} }
+    };
+
+    // --- Sujet pré-rempli (lien « Demander un devis », métier choisi, ?sujet=) ---
+    let autoSubject = '';
+    function prefillSubject(base) {
+      if (!fields.subject) return;
+      if (fields.subject.value && fields.subject.value !== autoSubject) return; // saisi à la main
+      const trade = storage.get('contact-trade', sessionStorage);
+      const parts = [base || 'Site vitrine', trade].filter(Boolean);
+      autoSubject = parts.length > 1 || base ? parts.join(' — ') : '';
+      if (autoSubject) fields.subject.value = autoSubject;
+    }
+
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest('a[href$="#form"]');
+      if (!link) return;
+      const trade = storage.get('contact-trade', sessionStorage);
+      if (link.dataset.contactSubject || trade) prefillSubject(link.dataset.contactSubject || '');
+    });
+
+    const param = new URLSearchParams(window.location.search).get('sujet');
+    if (param && fields.subject && !fields.subject.value) {
+      fields.subject.value = param.slice(0, 200);
+    }
+
+    // --- Brouillon ---
+    const hasServerErrors = Boolean(form.querySelector('.errorlist'));
+    const draftKeys = ['name', 'email', 'subject', 'message'];
+    let note = null;
+
+    function saveDraft() {
+      const data = {};
+      draftKeys.forEach((key) => { if (fields[key]) data[key] = fields[key].value; });
+      if (Object.values(data).some((value) => value.trim())) storage.set(DRAFT_KEY, JSON.stringify(data));
+      else storage.remove(DRAFT_KEY);
+    }
+
+    function clearDraft() {
+      storage.remove(DRAFT_KEY);
+      if (note) note.remove();
+    }
+
+    if (!hasServerErrors) {
+      let draft = null;
+      try { draft = JSON.parse(storage.get(DRAFT_KEY) || 'null'); } catch (e) {}
+      if (draft && typeof draft === 'object') {
+        let restored = false;
+        draftKeys.forEach((key) => {
+          if (fields[key] && !fields[key].value && typeof draft[key] === 'string' && draft[key]) {
+            fields[key].value = draft[key];
+            restored = true;
+          }
+        });
+        if (restored) {
+          note = document.createElement('p');
+          note.className = 'contact-draft';
+          note.innerHTML = '<span>Votre brouillon a été retrouvé.</span><button type="button">Effacer</button>';
+          note.querySelector('button').addEventListener('click', () => {
+            draftKeys.forEach((key) => { if (fields[key]) fields[key].value = ''; });
+            autoSubject = '';
+            clearDraft();
+            fields.name.focus();
+          });
+          button.before(note);
+        }
+      }
+    }
+
+    let saveTimer = null;
+    form.addEventListener('input', () => {
+      window.clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(saveDraft, 400);
+    });
+
+    // --- Vérification (mêmes règles que le serveur) ---
+    const rules = {
+      name: (value) => {
+        if (!value.trim()) return 'Indiquez votre nom.';
+        if (/\d/.test(value)) return 'Le nom ne doit pas contenir de chiffres.';
+        return '';
+      },
+      email: (value) => {
+        if (!value.trim()) return 'Indiquez votre adresse e-mail.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) return 'Cette adresse e-mail ne semble pas valide.';
+        return '';
+      },
+      message: (value) => {
+        if (value.trim().length < 10) return 'Le message est trop court (au moins 10 caractères).';
+        return '';
+      }
+    };
+
+    function setError(field, message) {
+      const id = `${field.id || field.name}-error`;
+      let error = form.querySelector(`#${CSS.escape(id)}`);
+      const serverList = field.parentElement.querySelector('.errorlist');
+      if (serverList) serverList.remove();
+      if (!message) {
+        if (error) error.remove();
+        field.removeAttribute('aria-invalid');
+        field.removeAttribute('aria-describedby');
+        return;
+      }
+      if (!error) {
+        error = document.createElement('p');
+        error.className = 'field-error';
+        error.id = id;
+        field.after(error);
+      }
+      error.textContent = message;
+      field.setAttribute('aria-invalid', 'true');
+      field.setAttribute('aria-describedby', id);
+    }
+
+    Object.keys(rules).forEach((key) => {
+      fields[key].addEventListener('input', () => {
+        if (fields[key].getAttribute('aria-invalid') === 'true') setError(fields[key], rules[key](fields[key].value));
+      });
+      fields[key].addEventListener('blur', () => {
+        if (fields[key].value) setError(fields[key], rules[key](fields[key].value));
+      });
+    });
+
+    form.addEventListener('submit', (event) => {
+      let firstInvalid = null;
+      Object.keys(rules).forEach((key) => {
+        const message = rules[key](fields[key].value);
+        setError(fields[key], message);
+        if (message && !firstInvalid) firstInvalid = fields[key];
+      });
+      if (firstInvalid) {
+        event.preventDefault();
+        firstInvalid.focus();
+        return;
+      }
+      if (button.getAttribute('aria-busy') === 'true') {
+        event.preventDefault(); // double clic : un seul envoi
+        return;
+      }
+      button.dataset.label = button.textContent;
+      button.textContent = 'Envoi…';
+      button.setAttribute('aria-busy', 'true');
+      clearDraft();
+    });
+
+    // Retour arrière vers une page gardée en cache : le bouton redevient utilisable.
+    window.addEventListener('pageshow', () => {
+      if (button.getAttribute('aria-busy') !== 'true') return;
+      button.textContent = button.dataset.label || 'Envoyer le message';
+      button.removeAttribute('aria-busy');
+    });
+  }
+
+  // ===== Initialisation =====
   function init() {
-    // Initialize all components
     initThemeToggle();
     initMobileMenu();
-    initScrollAnimations();
-    initHeroAnimation();
-    initNavbarAnimations();
-    initSectionTitleAnimations();
+    initNavbarState();
+    initNavThumb();
     initActiveNavigation();
-    initClickableCards();
+    initScrollReveal();
+    initHeroPreview();
+    initTradePicker();
+    initContactForm();
     initCopyLink();
     initReadingProgress();
     initArticleCopyBlocks();
-    initPointerGlow();
     initSurfaceGlow();
-    handleAnchorScroll();
-    initInterPageLinks();  // Ajouter l'initialisation des liens inter-pages
-    initCookieModal();     // Initialiser le modal de cookies
-
-    // Refresh ScrollTrigger
-    if (utils.hasScrollTrigger()) {
-      setTimeout(() => ScrollTrigger.refresh(), 100);
-      window.addEventListener('resize', utils.debounce(() => ScrollTrigger.refresh(), 250));
-    }
-
+    initCookieModal();
   }
 
-  // Initialize when DOM is fully loaded
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 })();
-
-// Animation des séparateurs avec GSAP
-document.addEventListener('DOMContentLoaded', function() {
-  // Ajouter la classe 'animated' à tous les séparateurs
-  const dividers = document.querySelectorAll('.section-divider');
-
-  dividers.forEach(divider => {
-    divider.classList.add('animated');
-
-    // Animation au scroll
-    if (typeof gsap !== 'undefined' && gsap.registerPlugin) {
-      gsap.registerPlugin(ScrollTrigger);
-
-      gsap.from(divider, {
-        scrollTrigger: {
-          trigger: divider,
-          start: "top 80%",
-          end: "bottom 60%",
-          toggleClass: {targets: divider, className: "reveal"},
-          once: true
-        },
-        opacity: 0,
-        duration: 1
-      });
-
-      // Animation au survol
-      const dividerIcon = divider.querySelector('.divider-icon');
-      if (dividerIcon) {
-        gsap.to(dividerIcon, {
-          rotation: 180,
-          paused: true,
-          duration: 0.5,
-          ease: "power2.out"
-        }).progress(1).reverse();
-
-        divider.addEventListener('mouseenter', () => {
-          gsap.to(dividerIcon, {
-            rotation: 180,
-            duration: 0.5,
-            ease: "power2.out"
-          });
-        });
-
-        divider.addEventListener('mouseleave', () => {
-          gsap.to(dividerIcon, {
-            rotation: 0,
-            duration: 0.5,
-            ease: "power2.out"
-          });
-        });
-      }
-    }
-  });
-});

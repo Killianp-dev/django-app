@@ -14,7 +14,6 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
-  will-change: transform;
   opacity: 0.85;
 }
 
@@ -24,7 +23,6 @@
   top: 8%;
   left: -8%;
   background: radial-gradient(circle, var(--glow-orb-a) 0%, transparent 68%);
-  animation: orbDriftA 22s ease-in-out infinite;
 }
 
 .site-lights__orb--b {
@@ -33,7 +31,6 @@
   top: 48%;
   right: -10%;
   background: radial-gradient(circle, var(--glow-orb-b) 0%, transparent 70%);
-  animation: orbDriftB 28s ease-in-out infinite;
 }
 
 .site-lights__orb--c {
@@ -42,50 +39,10 @@
   bottom: -6%;
   left: 28%;
   background: radial-gradient(circle, var(--glow-orb-c) 0%, transparent 72%);
-  animation: orbDriftC 24s ease-in-out infinite;
 }
 
-@keyframes orbDriftA {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(8%, 10%, 0) scale(1.08); }
-}
 
-@keyframes orbDriftB {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-10%, -8%, 0) scale(1.12); }
-}
 
-@keyframes orbDriftC {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(6%, -12%, 0) scale(1.06); }
-}
-
-.pointer-glow {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-  opacity: 0;
-  background: radial-gradient(
-    220px circle at var(--pointer-x, 50%) var(--pointer-y, 30%),
-    var(--glow-pointer),
-    transparent 62%
-  );
-  mix-blend-mode: multiply;
-  transition: opacity 0.45s ease;
-}
-
-html[data-theme="dark"] .pointer-glow {
-  mix-blend-mode: soft-light;
-}
-
-.pointer-glow.is-active {
-  opacity: 0.7;
-}
-
-html[data-theme="dark"] .pointer-glow.is-active {
-  opacity: 0.35;
-}
 
 html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
   box-shadow: 0 0 16px rgba(var(--accent-glow-rgb), 0.55);
@@ -217,14 +174,9 @@ html[data-theme="dark"] .footer a:hover {
   .site-lights__orb {
     filter: blur(64px);
   }
-
-  .pointer-glow {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .site-lights__orb,
   .hero__scroll-line {
     animation: none;
   }
@@ -234,15 +186,5 @@ html[data-theme="dark"] .footer a:hover {
   .btn.btn--outline:hover::before,
   #contact-form button[type="submit"]:hover::before {
     animation: none;
-  }
-
-  .pointer-glow {
-    display: none;
-  }
-}
-
-@media (pointer: coarse) {
-  .pointer-glow {
-    display: none;
   }
 }

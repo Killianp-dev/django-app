@@ -810,3 +810,10 @@ html[data-theme="dark"] .article-body .article-copy-block__btn.is-copied {
     transition: none;
   }
 }
+
+/* Icônes de partage (SVG intégrés, sans bibliothèque d'icônes) */
+.article-share__icon {
+  flex: none;
+  width: 0.95rem;
+  height: 0.95rem;
+}

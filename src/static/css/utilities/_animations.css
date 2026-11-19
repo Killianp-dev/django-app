@@ -2,15 +2,19 @@
    ANIMATIONS
    ================================================= */
 
-/* Animations pour scroll - Version améliorée */
+/* Apparition au défilement, une seule fois. La classe .reveal n'est posée que par le JS :
+   sans lui, le contenu reste simplement visible. Le JS la retire une fois l'apparition
+   terminée, pour rendre la main aux transitions propres à chaque bloc (survols). */
 
-.scroll-up {
+.reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s var(--ease-out) var(--reveal-delay, 0s),
+    transform 0.8s var(--ease-out) var(--reveal-delay, 0s);
 }
 
-.scroll-up.visible {
+.reveal.is-visible {
   opacity: 1;
   transform: none;
 }
@@ -28,5 +32,23 @@
 @keyframes dash-in {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* Transitions entre les pages du site : fondu court, l'en-tête reste en place.
+   Ignoré par les navigateurs qui ne gèrent pas la fonction (changement de page normal). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  .navbar {
+    view-transition-name: site-header;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.28s;
+    animation-timing-function: var(--ease-out);
   }
 }
