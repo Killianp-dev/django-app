@@ -315,6 +315,8 @@
 
     revealBlocks('.project');
     revealBlocks('.offer-step', true);
+    revealBlocks('.pricing-card', true);
+    revealBlocks('.pricing-plan');
     revealBlocks('.about__panel', true);
     revealBlocks('.about__aside');
   }
@@ -335,7 +337,7 @@
       threshold: 0.1
     });
 
-    document.querySelectorAll('.project, .offer-step, .about__panel, .about__aside').forEach((block) => {
+    document.querySelectorAll('.project, .offer-step, .pricing-card, .pricing-plan, .about__panel, .about__aside').forEach((block) => {
       block.classList.add('scroll-up');
       observer.observe(block);
     });
@@ -854,13 +856,24 @@
   }
 
   // ===== Theme toggle =====
+  // Par défaut le thème suit le système ; un clic sur le bouton impose un choix, mémorisé.
   function initThemeToggle() {
     const button = document.querySelector('.theme-toggle');
     const root = document.documentElement;
     const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const systemDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
     function currentTheme() {
       return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    }
+
+    function storedTheme() {
+      try {
+        const theme = localStorage.getItem('theme');
+        return theme === 'light' || theme === 'dark' ? theme : null;
+      } catch (e) {
+        return null;
+      }
     }
 
     function syncButton(theme) {
@@ -873,20 +886,30 @@
       }
     }
 
-    function applyTheme(theme) {
+    function setTheme(theme) {
       root.setAttribute('data-theme', theme);
-      try {
-        localStorage.setItem('theme', theme);
-      } catch (e) {}
       syncButton(theme);
     }
 
     syncButton(currentTheme());
 
+    // Tant qu'aucun choix n'est enregistré, suivre les changements du système en direct.
+    if (systemDark) {
+      const onSystemChange = (event) => {
+        if (!storedTheme()) setTheme(event.matches ? 'dark' : 'light');
+      };
+      if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemChange);
+      else if (systemDark.addListener) systemDark.addListener(onSystemChange);
+    }
+
     if (!button) return;
 
     button.addEventListener('click', () => {
-      applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+      const theme = currentTheme() === 'dark' ? 'light' : 'dark';
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (e) {}
+      setTheme(theme);
     });
   }
 

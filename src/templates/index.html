@@ -3,7 +3,7 @@
 
 {% block title %}Killian P. — Agence web, sites vitrines pour les commerces{% endblock %}
 {% block extra_head %}
-<meta name="description" content="killianp-dev : agence web de développement de petits sites vitrines pour les commerces de proximité, les artisans et les professions libérales.">
+<meta name="description" content="killianp-dev : agence web de développement de sites vitrines pour les commerces de proximité, les artisans et les professions libérales.">
 <noscript>
     <style>
         .hero.is-loading .hero__overlay > *,
@@ -32,11 +32,11 @@
         <div class="hero__overlay">
             <p class="hero__eyebrow">
                 <span class="hero__eyebrow-dot" aria-hidden="true"></span>
-                Agence web · petits sites vitrines
+                Agence web · sites vitrines
             </p>
             <h1 class="hero__title" id="hero-title">Le site de votre commerce, <em>écrit avec rigueur.</em></h1>
             <p class="hero__subtitle">
-                Je suis Killian. J'écris de petits sites vitrines pour les commerces de proximité.
+                Je suis Killian. J'écris des sites vitrines pour les commerces de proximité.
                 Vous voyez un exemple de votre métier avant d'en parler.
             </p>
             <div class="hero__actions">
@@ -91,7 +91,10 @@
     <header class="projects__header">
         <p class="section-eyebrow">Exemples</p>
         <h2 id="projects-title">Des sites pour des commerces</h2>
-        <p>Six démonstrations, six métiers. Chaque commerce est fictif ; le site montre ce que vos clients verraient.</p>
+        <p class="projects__intro">
+            <span class="projects__intro-lead"><em>Six</em> démonstrations, <em>six</em> métiers.</span>
+            <span class="projects__intro-text">Chaque commerce est fictif&nbsp;; le site montre ce que vos clients verraient.</span>
+        </p>
     </header>
 
     <div class="projects__list">
@@ -130,7 +133,10 @@
     <header class="projects__header">
         <p class="section-eyebrow">À propos</p>
         <h2 id="about-title">Killian P.</h2>
-        <p>Agence web de développement de petits sites vitrines.</p>
+        <p class="projects__intro">
+            <span class="projects__intro-lead">Agence web de <em>sites vitrines</em>.</span>
+            <span class="projects__intro-text">Conçus, développés et mis en ligne par une seule personne.</span>
+        </p>
     </header>
     <div class="about__layout">
         <aside class="about__aside">
@@ -151,7 +157,7 @@
             </ul>
         </aside>
         <div class="about__body">
-            <p class="about__lead">Je m'appelle Killian. killianp-dev est une agence web de petits sites : le métier, les horaires, ce que vous proposez, et un moyen de vous écrire.</p>
+            <p class="about__lead">Je m'appelle Killian. killianp-dev est une agence web de sites vitrines : le métier, les horaires, ce que vous proposez, et un moyen de vous écrire.</p>
             <p>Le site reste simple. Pas de boutique en ligne, pas de catalogue à tenir à jour, pas d'espace à administrer. Les textes sont les vôtres. Je les mets en page pour que quelqu'un qui ne vous connaît pas comprenne en une minute.</p>
             <p>On commence par un exemple de votre métier. Vous voyez les pages avant de décider. Rien n'est mis en ligne que vous n'ayez pas lu. Si une phrase ne vous ressemble pas, on la reprend.</p>
             <p>L'agence, c'est moi. Vous m'écrivez, je réponds, et c'est moi qui prépare le site. Trois temps : on en parle, je prépare les pages, le site est en ligne.</p>
@@ -181,7 +187,10 @@
     <header class="projects__header">
         <p class="section-eyebrow">Déroulement</p>
         <h2 id="offer-title">Comment ça se passe</h2>
-        <p>Trois étapes, du premier message au site en ligne.</p>
+        <p class="projects__intro">
+            <span class="projects__intro-lead"><em>Trois</em> étapes, rien de plus.</span>
+            <span class="projects__intro-text">Du premier message au site en ligne.</span>
+        </p>
     </header>
     <ol class="offer-steps">
         <li class="offer-step">
@@ -211,12 +220,98 @@
     </ol>
 </section>
 
+<section class="pricing" id="tarifs" aria-labelledby="pricing-title">
+    <header class="projects__header">
+        <p class="section-eyebrow">Tarifs</p>
+        <h2 id="pricing-title">Un prix clair, tout compris</h2>
+        <p class="projects__intro">
+            <span class="projects__intro-lead"><em>Une</em> création, <em>un</em> abonnement.</span>
+            <span class="projects__intro-text">L'abonnement couvre tout ce qui fait vivre le site. Rien d'autre à prévoir.</span>
+        </p>
+    </header>
+
+    <div class="pricing__grid">
+        <article class="pricing-card" aria-labelledby="pricing-creation">
+            <div class="pricing-card__head">
+                <h3 class="pricing-card__label" id="pricing-creation">Création du site</h3>
+                <p class="pricing-card__price">
+                    <span class="pricing-card__amount">300&nbsp;€</span>
+                    <span class="pricing-card__unit">une fois</span>
+                </p>
+                <p class="pricing-card__note">150&nbsp;€ à la signature du devis, le solde à la mise en ligne.</p>
+            </div>
+            <ul class="pricing-card__list">
+                <li>4 pages, à partir d'un modèle de votre métier</li>
+                <li>Mentions légales et page de confidentialité</li>
+                <li>2 tours de corrections avant la mise en ligne</li>
+                <li>En ligne sous 15 jours ouvrés environ</li>
+                <li>Le site et son code vous appartiennent</li>
+            </ul>
+        </article>
+
+        <article class="pricing-card pricing-card--featured" aria-labelledby="pricing-abonnement">
+            <span class="pricing-card__badge">Tout compris</span>
+            <div class="pricing-card__head">
+                <h3 class="pricing-card__label" id="pricing-abonnement">Abonnement</h3>
+                <p class="pricing-card__price">
+                    <span class="pricing-card__amount">40&nbsp;€</span>
+                    <span class="pricing-card__unit">par mois</span>
+                </p>
+                <p class="pricing-card__note">Engagement de 12 mois, puis résiliable chaque mois avec un mois de préavis.</p>
+            </div>
+            <ul class="pricing-card__list">
+                <li>Hébergement du site</li>
+                <li>Nom de domaine, enregistré à votre nom</li>
+                <li>Adresse e-mail professionnelle</li>
+                <li>Maintenance et petites retouches, 1&nbsp;h par mois</li>
+                <li>Vos textes, votre domaine et le code récupérables à tout moment</li>
+            </ul>
+        </article>
+    </div>
+
+    <div class="pricing-plan">
+        <ol class="pricing-plan__steps" aria-label="Échéancier de paiement">
+            <li class="pricing-plan__step">
+                <span class="pricing-plan__when">À la signature</span>
+                <strong class="pricing-plan__amount">150&nbsp;€</strong>
+                <span class="pricing-plan__what">Acompte sur la création</span>
+            </li>
+            <li class="pricing-plan__step">
+                <span class="pricing-plan__when">À la mise en ligne</span>
+                <strong class="pricing-plan__amount">190&nbsp;€</strong>
+                <span class="pricing-plan__what">Solde de la création et premier mois</span>
+            </li>
+            <li class="pricing-plan__step">
+                <span class="pricing-plan__when">Chaque mois ensuite</span>
+                <strong class="pricing-plan__amount">40&nbsp;€</strong>
+                <span class="pricing-plan__what">Prélèvement automatique</span>
+            </li>
+        </ol>
+        <div class="pricing-plan__total">
+            <span class="pricing-plan__when">Première année</span>
+            <strong class="pricing-plan__amount">780&nbsp;€</strong>
+            <a class="pricing-plan__cta" href="#form">
+                Demander un devis
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+        </div>
+    </div>
+
+    <p class="pricing__fine">
+        Offre réservée aux professionnels. Prix nets, TVA non applicable (art. 293 B du CGI).
+        Paiement par carte ou prélèvement SEPA. <a href="{% url 'cgv' %}">Conditions générales de vente</a>
+    </p>
+</section>
+
 {% if latest_posts %}
 <section class="projects blog-section" id="blog" aria-labelledby="blog-title">
     <header class="projects__header">
         <p class="section-eyebrow">Blog</p>
         <h2 id="blog-title">Notes de développeur</h2>
-        <p>Python, données et ce qui se passe sous le capot d'un site. Pour ceux qui aiment savoir comment c'est fait.</p>
+        <p class="projects__intro">
+            <span class="projects__intro-lead">Ce qui se passe <em>sous le capot</em>.</span>
+            <span class="projects__intro-text">Python, données et coulisses d'un site. Pour ceux qui aiment savoir comment c'est fait.</span>
+        </p>
     </header>
     <div class="blog-grid">
         {% for post in latest_posts %}

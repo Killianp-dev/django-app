@@ -43,8 +43,19 @@ class StaticPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
-            "Agence web de développement de petits sites vitrines",
+            "Agence web de développement de sites vitrines",
         )
+
+    def test_cgv_ok(self):
+        response = self.client.get(reverse("cgv"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Conditions générales de vente")
+        self.assertContains(response, "Killian&nbsp;P.")
+
+    def test_legal_pages_never_show_full_name(self):
+        for name in ("cgv", "mentions_legales"):
+            body = self.client.get(reverse(name)).content.decode().lower()
+            self.assertNotIn("pasche", body)
 
     def test_robots_txt(self):
         response = self.client.get("/robots.txt")

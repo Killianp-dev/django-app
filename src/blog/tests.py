@@ -27,10 +27,10 @@ class BlogPostModelTests(TestCase):
         post = BlogPost.objects.create(title="Sans auteur")
         self.assertEqual(post.author_or_default, "Killian P.")
 
-    def test_author_or_default_uses_full_name(self):
-        user = User.objects.create_user(username="killian", password="pass", first_name="Killian", last_name="Pasche")
+    def test_author_or_default_abbreviates_last_name(self):
+        user = User.objects.create_user(username="killian", password="pass", first_name="Killian", last_name="Durand")
         post = BlogPost.objects.create(title="Avec auteur", author=user)
-        self.assertEqual(post.author_or_default, "Killian Pasche")
+        self.assertEqual(post.author_or_default, "Killian D.")
 
     def test_author_or_default_without_full_name(self):
         user = User.objects.create_user(username="admin42", password="pass")

@@ -45,11 +45,14 @@ class BlogPost(models.Model):
 
     @property
     def author_or_default(self):
-        """Nom affiché : nom complet du compte, sinon la signature du site."""
+        """Nom affiché : prénom et initiale du nom du compte, sinon la signature du site."""
         if self.author:
-            full_name = self.author.get_full_name().strip()
-            if full_name:
-                return full_name
+            first = self.author.first_name.strip()
+            last = self.author.last_name.strip()
+            if first and last:
+                return f"{first} {last[0].upper()}."
+            if first:
+                return first
         return DEFAULT_AUTHOR_NAME
 
     @property

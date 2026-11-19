@@ -123,54 +123,139 @@ html.nav-open .navbar__glass {
 .logo a {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.25rem 0.25rem 0.25rem 0;
+  gap: 0.7rem;
+  padding: 0.25rem 0.35rem 0.25rem 0;
   color: var(--nav-fg);
   text-decoration: none;
   border-radius: var(--radius-sm);
 }
 
+/* Monogramme : un K dessiné, bras inférieur en dégradé, point d'accent façon curseur. */
 .logo-mark {
+  --logo-tile: #14181f;
+  --logo-ink: #f7f4ee;
+  --logo-arm-a: #7ff0dd;
+  --logo-arm-b: #14998d;
+  position: relative;
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: var(--nav-cta-bg);
-  color: var(--nav-cta-fg);
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--color-accent-bright) 85%, transparent);
-  transition: transform 0.35s var(--nav-ease);
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.1), transparent 55%),
+    var(--logo-tile);
+  box-shadow:
+    inset 0 0 0 1px rgba(94, 234, 212, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 6px 16px -6px rgba(15, 110, 102, 0.45);
+  transition: transform 0.45s var(--nav-ease), box-shadow 0.45s var(--nav-ease);
+}
+
+html[data-theme="dark"] .logo-mark {
+  --logo-tile: #1b222c;
+  box-shadow:
+    inset 0 0 0 1px rgba(94, 234, 212, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 8px 20px -8px rgba(45, 212, 191, 0.4);
+}
+
+.logo-mark svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.logo-mark__stroke {
+  stroke: var(--logo-ink);
+}
+
+.logo-mark__stop-a { stop-color: var(--logo-arm-a); }
+.logo-mark__stop-b { stop-color: var(--logo-arm-b); }
+
+.logo-mark__arm {
+  transform-origin: 11.4px 16.1px;
+  transition: transform 0.45s var(--nav-ease);
+}
+
+.logo-mark__dot {
+  fill: var(--logo-arm-a);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.45s var(--nav-ease), opacity 0.3s ease;
 }
 
 .logo a:hover .logo-mark {
-  transform: rotate(-6deg);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(94, 234, 212, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 22px -8px rgba(26, 168, 156, 0.6);
 }
 
+.logo a:hover .logo-mark__arm {
+  transform: rotate(4deg);
+}
+
+.logo a:hover .logo-mark__dot {
+  transform: translateX(1.5px) scale(1.15);
+}
+
+/* Nom sur deux lignes : la marque, puis le métier en petites capitales. */
 .logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  line-height: 1;
+}
+
+.logo-name {
   font-family: var(--font-sans);
-  font-size: 1.02rem;
+  font-size: 1.04rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   text-transform: lowercase;
 }
 
 .logo-dot {
-  color: var(--nav-fg-muted);
-  font-weight: 500;
+  margin-left: 0.04em;
+  font-family: var(--font-serif);
+  font-size: 1.12em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--color-accent);
   transition: color 0.25s ease;
 }
 
-.logo a:hover .logo-dot {
-  color: var(--color-accent);
+html[data-theme="dark"] .logo-dot {
+  color: var(--color-accent-bright);
 }
 
-html[data-theme="dark"] .logo a:hover .logo-dot {
-  color: var(--color-accent-bright);
+.logo-tagline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--nav-fg-muted);
+}
+
+.logo-tagline::before {
+  content: "";
+  width: 0.9rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+  transition: width 0.45s var(--nav-ease);
+}
+
+.logo a:hover .logo-tagline::before {
+  width: 1.4rem;
 }
 
 /* ---------- Navigation (desktop) ---------- */
@@ -233,6 +318,7 @@ html[data-theme="dark"] .logo a:hover .logo-dot {
   gap: 0.5rem;
 }
 
+/* Tuiles d'action : même matière que le monogramme (reflet, liseré teal, ombre douce). */
 .theme-toggle,
 .hamburger {
   position: relative;
@@ -242,19 +328,55 @@ html[data-theme="dark"] .logo a:hover .logo-dot {
   height: 38px;
   padding: 0;
   border: 0;
-  border-radius: 10px;
-  background: transparent;
+  border-radius: 11px;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 60%),
+    var(--nav-track);
   color: var(--nav-fg-muted);
-  box-shadow: inset 0 0 0 1px var(--nav-line);
+  box-shadow:
+    inset 0 0 0 1px var(--nav-line),
+    0 1px 2px rgba(20, 24, 31, 0.04);
   cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.35s var(--nav-ease),
+    transform 0.35s var(--nav-ease);
+}
+
+html[data-theme="dark"] .theme-toggle,
+html[data-theme="dark"] .hamburger {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 60%),
+    var(--nav-track);
+  box-shadow:
+    inset 0 0 0 1px var(--nav-line),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .theme-toggle:hover,
 .hamburger:hover,
 .hamburger.is-open {
-  color: var(--nav-fg);
-  background: var(--nav-hover);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 35%, transparent),
+    0 8px 18px -8px rgba(15, 110, 102, 0.4);
+}
+
+html[data-theme="dark"] .theme-toggle:hover,
+html[data-theme="dark"] .hamburger:hover,
+html[data-theme="dark"] .hamburger.is-open {
+  color: var(--color-accent-bright);
+  box-shadow:
+    inset 0 0 0 1px rgba(94, 234, 212, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 8px 20px -8px rgba(45, 212, 191, 0.35);
+}
+
+.theme-toggle:active,
+.hamburger:active {
+  transform: translateY(0);
 }
 
 .theme-toggle__icon {
@@ -277,38 +399,98 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   transform: rotate(-90deg) scale(0.6);
 }
 
+/* Au survol : le soleil tourne d'un cran, la lune s'incline. */
+html[data-theme="dark"] .theme-toggle:hover .theme-toggle__icon--sun {
+  transform: rotate(45deg);
+}
+
+.theme-toggle:hover .theme-toggle__icon--moon {
+  transform: rotate(-14deg);
+}
+
+/* Bouton principal : pilule à reflet, flèche dans une pastille teal (comme le point du logo). */
 .navbar-cta {
+  --cta-ring: rgba(94, 234, 212, 0.18);
+  --cta-glow: rgba(15, 110, 102, 0.45);
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  height: 38px;
-  padding: 0 0.95rem 0 1.05rem;
+  gap: 0.6rem;
+  height: 40px;
+  padding: 0 0.3rem 0 1.1rem;
   border-radius: var(--radius-full);
-  background: var(--nav-cta-bg);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 55%),
+    var(--nav-cta-bg);
   color: var(--nav-cta-fg);
   font-size: 0.875rem;
   font-weight: 600;
+  letter-spacing: -0.005em;
   text-decoration: none;
   white-space: nowrap;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow:
+    inset 0 0 0 1px var(--cta-ring),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 6px 16px -6px var(--cta-glow);
+  transition: transform 0.35s var(--nav-ease), box-shadow 0.35s var(--nav-ease);
+}
+
+html[data-theme="dark"] .navbar-cta {
+  --cta-ring: rgba(20, 24, 31, 0.06);
+  --cta-glow: rgba(45, 212, 191, 0.35);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 55%),
+    var(--nav-cta-bg);
 }
 
 .navbar-cta:hover {
-  background: color-mix(in srgb, var(--nav-cta-bg) 86%, var(--color-accent-bright));
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(94, 234, 212, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 24px -8px var(--cta-glow);
 }
 
 .navbar-cta:active {
-  transform: translateY(1px);
+  transform: translateY(0);
 }
 
-.navbar-cta svg,
+.navbar-cta__icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #7ff0dd, #14998d);
+  color: #0b1f1d;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+/* La flèche sort par la droite et revient par la gauche. */
+.navbar-cta__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.navbar-cta:hover .navbar-cta__icon svg {
+  animation: ctaArrow 0.55s var(--nav-ease);
+}
+
+@keyframes ctaArrow {
+  0% { transform: translateX(0); }
+  45% { transform: translateX(130%); opacity: 1; }
+  46% { transform: translateX(-130%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(0); }
+}
+
 .nav-menu__cta svg {
   width: 14px;
   height: 14px;
   transition: transform 0.3s var(--nav-ease);
 }
 
-.navbar-cta:hover svg,
 .nav-menu__cta:hover svg {
   transform: translateX(3px);
 }
@@ -476,6 +658,7 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   .nav-menu.is-open .nav-links li:nth-child(2) { transition-delay: 75ms; }
   .nav-menu.is-open .nav-links li:nth-child(3) { transition-delay: 110ms; }
   .nav-menu.is-open .nav-links li:nth-child(4) { transition-delay: 145ms; }
+  .nav-menu.is-open .nav-links li:nth-child(5) { transition-delay: 180ms; }
 
   .nav-links a {
     display: grid;
@@ -592,8 +775,14 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
 }
 
 @media (max-width: 380px) {
-  .logo-text {
-    font-size: 0.95rem;
+  .logo-name {
+    font-size: 0.96rem;
+  }
+
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
   }
 }
 
@@ -612,9 +801,18 @@ html[data-theme="dark"] .theme-toggle__icon--moon {
   .bar,
   .theme-toggle__icon,
   .logo-mark,
-  .navbar-cta svg,
+  .logo-mark__arm,
+  .logo-mark__dot,
+  .logo-tagline::before,
+  .theme-toggle,
+  .hamburger,
+  .navbar-cta,
   .nav-menu__cta svg {
     transition: none !important;
+  }
+
+  .navbar-cta:hover .navbar-cta__icon svg {
+    animation: none;
   }
 
   .nav-menu__panel,

@@ -66,6 +66,10 @@
   --glow-orb-b: rgba(15, 110, 102, 0.14);
   --glow-orb-c: rgba(94, 234, 212, 0.1);
 
+  /* Quadrillage (même trame que le hero, en plus léger) */
+  --grid-line: rgba(20, 24, 31, 0.045);
+  --grid-size: 64px;
+
   /* Rayons */
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -115,6 +119,7 @@ html[data-theme="dark"] {
   --color-code-text: #e7efe9;
   --color-code-inline-bg: rgba(45, 212, 191, 0.14);
   --color-code-inline-text: #5eead4;
+  --grid-line: rgba(255, 255, 255, 0.045);
   --focus-ring: rgba(45, 212, 191, 0.22);
   --navbar-bg: rgba(10, 12, 16, 0.94);
   --navbar-bg-scrolled: rgba(8, 10, 14, 0.98);

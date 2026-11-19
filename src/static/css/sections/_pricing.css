@@ -1,0 +1,322 @@
+/* ==================================================
+   SECTION TARIFS
+   Deux cartes (création, abonnement), puis l'échéancier.
+   ================================================= */
+
+.pricing {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--section-space) var(--page-gutter);
+  scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
+}
+
+.pricing__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 800px) {
+  .pricing__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem;
+  }
+}
+
+/* ---------- Cartes ---------- */
+
+.pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2.1rem 1.9rem 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.4s var(--ease-out), border-color 0.3s ease, box-shadow 0.4s var(--ease-out);
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+}
+
+.pricing-card--featured {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+  background:
+    radial-gradient(120% 80% at 100% 0%, var(--color-accent-soft), transparent 60%),
+    var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.pricing-card__badge {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+html[data-theme="dark"] .pricing-card__badge {
+  color: var(--color-accent-bright);
+}
+
+.pricing-card__head {
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pricing-card__label {
+  margin: 0 0 1.1rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.pricing-card__price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin: 0 0 0.85rem;
+}
+
+.pricing-card__amount {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 7vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+
+.pricing-card__unit {
+  font-size: 0.95rem;
+  color: var(--color-ink-muted);
+}
+
+.pricing-card__note {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+.pricing-card__list {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pricing-card__list li {
+  position: relative;
+  padding-left: 2.05rem;
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+
+/* Coche dessinée en CSS, dans une pastille douce */
+.pricing-card__list li::before {
+  content: "";
+  position: absolute;
+  top: 0.1rem;
+  left: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+}
+
+.pricing-card__list li::after {
+  content: "";
+  position: absolute;
+  top: 0.44rem;
+  left: 0.4rem;
+  width: 0.5rem;
+  height: 0.26rem;
+  border-left: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  transform: rotate(-45deg);
+}
+
+html[data-theme="dark"] .pricing-card__list li::after {
+  border-color: var(--color-accent-bright);
+}
+
+/* ---------- Échéancier ---------- */
+
+.pricing-plan {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-top: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.pricing-plan__steps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pricing-plan__step,
+.pricing-plan__total {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.4rem 1.6rem;
+}
+
+.pricing-plan__step + .pricing-plan__step {
+  border-top: 1px solid var(--color-border);
+}
+
+.pricing-plan__when {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.pricing-plan__amount {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+.pricing-plan__what {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+
+.pricing-plan__total {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-accent-soft);
+}
+
+.pricing-plan__total .pricing-plan__when,
+.pricing-plan__total .pricing-plan__amount {
+  color: var(--color-accent);
+}
+
+html[data-theme="dark"] .pricing-plan__total .pricing-plan__when,
+html[data-theme="dark"] .pricing-plan__total .pricing-plan__amount {
+  color: var(--color-accent-bright);
+}
+
+.pricing-plan__cta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  background: var(--color-accent);
+  transition: background-color 0.25s ease, transform 0.3s var(--ease-out);
+}
+
+.pricing-plan__cta:hover {
+  background: var(--color-accent-hover);
+  transform: translateX(2px);
+}
+
+.pricing-plan__cta svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.pricing-plan__cta:hover svg {
+  transform: translateX(3px);
+}
+
+.pricing-plan__cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
+@media (min-width: 800px) {
+  .pricing-plan {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+  }
+
+  .pricing-plan__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pricing-plan__step + .pricing-plan__step {
+    border-top: 0;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .pricing-plan__step,
+  .pricing-plan__total {
+    padding: 1.6rem 1.7rem;
+  }
+
+  .pricing-plan__total {
+    border-top: 0;
+    border-left: 1px solid var(--color-border);
+  }
+}
+
+/* ---------- Mention ---------- */
+
+.pricing__fine {
+  margin: 1.5rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+}
+
+.pricing__fine a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+html[data-theme="dark"] .pricing__fine a {
+  color: var(--color-accent-bright);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card,
+  .pricing-plan__cta,
+  .pricing-plan__cta svg {
+    transition: none;
+  }
+
+  .pricing-card:hover,
+  .pricing-plan__cta:hover,
+  .pricing-plan__cta:hover svg {
+    transform: none;
+  }
+}

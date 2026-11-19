@@ -167,6 +167,64 @@ body {
   font-weight: 600;
 }
 
+.mentions-legales__kicker {
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.mentions-legales h1:has(+ .mentions-legales__meta) {
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.mentions-legales__meta {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.75rem;
+  font-size: 0.9rem;
+}
+
+.mentions-legales section + section {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.mentions-legales h2 {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 0.75rem;
+}
+
+.mentions-legales ul {
+  margin: 0 0 0.9rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.mentions-legales li {
+  margin-bottom: 0.4rem;
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+}
+
+.mentions-legales li::marker {
+  color: var(--color-accent);
+}
+
+.mentions-legales a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @media (max-width: 768px) {
   
 

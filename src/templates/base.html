@@ -1,7 +1,7 @@
 {% load static %}
 
 <!doctype html>
-<html lang="fr" data-theme="dark">
+<html lang="fr" data-theme="light">
 
 <head>
 <!-- Google tag (gtag.js) -->
@@ -20,13 +20,14 @@
     <title>{% block title %}{% endblock %}</title>
     {% block extra_head %}{% endblock %}
     <script>
+      /* Choix enregistré via le bouton, sinon le thème du système. */
       (function () {
-        try {
-          var stored = localStorage.getItem('theme');
-          document.documentElement.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark');
+        var theme = null;
+        try { theme = localStorage.getItem('theme'); } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
+        document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +38,7 @@
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
     </noscript>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261115-agence">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261119-grid2">
     <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20260822" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20260822">
     <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20260822">
@@ -61,8 +62,26 @@
     <div class="navbar__inner">
         <div class="logo">
             <a href="{% url 'index' %}" aria-label="killianp.dev — accueil">
-                <span class="logo-mark" aria-hidden="true">kp</span>
-                <span class="logo-text">killianp<span class="logo-dot">.dev</span></span>
+                <span class="logo-mark" aria-hidden="true">
+                    <svg viewBox="0 0 32 32" focusable="false">
+                        <defs>
+                            <linearGradient id="logoArm" x1="12" y1="16" x2="23" y2="23.5" gradientUnits="userSpaceOnUse">
+                                <stop offset="0" class="logo-mark__stop-a"/>
+                                <stop offset="1" class="logo-mark__stop-b"/>
+                            </linearGradient>
+                        </defs>
+                        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.1">
+                            <path class="logo-mark__stroke" d="M11.4 8.8v14.4"/>
+                            <path class="logo-mark__stroke" d="M11.4 16.1 21.6 9.3"/>
+                            <path class="logo-mark__arm" d="M11.4 16.1 21.6 22.9" stroke="url(#logoArm)"/>
+                        </g>
+                        <circle class="logo-mark__dot" cx="25.4" cy="23" r="1.65"/>
+                    </svg>
+                </span>
+                <span class="logo-text">
+                    <span class="logo-name">killianp<span class="logo-dot">.dev</span></span>
+                    <span class="logo-tagline">Agence web</span>
+                </span>
             </a>
         </div>
         {% block nav %}
@@ -80,8 +99,10 @@
                 </svg>
             </button>
             <a class="navbar-cta" href="{% url 'index' %}#form">
-                <span>Me contacter</span>
-                <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="navbar-cta__label">Me contacter</span>
+                <span class="navbar-cta__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
             </a>
             <button class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="site-nav">
                 <span class="hamburger__icon" aria-hidden="true">
@@ -103,7 +124,7 @@
     <div class="footer__inner">
         <div>
             <p class="footer__brand">killianp.dev</p>
-            <p class="footer__tagline">Agence web de développement de petits sites vitrines, pour les commerces de proximité.</p>
+            <p class="footer__tagline">Agence web de développement de sites vitrines, pour les commerces de proximité.</p>
         </div>
         <div class="footer__col">
             <h3>Navigation</h3>
@@ -111,6 +132,7 @@
                 <li><a href="{% url 'index' %}">Accueil</a></li>
                 <li><a href="{% url 'index' %}#exemples">Exemples</a></li>
                 <li><a href="{% url 'index' %}#a-propos">À propos</a></li>
+                <li><a href="{% url 'index' %}#tarifs">Tarifs</a></li>
                 <li><a href="{% url 'blog:home' %}">Blog</a></li>
                 <li><a href="{% url 'index' %}#form">Contact</a></li>
             </ul>
@@ -121,6 +143,7 @@
                 <li><a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a></li>
                 <li><a href="https://github.com/Killianp-dev" target="_blank" rel="noopener">GitHub</a></li>
                 <li><a href="{% url 'mentions_legales' %}">Mentions légales</a></li>
+                <li><a href="{% url 'cgv' %}">CGV</a></li>
             </ul>
         </div>
     </div>
@@ -143,7 +166,7 @@
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script defer src="{% static 'js/app.js' %}?v=20261113-blog"></script>
+<script defer src="{% static 'js/app.js' %}?v=20261119-tarifs"></script>
 </body>
 
 </html>

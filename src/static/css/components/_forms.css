@@ -99,6 +99,26 @@
     var(--color-bg-alt);
 }
 
+/* Quadrillage du hero, fondu depuis le coin de la lueur. */
+.contact-intro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  background-position: -1px -1px;
+  -webkit-mask-image: radial-gradient(ellipse 95% 75% at 0% 0%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(ellipse 95% 75% at 0% 0%, #000 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.contact-intro > * {
+  position: relative;
+  z-index: 1;
+}
+
 .contact-intro .section-eyebrow {
   display: inline-flex;
   align-items: center;

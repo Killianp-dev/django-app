@@ -71,6 +71,40 @@ html[data-theme="dark"] .projects__header .section-eyebrow {
   color: var(--color-ink-muted);
 }
 
+/* Phrase d'introduction des exemples : accroche en serif, précision en dessous. */
+.projects__header .projects__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  box-sizing: border-box;
+  width: min(100%, 28rem);
+  padding-left: 1.2rem;
+  border-left: 1px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+
+.projects__intro-lead {
+  font-family: var(--font-serif);
+  font-size: clamp(1.45rem, 2.2vw, 1.75rem);
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+
+.projects__intro-lead em {
+  color: var(--color-accent);
+}
+
+html[data-theme="dark"] .projects__intro-lead em {
+  color: var(--color-accent-bright);
+}
+
+.projects__intro-text {
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+}
+
 /* ---------- Liste des démos ---------- */
 
 .projects__list {

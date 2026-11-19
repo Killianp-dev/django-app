@@ -10,7 +10,8 @@ Navigation principale, partagée par base.html et index.html.
             <li><a href="{% if on_home %}#hero{% else %}{{ index_url }}{% endif %}"><span class="nav-links__index" aria-hidden="true">01</span><span class="nav-links__label">Accueil</span></a></li>
             <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__index" aria-hidden="true">02</span><span class="nav-links__label">Exemples</span></a></li>
             <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#a-propos"><span class="nav-links__index" aria-hidden="true">03</span><span class="nav-links__label">À propos</span></a></li>
-            <li><a href="{% if on_home %}#blog{% else %}{% url 'blog:home' %}{% endif %}"{% if request.resolver_match.namespace == 'blog' %} class="active" aria-current="page"{% endif %}><span class="nav-links__index" aria-hidden="true">04</span><span class="nav-links__label">Blog</span></a></li>
+            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#tarifs"><span class="nav-links__index" aria-hidden="true">04</span><span class="nav-links__label">Tarifs</span></a></li>
+            <li><a href="{% if on_home %}#blog{% else %}{% url 'blog:home' %}{% endif %}"{% if request.resolver_match.namespace == 'blog' %} class="active" aria-current="page"{% endif %}><span class="nav-links__index" aria-hidden="true">05</span><span class="nav-links__label">Blog</span></a></li>
         </ul>
         <div class="nav-menu__footer">
             <p class="nav-menu__status"><span class="status-dot" aria-hidden="true"></span>Disponible pour de nouveaux projets</p>

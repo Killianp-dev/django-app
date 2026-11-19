@@ -87,5 +87,6 @@ urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', robots_txt),
     path('mentions-legales/', TemplateView.as_view(template_name="mentions_legales.html"), name='mentions_legales'),
+    path('cgv/', TemplateView.as_view(template_name="cgv.html"), name='cgv'),
     path('a-propos/', about_redirect, name='about'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
