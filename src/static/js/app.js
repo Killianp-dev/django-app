@@ -465,24 +465,14 @@
   }
 
   // ===== Theme toggle =====
-  // Par défaut le thème suit le système ; un clic sur le bouton impose un choix, mémorisé.
+  // Thème sombre par défaut ; un clic sur le bouton bascule et mémorise le choix.
   function initThemeToggle() {
     const button = document.querySelector('.theme-toggle');
     const root = document.documentElement;
     const metaTheme = document.querySelector('meta[name="theme-color"]');
-    const systemDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
     function currentTheme() {
       return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    }
-
-    function storedTheme() {
-      try {
-        const theme = localStorage.getItem('theme');
-        return theme === 'light' || theme === 'dark' ? theme : null;
-      } catch (e) {
-        return null;
-      }
     }
 
     function syncButton(theme) {
@@ -501,15 +491,6 @@
     }
 
     syncButton(currentTheme());
-
-    // Tant qu'aucun choix n'est enregistré, suivre les changements du système en direct.
-    if (systemDark) {
-      const onSystemChange = (event) => {
-        if (!storedTheme()) setTheme(event.matches ? 'dark' : 'light');
-      };
-      if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemChange);
-      else if (systemDark.addListener) systemDark.addListener(onSystemChange);
-    }
 
     if (!button) return;
 
@@ -535,6 +516,9 @@
     const url = preview.querySelector('[data-preview-url]');
     const label = preview.querySelector('[data-preview-label]');
     const link = preview.querySelector('[data-preview-link]');
+    const win = preview.querySelector('[data-hero-window]');
+    const deck = preview.querySelector('.hero__deck');
+    const deckImages = Array.from(preview.querySelectorAll('[data-deck-img]'));
     if (shots.length < 2) return;
 
     const DELAY = 4500;
@@ -542,6 +526,17 @@
     let timer = null;
     let hovered = false;
     let pinned = false;
+    let visible = true;
+
+    preview.style.setProperty('--hero-delay', DELAY + 'ms');
+
+    // Relance une animation CSS liée à une classe (retire, force le reflow, remet).
+    function replay(element, className) {
+      if (!element) return;
+      element.classList.remove(className);
+      void element.offsetWidth;
+      element.classList.add(className);
+    }
 
     function show(index) {
       current = (index + shots.length) % shots.length;
@@ -558,18 +553,31 @@
         link.href = shot.dataset.url;
         link.setAttribute('aria-label', 'Ouvrir la démo : ' + shot.dataset.label);
       }
+      // La pile derrière la fenêtre montre toujours les démos suivantes.
+      deckImages.forEach((img, i) => {
+        img.src = shots[(current + i + 1) % shots.length].getAttribute('src');
+      });
+      replay(deck, 'is-shuffling');
+      replay(win, 'is-loading');
       preview.dispatchEvent(new CustomEvent('herodemo', { detail: { index: current } }));
     }
 
     function stop() {
       window.clearInterval(timer);
       timer = null;
+      preview.classList.remove('is-autoplay');
     }
 
     function start() {
       stop();
-      if (pinned || prefersReducedMotion() || hovered || document.hidden) return;
+      if (pinned || prefersReducedMotion() || hovered || document.hidden || !visible) return;
       timer = window.setInterval(() => show(current + 1), DELAY);
+      // Le remplissage du point actif repart de zéro, calé sur le minuteur.
+      replay(preview, 'is-autoplay');
+    }
+
+    function syncIdle() {
+      preview.classList.toggle('is-idle', document.hidden || !visible);
     }
 
     dots.forEach((dot) => {
@@ -585,7 +593,46 @@
     preview.addEventListener('focusout', (event) => {
       if (!preview.contains(event.relatedTarget)) { hovered = false; start(); }
     });
-    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    document.addEventListener('visibilitychange', () => {
+      syncIdle();
+      if (document.hidden) stop();
+      else start();
+    });
+
+    // Hors de l'écran : plus de défilement ni d'animations en boucle.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+        syncIdle();
+        if (visible) start();
+        else stop();
+      }).observe(preview);
+    }
+
+    // La fenêtre s'incline doucement vers le pointeur, avec un reflet qui le suit.
+    if (win && hasFinePointer() && !prefersReducedMotion()) {
+      let frame = 0;
+      preview.addEventListener('pointermove', (event) => {
+        if (frame) return;
+        frame = window.requestAnimationFrame(() => {
+          frame = 0;
+          const rect = win.getBoundingClientRect();
+          const x = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
+          const y = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1);
+          win.classList.add('is-tilting');
+          win.style.setProperty('--tilt-y', ((x - 0.5) * 7).toFixed(2) + 'deg');
+          win.style.setProperty('--tilt-x', ((0.5 - y) * 5).toFixed(2) + 'deg');
+          win.style.setProperty('--glare-x', (x * 100).toFixed(1) + '%');
+          win.style.setProperty('--glare-y', (y * 100).toFixed(1) + '%');
+        });
+      });
+      preview.addEventListener('pointerleave', () => {
+        window.cancelAnimationFrame(frame);
+        frame = 0;
+        win.classList.remove('is-tilting');
+        ['--tilt-x', '--tilt-y', '--glare-x', '--glare-y'].forEach((name) => win.style.removeProperty(name));
+      });
+    }
 
     heroPreview = {
       element: preview,

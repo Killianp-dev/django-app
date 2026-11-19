@@ -1,7 +1,7 @@
 {% load static %}
 
 <!doctype html>
-<html lang="fr" data-theme="light">
+<html lang="fr" data-theme="dark">
 
 <head>
 <!-- Google Analytics : chargé uniquement après « Accepter » dans le bandeau cookies
@@ -26,17 +26,14 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#1c1a1b">
+    <meta name="theme-color" content="#131315">
     <title>{% block title %}{% endblock %}</title>
     {% block extra_head %}{% endblock %}
     <script>
-      /* Choix enregistré via le bouton, sinon le thème du système. */
+      /* Thème sombre par défaut ; le clair seulement s'il a été choisi via le bouton. */
       (function () {
-        var theme = null;
-        try { theme = localStorage.getItem('theme'); } catch (e) {}
-        if (theme !== 'light' && theme !== 'dark') {
-          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
+        var theme = 'dark';
+        try { if (localStorage.getItem('theme') === 'light') theme = 'light'; } catch (e) {}
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
@@ -47,7 +44,7 @@
     <noscript>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
     </noscript>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261119-seo">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261119-deck">
     <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20260822" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20260822">
     <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20260822">
@@ -195,7 +192,7 @@
   }]
 }
 </script>
-<script defer src="{% static 'js/app.js' %}?v=20261119-plus2"></script>
+<script defer src="{% static 'js/app.js' %}?v=20261119-deck"></script>
 </body>
 
 </html>

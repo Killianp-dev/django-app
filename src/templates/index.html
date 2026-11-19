@@ -52,7 +52,12 @@
         </div>
 
         <figure class="hero__preview" data-hero-preview aria-label="Aperçu des démonstrations : un site par métier">
-            <div class="hero__window">
+            {# Les deux démos suivantes, empilées derrière la fenêtre ; le JS les fait tourner. #}
+            <div class="hero__deck" aria-hidden="true">
+                <span class="hero__deck-card hero__deck-card--near"><img src="{% static projets.1.apercu %}" alt="" width="1400" height="933" loading="lazy" decoding="async" data-deck-img></span>
+                <span class="hero__deck-card hero__deck-card--far"><img src="{% static projets.2.apercu %}" alt="" width="1400" height="933" loading="lazy" decoding="async" data-deck-img></span>
+            </div>
+            <div class="hero__window" data-hero-window>
                 <div class="hero__window-bar">
                     <span class="hero__window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                     <span class="hero__window-url" aria-hidden="true">killianp.dev<span data-preview-url>{{ projets.0.url }}</span></span>
