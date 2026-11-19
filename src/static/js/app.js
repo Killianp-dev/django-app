@@ -882,7 +882,7 @@
       button.setAttribute('aria-pressed', String(isDark));
       button.setAttribute('aria-label', isDark ? 'Activer le thème clair' : 'Activer le thème sombre');
       if (metaTheme) {
-        metaTheme.setAttribute('content', isDark ? '#10141b' : '#14181f');
+        metaTheme.setAttribute('content', isDark ? '#131315' : '#1c1a1b');
       }
     }
 

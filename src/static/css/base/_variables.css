@@ -3,24 +3,37 @@
    ================================================= */
 
 :root {
-  /* Couleurs — atelier encre & teal */
-  --color-bg: #f3f0e9;
-  --color-bg-alt: #eae6dc;
-  --color-surface: #fffcf7;
-  --color-ink: #14181f;
-  --color-ink-soft: #3d4350;
-  --color-ink-muted: #6a707c;
+  /* Couleurs — porcelaine & bordeaux (le thème sombre garde l'encre & teal) */
+  --color-bg: #f5f2ed;
+  --color-bg-alt: #ece6de;
+  --color-surface: #fffdf9;
+  --color-ink: #1c1a1b;
+  --color-ink-soft: #46403f;
+  --color-ink-muted: #7a726f;
 
-  --color-accent: #0f6e66;
-  --color-accent-hover: #0c5751;
-  --color-accent-bright: #1aa89c;
-  --color-accent-soft: #dceeea;
+  --color-accent: #7a2c3a;
+  --color-accent-hover: #632230;
+  --color-accent-bright: #b8506a;
+  --color-accent-soft: #f2e2e4;
+  --color-on-accent: #ffffff;
+
+  /* Accent en composantes RVB, pour les ombres et lueurs : rgba(var(--accent-rgb), 0.2) */
+  --accent-rgb: 122, 44, 58;
+  --accent-bright-rgb: 184, 80, 106;
+  --accent-glow-rgb: 226, 150, 166;
+
+  /* Dégradés de marque : branche du K (logo) et pastille du bouton « Me contacter » */
+  --brand-arm-a: #f2b6c2;
+  --brand-arm-b: #b8506a;
+  --brand-chip-a: #c4607a;
+  --brand-chip-b: #7a2c3a;
+  --brand-chip-fg: #fff7f8;
 
   --color-primary: var(--color-accent);
   --color-primary-hover: var(--color-accent-hover);
-  --color-primary-dark: #0a4a45;
-  --color-secondary: #6a707c;
-  --color-secondary-hover: #3d4350;
+  --color-primary-dark: #561c28;
+  --color-secondary: #7a726f;
+  --color-secondary-hover: #46403f;
   --color-danger: #c2413b;
   --color-danger-hover: #9f2e28;
   --color-success: #2f7d57;
@@ -28,19 +41,19 @@
   --color-dark: var(--color-ink);
   --color-light: var(--color-bg);
   --color-grey: var(--color-ink-muted);
-  --color-border: #ddd6c8;
-  --color-border-strong: #cfc6b6;
+  --color-border: #e2dad0;
+  --color-border-strong: #d2c8bb;
   --color-input: #ffffff;
   --color-chrome: #14181f;
   --color-on-chrome: #f7f4ee;
-  --color-code-bg: #ece8de;
-  --color-code-text: #14181f;
-  --color-code-inline-bg: #dceeea;
-  --color-code-inline-text: #0c5751;
-  --focus-ring: rgba(15, 110, 102, 0.16);
-  --navbar-bg: rgba(255, 252, 247, 0.82);
-  --navbar-bg-scrolled: rgba(255, 252, 247, 0.94);
-  --navbar-fg: #14181f;
+  --color-code-bg: #efe9e1;
+  --color-code-text: #1c1a1b;
+  --color-code-inline-bg: #f2e2e4;
+  --color-code-inline-text: #632230;
+  --focus-ring: rgba(var(--accent-rgb), 0.16);
+  --navbar-bg: rgba(255, 253, 249, 0.82);
+  --navbar-bg-scrolled: rgba(255, 253, 249, 0.94);
+  --navbar-fg: #1c1a1b;
   --navbar-border: rgba(20, 24, 31, 0.08);
   --navbar-shadow: 0 8px 24px rgba(20, 24, 31, 0.05);
   color-scheme: light;
@@ -54,17 +67,17 @@
   --shadow-sm: 0 1px 2px rgba(20, 24, 31, 0.05);
   --shadow-md: 0 10px 30px rgba(20, 24, 31, 0.07);
   --shadow-lg: 0 22px 50px rgba(20, 24, 31, 0.12);
-  --shadow-glow: 0 12px 32px rgba(15, 110, 102, 0.22);
-  --shadow-glow-lg: 0 16px 48px rgba(15, 110, 102, 0.28), 0 0 0 1px rgba(26, 168, 156, 0.18);
+  --shadow-glow: 0 12px 32px rgba(var(--accent-rgb), 0.22);
+  --shadow-glow-lg: 0 16px 48px rgba(var(--accent-rgb), 0.28), 0 0 0 1px rgba(var(--accent-bright-rgb), 0.18);
 
   /* Lumieres */
-  --glow-accent: rgba(26, 168, 156, 0.2);
-  --glow-accent-strong: rgba(26, 168, 156, 0.42);
-  --glow-pointer: rgba(15, 110, 102, 0.08);
-  --glow-surface: rgba(26, 168, 156, 0.22);
-  --glow-orb-a: rgba(26, 168, 156, 0.2);
-  --glow-orb-b: rgba(15, 110, 102, 0.14);
-  --glow-orb-c: rgba(94, 234, 212, 0.1);
+  --glow-accent: rgba(var(--accent-bright-rgb), 0.2);
+  --glow-accent-strong: rgba(var(--accent-bright-rgb), 0.42);
+  --glow-pointer: rgba(var(--accent-rgb), 0.08);
+  --glow-surface: rgba(var(--accent-bright-rgb), 0.22);
+  --glow-orb-a: rgba(var(--accent-bright-rgb), 0.2);
+  --glow-orb-b: rgba(var(--accent-rgb), 0.14);
+  --glow-orb-c: rgba(var(--accent-glow-rgb), 0.1);
 
   /* Quadrillage (même trame que le hero, en plus léger) */
   --grid-line: rgba(20, 24, 31, 0.045);
@@ -92,52 +105,62 @@
 }
 
 html[data-theme="dark"] {
-  --color-bg: #10141b;
-  --color-bg-alt: #171c24;
-  --color-surface: #1b212b;
-  --color-ink: #f3efe6;
-  --color-ink-soft: #c8ccd4;
-  --color-ink-muted: #8f96a3;
-  --color-accent: #14998d;
-  --color-accent-hover: #1ab3a5;
-  --color-accent-bright: #5eead4;
-  --color-accent-soft: rgba(45, 212, 191, 0.14);
+  /* Couleurs — graphite & champagne (pendant nocturne de « porcelaine & bordeaux ») */
+  --accent-rgb: 201, 168, 112;
+  --accent-bright-rgb: 226, 200, 150;
+  --accent-glow-rgb: 240, 222, 186;
+  --brand-arm-a: #f3e2bd;
+  --brand-arm-b: #c9a870;
+  --brand-chip-a: #ecd6a8;
+  --brand-chip-b: #b8955a;
+  --brand-chip-fg: #1a150d;
+  --color-bg: #131315;
+  --color-bg-alt: #19191c;
+  --color-surface: #1f1f23;
+  --color-ink: #f1ece3;
+  --color-ink-soft: #c8c3ba;
+  --color-ink-muted: #8e8a83;
+  --color-accent: #c9a870;
+  --color-accent-hover: #d8b984;
+  --color-accent-bright: #e2c896;
+  --color-accent-soft: rgba(var(--accent-bright-rgb), 0.11);
+  --color-on-accent: #17130c;
   --color-primary: var(--color-accent);
   --color-primary-hover: var(--color-accent-hover);
-  --color-primary-dark: #14b8a6;
-  --color-secondary: #8f96a3;
-  --color-secondary-hover: #c8ccd4;
+  --color-primary-dark: #e2c896;
+  --color-secondary: #8e8a83;
+  --color-secondary-hover: #c8c3ba;
   --color-dark: var(--color-ink);
   --color-light: var(--color-bg);
   --color-grey: var(--color-ink-muted);
-  --color-border: #2a313c;
-  --color-border-strong: #3b4452;
-  --color-input: #151a22;
-  --color-chrome: #0d1016;
-  --color-on-chrome: #f3efe6;
-  --color-code-bg: #121820;
-  --color-code-text: #e7efe9;
-  --color-code-inline-bg: rgba(45, 212, 191, 0.14);
-  --color-code-inline-text: #5eead4;
-  --grid-line: rgba(255, 255, 255, 0.045);
-  --focus-ring: rgba(45, 212, 191, 0.22);
-  --navbar-bg: rgba(10, 12, 16, 0.94);
-  --navbar-bg-scrolled: rgba(8, 10, 14, 0.98);
-  --navbar-fg: #f3efe6;
+  --color-border: #2c2c31;
+  --color-border-strong: #3e3e44;
+  --color-input: #17171a;
+  --color-chrome: #0d0d0f;
+  --color-on-chrome: #f1ece3;
+  --color-code-bg: #17171a;
+  --color-code-text: #ece6dc;
+  --color-code-inline-bg: rgba(var(--accent-bright-rgb), 0.12);
+  --color-code-inline-text: #e2c896;
+  --grid-line: rgba(255, 250, 240, 0.04);
+  --focus-ring: rgba(var(--accent-bright-rgb), 0.24);
+  --navbar-bg: rgba(13, 13, 15, 0.94);
+  --navbar-bg-scrolled: rgba(10, 10, 12, 0.98);
+  --navbar-fg: #f1ece3;
   --navbar-border: rgba(255, 255, 255, 0.06);
-  --navbar-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  --navbar-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.32);
-  --shadow-lg: 0 24px 54px rgba(0, 0, 0, 0.42);
-  --shadow-glow: 0 12px 32px rgba(45, 212, 191, 0.22);
-  --shadow-glow-lg: 0 18px 56px rgba(45, 212, 191, 0.22), 0 0 0 1px rgba(94, 234, 212, 0.16);
-  --glow-accent: rgba(45, 212, 191, 0.28);
-  --glow-accent-strong: rgba(94, 234, 212, 0.5);
-  --glow-pointer: rgba(45, 212, 191, 0.05);
-  --glow-surface: rgba(45, 212, 191, 0.2);
-  --glow-orb-a: rgba(20, 184, 166, 0.26);
-  --glow-orb-b: rgba(94, 234, 212, 0.14);
-  --glow-orb-c: rgba(15, 110, 102, 0.22);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.34);
+  --shadow-lg: 0 24px 54px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 12px 30px rgba(var(--accent-rgb), 0.18);
+  --shadow-glow-lg: 0 16px 48px rgba(var(--accent-rgb), 0.2), 0 0 0 1px rgba(var(--accent-glow-rgb), 0.12);
+  --glow-accent: rgba(var(--accent-rgb), 0.16);
+  --glow-accent-strong: rgba(var(--accent-bright-rgb), 0.35);
+  --glow-pointer: rgba(var(--accent-bright-rgb), 0.04);
+  --glow-surface: rgba(var(--accent-rgb), 0.16);
+  --glow-orb-a: rgba(var(--accent-rgb), 0.14);
+  --glow-orb-b: rgba(var(--accent-glow-rgb), 0.06);
+  --glow-orb-c: rgba(120, 130, 160, 0.06);
   color-scheme: dark;
 }
 

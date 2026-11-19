@@ -220,13 +220,13 @@
     </ol>
 </section>
 
-<section class="pricing" id="tarifs" aria-labelledby="pricing-title">
+<section class="pricing" id="formule" aria-labelledby="pricing-title">
     <header class="projects__header">
-        <p class="section-eyebrow">Tarifs</p>
-        <h2 id="pricing-title">Un prix clair, tout compris</h2>
+        <p class="section-eyebrow">Formule</p>
+        <h2 id="pricing-title">Une formule simple, tout compris</h2>
         <p class="projects__intro">
             <span class="projects__intro-lead"><em>Une</em> création, <em>un</em> abonnement.</span>
-            <span class="projects__intro-text">L'abonnement couvre tout ce qui fait vivre le site. Rien d'autre à prévoir.</span>
+            <span class="projects__intro-text">Le tarif est fixé dans un devis, après un premier échange. L'abonnement couvre ensuite tout ce qui fait vivre le site.</span>
         </p>
     </header>
 
@@ -235,10 +235,10 @@
             <div class="pricing-card__head">
                 <h3 class="pricing-card__label" id="pricing-creation">Création du site</h3>
                 <p class="pricing-card__price">
-                    <span class="pricing-card__amount">300&nbsp;€</span>
-                    <span class="pricing-card__unit">une fois</span>
+                    <span class="pricing-card__amount pricing-card__amount--text">Une création</span>
+                    <span class="pricing-card__unit">réglée en deux fois</span>
                 </p>
-                <p class="pricing-card__note">150&nbsp;€ à la signature du devis, le solde à la mise en ligne.</p>
+                <p class="pricing-card__note">Un acompte à la signature du devis, le solde à la mise en ligne.</p>
             </div>
             <ul class="pricing-card__list">
                 <li>4 pages, à partir d'un modèle de votre métier</li>
@@ -254,8 +254,8 @@
             <div class="pricing-card__head">
                 <h3 class="pricing-card__label" id="pricing-abonnement">Abonnement</h3>
                 <p class="pricing-card__price">
-                    <span class="pricing-card__amount">40&nbsp;€</span>
-                    <span class="pricing-card__unit">par mois</span>
+                    <span class="pricing-card__amount pricing-card__amount--text">Un abonnement</span>
+                    <span class="pricing-card__unit">chaque mois</span>
                 </p>
                 <p class="pricing-card__note">Engagement de 12 mois, puis résiliable chaque mois avec un mois de préavis.</p>
             </div>
@@ -270,26 +270,26 @@
     </div>
 
     <div class="pricing-plan">
-        <ol class="pricing-plan__steps" aria-label="Échéancier de paiement">
+        <ol class="pricing-plan__steps" aria-label="Déroulement des paiements">
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">À la signature</span>
-                <strong class="pricing-plan__amount">150&nbsp;€</strong>
-                <span class="pricing-plan__what">Acompte sur la création</span>
+                <strong class="pricing-plan__amount">Acompte</strong>
+                <span class="pricing-plan__what">Une partie de la création</span>
             </li>
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">À la mise en ligne</span>
-                <strong class="pricing-plan__amount">190&nbsp;€</strong>
-                <span class="pricing-plan__what">Solde de la création et premier mois</span>
+                <strong class="pricing-plan__amount">Solde</strong>
+                <span class="pricing-plan__what">Le reste de la création et le premier mois</span>
             </li>
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">Chaque mois ensuite</span>
-                <strong class="pricing-plan__amount">40&nbsp;€</strong>
+                <strong class="pricing-plan__amount">Abonnement</strong>
                 <span class="pricing-plan__what">Prélèvement automatique</span>
             </li>
         </ol>
         <div class="pricing-plan__total">
-            <span class="pricing-plan__when">Première année</span>
-            <strong class="pricing-plan__amount">780&nbsp;€</strong>
+            <span class="pricing-plan__when">Votre tarif</span>
+            <strong class="pricing-plan__amount">Sur devis</strong>
             <a class="pricing-plan__cta" href="#form">
                 Demander un devis
                 <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -298,7 +298,7 @@
     </div>
 
     <p class="pricing__fine">
-        Offre réservée aux professionnels. Prix nets, TVA non applicable (art. 293 B du CGI).
+        Offre réservée aux professionnels. TVA non applicable (art. 293 B du CGI).
         Paiement par carte ou prélèvement SEPA. <a href="{% url 'cgv' %}">Conditions générales de vente</a>
     </p>
 </section>

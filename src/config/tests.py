@@ -52,6 +52,14 @@ class StaticPageTests(TestCase):
         self.assertContains(response, "Conditions générales de vente")
         self.assertContains(response, "Killian&nbsp;P.")
 
+    def test_no_agency_price_on_site(self):
+        home = self.client.get(reverse("index")).content.decode()
+        self.assertNotIn("€", home)
+        self.assertContains(self.client.get(reverse("index")), 'id="formule"')
+        cgv = self.client.get(reverse("cgv")).content.decode()
+        for montant in ("300 €", "150 €", "190 €", "40 € par mois", "780 €"):
+            self.assertNotIn(montant, cgv)
+
     def test_legal_pages_never_show_full_name(self):
         for name in ("cgv", "mentions_legales"):
             body = self.client.get(reverse(name)).content.decode().lower()

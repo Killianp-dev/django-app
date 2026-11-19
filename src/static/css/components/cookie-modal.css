@@ -72,7 +72,7 @@
 .cookie-bar__button--accept {
     background: var(--color-accent);
     border-color: var(--color-accent);
-    color: #fff;
+    color: var(--color-on-accent);
 }
 
 .cookie-bar__button:hover {

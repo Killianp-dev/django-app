@@ -29,11 +29,11 @@ html[data-theme="dark"] .navbar {
   --nav-hover: rgba(255, 255, 255, 0.06);
   --nav-thumb: rgba(255, 255, 255, 0.1);
   --nav-thumb-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.06);
-  --nav-panel: #161b23;
+  --nav-panel: #1b1b1e;
   --nav-panel-shadow: 0 24px 56px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.07);
-  --nav-scrim: rgba(6, 8, 11, 0.6);
+  --nav-scrim: rgba(6, 6, 8, 0.6);
   --nav-cta-bg: #f3efe6;
-  --nav-cta-fg: #10141b;
+  --nav-cta-fg: #131315;
   --nav-status: #34d399;
 }
 
@@ -132,10 +132,10 @@ html.nav-open .navbar__glass {
 
 /* Monogramme : un K dessiné, bras inférieur en dégradé, point d'accent façon curseur. */
 .logo-mark {
-  --logo-tile: #14181f;
+  --logo-tile: var(--color-ink);
   --logo-ink: #f7f4ee;
-  --logo-arm-a: #7ff0dd;
-  --logo-arm-b: #14998d;
+  --logo-arm-a: var(--brand-arm-a);
+  --logo-arm-b: var(--brand-arm-b);
   position: relative;
   display: grid;
   place-items: center;
@@ -147,18 +147,18 @@ html.nav-open .navbar__glass {
     linear-gradient(160deg, rgba(255, 255, 255, 0.1), transparent 55%),
     var(--logo-tile);
   box-shadow:
-    inset 0 0 0 1px rgba(94, 234, 212, 0.16),
+    inset 0 0 0 1px rgba(var(--accent-glow-rgb), 0.16),
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 6px 16px -6px rgba(15, 110, 102, 0.45);
+    0 6px 16px -6px rgba(var(--accent-rgb), 0.45);
   transition: transform 0.45s var(--nav-ease), box-shadow 0.45s var(--nav-ease);
 }
 
 html[data-theme="dark"] .logo-mark {
-  --logo-tile: #1b222c;
+  --logo-tile: #222226;
   box-shadow:
-    inset 0 0 0 1px rgba(94, 234, 212, 0.22),
+    inset 0 0 0 1px rgba(var(--accent-glow-rgb), 0.22),
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 8px 20px -8px rgba(45, 212, 191, 0.4);
+    0 8px 20px -8px rgba(var(--accent-bright-rgb), 0.4);
 }
 
 .logo-mark svg {
@@ -189,9 +189,9 @@ html[data-theme="dark"] .logo-mark {
 .logo a:hover .logo-mark {
   transform: translateY(-1px);
   box-shadow:
-    inset 0 0 0 1px rgba(94, 234, 212, 0.3),
+    inset 0 0 0 1px rgba(var(--accent-glow-rgb), 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 10px 22px -8px rgba(26, 168, 156, 0.6);
+    0 10px 22px -8px rgba(var(--accent-bright-rgb), 0.6);
 }
 
 .logo a:hover .logo-mark__arm {
@@ -361,7 +361,7 @@ html[data-theme="dark"] .hamburger {
   transform: translateY(-1px);
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 35%, transparent),
-    0 8px 18px -8px rgba(15, 110, 102, 0.4);
+    0 8px 18px -8px rgba(var(--accent-rgb), 0.4);
 }
 
 html[data-theme="dark"] .theme-toggle:hover,
@@ -369,9 +369,9 @@ html[data-theme="dark"] .hamburger:hover,
 html[data-theme="dark"] .hamburger.is-open {
   color: var(--color-accent-bright);
   box-shadow:
-    inset 0 0 0 1px rgba(94, 234, 212, 0.28),
+    inset 0 0 0 1px rgba(var(--accent-glow-rgb), 0.28),
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 8px 20px -8px rgba(45, 212, 191, 0.35);
+    0 8px 20px -8px rgba(var(--accent-bright-rgb), 0.35);
 }
 
 .theme-toggle:active,
@@ -410,8 +410,8 @@ html[data-theme="dark"] .theme-toggle:hover .theme-toggle__icon--sun {
 
 /* Bouton principal : pilule à reflet, flèche dans une pastille teal (comme le point du logo). */
 .navbar-cta {
-  --cta-ring: rgba(94, 234, 212, 0.18);
-  --cta-glow: rgba(15, 110, 102, 0.45);
+  --cta-ring: rgba(var(--accent-glow-rgb), 0.18);
+  --cta-glow: rgba(var(--accent-rgb), 0.45);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -437,7 +437,7 @@ html[data-theme="dark"] .theme-toggle:hover .theme-toggle__icon--sun {
 
 html[data-theme="dark"] .navbar-cta {
   --cta-ring: rgba(20, 24, 31, 0.06);
-  --cta-glow: rgba(45, 212, 191, 0.35);
+  --cta-glow: rgba(var(--accent-bright-rgb), 0.35);
   background:
     linear-gradient(160deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 55%),
     var(--nav-cta-bg);
@@ -446,7 +446,7 @@ html[data-theme="dark"] .navbar-cta {
 .navbar-cta:hover {
   transform: translateY(-1px);
   box-shadow:
-    inset 0 0 0 1px rgba(94, 234, 212, 0.34),
+    inset 0 0 0 1px rgba(var(--accent-glow-rgb), 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.1),
     0 10px 24px -8px var(--cta-glow);
 }
@@ -461,8 +461,8 @@ html[data-theme="dark"] .navbar-cta {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(140deg, #7ff0dd, #14998d);
-  color: #0b1f1d;
+  background: linear-gradient(140deg, var(--brand-chip-a), var(--brand-chip-b));
+  color: var(--brand-chip-fg);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
   overflow: hidden;
 }

@@ -15,7 +15,7 @@
 
   /* Fond */
   --hero-grid: rgba(20, 24, 31, 0.055);
-  --hero-halo: rgba(26, 168, 156, 0.2);
+  --hero-halo: rgba(var(--accent-bright-rgb), 0.16);
   --hero-halo-2: rgba(232, 184, 106, 0.2);
 
   /* Fenêtre de code */
@@ -24,7 +24,7 @@
   --code-border: rgba(20, 24, 31, 0.1);
   --code-fg: #2a303b;
   --code-ln: #aeb2ba;
-  --code-kw: #0f6e66;
+  --code-kw: var(--color-accent);
   --code-cls: #2f5fa8;
   --code-fn: #2f5fa8;
   --code-str: #9a5b0e;
@@ -54,22 +54,22 @@ html[data-theme="dark"] .hero {
   --hero-accent: var(--color-accent-bright);
   --hero-rule: rgba(255, 255, 255, 0.14);
   --hero-grid: rgba(255, 255, 255, 0.045);
-  --hero-halo: rgba(20, 184, 166, 0.26);
-  --hero-halo-2: rgba(232, 184, 106, 0.08);
+  --hero-halo: rgba(var(--accent-rgb), 0.16);
+  --hero-halo-2: rgba(120, 130, 160, 0.08);
 
-  --code-bg: #0d1117;
-  --code-bar: #131923;
-  --code-border: rgba(255, 255, 255, 0.09);
-  --code-fg: #d7dce4;
-  --code-ln: #4a5362;
-  --code-kw: #5eead4;
-  --code-cls: #8fb0ff;
-  --code-fn: #8fb0ff;
-  --code-str: #e8b86a;
-  --code-doc: #6b7482;
-  --code-self: #c4a7ff;
-  --code-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(94, 234, 212, 0.05), 0 0 60px rgba(20, 184, 166, 0.1);
-  --code-ok: #5eead4;
+  --code-bg: #0f0f11;
+  --code-bar: #17171a;
+  --code-border: rgba(255, 255, 255, 0.08);
+  --code-fg: #e4e0d8;
+  --code-ln: #55545a;
+  --code-kw: var(--color-accent-bright);
+  --code-cls: #a9b9ec;
+  --code-fn: #a9b9ec;
+  --code-str: #a9c9a0;
+  --code-doc: #75737a;
+  --code-self: #cdb3f5;
+  --code-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(var(--accent-glow-rgb), 0.05), 0 0 60px rgba(var(--accent-rgb), 0.07);
+  --code-ok: #8fd6ae;
 }
 
 /* ---------- Fond ---------- */
@@ -164,15 +164,15 @@ html[data-theme="dark"] .hero {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-accent);
-  border: 1px solid rgba(15, 110, 102, 0.26);
+  border: 1px solid rgba(var(--accent-rgb), 0.26);
   border-radius: var(--radius-full);
-  background: rgba(15, 110, 102, 0.07);
+  background: rgba(var(--accent-rgb), 0.07);
 }
 
 html[data-theme="dark"] .hero__eyebrow {
   color: var(--color-accent-bright);
-  border-color: rgba(94, 234, 212, 0.26);
-  background: rgba(45, 212, 191, 0.08);
+  border-color: rgba(var(--accent-glow-rgb), 0.26);
+  background: rgba(var(--accent-bright-rgb), 0.08);
 }
 
 .hero__eyebrow-dot {
@@ -484,8 +484,8 @@ html[data-theme="dark"] .hero__eyebrow {
 }
 
 html[data-theme="dark"] .hero__chip {
-  border-color: rgba(94, 234, 212, 0.2);
-  background: rgba(20, 26, 36, 0.92);
+  border-color: rgba(var(--accent-glow-rgb), 0.2);
+  background: rgba(31, 31, 35, 0.92);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }

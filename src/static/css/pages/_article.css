@@ -541,9 +541,9 @@ html:has(body.article-page) {
 html[data-theme="dark"] .article-body pre {
   border-color: color-mix(in srgb, var(--color-accent-bright) 18%, var(--color-border));
   box-shadow:
-    inset 0 1px 0 rgba(94, 234, 212, 0.07),
+    inset 0 1px 0 rgba(var(--accent-glow-rgb), 0.07),
     var(--shadow-md),
-    0 0 36px rgba(45, 212, 191, 0.08);
+    0 0 36px rgba(var(--accent-bright-rgb), 0.08);
 }
 
 html[data-theme="dark"] .article-body pre::before {
@@ -679,9 +679,9 @@ html[data-theme="dark"] .article-body .article-copy-block,
 html[data-theme="dark"] .article-body div[style*="all: initial"] {
   border-color: color-mix(in srgb, var(--color-accent-bright) 18%, var(--color-border)) !important;
   box-shadow:
-    inset 0 1px 0 rgba(94, 234, 212, 0.07),
+    inset 0 1px 0 rgba(var(--accent-glow-rgb), 0.07),
     var(--shadow-md),
-    0 0 36px rgba(45, 212, 191, 0.08) !important;
+    0 0 36px rgba(var(--accent-bright-rgb), 0.08) !important;
 }
 
 html[data-theme="dark"] .article-copy-block__bar {
@@ -700,15 +700,15 @@ html[data-theme="dark"] .article-body button[style*="#0056b3"] {
 html[data-theme="dark"] .article-body .article-copy-block__btn:hover,
 html[data-theme="dark"] .article-body button[onclick*="clipboard"]:hover,
 html[data-theme="dark"] .article-body button[style*="#0056b3"]:hover {
-  background: rgba(45, 212, 191, 0.12) !important;
-  border-color: rgba(94, 234, 212, 0.32) !important;
+  background: rgba(var(--accent-bright-rgb), 0.12) !important;
+  border-color: rgba(var(--accent-glow-rgb), 0.32) !important;
   color: var(--color-accent-bright) !important;
 }
 
 html[data-theme="dark"] .article-body .article-copy-block__btn.is-copied {
   background: rgba(47, 125, 87, 0.22) !important;
-  border-color: rgba(94, 234, 212, 0.28) !important;
-  color: #7dd3c7 !important;
+  border-color: rgba(var(--accent-glow-rgb), 0.28) !important;
+  color: var(--color-accent-bright) !important;
 }
 
 @media (max-width: 768px) {

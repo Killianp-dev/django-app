@@ -1,22 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Message envoyé – MySite{% endblock %}
+{% block title %}Message envoyé — killianp.dev{% endblock %}
 {% block body_class %}success-page{% endblock %}
 
 {% block content %}
 <section class="content">
     <div class="success-card">
-        <svg class="icon-success" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-            <circle class="circle" cx="60" cy="60" r="54" />
-            <path class="check" d="M36 62l16 16 34-40" />
-        </svg>
+        <div class="success-card__icon" aria-hidden="true">
+            <svg class="icon-success" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <circle class="circle" cx="60" cy="60" r="54" />
+                <path class="check" d="M38 61.5l14.5 14.5L83 44" />
+            </svg>
+        </div>
 
-        <h1>Message envoyé avec succès !</h1>
+        <p class="success-card__eyebrow">Message envoyé</p>
+        <h1>Merci, c'est bien <em>reçu</em>.</h1>
+        <p class="success-card__lead">Votre message m'a été transmis. Je vous réponds par e-mail dans les plus brefs délais.</p>
 
-        <p>Votre message a bien été transmis. Je vous répondrai dans les plus brefs délais.</p>
+        <ol class="success-steps" aria-label="La suite">
+            <li class="success-steps__item">
+                <span class="success-steps__index">01</span>
+                <span class="success-steps__text">Je lis votre message</span>
+            </li>
+            <li class="success-steps__item">
+                <span class="success-steps__index">02</span>
+                <span class="success-steps__text">Je vous réponds par e-mail</span>
+            </li>
+            <li class="success-steps__item">
+                <span class="success-steps__index">03</span>
+                <span class="success-steps__text">On regarde un exemple de votre métier</span>
+            </li>
+        </ol>
 
-        <a href="{% url 'index' %}" class="btn-return">Retour à l'accueil</a>
+        <div class="success-card__actions">
+            <a href="{% url 'index' %}" class="success-card__btn">
+                <span>Retour à l'accueil</span>
+                <span class="success-card__btn-icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16" focusable="false"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+            </a>
+            <a href="{% url 'index' %}#exemples" class="success-card__link">Voir les exemples</a>
+        </div>
     </div>
 </section>
 {% endblock %}

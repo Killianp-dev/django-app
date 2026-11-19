@@ -88,7 +88,7 @@ html[data-theme="dark"] .pointer-glow.is-active {
 }
 
 html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
-  box-shadow: 0 0 16px rgba(94, 234, 212, 0.55);
+  box-shadow: 0 0 16px rgba(var(--accent-glow-rgb), 0.55);
 }
 
 /* Boutons */
@@ -203,7 +203,7 @@ html[data-theme="dark"] .footer::before {
 }
 
 html[data-theme="dark"] .footer a:hover {
-  text-shadow: 0 0 16px rgba(94, 234, 212, 0.45);
+  text-shadow: 0 0 16px rgba(var(--accent-glow-rgb), 0.45);
 }
 
 #contact-form .form-control:focus,
