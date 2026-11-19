@@ -22,10 +22,10 @@ from django.views.generic import TemplateView
 from django.http import HttpResponse
 from django.shortcuts import redirect
 
-from .views import HomeView
+from .views import HomeView, MetierView
 from contact_form.views import SuccessView
 from . import settings
-from .sitemaps import BlogSitemap, StaticSitemap
+from .sitemaps import BlogSitemap, MetierSitemap, StaticSitemap
 def legacy_demo_architecte(request, rest=""):
     """Ancienne adresse de la démo architecte."""
     return redirect("/demo-avocat/", permanent=True)
@@ -46,22 +46,20 @@ def _redirect_avocat(target):
 
 # Sitemaps : pas de sitemap pour la vitrine démo (noindex)
 sitemaps = {
-    'blog': BlogSitemap,
     'static': StaticSitemap,
+    'metiers': MetierSitemap,
+    'blog': BlogSitemap,
 }
 
 def robots_txt(request):
     lines = [
         "User-agent: *",
         "Disallow: /secure-admin-portal/",
-        "Disallow: /demo-avocat/",
-        "Disallow: /demo-coiffeur/",
-        "Disallow: /demo-macon/",
-        "Disallow: /demo-boulangerie/",
-        "Disallow: /demo-boucherie/",
-        "Disallow: /demo-institut/",
-        "Disallow: /demo-architecte/",
-        f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}"
+        "Disallow: /blog/create/",
+        "Disallow: /blog/edit/",
+        "Disallow: /blog/delete/",
+        # Les démos restent lisibles : chacune porte « noindex, follow » (commerces fictifs).
+        f"Sitemap: {settings.SITE_URL}/sitemap.xml"
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
 
@@ -88,5 +86,6 @@ urlpatterns = [
     path('robots.txt', robots_txt),
     path('mentions-legales/', TemplateView.as_view(template_name="mentions_legales.html"), name='mentions_legales'),
     path('cgv/', TemplateView.as_view(template_name="cgv.html"), name='cgv'),
+    path('creation-site-internet/<slug:slug>/', MetierView.as_view(), name='metier'),
     path('a-propos/', about_redirect, name='about'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -21,7 +21,19 @@ User = get_user_model()
 DEFAULT_AUTHOR_NAME = "Killian P."
 
 class BlogPost(models.Model):
+    # Rubriques du blog : les conseils visent les commerçants (et sont mis en avant),
+    # les notes techniques restent accessibles dans leur propre page.
+    COMMERCE = "commerce"
+    TECHNIQUE = "technique"
+    CATEGORY_CHOICES = [
+        (COMMERCE, "Conseils pour votre commerce"),
+        (TECHNIQUE, "Notes techniques"),
+    ]
+
     title = models.CharField(max_length=255, unique=True, verbose_name="Titre")
+    category = models.CharField(
+        max_length=20, choices=CATEGORY_CHOICES, default=COMMERCE, verbose_name="Rubrique"
+    )
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)  # or models.SET_NULL, null=True
     last_updated = models.DateTimeField(auto_now=True)  # date time automatically

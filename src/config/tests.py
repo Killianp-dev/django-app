@@ -84,3 +84,65 @@ class StaticPageTests(TestCase):
         body = response.content.decode()
         self.assertIn(post.get_absolute_url(), body)
         self.assertNotIn("pas-dans-le-sitemap", body)
+
+
+class SeoTests(TestCase):
+    """Référencement : pages métier, balises communes, robots et sitemap."""
+
+    def test_page_metier_boulangerie(self):
+        response = self.client.get("/creation-site-internet/boulangerie/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<title>Création de site internet pour boulangerie · killianp.dev</title>", html=False)
+        self.assertContains(response, "Création de site internet <em>pour boulangerie</em>")
+        self.assertContains(response, '<link rel="canonical" href="https://www.killianp-dev.fr/creation-site-internet/boulangerie/">')
+        self.assertContains(response, '"@type": "FAQPage"')
+        self.assertContains(response, '"@type": "Service"')
+        self.assertContains(response, "/demo-boulangerie/")
+        self.assertContains(response, "?sujet=Site%20vitrine%20%E2%80%94%20Boulangerie")
+
+    def test_toutes_les_pages_metier_repondent(self):
+        from config.metiers import metiers
+        for metier in metiers():
+            with self.subTest(metier=metier.slug):
+                self.assertEqual(self.client.get(metier.url).status_code, 200)
+
+    def test_metier_inconnu(self):
+        self.assertEqual(self.client.get("/creation-site-internet/fleuriste/").status_code, 404)
+
+    def test_accueil_balises(self):
+        response = self.client.get(reverse("index"))
+        self.assertContains(response, '<link rel="canonical" href="https://www.killianp-dev.fr/">')
+        self.assertContains(response, 'property="og:image"')
+        self.assertContains(response, '"@type": "ProfessionalService"')
+        self.assertContains(response, "Création de site vitrine pour commerçants et artisans")
+        self.assertContains(response, "/creation-site-internet/boulangerie/")
+
+    def test_robots_laisse_lire_les_demos(self):
+        body = self.client.get("/robots.txt").content.decode()
+        self.assertNotIn("/demo-", body)
+        self.assertIn("Sitemap: https://www.killianp-dev.fr/sitemap.xml", body)
+
+    def test_demos_non_indexees(self):
+        response = self.client.get("/demo-boulangerie/")
+        self.assertContains(response, '<meta name="robots" content="noindex, follow">')
+
+    def test_confirmation_non_indexee(self):
+        response = self.client.get(reverse("success"))
+        self.assertContains(response, '<meta name="robots" content="noindex">')
+
+    def test_sitemap_contient_les_pages_metier(self):
+        body = self.client.get("/sitemap.xml").content.decode()
+        self.assertIn("/creation-site-internet/boulangerie/", body)
+        self.assertIn("https://", body)
+
+    def test_blog_separe_conseils_et_notes(self):
+        conseil = BlogPost.objects.create(title="Site internet pour fleuriste", published=True,
+                                          created_on=date.today(), category=BlogPost.COMMERCE)
+        note = BlogPost.objects.create(title="Numpy en pratique", published=True,
+                                       created_on=date.today(), category=BlogPost.TECHNIQUE)
+        conseils = list(self.client.get(reverse("blog:home")).context["posts"])
+        notes = list(self.client.get(reverse("blog:notes")).context["posts"])
+        self.assertIn(conseil, conseils)
+        self.assertNotIn(note, conseils)
+        self.assertIn(note, notes)
+        self.assertNotIn(conseil, notes)

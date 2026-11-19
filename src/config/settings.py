@@ -100,6 +100,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'config.context_processors.site',
             ],
         },
     },
@@ -191,6 +192,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Site ID requis pour les sitemaps
 SITE_ID = env.int('SITE_ID')
+
+# Adresse publique de référence (canonical, Open Graph, données structurées).
+SITE_URL = env('SITE_URL', default='https://www.killianp-dev.fr').rstrip('/')
 
 # Vitrines de démonstration (commerces fictifs).
 VITRINE_DEMO_NOTIFY_EMAIL = 'contact@killianp-dev.fr'

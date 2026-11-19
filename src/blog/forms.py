@@ -85,13 +85,15 @@ class BlogPostForm(forms.ModelForm):
 
     class Meta:
         model = BlogPost
-        fields = ["title", "content", "created_on"]
+        fields = ["title", "category", "content", "created_on"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["content"].help_text = (
             "HTML autorisé. Pour afficher une image, copiez sa balise dans ce texte."
         )
+        # Rubrique facultative : sans choix, l'article rejoint les conseils aux commerçants.
+        self.fields["category"].required = False
         new_images = self.fields.pop("new_images")
         ordered = {}
         for name, field in self.fields.items():
@@ -101,6 +103,9 @@ class BlogPostForm(forms.ModelForm):
         if "new_images" not in ordered:
             ordered["new_images"] = new_images
         self.fields = ordered
+
+    def clean_category(self):
+        return self.cleaned_data.get("category") or BlogPost.COMMERCE
 
     def _pending_image_deletions(self):
         prefix = IMAGE_FORMSET_PREFIX
@@ -131,7 +136,7 @@ class BlogPostForm(forms.ModelForm):
 
 class BlogPostUpdateForm(BlogPostForm):
     class Meta(BlogPostForm.Meta):
-        fields = ["title", "content", "created_on", "published"]
+        fields = ["title", "category", "content", "created_on", "published"]
 
 
 class BlogImageForm(forms.ModelForm):

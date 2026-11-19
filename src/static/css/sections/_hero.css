@@ -34,10 +34,9 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  min-height: 680px;
-  height: 100vh;
-  height: 100svh;
-  max-height: 1080px;
+  /* Au moins la hauteur de l'écran, mais jamais rogné : le hero grandit si son contenu l'exige. */
+  min-height: max(680px, 100vh);
+  min-height: max(680px, 100svh);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -190,7 +189,7 @@ html[data-theme="dark"] .hero__eyebrow {
 .hero__title {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(2.7rem, 5.5vw, 4.9rem);
+  font-size: clamp(2.6rem, 4.9vw, 4.2rem);
   font-weight: 400;
   letter-spacing: -0.032em;
   line-height: 1.03;

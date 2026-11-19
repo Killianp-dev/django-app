@@ -10,7 +10,7 @@ from .models import BlogPost
 class LatestPostsFeed(Feed):
     title = "Blog — killianp.dev"
     link = reverse_lazy("blog:home")
-    description = "Notes de développeur : Python, données et ce qui se passe sous le capot d'un site."
+    description = "Conseils pour le site internet de votre commerce, et notes techniques."
 
     def items(self):
         return BlogPost.objects.filter(published=True).order_by("-created_on", "-id")[:20]

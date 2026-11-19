@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 
 from .forms import IMAGE_FORMSET_PREFIX, BlogImageFormSet, BlogPostForm, BlogPostUpdateForm
 from .models import BlogImage, BlogPost
+from config.metiers import metier_par_article
 
 
 def visible_posts(user):
@@ -13,12 +14,24 @@ def visible_posts(user):
 
 
 class BlogHome(ListView):
+    """Rubrique principale du blog : les conseils pour le site d'un commerce."""
     context_object_name = "posts"
     template_name = "blog/blogpost_list.html"
     paginate_by = 9
+    category = BlogPost.COMMERCE
 
     def get_queryset(self):
-        return visible_posts(self.request.user)
+        return visible_posts(self.request.user).filter(category=self.category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["rubrique"] = self.category
+        return context
+
+
+class BlogNotes(BlogHome):
+    """Notes techniques (Python, données…), à l'écart des conseils aux commerçants."""
+    category = BlogPost.TECHNIQUE
 
 
 class BlogImageUploadMixin:
@@ -90,7 +103,8 @@ class BlogPostDetail(DetailView):
         
         # Récupérer les articles précédent et suivant publiés
         # Utiliser l'ordre par défaut du modèle (-created_on) et l'ID comme critère de fallback
-        queryset = BlogPost.objects.filter(published=True)
+        # Même rubrique seulement : un guide métier renvoie vers d'autres guides métier.
+        queryset = BlogPost.objects.filter(published=True, category=current_post.category)
         
         # Navigation basée sur l'ordre chronologique inverse (plus récent au plus ancien)
         # Article précédent = plus récent que l'actuel
@@ -131,6 +145,8 @@ class BlogPostDetail(DetailView):
 
         excluded = [p.pk for p in (current_post, context.get('previous_post'), context.get('next_post')) if p]
         context['related_posts'] = queryset.exclude(pk__in=excluded).order_by('-created_on', '-id')[:3]
+        # Guide d'un métier : lien vers la page « Création de site internet pour… » et la démo.
+        context['metier'] = metier_par_article(current_post.slug)
         return context
 
 

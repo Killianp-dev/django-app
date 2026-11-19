@@ -3,22 +3,16 @@
 
 {% block body_class %}article-page{% endblock %}
 
-{% block title %}{{ post.title }} — Blog · killianp.dev{% endblock %}
+{% block title %}{{ post.title }} · killianp.dev{% endblock %}
 
 {% block extra_head %}
-<meta name="description" content="{{ post.excerpt }}">
-<link rel="canonical" href="{{ request.build_absolute_uri }}">
-<link rel="alternate" type="application/rss+xml" title="Blog — killianp.dev" href="{% url 'blog:feed' %}">
-<meta property="og:title" content="{{ post.title }}">
-<meta property="og:description" content="{{ post.excerpt }}">
-<meta property="og:type" content="article">
-<meta property="og:url" content="{{ request.build_absolute_uri }}">
-{% if post.created_on %}<meta property="article:published_time" content="{{ post.created_on|date:'Y-m-d' }}">{% endif %}
-{% if post.thumbnail %}
-<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}">
-<meta name="twitter:card" content="summary_large_image">
+{% if post.thumbnail %}{% with image=SITE_URL|add:post.thumbnail.url %}
+{% include "partials/seo.html" with title=post.title description=post.excerpt type="article" image=image noindex=post.published|yesno:",1" %}
+{% endwith %}{% else %}
+{% include "partials/seo.html" with title=post.title description=post.excerpt type="article" noindex=post.published|yesno:",1" %}
 {% endif %}
-{% if not post.published %}<meta name="robots" content="noindex">{% endif %}
+<link rel="alternate" type="application/rss+xml" title="Blog — killianp.dev" href="{% url 'blog:feed' %}">
+{% if post.created_on %}<meta property="article:published_time" content="{{ post.created_on|date:'Y-m-d' }}">{% endif %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -27,9 +21,10 @@
   "description": "{{ post.excerpt|escapejs }}",
   {% if post.created_on %}"datePublished": "{{ post.created_on|date:'Y-m-d' }}",{% endif %}
   "dateModified": "{{ post.last_updated|date:'c' }}",
-  {% if post.thumbnail %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ post.thumbnail.url }}",{% endif %}
-  "author": {"@type": "Person", "name": "{{ post.author_or_default|escapejs }}", "url": "{{ request.scheme }}://{{ request.get_host }}/"},
-  "mainEntityOfPage": "{{ request.build_absolute_uri }}"
+  {% if post.thumbnail %}"image": "{{ SITE_URL }}{{ post.thumbnail.url }}",{% endif %}
+  "author": {"@type": "Person", "name": "{{ post.author_or_default|escapejs }}", "url": "{{ SITE_URL }}/"},
+  "publisher": {"@type": "Organization", "name": "killianp.dev", "url": "{{ SITE_URL }}/"},
+  "mainEntityOfPage": "{{ SITE_URL }}{{ request.path }}"
 }
 </script>
 {% endblock %}
@@ -42,6 +37,7 @@
     <ol>
       <li><a href="{% url 'index' %}">Accueil</a></li>
       <li><a href="{% url 'blog:home' %}">Blog</a></li>
+      {% if post.category == "technique" %}<li><a href="{% url 'blog:notes' %}">Notes techniques</a></li>{% endif %}
       <li aria-current="page">{{ post.title|truncatechars:48 }}</li>
     </ol>
   </nav>
@@ -52,7 +48,10 @@
       <h1 class="article-title">{{ post.title }}</h1>
       <div class="article-meta">
         <span class="article-author">
-          <img class="article-author__avatar" src="{% static 'ressources/killian-aplat.jpg' %}" alt="" width="28" height="28">
+          <picture>
+            <source srcset="{% static 'ressources/killian-avatar.webp' %}" type="image/webp">
+            <img class="article-author__avatar" src="{% static 'ressources/killian-avatar.jpg' %}" alt="" width="28" height="28">
+          </picture>
           {{ post.author_or_default }}
         </span>
         {% if post.created_on %}
@@ -76,6 +75,20 @@
     <section class="article-body">
       {{ post.content|safe }}
     </section>
+
+    {% if metier %}
+    <aside class="article-metier" aria-labelledby="article-metier-title">
+      <div>
+        <p class="section-eyebrow">Votre site</p>
+        <p class="article-metier__title" id="article-metier-title">Création de site internet {{ metier.pour }}</p>
+        <p class="article-metier__text">Un exemple concret, puis un site clé en main : hébergement, nom de domaine et maintenance compris.</p>
+      </div>
+      <div class="article-metier__actions">
+        <a class="btn" href="{{ metier.url }}">Voir la page {{ metier.nom|lower }}</a>
+        <a class="article-metier__link" href="{{ metier.demo_url }}">Voir l'exemple : {{ metier.demo_nom }}</a>
+      </div>
+    </aside>
+    {% endif %}
 
     <footer class="article-footer">
       <div class="article-share">
@@ -105,7 +118,10 @@
     </footer>
 
     <aside class="author-card" aria-label="À propos de l'auteur">
-      <img class="author-card__photo" src="{% static 'ressources/killian-aplat.jpg' %}" alt="Portrait de Killian P." width="96" height="96" loading="lazy">
+      <picture>
+        <source srcset="{% static 'ressources/killian-avatar.webp' %}" type="image/webp">
+        <img class="author-card__photo" src="{% static 'ressources/killian-avatar.jpg' %}" alt="Portrait de Killian P." width="96" height="96" loading="lazy">
+      </picture>
       <div class="author-card__body">
         <p class="author-card__eyebrow">Écrit par</p>
         <p class="author-card__name">{{ post.author_or_default }}</p>

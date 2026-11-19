@@ -1,0 +1,21 @@
+{% load static %}{% comment %}
+Balises de référencement communes. Paramètres :
+  title, description : textes pour Google et les partages (description facultative) ;
+  type : "website" (par défaut) ou "article" ;
+  image : URL absolue d'une image de partage (sinon l'image par défaut du site) ;
+  noindex : page à ne pas indexer (pas de canonical dans ce cas).
+{% endcomment %}{% static 'ressources/og-killianp-dev.jpg' as og_default %}
+{% if description %}<meta name="description" content="{{ description }}">{% endif %}
+{% if noindex %}<meta name="robots" content="noindex">
+{% else %}<link rel="canonical" href="{{ SITE_URL }}{{ request.path }}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}">
+{% endif %}<meta property="og:site_name" content="killianp.dev">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:type" content="{{ type|default:'website' }}">
+<meta property="og:title" content="{{ title }}">
+{% if description %}<meta property="og:description" content="{{ description }}">{% endif %}
+<meta property="og:url" content="{{ SITE_URL }}{{ request.path }}">
+{% if image %}<meta property="og:image" content="{{ image }}">
+{% else %}<meta property="og:image" content="{{ SITE_URL }}{{ og_default }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+{% endif %}<meta name="twitter:card" content="summary_large_image">

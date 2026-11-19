@@ -6,28 +6,29 @@
 /* 1. Base - Reset, variables et styles globaux */
 @import url('./base/_variables.css?v=20261119-mort');
 @import url('./base/_reset.css');
-@import url('./base/_global.css?v=20261119-cgv');
+@import url('./base/_global.css?v=20261119-seo');
 
 /* 2. Components - Éléments réutilisables */
 @import url('./components/_navbar.css?v=20261119-plus');
 @import url('./components/_buttons.css?v=20261119-champagne');
 @import url('./components/_cards.css');
-@import url('./components/_footer.css?v=20261119-grid');
+@import url('./components/_footer.css?v=20261119-seo');
 @import url('./components/_forms.css?v=20261119-plus');
 @import url('./components/cookie-modal.css?v=20261119-champagne');
 
 /* 3. Sections - Sections spécifiques de la page */
-@import url('./sections/_hero.css?v=20261119-plus2');
-@import url('./sections/_asymetric.css?v=20261119-champagne');
-@import url('./sections/_blog.css?v=20261119-mort');
+@import url('./sections/_hero.css?v=20261119-seo');
+@import url('./sections/_asymetric.css?v=20261119-seo');
+@import url('./sections/_blog.css?v=20261119-seo');
 @import url('./sections/_blog-integration.css?v=20261114-blog-grid');
 @import url('./sections/_offer.css?v=20261113-sections');
 @import url('./sections/_pricing.css?v=20261119-champagne');
 @import url('./sections/_about.css?v=20261114-aplat');
 
 /* 4. Pages - Styles spécifiques à certaines pages */
-@import url('./pages/_article.css?v=20261119-js');
+@import url('./pages/_article.css?v=20261119-seo');
 @import url('./pages/_success.css?v=20261119-success');
+@import url('./pages/_metier.css?v=20261119-seo');
 
 /* 5. Utilities - Animations, lumieres et responsive */
 @import url('./utilities/_animations.css?v=20261119-plus');

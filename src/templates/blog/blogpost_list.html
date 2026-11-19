@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Blog — Notes de développeur · killianp.dev{% endblock %}
+{% block title %}{% if rubrique == "technique" %}Notes techniques · Blog killianp.dev{% else %}Conseils pour le site internet de votre commerce · killianp.dev{% endif %}{% endblock %}
 {% block body_class %}blog-page{% endblock %}
 
 {% block extra_head %}
-<meta name="description" content="Notes de développeur : Python, données et ce qui se passe sous le capot d'un site web.">
-<link rel="canonical" href="{{ request.build_absolute_uri }}">
+{% if rubrique == "technique" %}
+{% include "partials/seo.html" with title="Notes techniques · Blog killianp.dev" description="Notes techniques : Python, données et ce qui se passe sous le capot d'un site web." %}
+{% else %}
+{% include "partials/seo.html" with title="Conseils pour le site internet de votre commerce · killianp.dev" description="Boulangerie, salon de coiffure, artisan, cabinet d'avocats : ce que le site internet de votre commerce doit montrer, avec un exemple concret pour chaque métier." %}
+{% endif %}
 <link rel="alternate" type="application/rss+xml" title="Blog — killianp.dev" href="{% url 'blog:feed' %}">
 {% endblock %}
 
@@ -15,20 +18,37 @@
     <nav class="breadcrumb" aria-label="Fil d'Ariane">
         <ol>
             <li><a href="{% url 'index' %}">Accueil</a></li>
+            {% if rubrique == "technique" %}
+            <li><a href="{% url 'blog:home' %}">Blog</a></li>
+            <li aria-current="page">Notes techniques</li>
+            {% else %}
             <li aria-current="page">Blog</li>
+            {% endif %}
         </ol>
     </nav>
 
     <header class="projects__header">
         <p class="section-eyebrow">Blog</p>
-        <h1 id="blog-index-title">Notes de développeur</h1>
+        {% if rubrique == "technique" %}
+        <h1 id="blog-index-title">Notes techniques</h1>
         <p class="projects__intro">
             <span class="projects__intro-lead">Ce qui se passe <em>sous le capot</em>.</span>
             <span class="projects__intro-text">Python, données et coulisses d'un site. Écrit au fil des projets.</span>
         </p>
+        {% else %}
+        <h1 id="blog-index-title">Le site internet de votre commerce</h1>
+        <p class="projects__intro">
+            <span class="projects__intro-lead">Ce que vos clients <em>cherchent</em>.</span>
+            <span class="projects__intro-text">Pour chaque métier, ce que le site doit montrer, avec un exemple concret.</span>
+        </p>
+        {% endif %}
     </header>
 
     <div class="blog-toolbar">
+        <nav class="blog-tabs" aria-label="Rubriques du blog">
+            <a class="blog-tabs__link" href="{% url 'blog:home' %}"{% if rubrique != "technique" %} aria-current="page"{% endif %}>Conseils pour votre commerce</a>
+            <a class="blog-tabs__link" href="{% url 'blog:notes' %}"{% if rubrique == "technique" %} aria-current="page"{% endif %}>Notes techniques</a>
+        </nav>
         <p class="blog-toolbar__count">
             {% with count=paginator.count %}{{ count }} article{{ count|pluralize }}{% endwith %}
             {% if page_obj.paginator.num_pages > 1 %}<span> · page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>{% endif %}

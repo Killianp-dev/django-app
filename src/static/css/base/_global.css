@@ -264,3 +264,9 @@ body {
     font-size: 0.95rem;
   }
 }
+
+/* <picture> (WebP + repli JPEG) ne doit pas changer la mise en page : seule l'image compte. */
+picture {
+  display: contents;
+}
+

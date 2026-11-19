@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Création de site internet {{ metier.pour }} · killianp.dev{% endblock %}
+{% block body_class %}metier-page{% endblock %}
+
+{% block extra_head %}
+{% with titre="Création de site internet "|add:metier.pour|add:" · killianp.dev" %}
+{% include "partials/seo.html" with title=titre description=metier.description %}
+{% endwith %}
+{{ jsonld }}
+{% endblock %}
+
+{% block content %}
+<main class="metier">
+    <section class="metier-hero" aria-labelledby="metier-title">
+        <div class="metier-hero__text">
+            <nav class="breadcrumb" aria-label="Fil d'Ariane">
+                <ol>
+                    <li><a href="{% url 'index' %}">Accueil</a></li>
+                    <li><a href="{% url 'index' %}#exemples">Création de site internet</a></li>
+                    <li aria-current="page">{{ metier.nom }}</li>
+                </ol>
+            </nav>
+            <p class="section-eyebrow">Création de site internet</p>
+            <h1 class="metier-hero__title" id="metier-title">Création de site internet <em>{{ metier.pour }}</em></h1>
+            <p class="metier-hero__lead">{{ metier.accroche }}</p>
+            <div class="metier-hero__actions">
+                <a class="hero-btn" href="{% url 'contact_form:contact' %}?sujet={{ sujet|urlencode }}">Demander un devis</a>
+                <a class="metier-hero__link" href="{{ metier.demo_url }}">
+                    Voir l'exemple : {{ metier.demo_nom }}
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <a class="project__media metier-hero__media" href="{{ metier.demo_url }}" aria-label="Ouvrir la démo : {{ metier.demo_nom }}, {{ metier.nom|lower }} fictive">
+            <span class="project__bar" aria-hidden="true">
+                <span class="project__dots"><i></i><i></i><i></i></span>
+                <span class="project__url">killianp.dev{{ metier.demo_url }}</span>
+            </span>
+            <span class="project__shot">
+                <img src="{% static metier.apercu %}" alt="Page d'accueil de {{ metier.demo_nom }}, exemple de site {{ metier.pour }}" width="1400" height="933" fetchpriority="high" decoding="async">
+            </span>
+        </a>
+    </section>
+
+    <section class="metier-section" aria-labelledby="besoins-title">
+        <header class="projects__header">
+            <p class="section-eyebrow">Ce que le site montre</p>
+            <h2 id="besoins-title">Un site {{ metier.pour }}, pensé pour vos clients</h2>
+            <p class="projects__intro">
+                <span class="projects__intro-lead">L'essentiel, <em>en quelques secondes</em>.</span>
+                <span class="projects__intro-text">Quatre pages à partir d'un modèle de votre métier, plus les mentions légales et la confidentialité.</span>
+            </p>
+        </header>
+        <ol class="metier-besoins">
+            {% for titre, texte in metier.besoins %}
+            <li class="metier-besoin">
+                <span class="metier-besoin__index">{{ forloop.counter|stringformat:"02d" }}</span>
+                <h3 class="metier-besoin__title">{{ titre }}</h3>
+                <p class="metier-besoin__text">{{ texte }}</p>
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section class="metier-section" aria-labelledby="trouve-title">
+        <div class="metier-trouve">
+            <div>
+                <p class="section-eyebrow">Être trouvé</p>
+                <h2 class="metier-trouve__title" id="trouve-title">Être trouvé par les clients de votre quartier</h2>
+            </div>
+            <div>
+                <p>{{ metier.trouve }}</p>
+                {% if metier.article_url %}
+                <a class="metier-trouve__link" href="{{ metier.article_url }}">
+                    Lire le guide : le site internet {{ metier.pour }}
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="metier-section" aria-labelledby="deroulement-title">
+        <header class="projects__header">
+            <p class="section-eyebrow">Déroulement</p>
+            <h2 id="deroulement-title">Comment se passe la création de votre site</h2>
+            <p class="projects__intro">
+                <span class="projects__intro-lead"><em>Trois</em> étapes, rien de plus.</span>
+                <span class="projects__intro-text">Du premier message au site en ligne, en trois semaines environ.</span>
+            </p>
+        </header>
+        {% include "partials/deroulement.html" %}
+    </section>
+
+    <section class="metier-section" aria-labelledby="formule-title">
+        <div class="metier-formule">
+            <div>
+                <p class="section-eyebrow">Formule</p>
+                <h2 class="metier-formule__title" id="formule-title">Une création, puis un abonnement tout compris</h2>
+                <p>Hébergement, nom de domaine à votre nom, adresse e-mail professionnelle, maintenance et petites retouches : tout est compris. Le tarif est fixé dans un devis, après un premier échange.</p>
+            </div>
+            <div class="metier-formule__actions">
+                <a class="hero-btn" href="{% url 'contact_form:contact' %}?sujet={{ sujet|urlencode }}">Demander un devis</a>
+                <a class="metier-hero__link" href="{% url 'index' %}#formule">Voir la formule en détail</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="metier-section" aria-labelledby="faq-title">
+        <header class="projects__header">
+            <p class="section-eyebrow">Questions fréquentes</p>
+            <h2 id="faq-title">Vos questions sur le site {{ metier.pour }}</h2>
+        </header>
+        <div class="metier-faq">
+            {% for question, reponse in faq %}
+            <details class="metier-faq__item">
+                <summary>{{ question }}</summary>
+                <p>{{ reponse }}</p>
+            </details>
+            {% endfor %}
+        </div>
+    </section>
+
+    <nav class="metier-section metier-autres" aria-labelledby="autres-title">
+        <p class="section-eyebrow" id="autres-title">D'autres métiers</p>
+        <ul>
+            {% for autre in autres %}
+            <li><a class="hero__trade" href="{{ autre.url }}">Site internet {{ autre.pour }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</main>
+{% endblock %}
