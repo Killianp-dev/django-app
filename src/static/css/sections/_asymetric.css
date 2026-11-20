@@ -498,25 +498,16 @@ html[data-theme="dark"] .project__index {
   }
 }
 
-/* Mobile : une rangée de téléphones, la suivante dépasse à droite pour inviter à faire défiler. */
+/* Mobile : une liste verticale, comme le reste du site (aucun défilement de côté) ;
+   le téléphone à gauche, le texte à droite, des filets fins entre les démos. */
 @media (max-width: 640px) {
   .projects__header h2 {
     font-size: 2rem;
   }
 
   .projects__list {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: min(78%, 300px);
-    gap: 1.1rem;
-    margin-inline: calc(-1 * var(--page-gutter));
-    padding: 0.5rem var(--page-gutter) 1.5rem;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: var(--page-gutter);
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-border-strong) transparent;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
   }
 
   .project,
@@ -526,36 +517,81 @@ html[data-theme="dark"] .project__index {
   }
 
   .project {
-    scroll-snap-align: start;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.15rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .project:first-child {
+    padding-top: 0;
+  }
+
+  .project:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
   }
 
   .project__phone {
-    width: min(100%, 230px);
-    margin-bottom: 1.5rem;
-    padding: 7px;
-    border-radius: 38px;
+    flex: none;
+    width: 38%;
+    max-width: 150px;
+    margin: 0;
+    padding: 5px;
+    border-radius: 25px;
   }
 
   .project__screen {
-    border-radius: 31px;
+    border-radius: 20px;
+  }
+
+  .project:hover .project__phone,
+  .project__phone:focus-visible {
+    transform: translateY(-3px);
+  }
+
+  .project__body {
+    flex: 1;
+    align-items: flex-start;
+    max-width: none;
+    padding-top: 0.2rem;
+  }
+
+  .project__index {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
   }
 
   .project__title {
-    font-size: 1.45rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
   }
 
   .project__excerpt {
-    font-size: 0.95rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.95rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
   }
 
   .project__tags {
-    margin-bottom: 1.3rem;
+    display: none;
   }
 
   .project__body .project__actions {
     flex-direction: column;
-    gap: 0.8rem;
+    align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .project__link {
+    padding: 0.55rem 1rem;
+    font-size: 0.88rem;
+  }
+
+  .project__more {
+    font-size: 0.85rem;
   }
 }
 
