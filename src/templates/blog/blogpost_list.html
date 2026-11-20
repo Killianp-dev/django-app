@@ -46,7 +46,7 @@
 
     <div class="blog-toolbar">
         <nav class="blog-tabs" aria-label="Rubriques du blog">
-            <a class="blog-tabs__link" href="{% url 'blog:home' %}"{% if rubrique != "technique" %} aria-current="page"{% endif %}>Conseils pour votre commerce</a>
+            <a class="blog-tabs__link" href="{% url 'blog:home' %}"{% if rubrique != "technique" %} aria-current="page"{% endif %}><span class="blog-tabs__full">Conseils pour votre commerce</span><span class="blog-tabs__short">Conseils</span></a>
             <a class="blog-tabs__link" href="{% url 'blog:notes' %}"{% if rubrique == "technique" %} aria-current="page"{% endif %}>Notes techniques</a>
         </nav>
         <p class="blog-toolbar__count">

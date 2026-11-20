@@ -50,6 +50,32 @@
   box-shadow: var(--shadow-sm), 0 0 0 1px var(--color-border);
 }
 
+.blog-tabs__short {
+  display: none;
+}
+
+/* Sur mobile, les deux onglets ne tiennent plus sur une ligne : ils deviennent deux
+   moitiés égales sur toute la largeur, avec un libellé court pour le premier. */
+@media (max-width: 520px) {
+  .blog-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .blog-tabs__link {
+    text-align: center;
+  }
+
+  .blog-tabs__full {
+    display: none;
+  }
+
+  .blog-tabs__short {
+    display: inline;
+  }
+}
+
 .blog-toolbar__count {
   margin: 0;
   font-size: 0.78rem;
