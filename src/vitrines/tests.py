@@ -126,7 +126,7 @@ class MaconAutonomeTests(TestCase):
         for prefix in ("/demo-macon/", "/demo-coiffeur/"):
             html = self.client.get(prefix + "mentions-legales/").content.decode()
             with self.subTest(prefix=prefix):
-                self.assertIn("Conseil en systèmes et logiciels informatiques : conception et réalisation de sites vitrines.", html)
+                self.assertIn("Conseil en systèmes et logiciels informatiques : conseil sur la présence en ligne, conception, développement et maintenance de sites internet.", html)
 
 
 class SectionsSignatureTests(TestCase):
