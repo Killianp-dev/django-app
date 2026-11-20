@@ -173,6 +173,12 @@ html[data-theme="dark"] .blog-card:hover .blog-card__more {
 }
 
 /* ---------- Section blog de l'accueil ---------- */
+/* La règle générale `#blog` (pages du blog) donne une hauteur minimale d'un écran ;
+   la section d'accueil porte le même id, mais doit garder la hauteur de son contenu. */
+.blog-section#blog {
+  min-height: 0;
+}
+
 .blog-section .blog-grid {
   margin-bottom: 0;
 }

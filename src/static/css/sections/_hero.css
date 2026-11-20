@@ -34,9 +34,11 @@
   position: relative;
   isolation: isolate;
   width: 100%;
-  /* Au moins la hauteur de l'écran, mais jamais rogné : le hero grandit si son contenu l'exige. */
-  min-height: max(680px, 100vh);
-  min-height: max(680px, 100svh);
+  /* Au moins la hauteur de l'écran, mais jamais rogné : le hero grandit si son contenu l'exige.
+     Plafonné aux trois quarts de la largeur : sur un écran très haut (téléphone en
+     « version ordinateur », écran vertical), il ne laisse pas de grands vides autour du contenu. */
+  min-height: max(680px, min(100vh, 75vw));
+  min-height: max(680px, min(100svh, 75vw));
   display: flex;
   align-items: center;
   overflow: hidden;
