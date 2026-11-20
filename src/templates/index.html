@@ -103,20 +103,20 @@
         <h2 id="projects-title">Exemples de sites vitrines par métier</h2>
         <p class="projects__intro">
             <span class="projects__intro-lead"><em>Six</em> démonstrations, <em>six</em> métiers.</span>
-            <span class="projects__intro-text">Chaque commerce est fictif&nbsp;; le site montre ce que vos clients verraient.</span>
+            <span class="projects__intro-text">Des commerces fictifs, vus sur téléphone, comme vos clients les ouvriront.</span>
         </p>
     </header>
 
+    {# Le hero montre les démos sur ordinateur ; ici, les mêmes sur téléphone. #}
     <div class="projects__list">
         {% for projet in projets %}
-        <article class="project{% if forloop.counter|divisibleby:2 %} project--reverse{% endif %}">
-            <a class="project__media" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
-                <span class="project__bar" aria-hidden="true">
-                    <span class="project__dots"><i></i><i></i><i></i></span>
-                    <span class="project__url">killianp.dev{{ projet.url }}</span>
-                </span>
-                <span class="project__shot">
-                    <img src="{% static projet.apercu %}" alt="{{ projet.alt }}" width="1400" height="933" loading="lazy" decoding="async">
+        <article class="project">
+            <a class="project__phone" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
+                <span class="project__screen">
+                    <picture>
+                        <source srcset="{% static projet.apercu_mobile_webp %}" type="image/webp">
+                        <img src="{% static projet.apercu_mobile %}" alt="{{ projet.alt }}, sur téléphone" width="600" height="1298" loading="lazy" decoding="async">
+                    </picture>
                 </span>
             </a>
             <div class="project__body">

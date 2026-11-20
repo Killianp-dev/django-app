@@ -6,7 +6,8 @@ from django.urls import reverse
 
 def _projet(namespace, metier, titre, extrait, tags, alt):
     """`namespace` : espace de noms d'URL de la vitrine, et dossier de ses photos.
-    `metier` : nom court, pour les pastilles « Votre métier » du hero."""
+    `metier` : nom court, pour les pastilles « Votre métier » du hero.
+    `apercu` (ordinateur) sert au hero ; `apercu_mobile` à la section Exemples."""
     return SimpleNamespace(
         namespace=namespace,
         metier=metier,
@@ -15,6 +16,9 @@ def _projet(namespace, metier, titre, extrait, tags, alt):
         tags=tags,
         alt=alt,
         apercu=f"vitrine/photos/{namespace}/apercu.jpg",
+        # Capture en 390 px de large (DPR ~1,5), sans le bandeau « Démonstration ».
+        apercu_mobile=f"vitrine/photos/{namespace}/apercu-mobile.jpg",
+        apercu_mobile_webp=f"vitrine/photos/{namespace}/apercu-mobile.webp",
     )
 
 
