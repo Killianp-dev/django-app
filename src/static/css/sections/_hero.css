@@ -247,24 +247,68 @@ html[data-theme="dark"] .hero__eyebrow {
   list-style: none;
 }
 
+/* Une pastille par métier : son icône dans un petit rond teinté, puis son nom.
+   « is-showing » suit la démo affichée dans l'aperçu ; « is-selected », le choix du visiteur. */
 .hero__trade {
   display: inline-flex;
   align-items: center;
-  padding: 0.3rem 0.62rem;
+  gap: 0.42rem;
+  padding: 0.22rem 0.72rem 0.22rem 0.24rem;
   border: 1px solid var(--hero-rule);
   border-radius: var(--radius-full);
-  font-size: 0.76rem;
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  font-size: 0.78rem;
   font-weight: 500;
   line-height: 1.2;
   color: var(--hero-fg-soft);
   text-decoration: none;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+
+.hero__trade-badge {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--hero-accent) 13%, transparent);
+  color: var(--hero-accent);
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.35s var(--ease-out);
+}
+
+.hero__trade-icon {
+  width: 0.82rem;
+  height: 0.82rem;
 }
 
 .hero__trade:hover {
   color: var(--hero-fg);
   border-color: color-mix(in srgb, var(--hero-accent) 45%, var(--hero-rule));
+  box-shadow: 0 8px 18px -12px rgba(var(--accent-rgb), 0.55);
   text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.hero__trade:hover .hero__trade-badge {
+  transform: rotate(-8deg) scale(1.06);
+}
+
+/* La démo en cours dans l'aperçu */
+.hero__trade.is-showing {
+  color: var(--hero-fg);
+  border-color: color-mix(in srgb, var(--hero-accent) 40%, var(--hero-rule));
+}
+
+.hero__trade.is-showing .hero__trade-badge,
+.hero__trade.is-selected .hero__trade-badge {
+  background: var(--hero-accent);
+  color: var(--color-bg);
 }
 
 .hero__trade.is-selected {
@@ -276,6 +320,55 @@ html[data-theme="dark"] .hero__eyebrow {
 .hero__trade:focus-visible {
   outline: 2px solid var(--hero-accent);
   outline-offset: 2px;
+}
+
+/* « Autre métier » : pas une démo, une invitation à écrire. Contour pointillé, un « + »
+   au lieu d'une icône de métier, et une flèche qui avance au survol. */
+.hero__trade--autre {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--hero-accent) 50%, var(--hero-rule));
+  background: transparent;
+  color: var(--hero-fg);
+}
+
+.hero__trade--autre .hero__trade-badge {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hero-accent) 55%, transparent);
+}
+
+.hero__trade-arrow {
+  width: 0.78rem;
+  height: 0.78rem;
+  margin-left: -0.08rem;
+  color: var(--hero-accent);
+  transition: transform 0.3s var(--ease-out);
+}
+
+.hero__trade--autre:hover {
+  border-style: solid;
+  border-color: var(--hero-accent);
+}
+
+.hero__trade--autre:hover .hero__trade-badge {
+  transform: rotate(90deg);
+}
+
+.hero__trade--autre:hover .hero__trade-arrow {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__trade,
+  .hero__trade-badge,
+  .hero__trade-arrow {
+    transition: none;
+  }
+
+  .hero__trade:hover,
+  .hero__trade:hover .hero__trade-badge,
+  .hero__trade--autre:hover .hero__trade-arrow {
+    transform: none;
+  }
 }
 
 .hero__actions {

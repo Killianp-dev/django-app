@@ -35,9 +35,9 @@
                 <p class="hero__trades-label" id="trades-label">Votre métier</p>
                 <ul class="hero__trades-list" aria-labelledby="trades-label">
                     {% for projet in projets %}
-                    <li><a class="hero__trade" href="{{ projet.url }}" data-trade-index="{{ forloop.counter0 }}" data-trade="{{ projet.titre }}" data-trade-cta="Voir la démo {{ projet.metier|lower }}">{{ projet.metier }}</a></li>
+                    <li><a class="hero__trade{% if forloop.first %} is-showing{% endif %}" href="{{ projet.url }}" data-trade-index="{{ forloop.counter0 }}" data-trade="{{ projet.titre }}" data-trade-cta="Voir la démo {{ projet.metier|lower }}"><span class="hero__trade-badge">{% include "partials/trade_icon.html" with nom=projet.namespace %}</span>{{ projet.metier }}</a></li>
                     {% endfor %}
-                    <li><a class="hero__trade" href="#form" data-trade="autre" data-trade-cta="Parlez-moi de votre métier">Autre</a></li>
+                    <li><a class="hero__trade hero__trade--autre" href="#form" data-trade="autre" data-trade-cta="Parlez-moi de votre métier"><span class="hero__trade-badge">{% include "partials/trade_icon.html" with nom="autre" %}</span>Autre métier<svg class="hero__trade-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
                 </ul>
             </div>
             <div class="hero__actions">

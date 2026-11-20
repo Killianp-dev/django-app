@@ -684,12 +684,13 @@
       });
     });
 
-    // Si le visiteur change de démo avec les points de l'aperçu, la pastille suit.
+    // La pastille de la démo affichée s'allume quand l'aperçu défile ; si le visiteur
+    // a déjà choisi un métier, la sélection suit aussi les points de l'aperçu.
     if (heroPreview) {
       heroPreview.element.addEventListener('herodemo', (event) => {
-        if (!engaged) return;
         const chip = chips.find((el) => Number(el.dataset.tradeIndex) === event.detail.index);
-        if (chip) select(chip);
+        chips.forEach((el) => el.classList.toggle('is-showing', el === chip));
+        if (engaged && chip) select(chip);
       });
     }
   }
