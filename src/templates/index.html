@@ -103,29 +103,28 @@
         <h2 id="projects-title">Exemples de sites vitrines par métier</h2>
         <p class="projects__intro">
             <span class="projects__intro-lead"><em>Six</em> démonstrations, <em>six</em> métiers.</span>
-            <span class="projects__intro-text">Des commerces fictifs. Pour chacun, la partie du site qui fait la différence.</span>
+            <span class="projects__intro-text">Des commerces fictifs, des sites complets : ouvrez-les comme le ferait un client.</span>
         </p>
     </header>
 
-    {# Le hero montre l'accueil des démos ; ici, pour chacune, la section qui la distingue. #}
     <div class="projects__list">
         {% for projet in exemples %}
         <article class="project">
             <a class="project__visual" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
                 <span class="project__frame">
                     <picture>
-                        <source srcset="{% static projet.vue_fonction_webp %}" type="image/webp">
-                        <img src="{% static projet.vue_fonction %}" alt="{{ projet.fonction }}, dans la démo {{ projet.titre|lower }}" width="1280" height="800" loading="lazy" decoding="async">
+                        <source srcset="{% static projet.apercu_webp %}" type="image/webp">
+                        <img src="{% static projet.apercu %}" alt="{{ projet.alt }}" width="1400" height="933" loading="lazy" decoding="async">
                     </picture>
                 </span>
-                <span class="project__feature"><i aria-hidden="true"></i>{{ projet.fonction }}</span>
+                <span class="project__feature"><i aria-hidden="true"></i>{{ projet.nom }}</span>
             </a>
             <div class="project__body">
                 <span class="project__index">{{ forloop.counter|stringformat:"02d" }}<small>/ {{ projets|length|stringformat:"02d" }}</small></span>
                 <h3 class="project__title">{{ projet.titre }}</h3>
-                <p class="project__excerpt">{{ projet.extrait }}</p>
-                <ul class="project__tags">
-                    {% for tag in projet.tags %}<li>{{ tag }}</li>{% endfor %}
+                <p class="project__excerpt">{{ projet.accroche }}</p>
+                <ul class="project__points">
+                    {% for point in projet.points %}<li>{{ point }}</li>{% endfor %}
                 </ul>
                 <div class="project__actions">
                     <a class="project__link" href="{{ projet.url }}">

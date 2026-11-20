@@ -581,12 +581,16 @@ html[data-theme="dark"] .navbar-cta {
     gap: 1rem;
   }
 
-  .logo-text {
-    display: none;
-  }
-
   .nav-links a {
     padding: 0.42rem 0.8rem;
+  }
+}
+
+/* Le nom à côté du logo ne disparaît que là où il manque vraiment de place
+   (à partir de 880 px, il reste au moins 50 px avant le menu). */
+@media (max-width: 879px) and (min-width: 769px) {
+  .logo-text {
+    display: none;
   }
 }
 

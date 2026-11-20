@@ -135,8 +135,8 @@ html[data-theme="dark"] .project__more:hover {
 }
 
 /* Deux colonnes ; la seconde descend un peu, pour une mosaïque plutôt qu'un tableau.
-   Chaque démo montre la section qui la distingue (pas l'accueil, déjà dans le hero),
-   posée dans un passe-partout, avec son nom sur une étiquette flottante. */
+   Chaque démo : sa page d'accueil dans un passe-partout, le nom du commerce sur une
+   étiquette flottante, puis le métier, une phrase et trois points lisibles d'un coup d'œil. */
 .projects__list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -212,7 +212,7 @@ html[data-theme="dark"] .project__more:hover {
 
 .project__frame {
   display: block;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   border-radius: calc(var(--radius-lg) - 8px);
   background: var(--color-surface);
@@ -311,30 +311,59 @@ html[data-theme="dark"] .project__index {
 }
 
 .project__excerpt {
-  margin: 0 0 1.2rem;
-  max-width: 34rem;
-  line-height: 1.7;
-  color: var(--color-ink-soft);
+  margin: 0 0 1.15rem;
+  max-width: 32rem;
+  font-size: 1.06rem;
+  line-height: 1.6;
+  color: var(--color-ink);
 }
 
-.project__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0 0 1.8rem;
+/* Les trois points : une ligne chacun, précédés d'une coche */
+.project__points {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 1.7rem;
   padding: 0;
   list-style: none;
 }
 
-.project__tags li {
-  padding: 0.26rem 0.7rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-full);
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+.project__points li {
+  position: relative;
+  padding-left: 1.65rem;
+  font-size: 0.94rem;
+  line-height: 1.45;
   color: var(--color-ink-soft);
-  background: transparent;
+}
+
+.project__points li::before {
+  content: "";
+  position: absolute;
+  top: 0.12rem;
+  left: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.12);
+}
+
+.project__points li::after {
+  content: "";
+  position: absolute;
+  top: 0.42rem;
+  left: 0.34rem;
+  width: 0.42rem;
+  height: 0.24rem;
+  border-left: 1.6px solid var(--color-accent);
+  border-bottom: 1.6px solid var(--color-accent);
+  transform: rotate(-45deg);
+}
+
+html[data-theme="dark"] .project__points li::before {
+  background: rgba(var(--accent-bright-rgb), 0.14);
+}
+
+html[data-theme="dark"] .project__points li::after {
+  border-color: var(--color-accent-bright);
 }
 
 .project__link {
@@ -517,10 +546,6 @@ html[data-theme="dark"] .project__index {
   .project:nth-child(even) {
     margin-top: 3.5rem;
   }
-
-  .project__tags {
-    display: none;
-  }
 }
 
 /* Mobile : une seule colonne, les mêmes cartes ; les démos se suivent, séparées par l'espace. */
@@ -566,9 +591,13 @@ html[data-theme="dark"] .project__index {
   }
 
   .project__excerpt {
-    margin-bottom: 1.1rem;
-    font-size: 0.95rem;
-    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .project__points {
+    margin-bottom: 1.4rem;
   }
 }
 

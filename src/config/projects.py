@@ -4,69 +4,62 @@ from types import SimpleNamespace
 from django.urls import reverse
 
 
-def _projet(namespace, metier, titre, extrait, tags, alt, fonction):
+def _projet(namespace, metier, titre, nom, accroche, points, alt):
     """`namespace` : espace de noms d'URL de la vitrine, et dossier de ses photos.
     `metier` : nom court, pour les pastilles « Votre métier » du hero.
-    `apercu` : la page d'accueil de la démo, pour le hero.
-    `fonction` : la section qui distingue la démo (capture `vue_fonction`), pour la
-    section Exemples ; elle ne répète pas ce que le hero montre déjà."""
+    `nom` : le commerce fictif de la démo.
+    `accroche` : en une phrase, ce que le client du commerce trouve sur le site.
+    `points` : les trois choses que le site montre, lisibles d'un coup d'œil."""
     return SimpleNamespace(
         namespace=namespace,
         metier=metier,
         titre=titre,
-        extrait=extrait,
-        tags=tags,
+        nom=nom,
+        accroche=accroche,
+        points=points,
         alt=alt,
-        fonction=fonction,
+        # Page d'accueil de la démo, en 1400 x 933 : pour le hero et la section Exemples.
         apercu=f"vitrine/photos/{namespace}/apercu.jpg",
-        # Capture d’une fenêtre de 1440 px, réduite en 1280 x 800, sans le bandeau « Démonstration ».
-        vue_fonction=f"vitrine/photos/{namespace}/fonction.jpg",
-        vue_fonction_webp=f"vitrine/photos/{namespace}/fonction.webp",
+        apercu_webp=f"vitrine/photos/{namespace}/apercu.webp",
     )
 
 
 PROJETS = [
     _projet(
-        "avocat", "Avocat", "Cabinet d'avocats",
-        "Domaines d'intervention, honoraires annoncés, présentation des associés et page de questions fréquentes.",
-        ["Juridique", "Honoraires", "Équipe"],
+        "avocat", "Avocat", "Cabinet d'avocats", "Aubert & Clerc",
+        "Avant d'appeler, le client sait ce que vous traitez et combien cela coûte.",
+        ["Domaines d'intervention", "Honoraires annoncés", "Questions fréquentes"],
         "Page d'accueil de la démo Aubert et Clerc",
-        "Honoraires annoncés",
     ),
     _projet(
-        "coiffeur", "Coiffure", "Salon de coiffure",
-        "Prestations, galerie de réalisations, avis, horaires en direct et prise de rendez-vous en deux clics, pensée pour le mobile.",
-        ["Coiffure", "Galerie", "Rendez-vous"],
+        "coiffeur", "Coiffure", "Salon de coiffure", "Salon Louise",
+        "On découvre le salon, on choisit sa prestation, on prend rendez-vous.",
+        ["Prestations et prix", "Galerie de réalisations", "Rendez-vous en deux clics"],
         "Page d'accueil de la démo Salon Louise",
-        "Prestations et prix",
     ),
     _projet(
-        "macon", "Maçonnerie", "Entreprise de maçonnerie",
-        "Un vrai devis détaillé poste par poste, avec bascule du taux de TVA, chantiers géolocalisés et prix indicatifs.",
-        ["Bâtiment", "Devis", "Chantiers"],
+        "macon", "Maçonnerie", "Entreprise de maçonnerie", "Bertrand Maçonnerie",
+        "Le particulier comprend votre devis et voit vos chantiers près de chez lui.",
+        ["Devis détaillé poste par poste", "Chantiers sur une carte", "Prix indicatifs"],
         "Page d'accueil de la démo Bertrand Maçonnerie",
-        "Carnet de chantier",
     ),
     _projet(
-        "boulangerie", "Boulangerie", "Boulangerie",
-        "Les fournées du jour avec la prochaine sortie du four en direct, la carte et les prix, les commandes de gâteaux.",
-        ["Boulangerie", "Fournées", "Commandes"],
+        "boulangerie", "Boulangerie", "Boulangerie", "Maison Caron",
+        "Vos clients savent ce qui sort du four, et à quelle heure.",
+        ["Fournées du jour en direct", "Carte et prix", "Commandes de gâteaux"],
         "Page d'accueil de la démo Maison Caron",
-        "Fournées en direct",
     ),
     _projet(
-        "boucherie", "Boucherie", "Boucherie artisanale",
-        "L'origine de chaque viande, un calculateur de quantités par convive, les prix au kilo et les pièces sur commande.",
-        ["Boucherie", "Traçabilité", "Calculateur"],
+        "boucherie", "Boucherie", "Boucherie artisanale", "Boucherie Morel",
+        "On sait d'où vient la viande, et combien en prendre pour le repas.",
+        ["Origine de chaque viande", "Calculateur par convive", "Pièces sur commande"],
         "Page d'accueil de la démo Boucherie Morel",
-        "Calculateur par convive",
     ),
     _projet(
-        "beaute", "Institut", "Institut de beauté",
-        "Carte des soins avec durées et prix, rituels signature, cartes cadeaux et horaires en direct.",
-        ["Esthétique", "Soins", "Cartes cadeaux"],
+        "beaute", "Institut", "Institut de beauté", "Maison Iris",
+        "On choisit son soin, sa durée et son prix, puis on réserve.",
+        ["Carte des soins et prix", "Rituels signature", "Cartes cadeaux"],
         "Page d'accueil de la démo Maison Iris",
-        "Rituels signature",
     ),
 ]
 
