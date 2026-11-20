@@ -107,4 +107,6 @@ Minimum : `DEBUG=False`, secrets uniquement dans `.env`, `collectstatic`, HTTPS,
 
 ## Licence
 
-MIT.
+Tous droits réservés © 2026 Killian P. (Neuralab).
+
+Le code est consultable publiquement, mais aucune licence n’est accordée : toute copie, modification, redistribution ou réutilisation, totale ou partielle, sans autorisation écrite est interdite. Les composants tiers restent soumis à leur propre licence.

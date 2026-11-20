@@ -113,7 +113,8 @@ html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
     transparent 58%
   );
   opacity: 0;
-  mix-blend-mode: soft-light;
+  /* Sur fond clair, soft-light ne change presque rien : multiply teinte la surface. */
+  mix-blend-mode: multiply;
   transition: opacity 0.35s ease;
 }
 

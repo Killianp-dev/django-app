@@ -62,7 +62,7 @@
   /* Lumieres */
   --glow-accent: rgba(var(--accent-bright-rgb), 0.2);
   --glow-accent-strong: rgba(var(--accent-bright-rgb), 0.42);
-  --glow-surface: rgba(var(--accent-bright-rgb), 0.22);
+  --glow-surface: rgba(var(--accent-bright-rgb), 0.14);
   --glow-orb-a: rgba(var(--accent-bright-rgb), 0.2);
   --glow-orb-b: rgba(var(--accent-rgb), 0.14);
   --glow-orb-c: rgba(var(--accent-glow-rgb), 0.1);

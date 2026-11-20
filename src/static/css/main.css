@@ -4,7 +4,7 @@
    ================================================= */
 
 /* 1. Base - Reset, variables et styles globaux */
-@import url('./base/_variables.css?v=20261119-mort');
+@import url('./base/_variables.css?v=20261120-halo');
 @import url('./base/_reset.css');
 @import url('./base/_global.css?v=20261119-seo');
 
@@ -32,5 +32,5 @@
 
 /* 5. Utilities - Animations, lumieres et responsive */
 @import url('./utilities/_animations.css?v=20261119-plus');
-@import url('./utilities/_lights.css?v=20261119-js');
+@import url('./utilities/_lights.css?v=20261120-halo');
 @import url('./utilities/_responsive.css?v=20261119-mort');
