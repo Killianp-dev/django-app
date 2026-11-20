@@ -258,6 +258,38 @@ html[data-theme="dark"] .logo-dot {
   width: 1.4rem;
 }
 
+/* Nom commercial : « par » en italique, puis Neuralab en capitales espacées,
+   traversé au survol par un reflet de la couleur d'accent. */
+.logo-tagline__by {
+  margin-right: -0.1rem;
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.logo-tagline__brand {
+  --brand-shine: var(--color-accent);
+  background: linear-gradient(100deg, var(--nav-fg-muted) 0 35%, var(--brand-shine) 50%, var(--nav-fg-muted) 65% 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: background-position 0.9s var(--nav-ease);
+}
+
+html[data-theme="dark"] .logo-tagline__brand {
+  --brand-shine: var(--color-accent-bright);
+}
+
+.logo a:hover .logo-tagline__brand,
+.logo a:focus-visible .logo-tagline__brand {
+  background-position: 0 0;
+}
+
 /* ---------- Navigation (desktop) ---------- */
 .nav-menu {
   justify-self: center;
@@ -845,6 +877,7 @@ html[data-theme="dark"] .navbar-cta {
   .logo-mark__arm,
   .logo-mark__dot,
   .logo-tagline::before,
+  .logo-tagline__brand,
   .theme-toggle,
   .hamburger,
   .navbar-cta,
