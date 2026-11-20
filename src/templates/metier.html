@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Création de site internet {{ metier.pour }} · killianp.dev{% endblock %}
+{% block title %}Référencement et site internet {{ metier.pour }} · killianp.dev{% endblock %}
 {% block body_class %}metier-page{% endblock %}
 
 {% block extra_head %}
-{% with titre="Création de site internet "|add:metier.pour|add:" · killianp.dev" %}
+{% with titre="Référencement et site internet "|add:metier.pour|add:" · killianp.dev" %}
 {% include "partials/seo.html" with title=titre description=metier.description %}
 {% endwith %}
 {{ jsonld }}
@@ -18,12 +18,12 @@
             <nav class="breadcrumb" aria-label="Fil d'Ariane">
                 <ol>
                     <li><a href="{% url 'index' %}">Accueil</a></li>
-                    <li><a href="{% url 'index' %}#exemples">Création de site internet</a></li>
+                    <li><a href="{% url 'index' %}#exemples">Référencement et site internet</a></li>
                     <li aria-current="page">{{ metier.nom }}</li>
                 </ol>
             </nav>
-            <p class="section-eyebrow">Création de site internet</p>
-            <h1 class="metier-hero__title" id="metier-title">Création de site internet <em>{{ metier.pour }}</em></h1>
+            <p class="section-eyebrow">Référencement et site internet</p>
+            <h1 class="metier-hero__title" id="metier-title">Référencement et site internet <em>{{ metier.pour }}</em></h1>
             <p class="metier-hero__lead">{{ metier.accroche }}</p>
             <div class="metier-hero__actions">
                 <a class="hero-btn" href="{% url 'contact_form:contact' %}?sujet={{ sujet|urlencode }}">Demander un devis</a>
@@ -51,7 +51,7 @@
             <h2 id="besoins-title">Un site {{ metier.pour }}, pensé pour vos clients</h2>
             <p class="projects__intro">
                 <span class="projects__intro-lead">L'essentiel, <em>en quelques secondes</em>.</span>
-                <span class="projects__intro-text">Quatre pages à partir d'un modèle de votre métier, plus les mentions légales et la confidentialité.</span>
+                <span class="projects__intro-text">Des pages construites autour de ce que vos clients cherchent, à partir d'un modèle de votre métier.</span>
             </p>
         </header>
         <ol class="metier-besoins">
@@ -86,7 +86,7 @@
     <section class="metier-section" aria-labelledby="deroulement-title">
         <header class="projects__header">
             <p class="section-eyebrow">Déroulement</p>
-            <h2 id="deroulement-title">Comment se passe la création de votre site</h2>
+            <h2 id="deroulement-title">Comment se passe l'accompagnement</h2>
             <p class="projects__intro">
                 <span class="projects__intro-lead"><em>Trois</em> étapes, rien de plus.</span>
                 <span class="projects__intro-text">Du premier message au site en ligne, en trois semaines environ.</span>
@@ -99,8 +99,8 @@
         <div class="metier-formule">
             <div>
                 <p class="section-eyebrow">Formule</p>
-                <h2 class="metier-formule__title" id="formule-title">Une création, puis un abonnement tout compris</h2>
-                <p>Hébergement, nom de domaine à votre nom, adresse e-mail professionnelle, maintenance et petites retouches : tout est compris. Le tarif est fixé dans un devis, après un premier échange.</p>
+                <h2 class="metier-formule__title" id="formule-title">Une mise en œuvre technique, puis un abonnement tout compris</h2>
+                <p>Une mise en œuvre pensée pour le référencement, puis le suivi du référencement, l'hébergement, le nom de domaine à votre nom, une adresse e-mail professionnelle et la maintenance : tout est compris. Le tarif est fixé dans un devis, après un premier échange.</p>
             </div>
             <div class="metier-formule__actions">
                 <a class="hero-btn" href="{% url 'contact_form:contact' %}?sujet={{ sujet|urlencode }}">Demander un devis</a>
@@ -128,7 +128,7 @@
         <p class="section-eyebrow" id="autres-title">D'autres métiers</p>
         <ul>
             {% for autre in autres %}
-            <li><a class="hero__trade" href="{{ autre.url }}">Site internet {{ autre.pour }}</a></li>
+            <li><a class="hero__trade" href="{{ autre.url }}">Référencement {{ autre.pour }}</a></li>
             {% endfor %}
         </ul>
     </nav>

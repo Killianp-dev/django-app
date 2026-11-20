@@ -81,7 +81,7 @@ class HomeView(TemplateView):
 
 
 class MetierView(TemplateView):
-    """Page « Création de site internet pour <métier> »."""
+    """Page « Référencement et site internet pour <métier> »."""
     template_name = "metier.html"
 
     def get_context_data(self, **kwargs):
@@ -96,13 +96,13 @@ class MetierView(TemplateView):
             metier=metier,
             autres=[m for m in metiers() if m is not metier],
             faq=faq,
-            sujet=f"Site vitrine — {metier.nom}",
+            sujet=f"Référencement — {metier.nom}",
             jsonld=jsonld(
                 {
                     "@type": "Service",
                     "@id": f"{page_url}#service",
-                    "name": f"Création de site internet {metier.pour}",
-                    "serviceType": "Création de site internet",
+                    "name": f"Référencement et site internet {metier.pour}",
+                    "serviceType": "Référencement naturel (SEO) et création de site internet",
                     "description": metier.description,
                     "url": page_url,
                     "areaServed": {"@type": "Country", "name": "France"},
@@ -125,7 +125,7 @@ class MetierView(TemplateView):
                     "@type": "BreadcrumbList",
                     "itemListElement": [
                         {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{url}/"},
-                        {"@type": "ListItem", "position": 2, "name": "Création de site internet", "item": f"{url}/#exemples"},
+                        {"@type": "ListItem", "position": 2, "name": "Référencement et site internet", "item": f"{url}/#exemples"},
                         {"@type": "ListItem", "position": 3, "name": metier.nom, "item": page_url},
                     ],
                 },

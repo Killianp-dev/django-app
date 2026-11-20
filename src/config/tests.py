@@ -43,7 +43,7 @@ class StaticPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
-            "Agence web de développement de sites vitrines",
+            "Agence de conseil et d'expertise informatique, spécialisée dans le référencement SEO",
         )
 
     def test_cgv_ok(self):
@@ -92,13 +92,13 @@ class SeoTests(TestCase):
     def test_page_metier_boulangerie(self):
         response = self.client.get("/creation-site-internet/boulangerie/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<title>Création de site internet pour boulangerie · killianp.dev</title>", html=False)
-        self.assertContains(response, "Création de site internet <em>pour boulangerie</em>")
+        self.assertContains(response, "<title>Référencement et site internet pour boulangerie · killianp.dev</title>", html=False)
+        self.assertContains(response, "Référencement et site internet <em>pour boulangerie</em>")
         self.assertContains(response, '<link rel="canonical" href="https://www.killianp-dev.fr/creation-site-internet/boulangerie/">')
         self.assertContains(response, '"@type": "FAQPage"')
         self.assertContains(response, '"@type": "Service"')
         self.assertContains(response, "/demo-boulangerie/")
-        self.assertContains(response, "?sujet=Site%20vitrine%20%E2%80%94%20Boulangerie")
+        self.assertContains(response, "?sujet=R%C3%A9f%C3%A9rencement%20%E2%80%94%20Boulangerie")
 
     def test_toutes_les_pages_metier_repondent(self):
         from config.metiers import metiers
@@ -114,7 +114,7 @@ class SeoTests(TestCase):
         self.assertContains(response, '<link rel="canonical" href="https://www.killianp-dev.fr/">')
         self.assertContains(response, 'property="og:image"')
         self.assertContains(response, '"@type": "ProfessionalService"')
-        self.assertContains(response, "Création de site vitrine pour commerçants et artisans")
+        self.assertContains(response, "Référencement SEO et site internet pour commerçants et artisans")
         self.assertContains(response, "/creation-site-internet/boulangerie/")
 
     def test_robots_laisse_lire_les_demos(self):

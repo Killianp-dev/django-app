@@ -4,7 +4,7 @@ Balises de référencement communes. Paramètres :
   type : "website" (par défaut) ou "article" ;
   image : URL absolue d'une image de partage (sinon l'image par défaut du site) ;
   noindex : page à ne pas indexer (pas de canonical dans ce cas).
-{% endcomment %}{% static 'ressources/og-killianp-dev.jpg' as og_default %}
+{% endcomment %}{% static 'ressources/og-conseil-seo.jpg' as og_default %}
 {% if description %}<meta name="description" content="{{ description }}">{% endif %}
 {% if noindex %}<meta name="robots" content="noindex">
 {% else %}<link rel="canonical" href="{{ SITE_URL }}{{ request.path }}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}">

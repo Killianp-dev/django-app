@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Création de site vitrine pour commerçants et artisans · killianp.dev{% endblock %}
+{% block title %}Référencement SEO et site internet pour commerçants et artisans · killianp.dev{% endblock %}
 {% block extra_head %}
-{% include "partials/seo.html" with title="Création de site vitrine pour commerçants et artisans · killianp.dev" description="Création de site vitrine pour boulangeries, salons de coiffure, artisans et professions libérales : un exemple de votre métier, puis un site clé en main, hébergement et maintenance compris." %}
+{% include "partials/seo.html" with title="Référencement SEO et site internet pour commerçants et artisans · killianp.dev" description="Conseil et expertise informatique spécialisés en référencement SEO pour boulangeries, salons de coiffure, artisans et professions libérales : diagnostic, choix des solutions et mise en œuvre, site compris." %}
 {{ jsonld }}
 {% endblock %}
 {% block body_class %}home-page{% endblock %}
@@ -24,12 +24,12 @@
         <div class="hero__overlay">
             <p class="hero__eyebrow">
                 <span class="hero__eyebrow-dot" aria-hidden="true"></span>
-                Agence web · sites vitrines
+                Conseil informatique · référencement SEO
             </p>
-            <h1 class="hero__title" id="hero-title">Le site vitrine de votre commerce, <em>écrit avec rigueur.</em></h1>
+            <h1 class="hero__title" id="hero-title">Que vos clients vous trouvent sur Google, <em>quand ils vous cherchent.</em></h1>
             <p class="hero__subtitle">
-                Je suis Killian. J'écris des sites vitrines pour les commerces de proximité.
-                Vous voyez un exemple de votre métier avant d'en parler.
+                Je suis Killian. Je conseille les commerces de proximité sur leur référencement
+                et leurs outils, puis je mets en œuvre les solutions. Vous voyez un exemple de votre métier avant d'en parler.
             </p>
             <div class="hero__trades" data-trade-picker>
                 <p class="hero__trades-label" id="trades-label">Votre métier</p>
@@ -100,10 +100,10 @@
 <section class="projects" id="exemples" aria-labelledby="projects-title">
     <header class="projects__header">
         <p class="section-eyebrow">Exemples</p>
-        <h2 id="projects-title">Exemples de sites vitrines par métier</h2>
+        <h2 id="projects-title">Des sites pensés pour être trouvés, par métier</h2>
         <p class="projects__intro">
             <span class="projects__intro-lead"><em>Six</em> démonstrations, <em>six</em> métiers.</span>
-            <span class="projects__intro-text">Des commerces fictifs, des sites complets : ouvrez-les comme le ferait un client.</span>
+            <span class="projects__intro-text">Des commerces fictifs, des sites complets, structurés pour Google : ouvrez-les comme le ferait un client.</span>
         </p>
     </header>
 
@@ -135,7 +135,7 @@
                         </svg>
                     </a>
                     {% if projet.page_metier %}
-                    <a class="project__more" href="{{ projet.page_metier.url }}">Création de site {{ projet.page_metier.pour }}</a>
+                    <a class="project__more" href="{{ projet.page_metier.url }}">Site et référencement {{ projet.page_metier.pour }}</a>
                     {% endif %}
                 </div>
             </div>
@@ -147,10 +147,10 @@
 <section class="about" id="a-propos" aria-labelledby="about-title">
     <header class="projects__header">
         <p class="section-eyebrow">À propos</p>
-        <h2 id="about-title">Une agence web à taille humaine</h2>
+        <h2 id="about-title">Une agence de conseil à taille humaine</h2>
         <p class="projects__intro">
-            <span class="projects__intro-lead">Agence web de <em>sites vitrines</em>.</span>
-            <span class="projects__intro-text">Conçus, développés et mis en ligne par une seule personne.</span>
+            <span class="projects__intro-lead">Conseil et expertise <em>informatique</em>.</span>
+            <span class="projects__intro-text">Spécialisée dans le référencement SEO, du diagnostic à la mise en œuvre.</span>
         </p>
     </header>
     <div class="about__layout">
@@ -162,37 +162,39 @@
                 </picture>
                 <figcaption>
                     <strong>Killian P.</strong>
-                    <span>Développeur · Formé au Cnam</span>
+                    <span>Conseil informatique · Formé au Cnam</span>
                 </figcaption>
             </figure>
-            <ul class="about__stack" aria-label="Technologies et domaines">
-                <li>Python</li>
-                <li>Django</li>
-                <li>HTML / CSS</li>
-                <li>JavaScript</li>
-                <li>Java</li>
-                <li>Cybersécurité</li>
+            {# Icônes inspirées de Lucide (licence ISC). Lueur, aimant et apparition : initStackChips() dans app.js. #}
+            <ul class="about__stack" aria-label="Technologies et domaines" data-stack>
+                <li class="about__chip" style="--i: 0"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>Référencement SEO</li>
+                <li class="about__chip" style="--i: 1"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg></span>Python</li>
+                <li class="about__chip" style="--i: 2"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span>Django</li>
+                <li class="about__chip" style="--i: 3"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>HTML / CSS</li>
+                <li class="about__chip" style="--i: 4"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5a2 2 0 0 0 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg></span>JavaScript</li>
+                <li class="about__chip" style="--i: 5"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg></span>Java</li>
+                <li class="about__chip" style="--i: 6"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z"/><path d="m9 12 2 2 4-4"/></svg></span>Cybersécurité</li>
             </ul>
         </aside>
         <div class="about__body">
-            <p class="about__lead">Je m'appelle Killian. killianp-dev conçoit des sites vitrines sur mesure, dessinés et codés pour votre métier. Un site soigné et rapide, pensé pour être trouvé sur Google et pour donner envie de vous contacter.</p>
-            <p>Un site sans entretien : rien à administrer, rien à mettre à jour de votre côté. Les textes partent de vos mots. Je les structure et les mets en page pour qu'un client qui ne vous connaît pas comprenne en une minute ce que vous faites et pourquoi vous choisir.</p>
+            <p class="about__lead">Je m'appelle Killian. killianp-dev est une agence de conseil et d'expertise informatique, spécialisée dans le référencement naturel (SEO). Je regarde comment vos clients vous cherchent, je choisis les solutions adaptées et je les mets en œuvre, à commencer par un site rapide, bien structuré, qui donne envie de vous contacter.</p>
+            <p>Rien à administrer, rien à mettre à jour de votre côté. Les textes partent de vos mots et de ceux que tapent vos clients. Je les structure pour que Google comprenne ce que vous faites et où, et pour qu'un client qui ne vous connaît pas comprenne en une minute pourquoi vous choisir.</p>
             <p>On commence par un exemple de votre métier. Vous voyez les pages avant de décider. Rien n'est mis en ligne que vous n'ayez pas lu. Si une phrase ne vous ressemble pas, on la reprend.</p>
-            <p>L'agence, c'est moi. Vous m'écrivez, je réponds, et c'est moi qui prépare le site. Trois temps : on en parle, je prépare les pages, le site est en ligne.</p>
+            <p>L'agence, c'est moi. Vous m'écrivez, je réponds, et c'est moi qui mets en œuvre ce qu'on a décidé. Trois temps : on fait le point, je mets en place, le site est en ligne.</p>
 
             <div class="about__panels">
                 <section class="about__panel" aria-labelledby="about-shows">
-                    <h3 id="about-shows">Ce que le site montre</h3>
+                    <h3 id="about-shows">Ce que je mets en place</h3>
                     <ul>
-                        <li>L'accueil, avec ce que vos clients doivent trouver tout de suite.</li>
-                        <li>Ce que vous proposez, page par page.</li>
-                        <li>Qui vous êtes, et où vous trouver.</li>
+                        <li>Un site rapide, structuré pour être bien lu par Google.</li>
+                        <li>Une page par prestation, avec les mots que tapent vos clients.</li>
+                        <li>Votre adresse, vos horaires et votre secteur, cohérents avec votre fiche Google.</li>
                         <li>Un formulaire, pour écrire sans passer par un compte.</li>
                     </ul>
                 </section>
                 <section class="about__panel" aria-labelledby="about-path">
                     <h3 id="about-path">Le parcours</h3>
-                    <p>Je viens de l'informatique : une formation au Cnam, complétée par des cursus spécialisés en Python, Django, développement web et Java. Chaque site est codé à la main, page par page.</p>
+                    <p>Je viens de l'informatique : une formation au Cnam, complétée par des cursus spécialisés en Python, Django, développement web et Java. Chaque site est codé à la main, page par page, avec un soin particulier pour la vitesse et la structure que lit Google.</p>
                     <p>Je me suis formé à la cybersécurité. Sur un site de commerce, ça se voit peu : le formulaire n'accepte pas n'importe quoi, les messages arrivent au bon endroit, et les cookies de mesure d'audience attendent votre choix. Sans jargon, et sans outil dont vous n'avez pas besoin.</p>
                 </section>
             </div>
@@ -204,10 +206,10 @@
 <section class="offer" id="deroulement" aria-labelledby="offer-title">
     <header class="projects__header">
         <p class="section-eyebrow">Déroulement</p>
-        <h2 id="offer-title">Comment se passe la création de votre site</h2>
+        <h2 id="offer-title">Comment se passe l'accompagnement</h2>
         <p class="projects__intro">
             <span class="projects__intro-lead"><em>Trois</em> étapes, rien de plus.</span>
-            <span class="projects__intro-text">Du premier message au site en ligne.</span>
+            <span class="projects__intro-text">Du premier message au site en ligne, prêt à être trouvé.</span>
         </p>
     </header>
     {% include "partials/deroulement.html" %}
@@ -216,29 +218,30 @@
 <section class="pricing" id="formule" aria-labelledby="pricing-title">
     <header class="projects__header">
         <p class="section-eyebrow">Formule</p>
-        <h2 id="pricing-title">Un site vitrine clé en main, tout compris</h2>
+        <h2 id="pricing-title">Une mise en œuvre pensée pour le référencement, clé en main</h2>
         <p class="projects__intro">
-            <span class="projects__intro-lead"><em>Une</em> création, <em>un</em> abonnement.</span>
-            <span class="projects__intro-text">Le tarif est fixé dans un devis, après un premier échange. L'abonnement couvre ensuite tout ce qui fait vivre le site.</span>
+            <span class="projects__intro-lead"><em>Une</em> mise en œuvre, <em>un</em> abonnement.</span>
+            <span class="projects__intro-text">Le tarif est fixé dans un devis, après un premier échange. L'abonnement couvre ensuite le suivi du référencement et tout ce qui fait vivre le site.</span>
         </p>
     </header>
 
     <div class="pricing__grid">
         <article class="pricing-card" aria-labelledby="pricing-creation">
             <div class="pricing-card__head">
-                <h3 class="pricing-card__label" id="pricing-creation">Création du site</h3>
+                <h3 class="pricing-card__label" id="pricing-creation">Mise en œuvre technique</h3>
                 <p class="pricing-card__price">
-                    <span class="pricing-card__amount pricing-card__amount--text">Une création</span>
+                    <span class="pricing-card__amount pricing-card__amount--text">Une mise en œuvre</span>
                     <span class="pricing-card__unit">réglée en deux fois</span>
                 </p>
                 <p class="pricing-card__note">Un acompte à la signature du devis, le solde à la mise en ligne.</p>
             </div>
             <ul class="pricing-card__list">
-                <li>4 pages, à partir d'un modèle de votre métier</li>
-                <li>Mentions légales et page de confidentialité</li>
-                <li>2 tours de corrections avant la mise en ligne</li>
-                <li>En ligne sous 15 jours ouvrés environ</li>
-                <li>Le site et son code vous appartiennent</li>
+                <li>Un point sur votre présence en ligne et les recherches de vos clients</li>
+                <li>Les solutions adaptées à votre métier, mises en place pour vous</li>
+                <li>Structure, vitesse et données soignées pour Google</li>
+                <li>Obligations légales prises en charge : mentions et confidentialité</li>
+                <li>2 tours de corrections, en ligne sous 15 jours ouvrés environ</li>
+                <li>Ce qui est livré vous appartient, code compris</li>
             </ul>
         </article>
 
@@ -253,11 +256,11 @@
                 <p class="pricing-card__note">Engagement de 12 mois, puis résiliable chaque mois avec un mois de préavis.</p>
             </div>
             <ul class="pricing-card__list">
-                <li>Hébergement du site</li>
-                <li>Nom de domaine, enregistré à votre nom</li>
+                <li>Suivi du référencement, maintenance et ajustements, 1&nbsp;h par mois</li>
+                <li>Hébergement et sauvegardes</li>
+                <li>Nom de domaine enregistré à votre nom</li>
                 <li>Adresse e-mail professionnelle</li>
-                <li>Maintenance et petites retouches, 1&nbsp;h par mois</li>
-                <li>Vos textes, votre domaine et le code récupérables à tout moment</li>
+                <li>Vos contenus, votre domaine et le code récupérables à tout moment</li>
             </ul>
         </article>
     </div>
@@ -267,17 +270,17 @@
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">À la signature</span>
                 <strong class="pricing-plan__amount">Acompte</strong>
-                <span class="pricing-plan__what">Une partie de la création</span>
+                <span class="pricing-plan__what">Une partie de la mise en œuvre</span>
             </li>
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">À la mise en ligne</span>
                 <strong class="pricing-plan__amount">Solde</strong>
-                <span class="pricing-plan__what">Le reste de la création et le premier mois</span>
+                <span class="pricing-plan__what">Le reste de la mise en œuvre et le premier mois</span>
             </li>
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">Chaque mois ensuite</span>
                 <strong class="pricing-plan__amount">Abonnement</strong>
-                <span class="pricing-plan__what">Prélèvement automatique</span>
+                <span class="pricing-plan__what">Suivi et hébergement, par prélèvement automatique</span>
             </li>
         </ol>
         <div class="pricing-plan__total">
@@ -300,10 +303,10 @@
 <section class="projects blog-section" id="blog" aria-labelledby="blog-title">
     <header class="projects__header">
         <p class="section-eyebrow">Blog</p>
-        <h2 id="blog-title">Conseils pour le site de votre commerce</h2>
+        <h2 id="blog-title">Conseils pour être trouvé sur Google</h2>
         <p class="projects__intro">
             <span class="projects__intro-lead">Ce que vos clients <em>cherchent</em>.</span>
-            <span class="projects__intro-text">Pour chaque métier, ce que le site doit montrer, avec un exemple concret.</span>
+            <span class="projects__intro-text">Pour chaque métier, ce que le site doit montrer pour être trouvé, avec un exemple concret.</span>
         </p>
     </header>
     <div class="blog-grid">
@@ -337,7 +340,7 @@
             <p class="section-eyebrow">Contact</p>
             <h2>Parlons de votre commerce</h2>
             <p>
-                Dites-moi le métier et ce que le site doit montrer.
+                Dites-moi votre métier et comment vos clients vous cherchent.
                 Je vous réponds avec la suite.
             </p>
             <ul class="contact-points">

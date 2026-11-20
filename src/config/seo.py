@@ -9,7 +9,7 @@ MARQUE = "killianp.dev"
 
 
 def organisation():
-    """L'entreprise, telle que Google doit la comprendre : une agence de création de sites."""
+    """L'entreprise, telle que Google doit la comprendre : conseil informatique et référencement SEO."""
     url = settings.SITE_URL
     return {
         "@type": "ProfessionalService",
@@ -17,12 +17,12 @@ def organisation():
         "name": MARQUE,
         "alternateName": "Neuralab",
         "description": (
-            "Agence web de création de sites vitrines pour les commerces de proximité, "
-            "les artisans et les professions libérales."
+            "Agence de conseil et d'expertise informatique spécialisée dans le référencement SEO, "
+            "pour les commerces de proximité, les artisans et les professions libérales."
         ),
         "url": f"{url}/",
         "logo": f"{url}{static('ressources/apple-touch-icon.png')}",
-        "image": f"{url}{static('ressources/og-killianp-dev.jpg')}",
+        "image": f"{url}{static('ressources/og-conseil-seo.jpg')}",
         "email": "contact@killianp-dev.fr",
         "founder": {"@type": "Person", "name": "Killian P."},
         "address": {
@@ -32,7 +32,7 @@ def organisation():
             "addressCountry": "FR",
         },
         "areaServed": {"@type": "Country", "name": "France"},
-        "knowsAbout": ["Création de site internet", "Site vitrine", "Référencement local"],
+        "knowsAbout": ["Référencement naturel (SEO)", "Référencement local", "Conseil informatique", "Création de site internet"],
         "sameAs": ["https://github.com/Killianp-dev"],
     }
 

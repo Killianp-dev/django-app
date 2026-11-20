@@ -1,4 +1,4 @@
-"""Pages « Création de site internet pour… » : une page de service par métier.
+"""Pages « Référencement et site internet pour… » : une page de service par métier.
 
 Chaque page vise la recherche d'un professionnel (« création site boulangerie »),
 montre la démo du métier et renvoie vers le guide du blog correspondant.
@@ -30,8 +30,8 @@ METIERS = [
     _metier(
         "boulangerie", "boulangerie", "Boulangerie", "pour boulangerie", "Maison Caron",
         "site-internet-boulangerie",
-        "Création de site internet pour boulangerie : horaires à jour, fournées du jour, "
-        "carte et prix, commandes de gâteaux. Un exemple concret, puis un site clé en main.",
+        "Référencement et site internet pour boulangerie : horaires à jour, fournées du jour, "
+        "carte et prix, commandes de gâteaux. Un exemple concret, puis une mise en œuvre pensée pour le référencement.",
         "Vos clients veulent savoir trois choses : êtes-vous ouvert maintenant, qu'est-ce qui "
         "sort du four, et comment commander un gâteau. Le site de votre boulangerie y répond "
         "en quelques secondes, sur leur téléphone.",
@@ -61,8 +61,8 @@ METIERS = [
     _metier(
         "salon-de-coiffure", "coiffeur", "Salon de coiffure", "pour salon de coiffure", "Salon Louise",
         "site-internet-salon-de-coiffure",
-        "Création de site internet pour salon de coiffure : prestations et tarifs, galerie de "
-        "réalisations, avis, horaires et prise de rendez-vous. Un exemple, puis un site clé en main.",
+        "Référencement et site internet pour salon de coiffure : prestations et tarifs, galerie de "
+        "réalisations, avis, horaires et prise de rendez-vous. Un exemple, puis une mise en œuvre pensée pour le référencement.",
         "Avant de pousser la porte d'un salon, on regarde les coupes, les prix et les avis, "
         "puis on cherche à réserver. Le site de votre salon montre votre travail et mène au "
         "rendez-vous en deux clics, depuis un téléphone.",
@@ -91,8 +91,8 @@ METIERS = [
     _metier(
         "macon", "macon", "Maçonnerie", "pour maçon", "Bertrand Maçonnerie",
         "site-internet-macon",
-        "Création de site internet pour maçon et entreprise de maçonnerie : chantiers réalisés, "
-        "zone d'intervention, prix indicatifs et demande de devis. Un exemple, puis un site clé en main.",
+        "Référencement et site internet pour maçon et entreprise de maçonnerie : chantiers réalisés, "
+        "zone d'intervention, prix indicatifs et demande de devis. Un exemple, puis une mise en œuvre pensée pour le référencement.",
         "Un particulier qui cherche un maçon veut voir des chantiers, savoir si vous intervenez "
         "chez lui et avoir une idée des prix. Le site de votre entreprise montre votre travail "
         "et transforme ces visites en demandes de devis.",
@@ -121,8 +121,8 @@ METIERS = [
     _metier(
         "avocat", "avocat", "Cabinet d'avocats", "pour avocat", "Aubert et Clerc",
         "site-internet-avocat",
-        "Création de site internet pour avocat et cabinet d'avocats : domaines d'intervention, "
-        "honoraires, présentation des associés et prise de contact. Un exemple, puis un site clé en main.",
+        "Référencement et site internet pour avocat et cabinet d'avocats : domaines d'intervention, "
+        "honoraires, présentation des associés et prise de contact. Un exemple, puis une mise en œuvre pensée pour le référencement.",
         "Un client qui cherche un avocat veut comprendre si vous traitez son problème, comment "
         "vous travaillez et combien cela coûte. Le site de votre cabinet l'explique simplement, "
         "dans le respect des règles de communication de la profession.",
@@ -151,8 +151,8 @@ METIERS = [
     _metier(
         "boucherie", "boucherie", "Boucherie", "pour boucherie", "Boucherie Morel",
         "site-internet-boucherie",
-        "Création de site internet pour boucherie et boucherie-charcuterie : origine des viandes, "
-        "prix au kilo, commandes et horaires. Un exemple concret, puis un site clé en main.",
+        "Référencement et site internet pour boucherie et boucherie-charcuterie : origine des viandes, "
+        "prix au kilo, commandes et horaires. Un exemple concret, puis une mise en œuvre pensée pour le référencement.",
         "Vos clients choisissent une boucherie pour la qualité et l'origine de la viande. Le "
         "site de votre boucherie le montre, aide à prévoir les quantités et facilite les "
         "commandes pour les repas de fête.",
@@ -181,8 +181,8 @@ METIERS = [
     _metier(
         "institut-de-beaute", "beaute", "Institut de beauté", "pour institut de beauté", "Maison Iris",
         "site-internet-institut-de-beaute",
-        "Création de site internet pour institut de beauté : carte des soins avec durées et prix, "
-        "cartes cadeaux, horaires et réservation. Un exemple concret, puis un site clé en main.",
+        "Référencement et site internet pour institut de beauté : carte des soins avec durées et prix, "
+        "cartes cadeaux, horaires et réservation. Un exemple concret, puis une mise en œuvre pensée pour le référencement.",
         "Avant de réserver un soin, on veut connaître la carte, la durée, le prix et l'ambiance "
         "de l'institut. Le site de votre institut présente tout cela avec élégance et mène à "
         "la réservation.",
@@ -212,13 +212,17 @@ METIERS = [
 
 # Questions communes à tous les métiers (reprennent les CGV).
 FAQ_COMMUNE = [
+    ("Le référencement est-il compris ?",
+     "Oui : chaque mise en œuvre est pensée pour le référencement naturel. Structure des pages, "
+     "vitesse, données lues par Google et textes écrits à partir des recherches de vos "
+     "clients. Je vous conseille aussi sur la cohérence avec votre fiche Google."),
     ("Combien de temps faut-il pour que mon site soit en ligne ?",
      "Environ trois semaines : une fois vos textes et photos reçus, la mise en ligne "
      "intervient sous 15 jours ouvrés environ, avec deux tours de corrections compris."),
-    ("Combien coûte un site vitrine ?",
-     "Le tarif est fixé dans un devis, après un premier échange : une création réglée en deux "
-     "fois, puis un abonnement mensuel qui comprend l'hébergement, le nom de domaine, une "
-     "adresse e-mail professionnelle et la maintenance."),
+    ("Combien coûte la mise en œuvre de mon site ?",
+     "Le tarif est fixé dans un devis, après un premier échange : une mise en œuvre technique réglée en deux "
+     "fois, puis un abonnement mensuel qui comprend le suivi du référencement, l'hébergement, "
+     "le nom de domaine, une adresse e-mail professionnelle et la maintenance."),
     ("Le site et le nom de domaine m'appartiennent-ils ?",
      "Oui : le nom de domaine est enregistré à votre nom, et à la fin du contrat vous "
      "récupérez vos textes, vos photos et le code source complet du site."),
