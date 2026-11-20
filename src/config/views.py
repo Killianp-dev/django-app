@@ -4,7 +4,7 @@ from blog.models import BlogPost
 from django.conf import settings as django_settings
 from django.http import Http404
 from config.metiers import FAQ_COMMUNE, metier_par_demo, metier_par_slug, metiers
-from config.projects import projets
+from config.projects import exemples, projets
 from config.seo import MARQUE, jsonld, organisation
 from contact_form.forms import ContactForm
 from contact_form.models import Contact  # Importez le modèle
@@ -27,6 +27,7 @@ class HomeView(TemplateView):
         context['projets'] = projets()
         for projet in context['projets']:
             projet.page_metier = metier_par_demo(projet.namespace)
+        context['exemples'] = exemples(context['projets'])
         context['form'] = ContactForm()
         url = django_settings.SITE_URL
         context['jsonld'] = jsonld(

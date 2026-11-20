@@ -103,21 +103,22 @@
         <h2 id="projects-title">Exemples de sites vitrines par métier</h2>
         <p class="projects__intro">
             <span class="projects__intro-lead"><em>Six</em> démonstrations, <em>six</em> métiers.</span>
-            <span class="projects__intro-text">Des commerces fictifs, vus sur téléphone, comme vos clients les ouvriront.</span>
+            <span class="projects__intro-text">Des commerces fictifs. Pour chacun, la partie du site qui fait la différence.</span>
         </p>
     </header>
 
-    {# Le hero montre les démos sur ordinateur ; ici, les mêmes sur téléphone. #}
+    {# Le hero montre l'accueil des démos ; ici, pour chacune, la section qui la distingue. #}
     <div class="projects__list">
-        {% for projet in projets %}
+        {% for projet in exemples %}
         <article class="project">
-            <a class="project__phone" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
-                <span class="project__screen">
+            <a class="project__visual" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
+                <span class="project__frame">
                     <picture>
-                        <source srcset="{% static projet.apercu_mobile_webp %}" type="image/webp">
-                        <img src="{% static projet.apercu_mobile %}" alt="{{ projet.alt }}, sur téléphone" width="600" height="1298" loading="lazy" decoding="async">
+                        <source srcset="{% static projet.vue_fonction_webp %}" type="image/webp">
+                        <img src="{% static projet.vue_fonction %}" alt="{{ projet.fonction }}, dans la démo {{ projet.titre|lower }}" width="1280" height="800" loading="lazy" decoding="async">
                     </picture>
                 </span>
+                <span class="project__feature"><i aria-hidden="true"></i>{{ projet.fonction }}</span>
             </a>
             <div class="project__body">
                 <span class="project__index">{{ forloop.counter|stringformat:"02d" }}<small>/ {{ projets|length|stringformat:"02d" }}</small></span>
