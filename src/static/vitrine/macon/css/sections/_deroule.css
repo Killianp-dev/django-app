@@ -1,21 +1,38 @@
-/* Le déroulé : une vraie séquence, numéros encadrés reliés par un trait de cordeau */
+/* Le déroulé : une vraie séquence. Sur grand écran, un planning de gauche à droite ; entre deux
+   étapes, une cote donne le délai qui les sépare. Sur mobile, la séquence descend, la cote sous le texte. */
 .deroule { background: var(--papier); }
 .deroule__grille { display: grid; gap: 3.5rem; align-items: start; }
 @media (min-width: 1000px) { .deroule__grille { grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr); gap: 5rem; } }
-.deroule .section__titre { margin-bottom: 2.75rem; }
 
-.etapes { position: relative; display: grid; gap: 2.25rem; }
-.etapes::before { content: ""; position: absolute; left: calc(1.5rem - 1px); top: 1.5rem; bottom: 1.5rem; width: 2px; background: var(--cordeau-pale); }
-.etape { position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.5rem; }
+.etapes { --rond: 3rem; --ecart: 2rem; position: relative; display: grid; gap: 2rem; }
+.etape { position: relative; display: grid; grid-template-columns: var(--rond) minmax(0, 1fr); column-gap: 1.25rem; align-items: start; align-content: start; }
 .etape__num {
-  position: relative; z-index: 1; display: grid; place-items: center; width: 3rem; height: 3rem;
-  font-family: var(--font-titre); font-weight: 600; font-size: 1.2rem;
-  color: var(--cordeau); background: var(--papier); border: 1px solid var(--cordeau); border-radius: 50%;
-  transition: background-color 0.25s, color 0.25s;
+  position: relative; z-index: 1; display: grid; place-items: center; width: var(--rond); height: var(--rond);
+  font-family: var(--font-titre); font-weight: 600; font-size: 1.2rem; font-variant-numeric: tabular-nums;
+  color: var(--cordeau); background: var(--papier); border: 1px solid rgba(31, 79, 163, 0.45); border-radius: 50%;
+  transition: background-color 0.3s var(--ease), color 0.3s, border-color 0.3s;
 }
-.etape:hover .etape__num { background: var(--cordeau); color: #fff; }
-.etape__titre { font-size: 1.6rem; margin-bottom: 0.35rem; padding-top: 0.45rem; }
+.etape:hover .etape__num { background: var(--cordeau); border-color: var(--cordeau); color: #fff; }
+.etape__corps { grid-column: 2; grid-row: 1; }
+.etape__titre { font-size: 1.6rem; margin-bottom: 0.4rem; padding-top: 0.45rem; }
 .etape__texte { color: var(--graphite-doux); }
+/* Mobile : la cote du délai sous le texte, dans la colonne du texte */
+.etape__delai { grid-column: 2; grid-row: 2; max-width: 17rem; margin-top: 0.9rem; font-size: 1rem; }
+
+@media (min-width: 1000px) {
+  .etapes { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--ecart); }
+  .etape { grid-template-columns: 1fr; row-gap: 1.25rem; }
+  .etape__num { grid-row: 1; }
+  .etape__corps { grid-column: 1; grid-row: 2; padding-right: 0.5rem; }
+  .etape__titre { padding-top: 0; }
+  /* La cote relie ce rond au suivant, avec le délai au milieu */
+  .etape__delai {
+    grid-column: auto; grid-row: auto;
+    position: absolute; top: calc(var(--rond) / 2 - 0.75rem);
+    left: calc(var(--rond) + 0.6rem); width: calc(100% + var(--ecart) - var(--rond) - 1.2rem); max-width: none;
+    margin: 0;
+  }
+}
 
 /* Le bureau : horaires en direct, puis les deux façons de joindre l'entreprise */
 .bureau {
@@ -26,6 +43,16 @@
 .bureau__texte { margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--filet); color: var(--graphite-doux); font-size: var(--t-sm); }
 .bureau__actions { display: grid; gap: 0.6rem; margin-top: 1.25rem; }
 @media (max-width: 999px) { .bureau { position: static; } }
+
+/* Accueil : le bureau en bande sous le planning — les horaires à gauche, le mot et les boutons à droite */
+.bureau--bande { position: static; margin-top: 4.5rem; box-shadow: var(--ombre-douce); }
+.bureau__contact { display: grid; align-content: start; }
+@media (min-width: 900px) {
+  .bureau--bande { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 3.5rem; padding: 2.25rem 2.5rem; }
+  .bureau--bande .bureau__texte { margin-top: 0; padding-top: 0; border-top: 0; font-size: var(--t-base); }
+  .bureau--bande .bureau__actions { grid-template-columns: repeat(2, max-content); margin-top: 1.5rem; }
+  .bureau--bande .bureau__contact { padding-left: 3.5rem; border-left: 1px solid var(--filet); align-content: center; }
+}
 
 /* Infos pratiques (page entreprise) */
 .faits__ligne { display: grid; grid-template-columns: 8rem 1fr; gap: 1rem; padding: 0.85rem 0; border-top: 1px solid var(--filet); }

@@ -125,9 +125,11 @@ class MaconAutonomeTests(TestCase):
     def test_preparer_sa_demande(self):
         """Le bloc ne dépend que des savoir-faire : il convient à n'importe quel artisan."""
         html = self.client.get("/demo-macon/").content.decode()
-        self.assertIn("data-demande hidden", html)               # caché sans JavaScript
-        self.assertEqual(html.count('name="travaux"'), len(SITES["macon"].offres))
-        self.assertIn('type="range"', html)
+        bloc = html[html.index("data-demande"):html.index("</section>", html.index("data-demande"))]
+        self.assertIn('method="get"', bloc)                       # vrai formulaire : marche sans JavaScript
+        self.assertEqual(bloc.count('name="prestation"'), len(SITES["macon"].offres))
+        self.assertEqual(bloc.count('name="demande"'), 4)
+        self.assertNotIn('type="range"', bloc)
 
     def test_contact_reprend_la_demande(self):
         html = self.client.get(

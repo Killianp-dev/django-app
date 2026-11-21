@@ -1,24 +1,23 @@
 /* ==================================================
    COTE — le trait de dimension d'un plan, réutilisé partout où quelque chose se mesure.
-   Une ligne fine, un tic oblique à chaque bout (comme les cotes du hero), la valeur au milieu.
+   Une ligne fine, un tic droit à chaque bout, la valeur au milieu.
    <p class="cote"><span class="cote__valeur">72 h</span></p>
    .cote--trace : les deux demi-lignes partent de la valeur et se tracent vers les bouts
    quand la cote entre à l'écran (CSS piloté par le défilement, sans JS).
    ================================================= */
 .cote {
   --cote-couleur: var(--cordeau);
-  --tic: linear-gradient(135deg, transparent calc(50% - 0.75px), var(--cote-couleur) calc(50% - 0.75px) calc(50% + 0.75px), transparent calc(50% + 0.75px));
   display: flex; align-items: center; gap: 0.7rem;
-  min-height: 1.5rem;
+  min-height: 1.5rem; max-width: none;
   color: var(--cote-couleur);
   font-family: var(--font-titre); font-weight: 600; font-size: 1.05rem; line-height: 1; white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 .cote::before, .cote::after {
-  content: ""; flex: 1 1 0; min-width: 1.5rem; height: 12px;
+  content: ""; flex: 1 1 0; min-width: 1.5rem; height: 10px;
   background:
     linear-gradient(var(--cote-couleur), var(--cote-couleur)) center / 100% 1px no-repeat,
-    var(--tic) var(--tic-pos, left) center / 12px 12px no-repeat;
+    linear-gradient(var(--cote-couleur), var(--cote-couleur)) var(--tic-pos, left) center / 1.5px 100% no-repeat;
 }
 .cote::after { --tic-pos: right; }
 .cote__valeur { flex: none; }

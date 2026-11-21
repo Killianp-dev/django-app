@@ -6,6 +6,13 @@ def _chantier(image, titre, filtre, offre, alt, detail):
     return _realisation(image, titre, filtre, offre, alt, detail=detail, key="macon")
 
 
+def _etape_delai(numero, titre, texte, delai=""):
+    """Une étape du déroulé. `delai` : la cote affichée entre cette étape et la suivante."""
+    etape = _etape(numero, titre, texte)
+    etape.delai = delai
+    return etape
+
+
 def _jour_chantier(jour, titre, texte, image=""):
     """Une entrée du carnet de chantier. `image` : chemin statique facultatif."""
     return _ns(jour=jour, titre=titre, texte=texte, image=image)
@@ -86,6 +93,8 @@ MACON = _site(
         about_title="Trois maçons, un responsable par chantier",
         steps_kicker="Chantier",
         steps_title="De la visite à la réception",
+        steps_intro="Quatre étapes, et ce qui les sépare : le délai annoncé est celui qui est tenu.",
+        about_legende="Une cloison porteuse en brique, montée au mortier de chaux. Paris 11e.",
         hero_primary="Le savoir-faire",
         hero_secondary="Demander un devis",
         more="En savoir plus",
@@ -95,6 +104,7 @@ MACON = _site(
         cta_title="Un mur, une ouverture, une dalle ?",
         cta_text="Décrivez le chantier. On vous dit si on peut passer voir, et quand.",
         cta_button="Demander un devis",
+        cta_cote="72 h entre la visite et le devis",
         detail_button="Parler de ces travaux",
         nav_cta="Demander un devis",
         offre_meta_prix="Prix indicatif",
@@ -241,9 +251,15 @@ MACON = _site(
     ],
     barre_mobile=True,
     etapes=[
-        _etape("01", "La visite", "On passe voir le lieu, on mesure, on regarde ce qui porte. Sans visite, pas de prix ferme."),
-        _etape("02", "Le devis détaillé", "Sous 72 heures : les postes, les quantités, le délai et ce qui n'est pas inclus. Vous signez avant que le chantier démarre."),
-        _etape("03", "Le chantier", "Un responsable, un planning annoncé, un point écrit chaque vendredi, et un avenant signé si un imprévu change le prix."),
-        _etape("04", "La réception", "On fait le tour ensemble. Les réserves sont notées et levées avant le solde."),
+        _etape_delai("01", "La visite", "On passe voir le lieu, on mesure, on regarde ce qui porte. Sans visite, pas de prix ferme.", "72 h"),
+        _etape_delai("02", "Le devis détaillé", "Les postes, les quantités, le délai et ce qui n'est pas inclus. Vous signez avant que le chantier démarre.", "date fixée ensemble"),
+        _etape_delai("03", "Le chantier", "Un responsable, un planning annoncé, un point écrit chaque vendredi, et un avenant signé si un imprévu change le prix.", "durée du devis"),
+        _etape_delai("04", "La réception", "On fait le tour ensemble. Les réserves sont notées et levées avant le solde."),
+    ],
+    # L'équipe (bloc « L'entreprise ») et la légende de sa photo
+    equipe=[
+        _ns(initiales="JB", nom="Julien Bertrand", role="Gérant, responsable de chantier"),
+        _ns(initiales="KM", nom="Karim M.", role="Compagnon maçon"),
+        _ns(initiales="TL", nom="Thomas L.", role="Compagnon maçon"),
     ],
 )

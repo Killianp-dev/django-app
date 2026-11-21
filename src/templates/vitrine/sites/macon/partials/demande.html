@@ -1,49 +1,45 @@
 {% load vitrine_tags %}{% comment %}
-« Préparer votre demande » (macon.js) : le type de travaux, puis le délai souhaité, réglé au mètre
-ruban (en semaines). Le bouton ouvre le contact avec les travaux présélectionnés et le délai noté
-dans le message. Aucune donnée propre au métier : les choix sont les savoir-faire (site.offres),
-le bloc convient tel quel à un plombier, un électricien ou un peintre.
-Le mètre est un <input type="range"> natif : clavier, toucher et lecteurs d'écran inclus.
-Sans JavaScript, le bloc reste caché ; le bouton « Demander un devis » mène au même formulaire.
-`titre_tag` : h2 ou h3.
+« Préparer votre demande » : le type de travaux, puis quand commencer, et le bouton qui ouvre le
+contact avec les deux déjà renseignés. C'est un vrai formulaire (GET vers le contact) : il marche
+sans JavaScript ; macon.js ne fait que tenir la phrase-résumé à jour.
+Aucune donnée propre au métier : les travaux sont les savoir-faire (site.offres), le bloc convient
+tel quel à un plombier, un électricien ou un peintre. `titre_tag` : h2 ou h3.
 {% endcomment %}
-<section class="demande" aria-labelledby="demande-titre" data-demande hidden>
+<section class="demande" aria-labelledby="demande-titre" data-demande>
     <div class="demande__tete">
         {% if titre_tag == "h2" %}<h2 class="demande__titre" id="demande-titre">Préparer votre demande</h2>{% else %}<h3 class="demande__titre" id="demande-titre">Préparer votre demande</h3>{% endif %}
-        <p class="demande__intro">{{ "Le type de travaux, puis le moment où vous aimeriez commencer : tirez le mètre. On vous rappelle pour fixer la visite."|fr_typo }}</p>
+        <p class="demande__intro">{{ "Deux choix, et la demande part avec : on vous rappelle pour fixer la visite."|fr_typo }}</p>
     </div>
 
-    <form class="demande__corps" action="{% site_url 'contact' %}" method="get" data-demande-form>
-        <fieldset class="demande__ouvrages">
-            <legend class="demande__legende">Travaux</legend>
+    <form class="demande__corps" action="{% site_url 'contact' %}" method="get">
+        <fieldset class="demande__travaux">
+            <legend class="demande__legende">Les travaux</legend>
             {% for offre in site.offres %}
             <label class="demande__choix">
-                <input type="radio" name="travaux" value="{{ offre.nom }}"{% if forloop.first %} checked{% endif %}>
+                <input type="radio" name="prestation" value="{{ offre.nom }}"{% if forloop.first %} checked{% endif %}>
                 <span class="demande__nom">{{ offre.nom }}</span>
-                <span class="demande__unitaire">{{ offre.accroche }}</span>
+                <span class="demande__detail">{{ offre.accroche }}</span>
             </label>
             {% endfor %}
         </fieldset>
 
-        <div class="demande__mesure">
-            {# La cote au-dessus du ruban : elle mesure la longueur tirée et affiche le délai. #}
-            <div class="metre" data-metre>
-                <p class="metre__cote cote" aria-hidden="true"><span class="cote__valeur" data-delai-cote></span></p>
-                <div class="metre__corps">
-                    <span class="metre__boitier" aria-hidden="true"><span></span></span>
-                    <div class="metre__piste" data-max="6 mois">
-                        <div class="metre__ruban" aria-hidden="true"><div class="metre__graduations" data-graduations></div></div>
-                        <label class="vitrine-sr-only" for="demande-delai">Début souhaité, en semaines à partir d'aujourd'hui</label>
-                        <input class="metre__curseur" type="range" id="demande-delai" name="semaines" min="0" max="26" step="1" value="6" data-curseur>
-                    </div>
+        <div class="demande__droite">
+            <fieldset class="demande__quand">
+                <legend class="demande__legende">Pour commencer</legend>
+                <div class="segments">
+                    <label class="segment"><input type="radio" name="demande" value="Début souhaité : dès que possible." data-phrase="à commencer dès que possible" checked><span>Dès que possible</span></label>
+                    <label class="segment"><input type="radio" name="demande" value="Début souhaité : dans le mois." data-phrase="à commencer dans le mois"><span>Dans le mois</span></label>
+                    <label class="segment"><input type="radio" name="demande" value="Début souhaité : d'ici trois mois." data-phrase="à commencer d'ici trois mois"><span>D'ici 3 mois</span></label>
+                    <label class="segment"><input type="radio" name="demande" value="Pas encore de date de début." data-phrase="sans date arrêtée"><span>Pas de date</span></label>
                 </div>
-            </div>
+            </fieldset>
 
-            <div class="demande__resultat">
-                <p class="demande__ligne"><strong data-travaux-nom></strong> <span>Début souhaité</span></p>
-                <p class="demande__montant"><output class="demande__prix" data-delai for="demande-delai"></output></p>
-                <p class="demande__note">{{ "Un repère pour organiser la visite : la date de début se fixe ensemble, devis signé."|fr_typo }}</p>
-                <p class="vitrine-sr-only" aria-live="polite" data-annonce></p>
+            <div class="demande__resume">
+                <p class="demande__legende">Votre demande</p>
+                <p class="demande__phrase" aria-live="polite" data-phrase-sortie>
+                    <strong>{{ site.offres.0.nom }}</strong>, à commencer dès que possible.
+                </p>
+                <p class="demande__note">{{ "La visite est gratuite et sans engagement ; la date se fixe ensemble."|fr_typo }}</p>
                 <button class="btn btn--primary btn--lg demande__action" type="submit">Demander une visite</button>
             </div>
         </div>

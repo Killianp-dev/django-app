@@ -204,44 +204,63 @@
 
 {% if site.avis %}{% include 'vitrine/sites/macon/partials/avis.html' %}{% endif %}
 
-{# ——— Déroulé (une vraie séquence : numérotée) et bureau ——— #}
+{# ——— Déroulé : une vraie séquence, en planning ; entre deux étapes, la cote donne le délai ——— #}
 <section class="section deroule" aria-labelledby="deroule-title">
-    <div class="container deroule__grille">
-        <div>
-            <p class="kicker">{{ site.labels.steps_kicker }}</p>
-            <h2 class="section__titre" id="deroule-title">{{ site.labels.steps_title }}</h2>
-            <ol class="etapes">
-                {% for etape in site.etapes %}
-                <li class="etape">
-                    <span class="etape__num" aria-hidden="true">{{ etape.numero }}</span>
-                    <div>
-                        <h3 class="etape__titre">{{ etape.titre }}</h3>
-                        <p class="etape__texte">{{ etape.texte }}</p>
-                    </div>
-                </li>
-                {% endfor %}
-            </ol>
-        </div>
-        {% if site.horaires_semaine %}{% include 'vitrine/sites/macon/partials/bureau.html' %}{% endif %}
+    <div class="container">
+        <header class="section__tete">
+            <div>
+                <p class="kicker">{{ site.labels.steps_kicker }}</p>
+                <h2 class="section__titre" id="deroule-title">{{ site.labels.steps_title }}</h2>
+            </div>
+            {% if site.labels.steps_intro %}<div class="section__aside"><p class="section__intro">{{ site.labels.steps_intro|fr_typo }}</p></div>{% endif %}
+        </header>
+        <ol class="etapes">
+            {% for etape in site.etapes %}
+            <li class="etape">
+                <span class="etape__num" aria-hidden="true">{{ etape.numero }}</span>
+                {% if etape.delai %}<p class="etape__delai cote cote--trace"><span class="vitrine-sr-only">Puis, délai : </span><span class="cote__valeur">{{ etape.delai|fr_typo }}</span></p>{% endif %}
+                <div class="etape__corps">
+                    <h3 class="etape__titre">{{ etape.titre }}</h3>
+                    <p class="etape__texte">{{ etape.texte|fr_typo }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+        {% if site.horaires_semaine %}{% include 'vitrine/sites/macon/partials/bureau.html' with bande=True %}{% endif %}
     </div>
 </section>
 
 {# ——— L'entreprise ——— #}
 <section class="section entreprise" aria-labelledby="entreprise-title">
     <div class="container entreprise__grille">
-        <div class="entreprise__media">
-            <img src="{% static site.photos.about %}" alt="Main d'un maçon qui ajuste une brique sur un mur en cours de montage" width="1200" height="1500" loading="lazy" decoding="async">
-        </div>
+        <figure class="entreprise__media">
+            <div class="entreprise__cadre">
+                <div class="entreprise__photo">
+                    <img src="{% static site.photos.about %}" alt="Main d'un maçon qui ajuste une brique sur un mur en cours de montage" width="1200" height="1500" loading="lazy" decoding="async">
+                </div>
+            </div>
+            {% if site.labels.about_legende %}<figcaption class="entreprise__legende">{{ site.labels.about_legende|fr_typo }}</figcaption>{% endif %}
+        </figure>
         <div class="entreprise__texte">
             <p class="kicker">{{ site.labels.about }}</p>
             <h2 class="section__titre" id="entreprise-title">{{ site.labels.about_title }}</h2>
-            <p class="chapeau">{{ site.presentation }}</p>
+            <p class="chapeau">{{ site.presentation|fr_typo }}</p>
             {% if site.chiffres %}
             <dl class="chiffres">
                 {% for chiffre in site.chiffres|slice:":3" %}
                 <div class="chiffres__item"><dt>{{ chiffre.label|capfirst }}</dt><dd>{{ chiffre.valeur }}</dd></div>
                 {% endfor %}
             </dl>
+            {% endif %}
+            {% if site.equipe %}
+            <ul class="equipe" aria-label="L'équipe">
+                {% for personne in site.equipe %}
+                <li class="equipe__membre">
+                    <span class="equipe__initiales" aria-hidden="true">{{ personne.initiales }}</span>
+                    <span class="equipe__texte"><strong>{{ personne.nom }}</strong><span>{{ personne.role }}</span></span>
+                </li>
+                {% endfor %}
+            </ul>
             {% endif %}
             <a class="btn btn--trait" href="{% site_url 'about' %}">Comment l'entreprise travaille</a>
         </div>
@@ -258,12 +277,12 @@
         </div>
         <div class="faq__liste">
             {% for item in site.faq %}
-            <details class="faq__item"{% if forloop.first %} open{% endif %}>
+            <details class="faq__item" name="faq"{% if forloop.first %} open{% endif %}>
                 <summary class="faq__question">
                     {{ item.question }}
                     <svg class="faq__icone" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h12M8 2v12" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
                 </summary>
-                <p class="faq__reponse">{{ item.reponse }}</p>
+                <p class="faq__reponse">{{ item.reponse|fr_typo }}</p>
             </details>
             {% endfor %}
         </div>

@@ -11,7 +11,15 @@
 .btn--primary { background: var(--cordeau); border-color: var(--cordeau); color: #fff; box-shadow: 0 1px 2px rgba(23, 60, 125, 0.25); }
 .btn--primary:hover { background: var(--cordeau-fonce); border-color: var(--cordeau-fonce); transform: translateY(-1px); box-shadow: 0 10px 24px -10px rgba(23, 60, 125, 0.6); }
 .btn--primary:active { transform: none; }
-.btn--trait { background: rgba(255, 255, 255, 0.4); border-color: var(--filet-fort); color: var(--graphite); }
-.btn--trait:hover { background: #fff; border-color: var(--graphite); }
+/* Bouton secondaire : un contour à peine marqué ; au survol, la carte se pose (fond blanc, ombre douce) */
+.btn--trait {
+  background: rgba(255, 255, 255, 0.55); border-color: rgba(30, 31, 34, 0.1); color: var(--graphite);
+  box-shadow: 0 1px 2px rgba(30, 31, 34, 0.04);
+}
+.btn--trait:hover {
+  background: #fff; border-color: rgba(30, 31, 34, 0.06);
+  box-shadow: 0 1px 2px rgba(30, 31, 34, 0.05), 0 10px 24px -14px rgba(30, 31, 34, 0.35);
+  transform: translateY(-1px);
+}
 .btn--inverse { background: #fff; border-color: #fff; color: var(--cordeau-fonce); }
 .btn--inverse:hover { transform: translateY(-1px); box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.45); }

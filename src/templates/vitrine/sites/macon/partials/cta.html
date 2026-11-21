@@ -1,14 +1,16 @@
 {% load vitrine_tags %}
+{# Appel final : la bande graphite, et une cote qui la traverse (site.labels.cta_cote, facultatif). #}
 <section class="cta" aria-labelledby="cta-title">
     <div class="container cta__inner">
         <div class="cta__texte">
             <p class="kicker kicker--clair">{{ site.labels.nav_cta }}</p>
-            <h2 class="cta__titre" id="cta-title">{{ site.labels.cta_title }}</h2>
-            <p>{{ site.labels.cta_text }}</p>
+            <h2 class="cta__titre" id="cta-title">{{ site.labels.cta_title|fr_typo }}</h2>
+            <p>{{ site.labels.cta_text|fr_typo }}</p>
         </div>
         <div class="cta__actions">
             <a class="btn btn--inverse btn--lg" href="{% site_url 'contact' %}">{{ site.labels.cta_button }}</a>
             <a class="cta__tel" href="tel:{{ site.telephone_lien }}">ou appeler le {{ site.telephone }}</a>
         </div>
+        {% if site.labels.cta_cote %}<p class="cta__cote cote cote--clair cote--trace"><span class="cote__valeur">{{ site.labels.cta_cote|fr_typo }}</span></p>{% endif %}
     </div>
 </section>

@@ -1,10 +1,9 @@
 /* ==================================================
-   DEMANDE — un ouvrage, un mètre ruban, un montant « à partir de » (macon.js).
-   Le mètre : un boîtier graphite, un ruban qui en sort jusqu'au curseur (--p, de 0 à 1),
-   des graduations à l'échelle de l'ouvrage (--tics, --grands), une cote au-dessus qui
-   mesure la longueur tirée. Le curseur est un range natif : clavier et toucher inclus.
+   PRÉPARER SA DEMANDE — les travaux, quand commencer, une phrase-résumé, le bouton.
+   Un formulaire ordinaire (GET vers le contact), sobre : des choix nets, aucun ornement.
    ================================================= */
 .demande {
+  display: grid; gap: 2rem 4rem;
   margin-top: 2.5rem;
   padding: clamp(1.4rem, 3.2vw, 2.6rem);
   background: var(--papier);
@@ -12,164 +11,75 @@
   border-radius: var(--rayon-grand);
   box-shadow: var(--ombre-douce);
 }
-.demande[hidden] { display: none; }
-/* Ordinateur : titre et ouvrages à gauche, le mètre et le montant à droite, sur toute la hauteur. */
-.demande { display: grid; gap: 2rem 4rem; }
 .demande__corps { display: contents; }
 @media (min-width: 900px) {
-  .demande { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr); }
+  .demande { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
   .demande__tete { grid-column: 1; grid-row: 1; }
-  .demande__ouvrages { grid-column: 1; grid-row: 2; }
-  .demande__mesure { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .demande__travaux { grid-column: 1; grid-row: 2; }
+  .demande__droite { grid-column: 2; grid-row: 1 / span 2; }
 }
 .demande__tete { display: grid; gap: 0.6rem; }
 .demande__titre { font-size: var(--t-xl); }
-.demande__intro { color: var(--graphite-doux); max-width: 46ch; }
+.demande__intro { color: var(--graphite-doux); max-width: 44ch; }
 
-/* ——— Les ouvrages : une liste de choix, l'ouvrage retenu marqué d'un trait de cordeau ——— */
-.demande__ouvrages { display: grid; gap: 0.2rem; border: 0; min-width: 0; }
+.demande fieldset { border: 0; min-width: 0; }
 .demande__legende {
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--graphite-doux);
 }
+
+/* ——— Les travaux : une liste de choix, le choix retenu sur fond de cordeau pâle ——— */
+.demande__travaux { display: grid; gap: 0.2rem; }
 .demande__choix {
   position: relative; display: grid; gap: 0.1rem;
   padding: 0.7rem 0.9rem 0.7rem 1.1rem; border-radius: var(--rayon);
-  cursor: pointer; transition: background-color 0.2s, color 0.2s;
+  cursor: pointer; transition: background-color 0.25s var(--ease);
 }
 .demande__choix input { position: absolute; opacity: 0; pointer-events: none; }
 .demande__choix::before {
-  content: ""; position: absolute; left: 0; top: 0.6rem; bottom: 0.6rem; width: 3px; border-radius: 0 3px 3px 0;
-  background: var(--cordeau); transform: scaleY(0); transition: transform 0.3s var(--ease);
+  content: ""; position: absolute; left: 0; top: 0.65rem; bottom: 0.65rem; width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--cordeau); transform: scaleY(0); transition: transform 0.35s var(--ease);
 }
-.demande__choix:hover { background: var(--beton); }
+.demande__choix:hover { background: rgba(30, 31, 34, 0.035); }
 .demande__choix:has(:checked) { background: var(--cordeau-pale); }
 .demande__choix:has(:checked)::before { transform: scaleY(1); }
 .demande__choix:has(:focus-visible) { outline: 2px solid var(--cordeau); outline-offset: 2px; }
-.demande__nom { font-family: var(--font-titre); font-weight: 600; font-size: 1.3rem; line-height: 1.15; }
+.demande__nom { font-family: var(--font-titre); font-weight: 600; font-size: 1.3rem; line-height: 1.15; transition: color 0.25s; }
 .demande__choix:has(:checked) .demande__nom { color: var(--cordeau-fonce); }
-.demande__unitaire { font-size: var(--t-sm); color: var(--graphite-doux); line-height: 1.4; }
+.demande__detail { font-size: var(--t-sm); color: var(--graphite-doux); line-height: 1.4; }
 
-/* ——— Le mètre ——— */
-.demande__mesure { display: grid; gap: 2rem; min-width: 0; }
-.metre {
-  --p: 0.15; --tics: 26;
-  --tw: 18px;                       /* largeur du crochet (le curseur) */
-  --boitier: 84px;
-  display: grid; grid-template-columns: var(--boitier) minmax(0, 1fr); row-gap: 0.5rem;
-  padding-top: 0.5rem;
+/* ——— Quand commencer : un sélecteur segmenté ——— */
+.demande__droite { display: grid; gap: 2rem; align-content: start; }
+.segments {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px;
+  padding: 4px; border-radius: calc(var(--rayon) + 4px);
+  background: rgba(30, 31, 34, 0.05);
+  box-shadow: inset 0 1px 2px rgba(30, 31, 34, 0.06);
 }
-.metre__corps { display: contents; }
+.segment { position: relative; display: block; cursor: pointer; }
+.segment input { position: absolute; opacity: 0; pointer-events: none; }
+.segment span {
+  display: grid; place-items: center; min-height: 46px; padding: 0.4rem 0.6rem;
+  border-radius: var(--rayon);
+  font-size: 0.925rem; font-weight: 500; line-height: 1.2; text-align: center; color: var(--graphite-doux);
+  transition: background-color 0.3s var(--ease), color 0.3s, box-shadow 0.3s var(--ease);
+}
+.segment:hover span { color: var(--graphite); }
+.segment input:checked + span {
+  background: #fff; color: var(--graphite); font-weight: 600;
+  box-shadow: 0 1px 2px rgba(30, 31, 34, 0.06), 0 6px 16px -10px rgba(30, 31, 34, 0.35);
+}
+.segment input:focus-visible + span { outline: 2px solid var(--cordeau); outline-offset: 1px; }
+@media (max-width: 560px) { .segments { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-/* La cote : du bord du boîtier jusqu'au crochet, avec la quantité au milieu */
-.metre__cote {
-  grid-column: 2; grid-row: 1;
-  width: calc(var(--tw) / 2 + var(--p) * (100% - var(--tw)));
-  min-width: 8rem;
-  font-size: 1.6rem;
+/* ——— Le résumé ——— */
+.demande__resume { display: grid; gap: 0.5rem; justify-items: start; padding-top: 1.75rem; border-top: 1px solid var(--filet); }
+.demande__resume .demande__legende { margin-bottom: 0; }
+.demande__phrase {
+  font-family: var(--font-titre); font-weight: 600; font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem); line-height: 1.15;
+  color: var(--graphite-doux); max-width: 26ch;
 }
-
-.metre__boitier {
-  grid-column: 1; grid-row: 2; position: relative; z-index: 2;
-  display: grid; place-items: center;
-  width: var(--boitier); height: var(--boitier);
-  background: linear-gradient(160deg, #3A3C41, var(--graphite));
-  border-radius: 22px 22px 22px 28px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 14px 26px -12px rgba(30, 31, 34, 0.55);
-}
-.metre__boitier span {      /* l'enrouleur */
-  width: 52%; aspect-ratio: 1; border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.16);
-  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.04);
-}
-.metre__boitier::after {    /* la fente d'où sort le ruban */
-  content: ""; position: absolute; right: -2px; top: calc(50% - 19px); width: 6px; height: 38px;
-  background: #2A2B2F; border-radius: 0 3px 3px 0;
-}
-
-.metre__piste { grid-column: 2; grid-row: 2; position: relative; height: var(--boitier); container-type: inline-size; }
-/* Le rail : jusqu'où le ruban peut sortir, en pointillés, avec la quantité maximale au bout */
-.metre__piste::before {
-  content: ""; position: absolute; left: 0; right: calc(var(--tw) / 2); top: 50%; height: 0;
-  border-top: 1px dashed rgba(30, 31, 34, 0.22);
-}
-.metre__piste::after {
-  content: attr(data-max); position: absolute; right: 0; top: calc(50% + 30px);
-  font-family: var(--font-titre); font-weight: 600; font-size: 0.85rem; color: var(--graphite-doux);
-}
-.metre__ruban {
-  position: absolute; left: 0; top: 50%; height: 46px; transform: translateY(-50%);
-  width: calc(var(--tw) / 2 + var(--p) * (100% - var(--tw)));
-  overflow: hidden;
-  background: linear-gradient(180deg, #F1F4FA, var(--cordeau-pale));
-  border: 1px solid rgba(31, 79, 163, 0.22); border-left: 0;
-  border-radius: 0 3px 3px 0;
-  box-shadow: 0 6px 14px -8px rgba(30, 31, 34, 0.35);
-}
-/* Les graduations restent à leur place quand le ruban s'allonge : elles couvrent toute la piste */
-.metre__graduations {
-  position: absolute; top: 0; bottom: 0; left: calc(var(--tw) / 2); width: calc(100cqw - var(--tw));
-  background:
-    linear-gradient(90deg, rgba(30, 31, 34, 0.55) 0 1px, transparent 1px) 0 0 / calc(100% / var(--tics)) 9px repeat-x;
-}
-.metre__graduations span {
-  position: absolute; top: 19px; transform: translateX(-50%);
-  font-family: var(--font-titre); font-weight: 600; font-size: 0.95rem; line-height: 1.4; color: var(--cordeau-fonce);
-  font-variant-numeric: tabular-nums;
-}
-/* Chaque repère porte son grand tic */
-.metre__graduations span::before {
-  content: ""; position: absolute; left: 50%; top: -19px; width: 1px; height: 17px; background: var(--graphite);
-}
-.metre__graduations span { white-space: nowrap; }
-
-/* Le crochet : le range natif, posé sur toute la piste */
-.metre__curseur {
-  position: absolute; inset: 0; width: 100%; height: 100%; margin: 0;
-  -webkit-appearance: none; appearance: none; background: transparent; cursor: grab;
-}
-.metre__curseur:active { cursor: grabbing; }
-.metre__curseur::-webkit-slider-runnable-track { height: 100%; background: transparent; }
-.metre__curseur::-moz-range-track { height: 100%; background: transparent; }
-.metre__curseur::-webkit-slider-thumb {
-  -webkit-appearance: none; appearance: none;
-  width: var(--tw); height: 62px; margin-top: calc((var(--boitier) - 62px) / 2);
-  border-radius: 4px; border: 0;
-  background: linear-gradient(90deg, #3A3C41, var(--graphite));
-  box-shadow: 0 6px 14px -6px rgba(30, 31, 34, 0.6), inset -2px 0 0 var(--cordeau);
-  transition: transform 0.2s var(--ease);
-}
-.metre__curseur::-moz-range-thumb {
-  width: var(--tw); height: 62px; border-radius: 4px; border: 0;
-  background: linear-gradient(90deg, #3A3C41, var(--graphite));
-  box-shadow: 0 6px 14px -6px rgba(30, 31, 34, 0.6), inset -2px 0 0 var(--cordeau);
-}
-.metre__curseur:hover::-webkit-slider-thumb, .metre__curseur:active::-webkit-slider-thumb { transform: scaleY(1.06); }
-.metre__curseur:focus-visible { outline: none; }
-.metre__curseur:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--papier), 0 0 0 5px var(--cordeau); }
-.metre__curseur:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--papier), 0 0 0 5px var(--cordeau); }
-
-/* ——— Le résultat ——— */
-.demande__resultat {
-  display: grid; gap: 0.4rem; justify-items: start;
-  padding-top: 1.5rem; border-top: 1px solid var(--filet);
-}
-.demande__ligne { color: var(--graphite-doux); font-size: var(--t-sm); }
-.demande__ligne strong { display: block; color: var(--graphite); font-size: var(--t-base); font-weight: 600; }
-.demande__montant { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6rem; }
-.demande__des { font-weight: 500; color: var(--graphite-doux); }
-.demande__prix {
-  font-family: var(--font-titre); font-weight: 700; font-size: clamp(2.3rem, 1.8rem + 2vw, 3.2rem); line-height: 1;
-  color: var(--graphite); font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
-}
-.demande__note { max-width: 44ch; font-size: var(--t-sm); color: var(--graphite-doux); }
-.demande__action { margin-top: 1rem; white-space: normal; text-align: center; }
-
-@media (max-width: 640px) {
-  .metre { --boitier: 60px; --tw: 18px; }
-  .metre__ruban { height: 38px; }
-  .metre__cote { font-size: 1.25rem; }
-  .metre__graduations span:nth-child(even) { visibility: hidden; }   /* un mois sur deux sur petit écran */
-  .demande__choix { padding-block: 0.6rem; }
-  .demande__action { width: 100%; }
-}
+.demande__phrase strong { color: var(--graphite); font-weight: 600; }
+.demande__note { font-size: var(--t-sm); color: var(--graphite-doux); max-width: 46ch; }
+.demande__action { margin-top: 0.85rem; }
+@media (max-width: 640px) { .demande__action { width: 100%; } }

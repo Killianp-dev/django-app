@@ -13,7 +13,7 @@
     if (!header) return;
     let ticking = false;
     const sync = () => {
-      header.classList.toggle('is-scrolled', window.scrollY > 8);
+      header.classList.toggle('is-scrolled', window.scrollY > 48);
       ticking = false;
     };
     sync();
@@ -81,76 +81,22 @@
     });
   }
 
-  // ===== « Préparer votre demande » : le type de travaux, puis le délai au mètre ruban =====
-  // Le mètre (un range natif habillé) se règle en semaines, de « dès que possible » à six mois.
-  // Le ruban sort du boîtier jusqu'au curseur (--p) ; une graduation par semaine, un repère
-  // par mois. Le bouton ouvre le contact avec les travaux et le délai déjà notés.
+  // ===== « Préparer votre demande » : la phrase-résumé suit les deux choix =====
+  // Le formulaire marche sans JavaScript (GET vers le contact) ; ici, seulement le résumé.
   function initDemande() {
     document.querySelectorAll('[data-demande]').forEach((bloc) => {
-      const form = bloc.querySelector('[data-demande-form]');
-      const radios = Array.from(bloc.querySelectorAll('input[name="travaux"]'));
-      const metre = bloc.querySelector('[data-metre]');
-      const curseur = bloc.querySelector('[data-curseur]');
-      const graduations = bloc.querySelector('[data-graduations]');
-      const sortie = bloc.querySelector('[data-delai]');
-      const cote = bloc.querySelector('[data-delai-cote]');
-      const travauxNom = bloc.querySelector('[data-travaux-nom]');
-      const annonce = bloc.querySelector('[data-annonce]');
-      if (!form || !radios.length || !curseur) return;
-
-      const SEMAINES_PAR_MOIS = 52 / 12;
-      const travaux = () => (radios.find((r) => r.checked) || radios[0]).value;
-      const semaines = () => Number(curseur.value);
-
-      // « Dès que possible », « Dans 3 semaines », puis en mois au-delà de 7 semaines.
-      function delai(n) {
-        if (n === 0) return 'Dès que possible';
-        if (n === 1) return 'Dans 1 semaine';
-        if (n < 8) return `Dans ${n} semaines`;
-        return `Dans ${Math.round(n / SEMAINES_PAR_MOIS)} mois`;
-      }
-      const delaiCourt = (n) => (n === 0 ? 'tout de suite' : n < 8 ? `${n} sem.` : `${Math.round(n / SEMAINES_PAR_MOIS)} mois`);
-
-      // Graduations : un tic par semaine (CSS), un repère chiffré à chaque mois.
-      const max = Number(curseur.max);
-      metre.style.setProperty('--tics', String(max));
-      for (let mois = 1; mois * SEMAINES_PAR_MOIS <= max + 0.5; mois += 1) {
-        const repere = document.createElement('span');
-        repere.textContent = `${mois} mois`;
-        repere.style.left = `${Math.min((mois * SEMAINES_PAR_MOIS) / max, 1) * 100}%`;
-        graduations.appendChild(repere);
-      }
-
-      function mettreAJour() {
-        const n = semaines();
-        metre.style.setProperty('--p', String(n / max));
-        cote.textContent = delaiCourt(n);
-        sortie.textContent = delai(n);
-        travauxNom.textContent = travaux();
-        curseur.setAttribute('aria-valuetext', delai(n).toLowerCase());
-      }
-
-      radios.forEach((radio) => radio.addEventListener('change', () => {
-        mettreAJour();
-        annonce.textContent = `${travaux()}, début souhaité : ${delai(semaines()).toLowerCase()}.`;
-      }));
-      curseur.addEventListener('input', mettreAJour);
-      // Annonce aux lecteurs d'écran au relâchement seulement, pas à chaque cran.
-      curseur.addEventListener('change', () => {
-        annonce.textContent = `Début souhaité : ${delai(semaines()).toLowerCase()}.`;
-      });
-
-      // Envoi : une adresse propre vers le contact, travaux présélectionnés, délai dans le message.
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const url = new URL(form.action, window.location.href);
-        url.searchParams.set('prestation', travaux());
-        url.searchParams.set('demande', `${travaux()} : début souhaité ${delai(semaines()).toLowerCase()}.`);
-        window.location.href = url.toString();
-      });
-
-      mettreAJour();
-      bloc.hidden = false;
+      const sortie = bloc.querySelector('[data-phrase-sortie]');
+      if (!sortie) return;
+      const ecrire = () => {
+        const travaux = bloc.querySelector('input[name="prestation"]:checked');
+        const quand = bloc.querySelector('input[name="demande"]:checked');
+        if (!travaux || !quand) return;
+        const nom = document.createElement('strong');
+        nom.textContent = travaux.value;
+        sortie.replaceChildren(nom, `, ${quand.dataset.phrase}.`);
+      };
+      bloc.addEventListener('change', ecrire);
+      ecrire();
     });
   }
 

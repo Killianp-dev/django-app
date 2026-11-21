@@ -1,19 +1,23 @@
-/* Bandeau d'appel : un grand panneau bleu arrondi, posé dans la page */
+/* Appel final : la bande graphite du carnet, posée dans la page, et une cote qui la traverse */
 .cta { padding-block: 0 5rem; }
 .cta__inner {
   position: relative; isolation: isolate; overflow: hidden;
-  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 2.5rem;
+  display: grid; gap: 2rem 3rem; align-items: end;
   width: calc(100% - 2 * var(--gouttiere)); max-width: calc(var(--container) - 2 * var(--gouttiere));
   padding: clamp(2rem, 5vw, 3.75rem);
-  border-radius: var(--rayon-grand); color: #fff;
+  border-radius: var(--rayon-grand); color: var(--papier);
   background:
-    radial-gradient(80% 120% at 100% 0%, rgba(255, 255, 255, 0.16), transparent 60%),
-    linear-gradient(135deg, #2457B3 0%, var(--cordeau-fonce) 100%);
-  box-shadow: 0 30px 60px -30px rgba(23, 60, 125, 0.55);
+    radial-gradient(70% 90% at 100% 0%, rgba(31, 79, 163, 0.38), transparent 70%),
+    linear-gradient(180deg, #2A2B2F 0%, var(--graphite) 100%);
+  box-shadow: 0 30px 60px -32px rgba(30, 31, 34, 0.6);
 }
+@media (min-width: 900px) { .cta__inner { grid-template-columns: minmax(0, 1fr) auto; } }
 .cta__titre { font-size: var(--t-2xl); margin-bottom: 0.75rem; max-width: 18ch; }
-.cta__texte p:last-child { color: var(--cordeau-pale); font-size: var(--t-lg); }
+.cta__texte p:last-child { color: #C3C6C9; font-size: var(--t-lg); }
 .cta__actions { display: grid; gap: 0.85rem; justify-items: start; }
-.cta__tel { color: #fff; font-weight: 600; text-underline-offset: 0.3em; }
+.cta__tel { color: #fff; font-weight: 600; text-underline-offset: 0.3em; text-decoration-color: rgba(255, 255, 255, 0.35); transition: text-decoration-color 0.25s; }
+.cta__tel:hover { text-decoration-color: #fff; }
+.cta__cote { grid-column: 1 / -1; margin-top: 0.5rem; font-size: 1.15rem; }
 .cta :focus-visible { outline-color: #fff; }
-@media (max-width: 640px) { .cta { padding-inline: 0; } .cta__inner { border-radius: var(--rayon-carte); } }
+.btn--inverse { color: var(--graphite); }
+@media (max-width: 640px) { .cta { padding-inline: 0; } .cta__inner { border-radius: var(--rayon-carte); } .cta__cote { white-space: normal; } }

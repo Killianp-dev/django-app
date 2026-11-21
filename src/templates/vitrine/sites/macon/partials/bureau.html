@@ -1,10 +1,13 @@
 {% load vitrine_tags %}
-{# Panneau « bureau » : horaires en direct (site.js), puis les deux façons de joindre l'entreprise. #}
-<aside class="bureau" aria-label="{{ site.labels.horaires_title }}">
+{% comment %}Panneau « bureau » : horaires en direct (site.js), puis les deux façons de joindre l'entreprise.
+`bande` : version horizontale, sous le déroulé de l'accueil ; sinon panneau collant (page entreprise).{% endcomment %}
+<aside class="bureau{% if bande %} bureau--bande{% endif %}" aria-label="{{ site.labels.horaires_title }}">
     {% include 'vitrine/partials/horaires.html' with titre=site.labels.horaires_title %}
-    {% if site.contact_aside %}<p class="bureau__texte">{{ site.contact_aside.texte }}</p>{% endif %}
-    <div class="bureau__actions">
-        <a class="btn btn--primary" href="{% site_url 'contact' %}">{{ site.labels.nav_cta }}</a>
-        <a class="btn btn--trait" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+    <div class="bureau__contact">
+        {% if site.contact_aside %}<p class="bureau__texte">{{ site.contact_aside.texte|fr_typo }}</p>{% endif %}
+        <div class="bureau__actions">
+            <a class="btn btn--primary" href="{% site_url 'contact' %}">{{ site.labels.nav_cta }}</a>
+            <a class="btn btn--trait" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+        </div>
     </div>
 </aside>

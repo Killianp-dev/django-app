@@ -1,28 +1,28 @@
+{% load vitrine_tags %}
+{# Avis : alignés à gauche comme les autres sections. Le premier en grand, sur graphite ; chaque avis dit d'abord de quel chantier il parle. #}
 <section class="section avis" aria-labelledby="avis-title">
     <div class="container">
-        <header class="avis__tete">
-            <p class="kicker">{{ site.labels.avis_kicker }}</p>
-            <h2 class="section__titre" id="avis-title">{{ site.labels.avis_title }}</h2>
+        <header class="section__tete">
+            <div>
+                <p class="kicker">{{ site.labels.avis_kicker }}</p>
+                <h2 class="section__titre" id="avis-title">{{ site.labels.avis_title }}</h2>
+            </div>
+            {% if site.avis_note %}<div class="section__aside"><p class="avis__mention">{{ site.avis_note }}</p></div>{% endif %}
         </header>
         <ul class="avis__liste">
             {% for avis in site.avis %}
-            <li class="avis__carte">
+            <li class="avis__carte{% if forloop.first %} avis__carte--une{% endif %}">
                 <figure>
-                    <p class="avis__note" role="img" aria-label="5 sur 5">
-                        {% for i in "12345" %}<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg>{% endfor %}
-                    </p>
-                    <blockquote class="avis__texte"><p>{{ avis.texte }}</p></blockquote>
+                    <p class="avis__chantier">{{ avis.detail }}</p>
+                    <blockquote class="avis__texte"><p>{{ avis.texte|fr_typo }}</p></blockquote>
                     <figcaption class="avis__auteur">
                         <span class="avis__initiale" aria-hidden="true">{{ avis.auteur|first }}</span>
-                        <span>
-                            <strong>{{ avis.auteur }}</strong>
-                            <span>{{ avis.detail }}, {{ avis.date|lower }}</span>
-                        </span>
+                        <span class="avis__qui"><strong>{{ avis.auteur }}</strong><span>{{ avis.date }}</span></span>
+                        <span class="avis__note" role="img" aria-label="5 sur 5">{% for i in "12345" %}<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 1.8l2.5 5.3 5.8.7-4.3 4 1.1 5.7L10 14.7l-5.1 2.8 1.1-5.7-4.3-4 5.8-.7z"/></svg>{% endfor %}</span>
                     </figcaption>
                 </figure>
             </li>
             {% endfor %}
         </ul>
-        {% if site.avis_note %}<p class="avis__mention">{{ site.avis_note }}</p>{% endif %}
     </div>
 </section>

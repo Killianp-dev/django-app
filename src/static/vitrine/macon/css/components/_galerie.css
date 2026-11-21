@@ -72,3 +72,17 @@
 @media (max-width: 640px) {
   .vitrine-lightbox__btn--prev, .vitrine-lightbox__btn--next { top: auto; bottom: 1.25rem; transform: none; }
 }
+
+/* Accueil : chaque photo se « décoffre » à son arrivée — elle se découvre de haut en bas et se pose
+   (léger dézoom). Piloté par le défilement, CSS seul ; la propriété scale ne gêne pas le zoom du survol. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .mosaique .vitrine-galerie__link { animation: decoffrer linear both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+    .mosaique .vitrine-galerie__link img { animation: poser linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+  }
+}
+@keyframes decoffrer { from { clip-path: inset(0 0 100% 0 round var(--rayon-carte)); } to { clip-path: inset(0 0 0 0 round var(--rayon-carte)); } }
+@keyframes poser { from { scale: 1.12; } to { scale: 1; } }
+/* Au survol, la légende monte un peu */
+.vitrine-galerie__caption { transition: transform 0.45s var(--ease); }
+.vitrine-galerie__link:hover .vitrine-galerie__caption, .vitrine-galerie__link:focus-visible .vitrine-galerie__caption { transform: translateY(-4px); }

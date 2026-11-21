@@ -1,13 +1,37 @@
 .entreprise__grille { display: grid; gap: 3.5rem; align-items: center; }
 @media (min-width: 900px) { .entreprise__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 5rem; } }
-/* Photo décalée sur un aplat graphite quadrillé */
-.entreprise__media { position: relative; isolation: isolate; padding: 0 1.5rem 1.5rem 0; }
-.entreprise__media::before {
-  content: ""; position: absolute; z-index: -1; inset: 2rem 0 0 2rem;
-  border-radius: var(--rayon-grand);
-  background: linear-gradient(160deg, var(--cordeau-pale), #C9D5EA);
+/* La photo cadrée comme sur une planche : des repères de coupe aux quatre coins, une légende dessous */
+.entreprise__media { margin: 0; }
+.entreprise__cadre { position: relative; padding: 14px; }
+.entreprise__cadre::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  --c: rgba(31, 79, 163, 0.55);
+  background:
+    linear-gradient(var(--c), var(--c)) left top / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) left top / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / 1px 22px no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / 22px 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / 1px 22px no-repeat;
 }
-.entreprise__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--rayon-grand); box-shadow: var(--ombre-haute); }
+.entreprise__photo { overflow: hidden; border-radius: var(--rayon-grand); box-shadow: var(--ombre-haute); }
+.entreprise__photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.entreprise__legende { margin: 0.5rem 14px 0; font-size: var(--t-sm); color: var(--graphite-doux); max-width: 40ch; }
+
+/* L'équipe : trois personnes, leurs initiales et leur rôle */
+.equipe { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 0 0 2rem; }
+.equipe__membre { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.7rem; align-items: center; }
+.equipe__initiales {
+  display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  font-family: var(--font-titre); font-weight: 600; font-size: 1.05rem; letter-spacing: 0.02em;
+  color: var(--cordeau-fonce); background: var(--cordeau-pale);
+}
+.equipe__texte { display: grid; line-height: 1.25; font-size: var(--t-sm); }
+.equipe__texte strong { font-weight: 600; color: var(--graphite); }
+.equipe__texte span { color: var(--graphite-doux); }
+@media (max-width: 640px) { .equipe { grid-template-columns: 1fr; } }
 
 /* Chiffres sur une ligne, séparés par des filets */
 .chiffres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0.5rem 0 2rem; border-block: 1px solid var(--filet); }
