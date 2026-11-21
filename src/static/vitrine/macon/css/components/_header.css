@@ -20,7 +20,7 @@
 .header__logo, .nav__link, .header__tel { color: inherit; transition: color 0.45s var(--ease); }
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .nav__link { color: rgba(255, 255, 255, 0.88); }
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .nav__link:hover { color: #fff; }
-.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .nav__link::after { --tic-couleur: #8FB0E6; }
+.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .nav__link:hover { background: rgba(255, 255, 255, 0.1); }
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .header__tel svg { color: #8FB0E6; }
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .header__burger {
   background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.22);
@@ -48,25 +48,22 @@
   text-decoration: none;
 }
 
-/* Liens : un trait de cordeau se tend sous le lien actif ou survolé */
-.nav__list { display: flex; align-items: center; gap: 1.9rem; }
+/* Liens : une pastille arrondie. Au survol, un voile à peine marqué ; le lien de la page en cours
+   se pose sur une pastille blanche, avec une ombre douce. */
+.nav__list { display: flex; align-items: center; gap: 0.25rem; }
 .nav__item { position: relative; }
 .nav__link {
   position: relative; display: inline-flex; align-items: center; gap: 0.35rem;
-  padding-block: 0.6rem; font-weight: 500; text-decoration: none;
+  padding: 0.5rem 0.95rem; border-radius: 999px;
+  font-weight: 500; text-decoration: none;
   background: none; border: 0; cursor: pointer;
+  transition: background-color 0.3s var(--ease), box-shadow 0.3s var(--ease), color 0.3s var(--ease);
 }
-.nav__link::after {      /* une petite cote : trait fin, un tic droit à chaque bout */
-  --tic-couleur: var(--cordeau);
-  content: ""; position: absolute; left: -3px; right: -3px; bottom: -1px; height: 7px;
-  background:
-    linear-gradient(var(--tic-couleur), var(--tic-couleur)) center / 100% 1.5px no-repeat,
-    linear-gradient(var(--tic-couleur), var(--tic-couleur)) left center / 1.5px 100% no-repeat,
-    linear-gradient(var(--tic-couleur), var(--tic-couleur)) right center / 1.5px 100% no-repeat;
-  transform: scaleX(0); transform-origin: center;
-  transition: transform 0.35s var(--ease);
+.nav__link:hover { background: rgba(30, 31, 34, 0.05); }
+.nav__link[aria-current="page"], .nav__link[data-current] {
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(30, 31, 34, 0.06), 0 6px 16px -10px rgba(30, 31, 34, 0.35);
 }
-.nav__link:hover::after, .nav__link[aria-current="page"]::after, .nav__link[data-current]::after { transform: scaleX(1); }
 .nav__chevron { width: 12px; height: 12px; transition: transform 0.25s var(--ease); }
 
 /* Menu « Savoir-faire » : s'ouvre au survol, au focus clavier, ou au clic (macon.js) */
