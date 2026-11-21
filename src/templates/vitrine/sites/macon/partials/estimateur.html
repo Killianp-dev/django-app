@@ -1,0 +1,54 @@
+{% load vitrine_tags %}{% comment %}
+Estimateur au mètre ruban (macon.js) : on choisit un ouvrage, on tire le mètre jusqu'à la quantité,
+le montant « à partir de » suit. Le mètre est un <input type="range"> natif : clavier, toucher et
+lecteurs d'écran fonctionnent sans code en plus. Sans JavaScript, le bloc reste caché : le bordereau
+des prix indicatifs donne les mêmes chiffres. `titre_tag` : h2 (page des prix) ou h3 (accueil).
+{% endcomment %}
+{% with e=site.estimateur %}
+<section class="estimateur" aria-labelledby="estimateur-titre" data-estimateur hidden>
+    <div class="estimateur__tete">
+        {% if titre_tag == "h2" %}<h2 class="estimateur__titre" id="estimateur-titre">{{ e.titre }}</h2>{% else %}<h3 class="estimateur__titre" id="estimateur-titre">{{ e.titre }}</h3>{% endif %}
+        <p class="estimateur__intro">{{ e.intro|fr_typo }}</p>
+    </div>
+
+    <form class="estimateur__corps" action="{% site_url 'contact' %}" method="get" data-estimateur-form>
+        <fieldset class="estimateur__ouvrages">
+            <legend class="estimateur__legende">Ouvrage</legend>
+            {% for o in e.ouvrages %}
+            <label class="estimateur__choix">
+                <input type="radio" name="ouvrage" value="{{ o.cle }}"{% if forloop.first %} checked{% endif %}
+                       data-nom="{{ o.nom }}" data-prix="{{ o.prix }}" data-unite="{{ o.unite }}" data-mesure="{{ o.mesure }}"
+                       data-min="{{ o.min }}" data-max="{{ o.max }}" data-defaut="{{ o.defaut }}"
+                       data-offre="{{ o.offre }}" data-note="{{ o.note }}">
+                <span class="estimateur__nom">{{ o.nom }}</span>
+                <span class="estimateur__unitaire">{{ o.prix|milliers }}&nbsp;€&thinsp;/&thinsp;{{ o.unite }}</span>
+            </label>
+            {% endfor %}
+        </fieldset>
+
+        <div class="estimateur__mesure">
+            {# La cote au-dessus du ruban : elle mesure la longueur tirée et affiche la quantité. #}
+            <div class="metre" data-metre>
+                <p class="metre__cote cote" aria-hidden="true"><span class="cote__valeur" data-quantite-cote></span></p>
+                <div class="metre__corps">
+                    <span class="metre__boitier" aria-hidden="true"><span></span></span>
+                    <div class="metre__piste" data-piste>
+                        <div class="metre__ruban" aria-hidden="true"><div class="metre__graduations" data-graduations></div></div>
+                        <label class="vitrine-sr-only" for="estimateur-quantite" data-mesure-label>Surface</label>
+                        <input class="metre__curseur" type="range" id="estimateur-quantite" name="quantite" step="1" data-curseur>
+                    </div>
+                </div>
+            </div>
+
+            <div class="estimateur__resultat">
+                <p class="estimateur__ligne"><strong data-ouvrage-nom></strong> <span data-note-texte></span></p>
+                <p class="estimateur__montant"><span class="estimateur__des">à partir de</span> <output class="estimateur__prix" data-total for="estimateur-quantite"></output> <span class="estimateur__ht">€ HT</span></p>
+                <p class="vitrine-sr-only" aria-live="polite" data-annonce></p>
+                <input type="hidden" name="prestation" data-champ-offre>
+                <input type="hidden" name="estimation" data-champ-estimation>
+                <button class="btn btn--primary btn--lg estimateur__action" type="submit">Demander la visite pour ce chantier</button>
+            </div>
+        </div>
+    </form>
+</section>
+{% endwith %}

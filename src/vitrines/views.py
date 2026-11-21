@@ -152,6 +152,11 @@ class ContactView(SiteMixin, FormView):
         demande = self.request.GET.get("prestation", "")
         if any(offre.nom == demande for offre in self.site().offres):
             initial["offre"] = demande
+        # ?estimation=… (estimateur du maçon) : le résumé de l'estimation ouvre le message,
+        # que le visiteur complète. Texte brut, tronqué ; Django l'échappe à l'affichage.
+        estimation = self.request.GET.get("estimation", "").strip()[:200]
+        if estimation:
+            initial["message"] = f"{estimation}\n\n"
         return initial
 
     def get_success_url(self):

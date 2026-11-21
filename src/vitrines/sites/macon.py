@@ -153,6 +153,22 @@ MACON = _site(
             _ns(titre="Un seul interlocuteur", texte="Le responsable du chantier signe chaque entrée du carnet. Vous savez qui appeler."),
         ],
     ),
+    # Estimateur de l'accueil et des prix indicatifs : un ouvrage, une quantité au mètre ruban,
+    # un prix « à partir de ». Les prix unitaires sont ceux du bordereau (tarifs) : un test vérifie
+    # qu'ils restent identiques. `offre` : le savoir-faire présélectionné dans le formulaire de contact.
+    estimateur=_ns(
+        titre="Estimer un ouvrage",
+        intro="Choisissez l'ouvrage, puis tirez le mètre jusqu'à la quantité. Le montant est un minimum constaté sur nos chantiers ; le prix ferme vient après la visite.",
+        ouvrages=[
+            _ns(cle="dalle", nom="Dalle béton armé", unite="m²", mesure="Surface", prix=95, min=5, max=80, defaut=30, offre="Gros œuvre", note="Hors terrassement."),
+            _ns(cle="parpaing", nom="Mur en parpaing de 20", unite="m²", mesure="Surface", prix=85, min=5, max=60, defaut=15, offre="Gros œuvre", note="Chaînages compris, enduit en plus."),
+            _ns(cle="rejointoiement", nom="Rejointoiement de mur en pierre", unite="m²", mesure="Surface", prix=70, min=5, max=120, defaut=25, offre="Rénovation", note="Mortier de chaux, piquage compris."),
+            _ns(cle="enduit", nom="Enduit de façade à la chaux", unite="m²", mesure="Surface", prix=55, min=10, max=200, defaut=60, offre="Rénovation", note="Hors échafaudage."),
+            _ns(cle="terrasse", nom="Terrasse maçonnée", unite="m²", mesure="Surface", prix=120, min=5, max=60, defaut=20, offre="Extérieur", note="Accès des matériaux à prévoir."),
+            _ns(cle="muret", nom="Muret de clôture", unite="ml", mesure="Longueur", prix=160, min=2, max=40, defaut=12, offre="Extérieur", note="Pour une hauteur d'environ 1 m."),
+            _ns(cle="extension", nom="Extension de plain-pied", unite="m²", mesure="Surface", prix=1100, min=10, max=40, defaut=20, offre="Extension", note="Gros œuvre seul. Au-delà de 20 m², permis de construire."),
+        ],
+    ),
     tarifs_note=(
         "Prix constatés sur nos chantiers récents, hors taxes, pour un accès normal. "
         "Ils servent de repère : le prix ferme vient après la visite, dans un devis détaillé."

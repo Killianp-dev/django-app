@@ -14,6 +14,7 @@
   position: absolute; top: 0; bottom: 0; right: 0;
   left: calc(max(0px, (100% - var(--container)) / 2) + 31rem);
 }
+.hero__cadre picture { display: contents; }
 .hero__cadre img { width: 100%; height: 100%; object-fit: cover; object-position: left center; }
 /* Fondu du graphite vers la photo, sur son bord gauche ; léger voile en bas pour le bandeau */
 .hero__cadre::after {
@@ -41,23 +42,29 @@
 
 .engagements { display: grid; gap: 0.65rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.16); font-weight: 500; color: rgba(255, 255, 255, 0.9); }
 .engagements li { display: flex; align-items: center; gap: 0.75rem; }
-.engagements svg { width: 22px; height: 22px; padding: 4px; flex: none; border-radius: 50%; color: #fff; background: rgba(143, 176, 230, 0.28); }
+.engagements svg { width: 18px; height: 18px; flex: none; color: #8FB0E6; }
 
-/* Carte flottante, posée sur la photo : état d'ouverture en direct (site.js), rôle, téléphone.
-   Elle est dans le bloc de la photo : placée par rapport au hero, alignée sur le bord droit du conteneur. */
+/* Le cartouche du plan, posé sur la photo : des cases avec leur intitulé, comme le tableau
+   d'informations en bas d'un plan. Placé par rapport au hero, aligné sur le bord droit du conteneur.
+   La case « Bureau » (ouvert / fermé, site.js) n'apparaît qu'une fois l'état calculé. */
 .hero__carte {
   position: absolute; right: calc(max(0px, (100% - var(--container)) / 2) + var(--gouttiere)); bottom: 4.75rem; z-index: 2;
-  display: grid; gap: 0.25rem; min-width: 15.5rem; padding: 1.1rem 1.25rem;
-  background: rgba(248, 248, 245, 0.92); color: var(--graphite);
+  display: grid; grid-template-columns: auto auto; min-width: 18rem; margin: 0; overflow: hidden;
+  background: rgba(248, 248, 245, 0.94); color: var(--graphite);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.6); border-radius: var(--rayon-carte);
   box-shadow: var(--ombre-haute);
 }
-.hero__carte .vitrine-statut { margin: 0 0 0.25rem; font-size: var(--t-sm); }
-.hero__carte-role { font-size: 0.8rem; color: var(--graphite-doux); }
-.hero__carte-tel { font-family: var(--font-titre); font-weight: 600; font-size: 1.45rem; text-decoration: none; }
+.hero__case { display: grid; align-content: start; gap: 0.25rem; padding: 0.75rem 1.1rem 0.85rem; }
+.hero__case + .hero__case { border-left: 1px solid var(--filet); }
+.hero__case--etat { grid-column: 1 / -1; border-bottom: 1px solid var(--filet); }
+.hero__case--etat + .hero__case { border-left: 0; }
+.hero__case:has(.vitrine-statut[hidden]) { display: none; }
+.hero__case dt { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--graphite-doux); }
+.hero__case dd { font-family: var(--font-titre); font-weight: 600; font-size: 1.15rem; line-height: 1.15; }
+.hero__case .vitrine-statut { margin: 0; font-family: var(--font-texte); font-size: var(--t-sm); font-weight: 500; }
+.hero__carte-tel { font-size: 1.3rem; text-decoration: none; font-variant-numeric: tabular-nums; }
 .hero__carte-tel:hover { color: var(--cordeau); }
-
 /* Le cartouche en bandeau, à cheval sur le bas du hero */
 .bandeau-cartouche { position: relative; z-index: 3; margin-top: -3.25rem; }
 .cartouche--bandeau {

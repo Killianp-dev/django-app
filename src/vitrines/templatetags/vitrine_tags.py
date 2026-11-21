@@ -37,14 +37,25 @@ def fr_typo(valeur, autoescape=True):
     texte = re.sub(r" :", ESPACE_INSECABLE + ":", texte)
     texte = texte.replace("« ", "«" + ESPACE_INSECABLE).replace(" »", ESPACE_INSECABLE + "»")
     texte = re.sub(r"(\d) (\d{3})\b", r"\1" + ESPACE_FINE + r"\2", texte)
-    texte = re.sub(r"(\d) (€|%|h\b|HT\b|TTC\b|ans\b|jours\b|mois\b)", r"\1" + ESPACE_INSECABLE + r"\2", texte)
+    texte = re.sub(r"(\d) (€|%|h\b|HT\b|TTC\b|ans\b|jours\b|mois\b|semaines\b|m²|ml\b|m\b|cm\b|km\b)", r"\1" + ESPACE_INSECABLE + r"\2", texte)
     texte = re.sub(r"€ (HT|TTC)\b", "€" + ESPACE_INSECABLE + r"\1", texte)
+    texte = re.sub(r"(HT|TTC) / (m²|ml\b|m\b)", r"\1" + ESPACE_FINE + "/" + ESPACE_FINE + r"\2", texte)
+    texte = re.sub(r"(\d) × (\d)", r"\1" + ESPACE_FINE + "×" + ESPACE_FINE + r"\2", texte)
     return mark_safe(texte)
 
 
 def _milliers(nombre):
     # Espace insécable classique : Playfair Display, qui affiche les montants, n'a pas l'espace fine.
     return f"{nombre:,}".replace(",", ESPACE_INSECABLE)
+
+
+@register.filter
+def milliers(nombre):
+    """1100 -> « 1 100 » (espace insécable)."""
+    try:
+        return _milliers(int(nombre))
+    except (TypeError, ValueError):
+        return nombre
 
 
 @register.filter

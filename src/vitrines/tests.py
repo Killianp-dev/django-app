@@ -122,6 +122,32 @@ class MaconAutonomeTests(TestCase):
         self.assertIn("data-statut", html)                     # carte d'ouverture en direct
         self.assertIn('"@type": "FAQPage"', html)               # FAQ balisée pour les moteurs
 
+    def test_estimateur_prix_du_bordereau(self):
+        """Chaque prix unitaire de l'estimateur est celui du bordereau des prix indicatifs."""
+        lignes = {
+            ligne.nom: re.sub(r"\s", " ", ligne.prix)
+            for groupe in SITES["macon"].tarifs for ligne in groupe.lignes
+        }
+        for ouvrage in SITES["macon"].estimateur.ouvrages:
+            with self.subTest(ouvrage=ouvrage.cle):
+                attendu = f"dès {ouvrage.prix:,} € HT / {ouvrage.unite}".replace(",", " ")
+                self.assertIn(attendu, lignes.values())
+                self.assertTrue(ouvrage.min <= ouvrage.defaut <= ouvrage.max)
+                self.assertIn(ouvrage.offre, [o.nom for o in SITES["macon"].offres])
+
+    def test_estimateur_sur_l_accueil(self):
+        html = self.client.get("/demo-macon/").content.decode()
+        self.assertIn("data-estimateur hidden", html)            # caché sans JavaScript
+        self.assertEqual(html.count('name="ouvrage"'), len(SITES["macon"].estimateur.ouvrages))
+        self.assertIn('type="range"', html)
+
+    def test_contact_reprend_l_estimation(self):
+        html = self.client.get(
+            "/demo-macon/contact/", {"prestation": "Gros œuvre", "estimation": "Dalle, 30 m², à partir de 2 850 € HT."}
+        ).content.decode()
+        self.assertIn("Dalle, 30 m², à partir de 2 850 € HT.", html)
+        self.assertIn('value="Gros œuvre" selected', html)
+
     def test_texte_legal_partage(self):
         for prefix in ("/demo-macon/", "/demo-coiffeur/"):
             html = self.client.get(prefix + "mentions-legales/").content.decode()
@@ -225,3 +251,9 @@ class FiltresTypographiquesTests(TestCase):
         self.assertEqual((h.prefixe, h.ht, h.ttc, h.ttc_texte), ("dès", 1500, 1800, "1 800"))
         self.assertEqual(honoraire("220 € HT / h").suffixe, "/ h")
         self.assertIsNone(honoraire("sur devis"))
+
+    def test_unites_de_mesure(self):
+        from vitrines.templatetags.vitrine_tags import fr_typo, milliers
+        self.assertEqual(fr_typo("dès 95 € HT / m²"), "dès 95\u00a0€\u00a0HT\u202f/\u202fm²")
+        self.assertEqual(fr_typo("3,00 × 2,15 m"), "3,00\u202f×\u202f2,15\u00a0m")
+        self.assertEqual(milliers(1100), "1\u00a0100")

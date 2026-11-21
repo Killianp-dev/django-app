@@ -4,7 +4,9 @@
 {% block title %}{{ site.titre }}{% endblock %}
 {% block body_class %}page-accueil{% endblock %}
 {% block extra_head %}
-<link rel="preload" as="image" href="{% static site.photos.hero %}" fetchpriority="high">
+<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      imagesrcset="{% static 'vitrine/photos/macon/hero-parpaing-960.webp' %} 960w, {% static 'vitrine/photos/macon/hero-parpaing-1400.webp' %} 1400w, {% static 'vitrine/photos/macon/hero-parpaing-1800.webp' %} 1800w"
+      imagesizes="(max-width: 999px) 122vw, 62vw">
 {% if site.faq %}
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for item in site.faq %}{"@type": "Question", "name": "{{ item.question|escapejs }}", "acceptedAnswer": {"@type": "Answer", "text": "{{ item.reponse|escapejs }}"}}{% if not forloop.last %}, {% endif %}{% endfor %}]}
@@ -17,7 +19,12 @@
 <section class="hero" aria-labelledby="hero-title">
     <figure class="hero__fond">
         <div class="hero__cadre">
-            <img src="{% static site.photos.hero %}" alt="Un maçon pose un parpaing sur un lit de mortier, contre la règle d'aplomb" width="1800" height="1200" fetchpriority="high">
+            <picture>
+                <source type="image/webp"
+                        srcset="{% static 'vitrine/photos/macon/hero-parpaing-960.webp' %} 960w, {% static 'vitrine/photos/macon/hero-parpaing-1400.webp' %} 1400w, {% static 'vitrine/photos/macon/hero-parpaing-1800.webp' %} 1800w"
+                        sizes="(max-width: 999px) 122vw, 62vw">
+                <img src="{% static site.photos.hero %}" alt="Un maçon pose un parpaing sur un lit de mortier, contre la règle d'aplomb" width="1800" height="1200" fetchpriority="high" decoding="async">
+            </picture>
             {% comment %}Cotes calées sur la photo hero-parpaing.jpg (repère 1800 × 1200) : la face du bloc de gauche, 20 × 20 cm.
             Photo (object-position: left) et calque (xMinYMid slice) sont recadrés de la même façon : les cotes restent sur le bloc.{% endcomment %}
             <svg class="cotes" viewBox="0 0 1800 1200" preserveAspectRatio="xMinYMid slice" aria-hidden="true" focusable="false">
@@ -36,16 +43,23 @@
                 <text class="cotes__valeur" x="372" y="695" text-anchor="middle" transform="rotate(-90 372 695)">20 cm</text>
             </svg>
         </div>
-        <div class="hero__carte">
+        {# Le cartouche du plan : la case « État » (ouvert / fermé en direct, site.js), le responsable, le téléphone. #}
+        <dl class="hero__carte" aria-label="L'entreprise en bref">
             {% if site.horaires_semaine %}
-            <p class="vitrine-statut" data-statut hidden>
-                <span class="vitrine-statut__dot" aria-hidden="true"></span>
-                <span data-statut-texte></span>
-            </p>
+            <div class="hero__case hero__case--etat">
+                <dt>Bureau</dt>
+                <dd><p class="vitrine-statut" data-statut hidden><span class="vitrine-statut__dot" aria-hidden="true"></span><span data-statut-texte></span></p></dd>
+            </div>
             {% endif %}
-            <p class="hero__carte-role">{{ site.role_line }}</p>
-            <a class="hero__carte-tel" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
-        </div>
+            <div class="hero__case">
+                <dt>Responsable</dt>
+                <dd>{{ site.carnet.responsable|default:site.role_line }}</dd>
+            </div>
+            <div class="hero__case">
+                <dt>Téléphone</dt>
+                <dd><a class="hero__carte-tel" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a></dd>
+            </div>
+        </dl>
         <figcaption class="hero__legende">Parpaing de 20 : un bloc de 20 × 20 × 50 cm, celui des murs porteurs.</figcaption>
     </figure>
 
@@ -60,7 +74,7 @@
             {% endif %}
             <p class="kicker kicker--clair">{{ site.eyebrow }}</p>
             <h1 class="hero__titre" id="hero-title">{{ site.hero_title }}</h1>
-            <p class="hero__accroche">{{ site.accroche }}</p>
+            <p class="hero__accroche">{{ site.accroche|fr_typo }}</p>
             <div class="hero__actions">
                 <a class="btn btn--primary btn--lg" href="{% site_url 'contact' %}">{{ site.labels.nav_cta }}</a>
                 <a class="btn btn--verre btn--lg" href="{% site_url 'offres' %}">{{ site.labels.hero_primary }}</a>
@@ -106,6 +120,7 @@
             </div>
         </header>
         {% include 'vitrine/sites/macon/partials/nomenclature.html' with heading='h3' %}
+        {% if site.estimateur %}{% include 'vitrine/sites/macon/partials/estimateur.html' with titre_tag='h3' %}{% endif %}
     </div>
 </section>
 
