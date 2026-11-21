@@ -21,7 +21,7 @@
 .nomenclature__ligne:hover::before, .nomenclature__ligne:focus-within::before { transform: scaleY(1); }
 
 .nomenclature__photo { overflow: hidden; aspect-ratio: 3 / 2; border-radius: var(--rayon); }
-.nomenclature__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s var(--ease); }
+.nomenclature__photo img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; transition: transform 0.7s var(--ease); }
 .nomenclature__ligne:hover .nomenclature__photo img { transform: scale(1.05); }
 
 .nomenclature__titre { font-size: 1.7rem; line-height: 1.05; }

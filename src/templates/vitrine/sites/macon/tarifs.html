@@ -10,12 +10,13 @@
     <header class="page__tete">
         <p class="kicker">{{ site.labels.tarifs_kicker }}</p>
         <h1 class="page__titre">{{ site.labels.tarifs }}</h1>
-        <p class="page__intro">{{ site.tarifs_note }}</p>
+        <p class="page__intro">{{ site.tarifs_note|fr_typo }}</p>
     </header>
     <div class="tarifs">
         {% for groupe in site.tarifs %}
         {% include 'vitrine/sites/macon/partials/bordereau.html' with groupe=groupe titre_tag="h2" %}
         {% endfor %}
     </div>
+    {% if site.offres %}{% include 'vitrine/sites/macon/partials/demande.html' with titre_tag='h2' %}{% endif %}
 </div>
 {% endblock %}

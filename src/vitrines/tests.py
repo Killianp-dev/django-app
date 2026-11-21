@@ -138,6 +138,17 @@ class MaconAutonomeTests(TestCase):
         self.assertIn("Gros œuvre : début souhaité dans 6 semaines.", html)
         self.assertIn('value="Gros œuvre" selected', html)
 
+    def test_fiches_balisees_et_transition_partagee(self):
+        accueil = self.client.get("/demo-macon/").content.decode()
+        for offre in SITES["macon"].offres:
+            html = self.client.get(f"/demo-macon/offres/{offre.slug}/").content.decode()
+            with self.subTest(offre=offre.slug):
+                self.assertIn('"@type": "BreadcrumbList"', html)
+                self.assertIn('"@type": "Service"', html)
+                # même nom de transition sur la vignette de l'accueil et la photo de la fiche
+                self.assertIn(f"view-transition-name: travaux-{offre.slug}", html)
+                self.assertIn(f"view-transition-name: travaux-{offre.slug}", accueil)
+
     def test_texte_legal_partage(self):
         for prefix in ("/demo-macon/", "/demo-coiffeur/"):
             html = self.client.get(prefix + "mentions-legales/").content.decode()

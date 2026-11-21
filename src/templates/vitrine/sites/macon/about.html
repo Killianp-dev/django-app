@@ -9,15 +9,32 @@
     {% include 'vitrine/sites/macon/partials/fil.html' with current=site.labels.about %}
 
     <article class="fiche">
-        <img class="fiche__photo" src="{% static site.photos.about %}" alt="Main d'un maçon qui ajuste une brique sur un mur en cours de montage" width="1200" height="1500">
+        <figure class="entreprise__media">
+            <div class="entreprise__cadre">
+                <div class="entreprise__photo">
+                    <img src="{% static site.photos.about %}" alt="Main d'un maçon qui ajuste une brique sur un mur en cours de montage" width="1200" height="1500">
+                </div>
+            </div>
+            {% if site.labels.about_legende %}<figcaption class="entreprise__legende">{{ site.labels.about_legende|fr_typo }}</figcaption>{% endif %}
+        </figure>
         <div class="fiche__texte">
             <p class="kicker">{{ site.labels.about }}</p>
             <h1 class="page__titre">{{ site.labels.about_title }}</h1>
-            <p class="chapeau">{{ site.presentation }}</p>
+            <p class="chapeau">{{ site.presentation|fr_typo }}</p>
             <div class="prose">
-                {% for paragraphe in site.a_propos %}<p>{{ paragraphe }}</p>{% endfor %}
+                {% for paragraphe in site.a_propos %}<p>{{ paragraphe|fr_typo }}</p>{% endfor %}
             </div>
             <p class="signature">{{ site.role_line }}</p>
+            {% if site.equipe %}
+            <ul class="equipe equipe--page" aria-label="L'équipe">
+                {% for personne in site.equipe %}
+                <li class="equipe__membre">
+                    <span class="equipe__initiales" aria-hidden="true">{{ personne.initiales }}</span>
+                    <span class="equipe__texte"><strong>{{ personne.nom }}</strong><span>{{ personne.role }}</span></span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             {% if site.chiffres %}
             <dl class="cartouche">
                 {% for chiffre in site.chiffres %}
@@ -36,13 +53,13 @@
             <h2 class="section__titre" id="pratique-title">Avant la visite</h2>
             <dl class="faits">
                 {% for fait in site.faits %}
-                <div class="faits__ligne"><dt>{{ fait.label }}</dt><dd>{{ fait.texte }}</dd></div>
+                <div class="faits__ligne"><dt>{{ fait.label }}</dt><dd>{{ fait.texte|fr_typo }}</dd></div>
                 {% endfor %}
             </dl>
             {% if site.gages %}
             <ul class="gages">
                 {% for gage in site.gages %}
-                <li><h3>{{ gage.titre }}</h3><p>{{ gage.texte }}</p></li>
+                <li><h3>{{ gage.titre }}</h3><p>{{ gage.texte|fr_typo }}</p></li>
                 {% endfor %}
             </ul>
             {% endif %}

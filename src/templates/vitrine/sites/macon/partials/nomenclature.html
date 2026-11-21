@@ -13,7 +13,8 @@ Les savoir-faire en bordereau : une ligne par type de travaux, toute la ligne es
         {% for offre in site.offres %}
         <li class="nomenclature__ligne">
             <div class="nomenclature__photo">
-                <img src="{% static offre.image %}" alt="" width="900" height="600" loading="lazy" decoding="async">
+                {# Même nom de transition que la photo de la fiche : la vignette s'agrandit en photo au changement de page. #}
+                <img src="{% static offre.image %}" alt="" width="900" height="600" loading="lazy" decoding="async" style="view-transition-name: travaux-{{ offre.slug }}">
             </div>
             <div class="nomenclature__texte">
                 {% if heading == 'h2' %}

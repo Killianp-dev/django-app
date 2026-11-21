@@ -32,6 +32,7 @@
 .equipe__texte strong { font-weight: 600; color: var(--graphite); }
 .equipe__texte span { color: var(--graphite-doux); }
 @media (max-width: 640px) { .equipe { grid-template-columns: 1fr; } }
+.equipe--page { margin: 1.75rem 0 0.5rem; }
 
 /* Chiffres sur une ligne, séparés par des filets */
 .chiffres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0.5rem 0 2rem; border-block: 1px solid var(--filet); }

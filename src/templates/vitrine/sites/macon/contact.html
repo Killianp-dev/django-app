@@ -12,7 +12,7 @@
             <header class="page__tete">
                 <p class="kicker">Contact</p>
                 <h1 class="page__titre">{{ site.labels.contact_title }}</h1>
-                <p class="page__intro">{{ site.labels.contact_text }}</p>
+                <p class="page__intro">{{ site.labels.contact_text|fr_typo }}</p>
             </header>
             {# Classes vitrine-form et vitrine-form__submit : accroches de form.js (bouton désactivé pendant l'envoi). #}
             <form method="post" class="formulaire vitrine-form" novalidate>
@@ -42,7 +42,7 @@
         <aside class="contact__marge">
             {% if site.contact_aside %}
             <h2 class="contact__titre">{{ site.contact_aside.titre }}</h2>
-            <p>{{ site.contact_aside.texte }}</p>
+            <p>{{ site.contact_aside.texte|fr_typo }}</p>
             {% for lien in site.contact_aside.liens %}<a class="contact__tel" href="{{ lien.href }}">{{ lien.label }}</a>{% endfor %}
             {% for ligne in site.contact_aside.lignes %}<p class="contact__ligne">{{ ligne }}</p>{% endfor %}
             {% endif %}

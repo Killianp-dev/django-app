@@ -3,6 +3,16 @@
 
 {% block title %}{{ offre.nom }} — {{ site.nom }}{% endblock %}
 {% block meta_description %}{{ offre.intro }}{% endblock %}
+{% block extra_head %}
+{% with h=offre.prix|honoraire %}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Service", "name": "{{ offre.nom|escapejs }}", "serviceType": "Maçonnerie : {{ offre.nom|escapejs }}",
+ "description": "{{ offre.intro|escapejs }}", "areaServed": {"@type": "City", "name": "{{ site.ville }}"},
+ "provider": {"@type": "{{ site.schema_type }}", "name": "{{ site.nom|escapejs }}", "telephone": "{{ site.telephone }}"}{% if h %},
+ "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "PriceSpecification", "minPrice": {{ h.ht }}, "priceCurrency": "EUR", "valueAddedTaxIncluded": false}}{% endif %}}
+</script>
+{% endwith %}
+{% endblock %}
 
 {% block content %}
 {% site_url 'offres' as offres_url %}
@@ -10,22 +20,22 @@
     {% include 'vitrine/sites/macon/partials/fil.html' with parent_label=site.labels.offres parent_url=offres_url current=offre.nom %}
 
     <article class="fiche">
-        <img class="fiche__photo" src="{% static offre.image %}" alt="{{ offre.nom }} : chantier de Bertrand Maçonnerie" width="1200" height="900">
+        <img class="fiche__photo" src="{% static offre.image %}" alt="{{ offre.nom }} : chantier de {{ site.nom }}" width="1200" height="900" style="view-transition-name: travaux-{{ offre.slug }}">
         <div class="fiche__texte">
             <p class="kicker">{{ site.labels.offre_eyebrow }}</p>
             <h1 class="page__titre">{{ offre.nom }}</h1>
-            <p class="chapeau">{{ offre.intro }}</p>
+            <p class="chapeau">{{ offre.intro|fr_typo }}</p>
             {% if offre.prix %}
             <dl class="cartouche">
-                <div class="cartouche__ligne"><dt>{{ site.labels.offre_meta_prix }}</dt><dd>{{ offre.prix }}</dd></div>
+                <div class="cartouche__ligne"><dt>{{ site.labels.offre_meta_prix }}</dt><dd>{{ offre.prix|fr_typo }}</dd></div>
                 {% if offre.duree %}<div class="cartouche__ligne"><dt>{{ site.labels.offre_meta_duree }}</dt><dd>{{ offre.duree|capfirst }}</dd></div>{% endif %}
             </dl>
             {% endif %}
             <h2 class="fiche__sous-titre">Ce que comprend le chantier</h2>
             <ul class="fiche__points">
-                {% for point in offre.points %}<li>{{ point }}</li>{% endfor %}
+                {% for point in offre.points %}<li>{{ point|fr_typo }}</li>{% endfor %}
             </ul>
-            {% if offre.suite %}<p class="fiche__suite">{{ offre.suite }}</p>{% endif %}
+            {% if offre.suite %}<p class="fiche__suite">{{ offre.suite|fr_typo }}</p>{% endif %}
             <div class="fiche__actions">
                 <a class="btn btn--primary btn--lg" href="{% site_url 'contact' %}?prestation={{ offre.nom|urlencode }}">{{ site.labels.detail_button }}</a>
                 <a class="btn btn--trait btn--lg" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>

@@ -10,7 +10,7 @@
     <header class="page__tete">
         <p class="kicker">{{ site.labels.offres_kicker }}</p>
         <h1 class="page__titre">{{ site.labels.offres_title }}</h1>
-        <p class="page__intro">{{ site.labels.offres_intro }}</p>
+        <p class="page__intro">{{ site.labels.offres_intro|fr_typo }}</p>
     </header>
     {% include 'vitrine/sites/macon/partials/nomenclature.html' with heading='h2' %}
     {% if site.tarifs %}<p class="section__suite"><a class="lien-fleche" href="{% site_url 'tarifs' %}">{{ site.labels.tarifs_link }} <span aria-hidden="true">→</span></a></p>{% endif %}

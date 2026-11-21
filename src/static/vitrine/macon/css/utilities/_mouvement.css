@@ -1,5 +1,7 @@
 /* Transitions entre les pages du site (navigateurs compatibles, sans JS) */
 @view-transition { navigation: auto; }
+/* La vignette d'un savoir-faire s'agrandit en photo de sa fiche (même view-transition-name) */
+::view-transition-group(*) { animation-duration: 0.5s; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
 
 /* Une seule animation non demandée : les cotes se tracent au chargement. */
 .js .cotes__trait path[pathLength] {

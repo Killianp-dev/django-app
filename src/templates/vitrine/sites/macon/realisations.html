@@ -10,7 +10,7 @@
     <header class="page__tete">
         <p class="kicker">{{ site.labels.realisations_kicker }}</p>
         <h1 class="page__titre">{{ site.labels.realisations_title }}</h1>
-        <p class="page__intro">{{ site.labels.realisations_intro }}</p>
+        <p class="page__intro">{{ site.labels.realisations_intro|fr_typo }}</p>
     </header>
     <div class="chantiers">
         {% include 'vitrine/partials/realisations_grid.html' with items=site.realisations filtres=filtres %}
