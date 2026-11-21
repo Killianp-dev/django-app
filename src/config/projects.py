@@ -1,7 +1,20 @@
 """Démonstrations présentées sur la page d'accueil, dans l'ordre du hero."""
+import hashlib
 from types import SimpleNamespace
 
+from django.conf import settings
 from django.urls import reverse
+
+
+def empreinte(chemin_statique):
+    """Empreinte courte du fichier statique, à mettre en ?v= : les fichiers statiques sont
+    servis avec un cache d'un mois et une adresse fixe ; quand un aperçu est recapturé,
+    l'empreinte change et les navigateurs chargent la nouvelle image."""
+    try:
+        contenu = (settings.BASE_DIR / "static" / chemin_statique).read_bytes()
+    except OSError:
+        return "0"
+    return hashlib.md5(contenu).hexdigest()[:8]
 
 
 def _projet(namespace, metier, titre, nom, accroche, points, alt):
@@ -21,6 +34,8 @@ def _projet(namespace, metier, titre, nom, accroche, points, alt):
         # Page d'accueil de la démo, en 1400 x 933 : pour le hero et la section Exemples.
         apercu=f"vitrine/photos/{namespace}/apercu.jpg",
         apercu_webp=f"vitrine/photos/{namespace}/apercu.webp",
+        apercu_v=empreinte(f"vitrine/photos/{namespace}/apercu.jpg"),
+        apercu_webp_v=empreinte(f"vitrine/photos/{namespace}/apercu.webp"),
     )
 
 

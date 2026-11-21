@@ -8,6 +8,8 @@ from types import SimpleNamespace
 
 from django.urls import NoReverseMatch, reverse
 
+from .projects import empreinte
+
 
 def _metier(slug, demo, nom, pour, demo_nom, article, description, accroche, besoins, trouve, faq):
     return SimpleNamespace(
@@ -23,6 +25,7 @@ def _metier(slug, demo, nom, pour, demo_nom, article, description, accroche, bes
         trouve=trouve,          # être trouvé par les clients
         faq=faq,                # [(question, réponse)] propres au métier
         apercu=f"vitrine/photos/{demo}/apercu.jpg",
+        apercu_v=empreinte(f"vitrine/photos/{demo}/apercu.jpg"),
     )
 
 

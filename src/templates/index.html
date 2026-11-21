@@ -54,8 +54,8 @@
         <figure class="hero__preview" data-hero-preview aria-label="Aperçu des démonstrations : un site par métier">
             {# Les deux démos suivantes, empilées derrière la fenêtre ; le JS les fait tourner. #}
             <div class="hero__deck" aria-hidden="true">
-                <span class="hero__deck-card hero__deck-card--near"><img src="{% static projets.1.apercu %}" alt="" width="1400" height="933" loading="lazy" decoding="async" data-deck-img></span>
-                <span class="hero__deck-card hero__deck-card--far"><img src="{% static projets.2.apercu %}" alt="" width="1400" height="933" loading="lazy" decoding="async" data-deck-img></span>
+                <span class="hero__deck-card hero__deck-card--near"><img src="{% static projets.1.apercu %}?v={{ projets.1.apercu_v }}" alt="" width="1400" height="933" loading="lazy" decoding="async" data-deck-img></span>
+                <span class="hero__deck-card hero__deck-card--far"><img src="{% static projets.2.apercu %}?v={{ projets.2.apercu_v }}" alt="" width="1400" height="933" loading="lazy" decoding="async" data-deck-img></span>
             </div>
             <div class="hero__window" data-hero-window>
                 <div class="hero__window-bar">
@@ -65,7 +65,7 @@
                 </div>
                 <a class="hero__screen" href="{{ projets.0.url }}" data-preview-link aria-label="Ouvrir la démo : {{ projets.0.titre }}">
                     {% for projet in projets %}
-                    <img class="hero__shot{% if forloop.first %} is-active{% endif %}" src="{% static projet.apercu %}" alt=""
+                    <img class="hero__shot{% if forloop.first %} is-active{% endif %}" src="{% static projet.apercu %}?v={{ projet.apercu_v }}" alt=""
                          width="1400" height="933" decoding="async"{% if not forloop.first %} loading="lazy"{% else %} fetchpriority="high"{% endif %}
                          data-url="{{ projet.url }}" data-label="{{ projet.titre }}">
                     {% endfor %}
@@ -113,8 +113,8 @@
             <a class="project__visual" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
                 <span class="project__frame">
                     <picture>
-                        <source srcset="{% static projet.apercu_webp %}" type="image/webp">
-                        <img src="{% static projet.apercu %}" alt="{{ projet.alt }}" width="1400" height="933" loading="lazy" decoding="async">
+                        <source srcset="{% static projet.apercu_webp %}?v={{ projet.apercu_webp_v }}" type="image/webp">
+                        <img src="{% static projet.apercu %}?v={{ projet.apercu_v }}" alt="{{ projet.alt }}" width="1400" height="933" loading="lazy" decoding="async">
                     </picture>
                 </span>
                 <span class="project__feature"><i aria-hidden="true"></i>{{ projet.nom }}</span>
