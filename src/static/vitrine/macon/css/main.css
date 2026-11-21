@@ -5,37 +5,37 @@
    ================================================= */
 
 /* 1. Base */
-@import url('./base/_variables.css?v=p10');
-@import url('./base/_fonts.css?v=p10');
-@import url('./base/_reset.css?v=p10');
-@import url('./base/_global.css?v=p10');
+@import url('./base/_variables.css?v=p11');
+@import url('./base/_fonts.css?v=p11');
+@import url('./base/_reset.css?v=p11');
+@import url('./base/_global.css?v=p11');
 
 /* 2. Components */
-@import url('./components/_cote.css?v=p10');
-@import url('./components/_buttons.css?v=p10');
-@import url('./components/_header.css?v=p10');
-@import url('./components/_cartouche.css?v=p10');
-@import url('./components/_tableaux.css?v=p10');
-@import url('./components/_galerie.css?v=p10');
-@import url('./components/_horaires.css?v=p10');
-@import url('./components/_formulaire.css?v=p10');
-@import url('./components/_footer.css?v=p10');
+@import url('./components/_cote.css?v=p11');
+@import url('./components/_buttons.css?v=p11');
+@import url('./components/_header.css?v=p11');
+@import url('./components/_cartouche.css?v=p11');
+@import url('./components/_tableaux.css?v=p11');
+@import url('./components/_galerie.css?v=p11');
+@import url('./components/_horaires.css?v=p11');
+@import url('./components/_formulaire.css?v=p11');
+@import url('./components/_footer.css?v=p11');
 
 /* 3. Sections */
-@import url('./sections/_hero.css?v=p10');
-@import url('./sections/_demande.css?v=p10');
-@import url('./sections/_carnet.css?v=p10');
-@import url('./sections/_deroule.css?v=p10');
-@import url('./sections/_avis.css?v=p10');
-@import url('./sections/_entreprise.css?v=p10');
-@import url('./sections/_faq.css?v=p10');
-@import url('./sections/_cta.css?v=p10');
+@import url('./sections/_hero.css?v=p11');
+@import url('./sections/_demande.css?v=p11');
+@import url('./sections/_carnet.css?v=p11');
+@import url('./sections/_deroule.css?v=p11');
+@import url('./sections/_avis.css?v=p11');
+@import url('./sections/_entreprise.css?v=p11');
+@import url('./sections/_faq.css?v=p11');
+@import url('./sections/_cta.css?v=p11');
 
 /* 4. Pages */
-@import url('./pages/_page.css?v=p10');
-@import url('./pages/_fiche.css?v=p10');
-@import url('./pages/_contact.css?v=p10');
+@import url('./pages/_page.css?v=p11');
+@import url('./pages/_fiche.css?v=p11');
+@import url('./pages/_contact.css?v=p11');
 
 /* 5. Utilities */
-@import url('./utilities/_accessibilite.css?v=p10');
-@import url('./utilities/_mouvement.css?v=p10');
+@import url('./utilities/_accessibilite.css?v=p11');
+@import url('./utilities/_mouvement.css?v=p11');

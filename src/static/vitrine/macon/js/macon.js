@@ -105,16 +105,26 @@
   function initTampon() {
     const tampon = document.querySelector('[data-tampon]');
     if (!tampon) return;
-    if (!document.documentElement.classList.contains('anim') || !('IntersectionObserver' in window)) {
+    if (!document.documentElement.classList.contains('anim')) {
       tampon.classList.add('is-pose');
       return;
     }
-    const observer = new IntersectionObserver((entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      observer.disconnect();
-      window.setTimeout(() => tampon.classList.add('is-pose'), 250);
-    }, { rootMargin: '0px 0px -18% 0px', threshold: 1 });
-    observer.observe(tampon);
+    // Posé quand il est entièrement à l'écran (au-dessus du dernier cinquième) ; posé d'office,
+    // sans animation, s'il a déjà été dépassé (défilement rapide). Vérifié au défilement.
+    let frame = 0;
+    const verifier = () => {
+      frame = 0;
+      const rect = tampon.getBoundingClientRect();
+      const depasse = rect.bottom < 0;
+      const vu = rect.top >= 0 && rect.bottom <= window.innerHeight * 0.82;
+      if (!vu && !depasse) return;
+      window.removeEventListener('scroll', surveiller);
+      if (depasse) tampon.classList.add('is-pose', 'is-instantane');
+      else window.setTimeout(() => tampon.classList.add('is-pose'), 250);
+    };
+    const surveiller = () => { if (!frame) frame = window.requestAnimationFrame(verifier); };
+    window.addEventListener('scroll', surveiller, { passive: true });
+    verifier();
   }
 
   function init() {

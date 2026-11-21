@@ -145,11 +145,44 @@
       el.style.setProperty('--m-y', `${ton.distance}px`);
     });
 
+    const pending = new Set(blocks);
+    const reveal = (el, delay) => {
+      if (!pending.delete(el)) return;
+      arrive(el, delay);
+    };
+
     inView(blocks, (el) => {
       const siblings = Array.from(el.parentElement.children).filter((child) => set.has(child));
       const delay = (Math.max(siblings.indexOf(el), 0) % 4) * 0.08;
-      arrive(el, delay);
+      reveal(el, delay);
     }, { margin: '0px 0px -8% 0px' });
+
+    // Filet de sécurité : après un saut rapide dans la page (ancre, défilement brusque), l'observateur
+    // peut manquer un bloc, surtout dans une section rendue à l'approche (content-visibility: auto).
+    // Un bloc en attente à l'écran apparaît sans délai ; un bloc déjà dépassé est mis en place
+    // directement, sans animation (on ne le découvrira pas en remontant).
+    let frame = 0;
+    const rattraper = () => {
+      frame = 0;
+      pending.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom <= 0) {
+          pending.delete(el);
+          el.classList.add('m-vu');
+          clear(el, 'opacity', '--m-y');
+          el.classList.remove('m-reveal');
+        } else if (rect.top < window.innerHeight * 0.92) {
+          reveal(el, 0);
+        }
+      });
+      if (!pending.size) {
+        window.removeEventListener('scroll', surveiller);
+        window.removeEventListener('scrollend', rattraper);
+      }
+    };
+    const surveiller = () => { if (!frame) frame = window.requestAnimationFrame(rattraper); };
+    window.addEventListener('scroll', surveiller, { passive: true });
+    window.addEventListener('scrollend', rattraper);
   }
 
   // ===== Icônes isolées (hors blocs animés) =====
