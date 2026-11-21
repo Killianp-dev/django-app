@@ -6,23 +6,26 @@
 }
 .deroule__entete { margin-bottom: 3rem; }
 
-.etapes { position: relative; display: grid; gap: 2.5rem; }
-.etapes::before,
-.etapes::after {
+.etapes { display: grid; gap: 2.5rem; }
+/* Un segment par étape, du cercle au suivant : rien ne dépasse le dernier cercle, et le contenu
+   de l'étape (z-index 1) reste toujours au-dessus, même pendant le fondu d'apparition. */
+.etape { position: relative; z-index: 1; display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.5rem; }
+.etape:not(:last-child)::before,
+.etape:not(:last-child)::after {
   content: "";
   position: absolute;
+  z-index: -1;
   left: calc(1.5rem - 0.5px);
-  top: 1.5rem;
-  bottom: 1.5rem;
+  top: 3rem;
+  bottom: -2.5rem;
   width: 1px;
   background: var(--filet-fort);
 }
-.etapes::after { background: var(--laiton); transform-origin: top; transform: scaleY(1); }
+.etape:not(:last-child)::after { background: var(--laiton); transform-origin: top; }
 @supports (animation-timeline: view()) {
-  .etapes::after { animation: frise linear both; animation-timeline: view(); animation-range: entry 40% cover 60%; }
+  .etape:not(:last-child)::after { animation: frise linear both; animation-timeline: view(); animation-range: entry 60% cover 55%; }
   @keyframes frise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 }
-.etape { position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.5rem; }
 .etape__num {
   position: relative;
   z-index: 1;
