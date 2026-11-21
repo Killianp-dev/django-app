@@ -86,10 +86,13 @@ def projets():
     return PROJETS
 
 
-def exemples(liste):
-    """Ordre de la section Exemples, qui suit le hero.
+# Ordre de la section Exemples, choisi démo par démo. L'avocat, qui ouvre le hero, la termine :
+# une même démo n'apparaît pas deux fois de suite (hero puis Exemples).
+ORDRE_EXEMPLES = ["macon", "boucherie", "boulangerie", "coiffeur", "beaute", "avocat"]
 
-    Le hero ouvre sur la première démo et laisse voir les deux suivantes derrière
-    sa fenêtre. Les Exemples commencent donc par les démos que le hero ne montre pas
-    au chargement, reprennent les deux suivantes, et finissent par la première."""
-    return liste[3:] + liste[1:3] + liste[:1]
+
+def exemples(liste):
+    """Les projets dans l'ordre de la section Exemples (ORDRE_EXEMPLES) ; une démo absente
+    de cet ordre passe à la fin, dans l'ordre de PROJETS."""
+    rang = {namespace: i for i, namespace in enumerate(ORDRE_EXEMPLES)}
+    return sorted(liste, key=lambda projet: rang.get(projet.namespace, len(rang)))

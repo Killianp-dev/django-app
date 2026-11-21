@@ -146,3 +146,12 @@ class SeoTests(TestCase):
         self.assertNotIn(note, conseils)
         self.assertIn(note, notes)
         self.assertNotIn(conseil, notes)
+
+    def test_ordre_de_la_section_exemples(self):
+        exemples = self.client.get(reverse("index")).context["exemples"]
+        ordre = [projet.namespace for projet in exemples]
+        self.assertEqual(ordre[0], "macon")
+        self.assertEqual(ordre[2], "boulangerie")
+        self.assertEqual(ordre[4], "beaute")
+        self.assertEqual(ordre[-1], "avocat")          # l'avocat ouvre le hero : il ferme les Exemples
+        self.assertEqual(sorted(ordre), sorted(p.namespace for p in exemples))
