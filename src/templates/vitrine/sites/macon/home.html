@@ -145,7 +145,7 @@
                     <h3 class="carnet__chantier" id="carnet-chantier">{{ site.carnet.chantier }}</h3>
                     <dl class="carnet__infos">
                         <div><dt>Lieu</dt><dd>{{ site.carnet.lieu }}</dd></div>
-                        <div><dt>Durée</dt><dd>{{ site.carnet.duree }}</dd></div>
+                        <div><dt>Durée</dt><dd>{{ site.carnet.duree|fr_typo }}</dd></div>
                         <div><dt>Responsable</dt><dd>{{ site.carnet.responsable }}</dd></div>
                     </dl>
                 </header>
@@ -155,21 +155,27 @@
                         <p class="carnet__date"><span class="carnet__numero">Jour {{ forloop.counter }}</span>{{ entree.jour }}</p>
                         <div class="carnet__texte">
                             <h4 class="carnet__titre">{{ entree.titre }}</h4>
-                            <p>{{ entree.texte }}</p>
+                            <p>{{ entree.texte|fr_typo }}</p>
                         </div>
                         {% if entree.image %}<div class="carnet__photo"><img src="{% static entree.image %}" alt="" width="600" height="400" loading="lazy" decoding="async"></div>{% endif %}
+                        {% for note in site.carnet.notes %}{% if note.jour == forloop.parentloop.counter %}
+                        {# Note en marge, reliée au jour par un trait de rappel (à côté du carnet sur grand écran, dans le jour sinon) #}
+                        <aside class="carnet__marge" aria-label="Note : {{ note.titre }}">
+                            <p class="carnet__marge-titre">{{ note.titre }}</p>
+                            <p>{{ note.texte|fr_typo }}</p>
+                        </aside>
+                        {% endif %}{% endfor %}
                     </li>
                     {% endfor %}
                 </ol>
+                {% if site.carnet.reception %}
+                {# Le tampon : posé (animé) quand le dernier jour arrive à l'écran, macon.js ; visible d'emblée sans JS. #}
+                <p class="carnet__tampon" data-tampon>
+                    <span class="carnet__tampon-titre">{{ site.carnet.reception.titre }}</span>
+                    <span class="carnet__tampon-detail">{{ site.carnet.reception.detail }}</span>
+                </p>
+                {% endif %}
             </article>
-
-            {% if site.carnet.notes %}
-            <ul class="carnet__notes">
-                {% for note in site.carnet.notes %}
-                <li><h3>{{ note.titre }}</h3><p>{{ note.texte }}</p></li>
-                {% endfor %}
-            </ul>
-            {% endif %}
         </div>
     </div>
 </section>

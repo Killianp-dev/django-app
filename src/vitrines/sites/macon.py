@@ -147,11 +147,14 @@ MACON = _site(
                            "Étais et gravats évacués. Tour du chantier avec les clients, aucune réserve. Le point écrit de la semaine part le soir même.",
                            "vitrine/photos/macon/renovation-enduit.jpg"),
         ],
+        # Notes en marge : `jour` = le numéro de l'entrée qu'elles commentent (trait de rappel).
         notes=[
-            _ns(titre="Un point écrit chaque soir", texte="Ce qui a été fait, avec une photo, et ce qui est prévu le lendemain."),
-            _ns(titre="Les imprévus notés tout de suite", texte="Si quelque chose change le planning ou le prix, vous le lisez le jour même, avant que l'on continue."),
-            _ns(titre="Un seul interlocuteur", texte="Le responsable du chantier signe chaque entrée du carnet. Vous savez qui appeler."),
+            _ns(jour=1, titre="Un seul interlocuteur", texte="Le responsable du chantier signe chaque entrée du carnet. Vous savez qui appeler."),
+            _ns(jour=3, titre="Les imprévus notés tout de suite", texte="Si quelque chose change le planning ou le prix, vous le lisez le jour même, avant que l'on continue."),
+            _ns(jour=5, titre="Un point écrit chaque soir", texte="Ce qui a été fait, avec une photo, et ce qui est prévu le lendemain."),
         ],
+        # Le tampon posé sur le carnet une fois le dernier jour lu.
+        reception=_ns(titre="Réception sans réserve", detail="Vendredi, 17 h · J. Bertrand"),
     ),
     # Estimateur de l'accueil et des prix indicatifs : un ouvrage, une quantité au mètre ruban,
     # un prix « à partir de ». Les prix unitaires sont ceux du bordereau (tarifs) : un test vérifie

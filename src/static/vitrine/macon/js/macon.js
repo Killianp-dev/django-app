@@ -198,8 +198,26 @@
     });
   }
 
+  // ===== Carnet : le tampon de réception se pose quand on arrive au bas du carnet =====
+  // Le CSS le cache tant que les animations sont actives (classe « anim ») ; sans elles, il est déjà là.
+  function initTampon() {
+    const tampon = document.querySelector('[data-tampon]');
+    if (!tampon) return;
+    if (!document.documentElement.classList.contains('anim') || !('IntersectionObserver' in window)) {
+      tampon.classList.add('is-pose');
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      observer.disconnect();
+      window.setTimeout(() => tampon.classList.add('is-pose'), 250);
+    }, { rootMargin: '0px 0px -18% 0px', threshold: 1 });
+    observer.observe(tampon);
+  }
+
   function init() {
     initCotes();
+    initTampon();
     initEstimateur();
     initHeaderScroll();
     initMenus();
