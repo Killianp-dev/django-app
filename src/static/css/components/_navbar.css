@@ -369,6 +369,11 @@ html[data-theme="dark"] .logo-tagline__brand {
     transition: none;
   }
 
+  /* Glissement piloté en ressort par Motion (app.js) : seule l'opacité reste en transition. */
+  .nav-links.has-thumb.is-sprung::before {
+    transition: opacity 0.25s ease;
+  }
+
   .nav-links.has-thumb a {
     z-index: 1;
   }

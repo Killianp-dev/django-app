@@ -22,6 +22,7 @@ les partials √† comportement JS (galerie, horaires, barre mobile) et le texte l√
     <script>document.documentElement.classList.add('js');</script>
     <link rel="preload" href="{% static 'vitrine/fonts/BarlowCondensed-700.woff2' %}" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="{% static 'vitrine/macon/css/main.css' %}?v=20261115">
+    {% include 'vitrine/partials/anim.html' with demo='macon' %}
     <script type="application/ld+json">{{ schema_org|safe }}</script>
     {% block extra_head %}{% endblock %}
 </head>

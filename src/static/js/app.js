@@ -62,16 +62,37 @@
   // ===== Menu : pastille glissante sous le lien actif (ordinateur) =====
   const navList = document.querySelector('.nav-links');
 
+  // Avec Motion (js/anim.js), la pastille glisse d'un lien à l'autre en ressort ;
+  // sinon, transition CSS. Première apparition et redimensionnement : sans animation.
+  let thumbAnimation = null;
+
   function moveNavThumb(instant = false) {
     if (!navList || !navList.classList.contains('has-thumb')) return;
     const active = navList.querySelector('a.active');
     navList.classList.toggle('is-instant', instant);
+    if (thumbAnimation) {
+      thumbAnimation.stop();
+      thumbAnimation = null;
+    }
     if (!active || isMobileNav()) {
       navList.style.setProperty('--thumb-o', '0');
       return;
     }
-    navList.style.setProperty('--thumb-x', `${active.offsetLeft}px`);
-    navList.style.setProperty('--thumb-w', `${active.offsetWidth}px`);
+    const x = `${active.offsetLeft}px`;
+    const w = `${active.offsetWidth}px`;
+    const motion = window.siteMotion;
+    const shown = navList.style.getPropertyValue('--thumb-o') === '1';
+    if (motion && !instant && shown) {
+      navList.classList.add('is-sprung');
+      thumbAnimation = motion.animate(navList, {
+        '--thumb-x': [navList.style.getPropertyValue('--thumb-x') || x, x],
+        '--thumb-w': [navList.style.getPropertyValue('--thumb-w') || w, w]
+      }, { ...motion.SPRING_SNAPPY, visualDuration: 0.45, bounce: 0.22 });
+    } else {
+      navList.classList.remove('is-sprung');
+      navList.style.setProperty('--thumb-x', x);
+      navList.style.setProperty('--thumb-w', w);
+    }
     navList.style.setProperty('--thumb-o', '1');
   }
 
@@ -234,6 +255,7 @@
   // l'écran au chargement ne sont jamais cachés. Une fois l'apparition finie,
   // la classe est retirée pour rendre la main aux transitions de survol.
   function initScrollReveal() {
+    if (window.siteMotion) return; // js/anim.js s'en charge, avec ressort
     if (prefersReducedMotion() || !('IntersectionObserver' in window)) return;
 
     const blocks = document.querySelectorAll(
@@ -671,7 +693,20 @@
     }
 
     // La fenêtre s'incline doucement vers le pointeur, avec un reflet qui le suit.
+    // Avec Motion (js/anim.js), l'inclinaison suit le pointeur en ressort, avec de l'inertie.
     if (win && hasFinePointer() && !prefersReducedMotion()) {
+      const motion = window.siteMotion;
+      const TILT_SPRING = { type: 'spring', stiffness: 160, damping: 18, mass: 0.8 };
+      let tiltAnimation = null;
+      const tiltTo = (tx, ty, options = TILT_SPRING) => {
+        if (tiltAnimation) tiltAnimation.stop();
+        const read = (name, fallback) => win.style.getPropertyValue(name) || getComputedStyle(win).getPropertyValue(name).trim() || fallback;
+        tiltAnimation = motion.animate(win, {
+          '--tilt-x': [read('--tilt-x', '0deg'), tx],
+          '--tilt-y': [read('--tilt-y', '0deg'), ty]
+        }, options);
+        return tiltAnimation;
+      };
       let frame = 0;
       preview.addEventListener('pointermove', (event) => {
         if (frame) return;
@@ -681,8 +716,15 @@
           const x = Math.min(Math.max((event.clientX - rect.left) / rect.width, 0), 1);
           const y = Math.min(Math.max((event.clientY - rect.top) / rect.height, 0), 1);
           win.classList.add('is-tilting');
-          win.style.setProperty('--tilt-y', ((x - 0.5) * 7).toFixed(2) + 'deg');
-          win.style.setProperty('--tilt-x', ((0.5 - y) * 5).toFixed(2) + 'deg');
+          const ty = ((x - 0.5) * 7).toFixed(2) + 'deg';
+          const tx = ((0.5 - y) * 5).toFixed(2) + 'deg';
+          if (motion) {
+            win.classList.add('is-sprung');
+            tiltTo(tx, ty);
+          } else {
+            win.style.setProperty('--tilt-y', ty);
+            win.style.setProperty('--tilt-x', tx);
+          }
           win.style.setProperty('--glare-x', (x * 100).toFixed(1) + '%');
           win.style.setProperty('--glare-y', (y * 100).toFixed(1) + '%');
         });
@@ -691,7 +733,17 @@
         window.cancelAnimationFrame(frame);
         frame = 0;
         win.classList.remove('is-tilting');
-        ['--tilt-x', '--tilt-y', '--glare-x', '--glare-y'].forEach((name) => win.style.removeProperty(name));
+        ['--glare-x', '--glare-y'].forEach((name) => win.style.removeProperty(name));
+        if (!motion) {
+          ['--tilt-x', '--tilt-y'].forEach((name) => win.style.removeProperty(name));
+          return;
+        }
+        // Retour à l'inclinaison de repos (celle du CSS) en ressort, puis le CSS reprend la main.
+        tiltTo('1.5deg', '-3deg', { ...TILT_SPRING, stiffness: 120, damping: 16 }).then(() => {
+          if (win.classList.contains('is-tilting')) return;
+          win.classList.remove('is-sprung');
+          ['--tilt-x', '--tilt-y'].forEach((name) => win.style.removeProperty(name));
+        });
       });
     }
 

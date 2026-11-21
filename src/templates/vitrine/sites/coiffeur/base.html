@@ -13,6 +13,7 @@
     <meta property="og:description" content="{{ site.description }}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <link rel="stylesheet" href="{% static 'vitrine/coiffeur/css/main.css' %}?v=20261113-pro">
+    {% include 'vitrine/partials/anim.html' with demo='coiffeur' %}
     <script type="application/ld+json">{{ schema_org|safe }}</script>
     {% block extra_head %}{% endblock %}
 </head>

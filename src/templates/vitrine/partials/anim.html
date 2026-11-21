@@ -1,0 +1,87 @@
+{% load static %}{% comment %}
+Animations Motion des démos (static/vitrine/js/anim.js). À inclure dans le <head>, après la feuille de style :
+    {% include 'vitrine/partials/anim.html' with demo='avocat' %}
+Chaque démo a sa configuration ci-dessous : ton des ressorts, étapes de l'entrée du hero (dans
+l'ordre), blocs qui apparaissent au défilement, éléments soulevés au survol ou enfoncés au clic,
+chiffres qui défilent, icônes qui se dessinent. Sans JS, ou si le visiteur demande moins
+d'animations, rien n'est caché ; si le script n'a pas démarré au bout de 2,5 s, tout réapparaît.
+{% endcomment %}
+<script>
+(function () {
+  var GABARIT = {
+    ton: 'doux',
+    entree: ['.pro-hero__eyebrow', '.pro-hero__title', '.pro-hero__lead', '.pro-hero__actions', '.pro-engagements > li', '.pro-hero__media', '.pro-hero__card'],
+    entreeMedia: '.pro-hero__media',
+    media: ['.pro-hero__bg img'],
+    reveal: ['.vitrine-reperes__item', '.pro-head', '.pro-cards > li', '.boul-fournee', '.boul-gages > li', '.vitrine-galerie__item', '.vitrine-avis__item', '.pro-step', '.pro-card-panel', '.pro-about__media', '.pro-about__body', '.pro-chiffres > div', '.vitrine-section__header'],
+    lift: ['.pro-cards .pro-card', '.vitrine-avis__item'],
+    press: ['.vitrine-btn'],
+    count: ['.pro-chiffres dt'],
+    trace: ['.pro-engagements svg']
+  };
+  var CONFIGS = {
+    boulangerie: GABARIT,
+    boucherie: GABARIT,
+    beaute: GABARIT,
+    coiffeur: {
+      ton: 'doux',
+      entree: ['.salon-hero__content .vitrine-eyebrow', '.salon-hero__title', '.salon-hero__lead', '.salon-hero__actions', '.salon-engagements > li', '.salon-hero__arch', '.salon-hero__thumb', '.salon-hero__card'],
+      entreeMedia: '.salon-hero__arch, .salon-hero__thumb',
+      reveal: ['.vitrine-reperes__item', '.salon-split-header', '.salon-prestation', '.salon-manifeste__gages > li', '.vitrine-galerie__item', '.salon-step', '.salon-rdv__card', '.vitrine-about-preview__image', '.vitrine-about-preview__content', '.salon-chiffres__list > li', '.vitrine-avis__item', '.vitrine-section__header'],
+      lift: ['.salon-prestation', '.vitrine-avis__item'],
+      press: ['.vitrine-btn'],
+      count: ['.salon-chiffres__list strong'],
+      trace: ['.salon-engagements svg']
+    },
+    macon: {
+      ton: 'franc',
+      // La photo n'est pas zoomée : les cotes dessinées dessus doivent rester calées.
+      entree: ['.hero__texte .kicker', '.hero__titre', '.hero__accroche', '.hero__actions', '.engagements > li', '.hero__carte', '.hero__legende'],
+      reveal: ['.cartouche--bandeau > *', '.section__tete', '.nomenclature__ligne', '.carnet__doc', '.carnet__notes > li', '.vitrine-galerie__item', '.avis__carte', '.etape', '.chiffres__item'],
+      lift: ['.avis__carte'],
+      press: ['.btn'],
+      count: ['.chiffres__item dd', '.cartouche__ligne dd'],
+      trace: ['.engagements svg', '.nomenclature__fleche svg']
+    },
+    avocat: {
+      ton: 'sobre',
+      // La photo garde son dézoom CSS ; l'entrée CSS des éléments numérotés (--i) est remplacée.
+      couper: ['.hero [style*="--i"]'],
+      entree: ['.hero__surtitre', '.hero__titre', '.hero__chapo', '.hero__actions', '.hero__carte', '.hero__engagements > li', '.fiche__ligne'],
+      reveal: ['[data-reveal]', '.domaines__item'],
+      lift: ['.associe', '.engagement'],
+      press: ['.btn', '.taxe__btn'],
+      count: ['.chiffres__item dd'],
+      trace: ['.hero__engagements svg', '.engagement svg']
+    }
+  };
+
+  var config = CONFIGS['{{ demo }}'];
+  var root = document.documentElement;
+  if (!config || !window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  window.VITRINE_ANIM = config;
+  root.classList.add('anim');
+
+  var entree = config.entree.join(', ');
+  var css =
+    '@property --m-y { syntax: "<length>"; inherits: false; initial-value: 0px; }' +
+    '@property --m-lift { syntax: "<length>"; inherits: false; initial-value: 0px; }' +
+    '@property --m-s { syntax: "<number>"; inherits: false; initial-value: 1; }' +
+    /* En attendant le script : l'entrée du hero reste cachée (le titre, presque). */
+    'html.anim:not(.anim-fini) :is(' + entree + '):not(h1):not(.m-vu) { opacity: 0; }' +
+    'html.anim:not(.anim-fini) :is(' + entree + '):is(h1):not(.m-vu) { opacity: 0.01; }' +
+    'html.anim :is(' + entree + (config.couper ? ', ' + config.couper.join(', ') : '') + ') { animation: none; }' +
+    /* Déplacements Motion par translate / scale : ils s'ajoutent aux transform des survols. */
+    '.m-reveal, .m-lift, .m-press { translate: 0 calc(var(--m-y) + var(--m-lift)); scale: var(--m-s); }' +
+    'html.anim .has-lift:hover { transform: none; }';
+  var style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
+
+  setTimeout(function () {
+    if (!window.__vitrineAnim) { root.classList.remove('anim'); style.remove(); }
+  }, 2500);
+})();
+</script>
+<script src="{% static 'vendor/motion/motion.min.js' %}?v=12.43.0" defer></script>
+<script src="{% static 'vitrine/js/anim.js' %}?v=20261121-motion2" defer></script>

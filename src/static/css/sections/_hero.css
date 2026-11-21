@@ -437,7 +437,7 @@ html[data-theme="dark"] .hero__eyebrow {
   color: var(--hero-fg);
 }
 
-.hero__facts span {
+.hero__facts li > span {
   font-size: 0.8rem;
   line-height: 1.35;
   color: var(--hero-muted);
@@ -488,6 +488,11 @@ html[data-theme="dark"] .hero__eyebrow {
 
 .hero__window.is-tilting {
   transition: transform 0.18s ease-out;
+}
+
+/* Inclinaison pilotée en ressort par Motion (js/anim.js + app.js) : pas de transition CSS en plus. */
+.hero__window.is-sprung {
+  transition: none;
 }
 
 @property --hero-sweep {
@@ -1041,7 +1046,7 @@ html[data-theme="dark"] .hero__chip svg {
     font-size: 1.4rem;
   }
 
-  .hero__facts span {
+  .hero__facts li > span {
     font-size: 0.74rem;
   }
 

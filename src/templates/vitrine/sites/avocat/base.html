@@ -28,6 +28,7 @@ les vues, le formulaire, les partials à comportement JS (horaires, barre mobile
     <link rel="preload" href="{% static 'vitrine/fonts/PlayfairDisplay-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{% static 'vitrine/fonts/Inter-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="{% static 'vitrine/avocat/css/main.css' %}?v=20261121b">
+    {% include 'vitrine/partials/anim.html' with demo='avocat' %}
     <script type="application/ld+json">{{ schema_org|safe }}</script>
     {% block extra_head %}{% endblock %}
 </head>
@@ -49,7 +50,7 @@ les vues, le formulaire, les partials à comportement JS (horaires, barre mobile
     {% if site.barre_mobile %}{% include 'vitrine/partials/mobile_actions.html' %}{% endif %}
     <script src="{% static 'vitrine/js/nav.js' %}?v=2" defer></script>
     <script src="{% static 'vitrine/js/site.js' %}?v=2" defer></script>
-    <script src="{% static 'vitrine/avocat/js/avocat.js' %}?v=20261121" defer></script>
+    <script src="{% static 'vitrine/avocat/js/avocat.js' %}?v=20261121-motion" defer></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

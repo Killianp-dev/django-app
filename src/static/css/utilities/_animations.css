@@ -19,6 +19,53 @@
   transform: none;
 }
 
+/* ---------- Animations Motion (js/anim.js) ----------
+   « anim » est posée sur <html> dans le <head> seulement si le visiteur accepte les
+   animations ; js/anim.js la retire si Motion ne charge pas (et base.html au bout de
+   2,5 s de toute façon). Sans elle, l'entrée CSS d'origine (heroRise) s'applique. */
+
+@property --m-y { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --m-lift { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --m-s { syntax: "<number>"; inherits: false; initial-value: 1; }
+
+/* Entrée du hero : Motion la pilote, l'animation CSS se retire. */
+.anim .hero__overlay > *,
+.anim .hero__preview,
+.anim .hero__scroll {
+  animation: none;
+}
+
+/* En attendant le script : les éléments du hero restent invisibles (le titre, presque). */
+.anim .hero:not(.is-entered) :is(
+  .hero__eyebrow, .hero__subtitle, .hero__trades-label, .hero__trades-list > li,
+  .hero__actions, .hero__facts, .hero__facts li, .hero__preview, .hero__chip, .hero__scroll
+) {
+  opacity: 0;
+}
+
+.anim .hero:not(.is-entered) .hero__title {
+  opacity: 0.01;
+}
+
+.anim .hero__facts [data-count] {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Déplacements Motion par « translate » / « scale » : ils s'ajoutent aux « transform »
+   des survols CSS sans les remplacer ni être freinés par leurs transitions. */
+.m-reveal,
+.m-lift,
+.m-press {
+  translate: 0 calc(var(--m-y) + var(--m-lift));
+  scale: var(--m-s);
+}
+
+/* Soulèvement au survol en ressort : remplace le décalage CSS du survol. */
+.anim .has-lift:hover {
+  transform: none;
+}
+
 /* Support pour prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   

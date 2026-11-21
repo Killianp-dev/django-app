@@ -101,6 +101,7 @@
     document.body.appendChild(live);
 
     const appliquer = (nouveau, annoncer) => {
+      const ancien = mode;
       mode = nouveau;
       toggles.forEach((group) => {
         group.querySelectorAll('[data-taxe]').forEach((button) => {
@@ -117,8 +118,17 @@
           taxe.textContent = mode.toUpperCase();
           el.classList.remove('is-changing');
         };
+        const motion = window.vitrineMotion;
         if (reduceMotion || !annoncer) {
           ecrire();
+        } else if (motion) {
+          // Avec Motion (vitrine/js/anim.js) : le montant défile de l'ancien au nouveau.
+          taxe.textContent = mode.toUpperCase();
+          motion.animate(Number(el.dataset[ancien]), Number(el.dataset[mode]), {
+            duration: 0.55,
+            ease: motion.EASE,
+            onUpdate: (value) => { val.textContent = format.format(Math.round(value)).replace(/\u202f/g, '\u00a0'); }
+          }).then(() => { val.textContent = texte; });
         } else {
           el.classList.add('is-changing');
           window.setTimeout(ecrire, 180);
