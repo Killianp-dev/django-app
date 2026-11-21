@@ -1,0 +1,13 @@
+/* ENGAGEMENTS — trois articles, à la place des témoignages */
+.engagements { background: var(--velin); }
+.engagements .note-marge { font-size: 1.2rem; }
+.engagements__liste { display: grid; border-top: 1px solid var(--filet-fort); }
+@media (min-width: 900px) { .engagements__liste { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.engagement { padding: 2rem 0; border-bottom: 1px solid var(--filet); }
+@media (min-width: 900px) {
+  .engagement { padding: 2.5rem 2.25rem 0.5rem; border-bottom: 0; border-left: 1px solid var(--filet); }
+  .engagement:first-child { padding-left: 0; border-left: 0; }
+}
+.engagement__art { display: block; font-family: var(--f-note); font-style: italic; font-size: 1.6rem; color: var(--laiton); margin-bottom: 0.8rem; }
+.engagement__titre { font-size: var(--t-xl); margin-bottom: 0.65rem; }
+.engagement__texte { color: var(--encre-doux); }

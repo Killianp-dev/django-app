@@ -1,0 +1,44 @@
+/* QUESTIONS — accordéons numérotés, ouverture animée là où le navigateur le permet */
+.faq__inner { display: grid; gap: 2.5rem; align-items: start; }
+@media (min-width: 1024px) {
+  .faq__inner { grid-template-columns: minmax(0, 4.5fr) minmax(0, 7fr); gap: 5rem; }
+  .faq__entete { position: sticky; top: calc(var(--header-h) + 2rem); }
+}
+.faq__entete .titre-section { margin-bottom: 1.5rem; }
+.faq__liste { border-top: 1px solid var(--filet-fort); }
+.faq__liste--page { grid-column: 1 / -1; max-width: 54rem; }
+
+.question { border-bottom: 1px solid var(--filet); }
+.question__titre {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) 1.5rem;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 1.4rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+.question__titre::-webkit-details-marker { display: none; }
+.question__num { font-family: var(--f-note); font-style: italic; font-size: 1.25rem; color: var(--laiton); }
+.question__texte { font-family: var(--f-titre); font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem); line-height: 1.3; transition: color 0.25s var(--ease); }
+.question__titre:hover .question__texte { color: var(--laiton-fonce); }
+.question__icone { position: relative; width: 1.5rem; height: 1.5rem; align-self: center; border-radius: 50%; border: 1px solid var(--filet-fort); transition: transform 0.35s var(--ease), background-color 0.3s var(--ease), border-color 0.3s; }
+.question__icone::before,
+.question__icone::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.6rem; height: 1px; background: currentColor; transform: translate(-50%, -50%); }
+.question__icone::after { transform: translate(-50%, -50%) rotate(90deg); }
+.question[open] .question__icone { transform: rotate(45deg); background: var(--encre); border-color: var(--encre); color: var(--ivoire); }
+.question__reponse { padding: 0 2.25rem 1.6rem 3.15rem; color: var(--encre-doux); max-width: 44rem; }
+
+@supports (interpolate-size: allow-keywords) {
+  .faq { interpolate-size: allow-keywords; }
+  .question::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size 0.45s var(--ease), content-visibility 0.45s allow-discrete;
+  }
+  .question[open]::details-content { block-size: auto; }
+}
+@media (max-width: 559px) {
+  .question__titre { grid-template-columns: 2rem minmax(0, 1fr) 1.5rem; }
+  .question__reponse { padding: 0 0 1.4rem 2.75rem; }
+}

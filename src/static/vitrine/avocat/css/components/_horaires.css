@@ -1,0 +1,62 @@
+/* Statut d'ouverture en direct (site.js) */
+.vitrine-statut {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--encre-doux);
+}
+.vitrine-statut__dot { position: relative; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #A3A09A; }
+.vitrine-statut.is-open { color: var(--encre); }
+.vitrine-statut.is-open .vitrine-statut__dot { background: var(--ouvert); }
+.vitrine-statut.is-soon .vitrine-statut__dot { background: var(--bientot); }
+.vitrine-statut.is-open .vitrine-statut__dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: pouls 2.4s ease-out infinite;
+}
+@keyframes pouls {
+  0% { transform: scale(1); opacity: 0.5; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+.sombre .vitrine-statut, .hero .vitrine-statut, .footer .vitrine-statut { color: rgba(247, 244, 238, 0.8); }
+.hero .vitrine-statut.is-open .vitrine-statut__dot, .footer .vitrine-statut.is-open .vitrine-statut__dot { background: #5CC08E; }
+
+/* Tableau des horaires */
+.vitrine-horaires__title { font-size: var(--t-xl); margin-bottom: 0.5rem; }
+.vitrine-horaires .vitrine-statut { margin-bottom: 1rem; }
+.vitrine-horaires__table { width: 100%; font-size: var(--t-sm); font-variant-numeric: tabular-nums; }
+.vitrine-horaires__table th,
+.vitrine-horaires__table td { padding: 0.62rem 0; border-top: 1px solid var(--filet); }
+.vitrine-horaires__table th { text-align: left; font-weight: 400; color: var(--encre-doux); }
+.vitrine-horaires__table td { text-align: right; color: var(--encre); }
+.vitrine-horaires__ferme { color: var(--encre-doux); opacity: 0.75; }
+.vitrine-horaires__table tr.is-today th,
+.vitrine-horaires__table tr.is-today td { font-weight: 600; color: var(--encre); }
+.vitrine-horaires__table tr.is-today th::after {
+  content: "Aujourd'hui";
+  margin-left: 0.6rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: var(--r-pill);
+  background: var(--laiton-pale);
+  color: var(--laiton-fonce);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  vertical-align: 0.1em;
+}
+
+/* Carte des horaires */
+.carte-horaires {
+  padding: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+  background: var(--papier);
+  border: 1px solid var(--filet);
+  border-radius: var(--r-lg);
+  box-shadow: var(--ombre);
+}
+.carte-horaires__note { margin-top: 1rem; font-size: 0.85rem; color: var(--encre-doux); }
+.carte-horaires__actions { display: grid; gap: 0.6rem; margin-top: 1.5rem; }

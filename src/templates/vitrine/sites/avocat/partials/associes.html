@@ -1,0 +1,37 @@
+{% load static vitrine_tags %}
+{# Les associés. `piece` : la cote de la section ; `sans_intro` : sans le paragraphe de présentation (page Le cabinet, qui l'affiche déjà). #}
+<section class="section associes" aria-labelledby="associes-titre">
+    <div class="container">
+        <header class="entete" data-reveal>
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with piece=piece titre=site.labels.equipe_kicker %}
+                <h2 class="titre-section" id="associes-titre">{{ site.labels.equipe_title }}</h2>
+            </div>
+            {% if not sans_intro %}
+            <div class="entete__aside">
+                <p>{{ site.presentation|fr_typo }}</p>
+            </div>
+            {% endif %}
+        </header>
+        <ul class="associes__liste">
+            {% for membre in site.equipe %}
+            <li class="associe" data-reveal>
+                <figure class="associe__photo">
+                    <img src="{% static membre.photo %}" alt="Portrait de {{ membre.nom }}, {{ membre.role|lower }}" width="800" height="1000" loading="lazy" decoding="async">
+                </figure>
+                <div class="associe__corps">
+                    <p class="associe__role">{{ membre.role }}</p>
+                    <h3 class="associe__nom">{{ membre.nom }}</h3>
+                    <p class="associe__barreau">{{ membre.barreau }}</p>
+                    <p class="associe__bio">{{ membre.bio|fr_typo }}</p>
+                    <ul class="associe__domaines" aria-label="Domaines de {{ membre.nom }}">
+                        {% for offre in site.offres %}{% if offre.nom in membre.domaines %}
+                        <li><a href="{% site_url 'offre' offre.slug %}">{{ offre.nom }}</a></li>
+                        {% endif %}{% endfor %}
+                    </ul>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

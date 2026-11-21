@@ -1,12 +1,41 @@
 {% load vitrine_tags %}
-<section class="vitrine-cta">
-    <div class="vitrine-container vitrine-container--narrow">
-        <div class="vitrine-cta__content">
-            <h2 class="vitrine-cta__title">{{ site.labels.cta_title }}</h2>
-            <p class="vitrine-cta__text">{{ site.labels.cta_text }}</p>
-            <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">
-                {{ site.labels.cta_button }}
-            </a>
+{# Appel final : trois façons d'être reçu, dont la ligne d'urgence pénale. #}
+<section class="appel" aria-labelledby="appel-titre">
+    <div class="container">
+        <div class="appel__panneau" data-reveal>
+            <div class="appel__texte">
+                {% include 'vitrine/sites/avocat/partials/cote.html' with titre="Premier rendez-vous" %}
+                <h2 class="appel__titre" id="appel-titre">{{ site.labels.cta_title|fr_typo }}</h2>
+                <p>{{ site.labels.cta_text|fr_typo }}</p>
+                <div class="appel__actions">
+                    <a href="{% site_url 'contact' %}" class="btn btn--clair btn--lg">{{ site.labels.cta_button }}</a>
+                    <a href="tel:{{ site.telephone_lien }}" class="btn btn--trait-clair btn--lg">{{ site.telephone }}</a>
+                </div>
+            </div>
+            <ul class="appel__voies">
+                <li class="voie">
+                    <svg class="voie__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V9.5L12 4l8 5.5V20M4 20h16M9 20v-6h6v6M9 10.5h.01M15 10.5h.01" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div>
+                        <h3 class="voie__titre">Au cabinet</h3>
+                        <p>{{ site.adresse }}, {{ site.code_postal }} {{ site.ville }}. Métro {{ site.metro }}, à deux minutes.</p>
+                    </div>
+                </li>
+                <li class="voie">
+                    <svg class="voie__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="6" width="13" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m16 10.5 5-3v9l-5-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                    <div>
+                        <h3 class="voie__titre">En visioconférence</h3>
+                        <p>Le premier rendez-vous comme le suivi, sous 48&nbsp;heures ouvrées.</p>
+                    </div>
+                </li>
+                <li class="voie voie--urgence">
+                    <svg class="voie__icone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <div>
+                        <h3 class="voie__titre">{{ site.urgence.titre }}</h3>
+                        <p>{{ site.urgence.texte|fr_typo }}</p>
+                        <a class="voie__tel" href="tel:{{ site.telephone_lien }}">Appeler le {{ site.telephone }}</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </section>

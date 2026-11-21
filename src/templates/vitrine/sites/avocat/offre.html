@@ -1,92 +1,110 @@
 {% extends 'vitrine/sites/avocat/base.html' %}
 {% load static vitrine_tags %}
 
-{% block title %}{{ offre.nom }} — {{ site.nom }}{% endblock %}
+{% block title %}{{ offre.nom }} à {{ site.ville }} — {{ site.nom }}, avocats{% endblock %}
 {% block meta_description %}{{ offre.intro }}{% endblock %}
+{% block og_title %}{{ offre.nom }} — {{ site.nom }}{% endblock %}
+{% block extra_head %}
+{% with h=offre.prix|honoraire %}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Service", "name": "{{ offre.nom|escapejs }}", "serviceType": "{{ offre.nom|escapejs }}",
+ "description": "{{ offre.intro|escapejs }}", "areaServed": {"@type": "City", "name": "{{ site.ville }}"},
+ "provider": {"@type": "LegalService", "name": "{{ site.nom|escapejs }}", "telephone": "{{ site.telephone }}"}{% if h %},
+ "offers": {"@type": "Offer", "priceCurrency": "EUR", "priceSpecification": {"@type": "PriceSpecification", "minPrice": {{ h.ht }}, "priceCurrency": "EUR", "valueAddedTaxIncluded": false}}{% endif %}}
+</script>
+{% endwith %}
+{% endblock %}
 
 {% block content %}
 {% site_url 'offres' as offres_url %}
-<div class="vitrine-container">
-    {% include 'vitrine/sites/avocat/partials/pro/breadcrumb.html' with parent_label=site.labels.offres parent_url=offres_url current=offre.nom %}
-</div>
+{% for o in site.offres %}{% if o.slug == offre.slug %}{% with piece=forloop.counter|stringformat:"02d" %}
+<article class="fiche-domaine">
+    <div class="container">
+        {% include 'vitrine/sites/avocat/partials/breadcrumb.html' with parent_label=site.labels.offres parent_url=offres_url current=offre.nom %}
+        <div class="fiche-domaine__grille">
+            <figure class="fiche-domaine__photo">
+                <img src="{% static offre.image %}" alt="Illustration : {{ offre.nom|lower }}" width="1200" height="1500" fetchpriority="high" decoding="async">
+                <figcaption class="onglet">Pièce {{ piece }}</figcaption>
+            </figure>
+            <div class="fiche-domaine__corps">
+                {% include 'vitrine/sites/avocat/partials/cote.html' with titre=site.labels.offre_eyebrow %}
+                <h1 class="titre-page">{{ offre.nom }}</h1>
+                <p class="chapo">{{ offre.intro|fr_typo }}</p>
 
-<article class="vitrine-container pro-offre">
-    <div class="pro-offre__media">
-        <img src="{% static offre.image %}" alt="{{ offre.nom }} — {{ site.nom }}" width="1200" height="1500">
-    </div>
-    <div class="pro-offre__body">
-        <span class="vitrine-section__kicker">{{ site.labels.offre_eyebrow }}</span>
-        <h1 class="pro-offre__title">{{ offre.nom }}</h1>
-        <p class="pro-lead">{{ offre.intro }}</p>
-        {% if offre.prix %}
-        <dl class="pro-offre__facts">
-            <div><dt>{{ site.labels.offre_meta_prix|default:"Tarif" }}</dt><dd>{{ offre.prix }}</dd></div>
-            {% if offre.duree %}<div><dt>{{ site.labels.offre_meta_duree|default:"Durée" }}</dt><dd>{{ offre.duree }}</dd></div>{% endif %}
-        </dl>
-        {% endif %}
-        <ul class="pro-checklist">
-            {% for point in offre.points %}
-            <li>
-                <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                {{ point }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% if offre.suite %}<p class="pro-offre__suite">{{ offre.suite }}</p>{% endif %}
-        <div class="pro-offre__actions">
-            <a href="{% site_url 'contact' %}?prestation={{ offre.nom|urlencode }}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">{{ site.labels.detail_button }}</a>
-            <a href="tel:{{ site.telephone_lien }}" class="vitrine-btn vitrine-btn--secondary vitrine-btn--lg">{{ site.telephone }}</a>
+                <dl class="fiche-domaine__faits">
+                    <div>
+                        <dt>{{ site.labels.offre_meta_prix }}</dt>
+                        <dd>{% include 'vitrine/sites/avocat/partials/prix.html' with prix=offre.prix %}</dd>
+                    </div>
+                    <div>
+                        <dt>{{ site.labels.offre_meta_duree }}</dt>
+                        <dd>
+                            {% for membre in site.equipe %}{% if membre.nom == offre.duree %}
+                            <span class="referent">
+                                <img src="{% static membre.photo %}" alt="" width="800" height="1000" loading="lazy" decoding="async">
+                                <span><strong>{{ membre.nom }}</strong><span>{{ membre.role }}</span></span>
+                            </span>
+                            {% endif %}{% endfor %}
+                        </dd>
+                    </div>
+                </dl>
+
+                <h2 class="sous-titre">Ce que le cabinet traite</h2>
+                <ul class="coches">
+                    {% for point in offre.points %}
+                    <li>
+                        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        {{ point|fr_typo }}
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                {% if offre.suite %}
+                <aside class="note-marge">
+                    <p class="note-marge__titre">Bon à savoir</p>
+                    <p>{{ offre.suite|fr_typo }}</p>
+                </aside>
+                {% endif %}
+
+                <div class="fiche-domaine__actions">
+                    <a href="{% site_url 'contact' %}?prestation={{ offre.nom|urlencode }}" class="btn btn--primaire btn--lg">{{ site.labels.detail_button }}</a>
+                    <a href="tel:{{ site.telephone_lien }}" class="btn btn--trait btn--lg">{{ site.telephone }}</a>
+                </div>
+            </div>
         </div>
     </div>
 </article>
+{% endwith %}{% endif %}{% endfor %}
 
 {% if tarifs_groupe %}
-<section class="vitrine-container pro-offre__carte" aria-labelledby="offre-carte-title">
-    <div class="pro-card-panel pro-card-panel--wide">
-        <h2 class="pro-subtitle" id="offre-carte-title">{{ site.labels.tarifs|default:"Tarifs" }} — {{ tarifs_groupe.titre }}</h2>
-        <ul class="vitrine-carte__list">
-            {% for ligne in tarifs_groupe.lignes %}
-            <li class="vitrine-carte__ligne">
-                <div class="vitrine-carte__nom">
-                    <span>{{ ligne.nom }}</span>
-                    {% if ligne.note %}<span class="vitrine-carte__note-ligne">{{ ligne.note }}</span>{% endif %}
-                    <span class="vitrine-carte__duree">{{ ligne.duree }}</span>
+<section class="section section--suite" aria-labelledby="bareme-titre">
+    <div class="container">
+        <div class="bareme-encart">
+            <header class="bareme-encart__entete">
+                <div>
+                    {% include 'vitrine/sites/avocat/partials/cote.html' with titre=site.labels.tarifs %}
+                    <h2 class="titre-section titre-section--petit" id="bareme-titre">{{ tarifs_groupe.titre }} : le barème</h2>
                 </div>
-                <span class="vitrine-carte__prix">{{ ligne.prix }}</span>
-            </li>
-            {% endfor %}
-        </ul>
-        {% if site.tarifs_note %}<p class="pro-note">{{ site.tarifs_note }}</p>{% endif %}
+                {% include 'vitrine/sites/avocat/partials/taxe_toggle.html' %}
+            </header>
+            {% include 'vitrine/sites/avocat/partials/bareme_lignes.html' with lignes=tarifs_groupe.lignes %}
+            <p class="bareme-encart__note">{{ site.tarifs_note|fr_typo }} <a class="lien-fleche" href="{% site_url 'tarifs' %}">Tous les honoraires <span aria-hidden="true">→</span></a></p>
+        </div>
     </div>
 </section>
 {% endif %}
 
-{% if realisations_liees %}
-<section class="vitrine-section" aria-labelledby="offre-real-title">
-    <div class="vitrine-container">
-        <header class="pro-head">
-            <div>
-                <span class="vitrine-section__kicker">{{ site.labels.realisations_kicker }}</span>
-                <h2 class="pro-head__title" id="offre-real-title">{{ site.labels.realisations }} — {{ offre.nom }}</h2>
-            </div>
-            <div class="pro-head__aside"><a class="pro-link" href="{% site_url 'realisations' %}">Tout voir</a></div>
-        </header>
-        {% include 'vitrine/partials/realisations_grid.html' with items=realisations_liees %}
-    </div>
-</section>
-{% endif %}
-
-<nav class="vitrine-container pro-pager" aria-label="Autres pages">
+<nav class="container pager" aria-label="Autres expertises">
     {% if offre_precedente %}
-    <a class="pro-pager__link" href="{% site_url 'offre' offre_precedente.slug %}" rel="prev">
-        <span class="pro-pager__label">Précédent</span>
-        <span class="pro-pager__name">← {{ offre_precedente.nom }}</span>
+    <a class="pager__lien" href="{% site_url 'offre' offre_precedente.slug %}" rel="prev">
+        <span class="pager__label">← Expertise précédente</span>
+        <span class="pager__nom">{{ offre_precedente.nom }}</span>
     </a>
     {% else %}<span></span>{% endif %}
     {% if offre_suivante %}
-    <a class="pro-pager__link pro-pager__link--next" href="{% site_url 'offre' offre_suivante.slug %}" rel="next">
-        <span class="pro-pager__label">Suivant</span>
-        <span class="pro-pager__name">{{ offre_suivante.nom }} →</span>
+    <a class="pager__lien pager__lien--suivant" href="{% site_url 'offre' offre_suivante.slug %}" rel="next">
+        <span class="pager__label">Expertise suivante →</span>
+        <span class="pager__nom">{{ offre_suivante.nom }}</span>
     </a>
     {% endif %}
 </nav>

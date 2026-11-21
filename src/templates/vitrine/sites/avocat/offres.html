@@ -1,28 +1,28 @@
 {% extends 'vitrine/sites/avocat/base.html' %}
 {% load vitrine_tags %}
 
-{% block title %}{{ site.labels.offres }} — {{ site.nom }}{% endblock %}
-{% block meta_description %}{{ site.labels.offres_intro }}{% endblock %}
+{% block title %}Expertises du cabinet — {{ site.nom }}, avocats à {{ site.ville }}{% endblock %}
+{% block meta_description %}Droit de la famille, du travail, immobilier, des affaires et pénal : les cinq domaines du cabinet {{ site.nom }} à {{ site.ville }}, avec l'avocat référent et les honoraires de chacun.{% endblock %}
 
 {% block content %}
-<section class="vitrine-section pro-page">
-    <div class="vitrine-container">
-        {% include 'vitrine/sites/avocat/partials/pro/breadcrumb.html' with current=site.labels.offres %}
-        <header class="pro-head pro-head--page">
+<section class="page-entete">
+    <div class="container">
+        {% include 'vitrine/sites/avocat/partials/breadcrumb.html' with current=site.labels.offres %}
+        <div class="page-entete__grille">
             <div>
-                <span class="vitrine-section__kicker">{{ site.labels.offres_kicker }}</span>
-                <h1 class="pro-head__title">{{ site.labels.offres }}</h1>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with titre=site.labels.offres_kicker %}
+                <h1 class="titre-page">{{ site.labels.offres_title }}</h1>
             </div>
-            <div class="pro-head__aside">
-                <p>{{ site.labels.offres_intro }}</p>
-                {% if site.labels.tarifs_link %}<a class="pro-link" href="{% site_url 'tarifs' %}">{{ site.labels.tarifs_link }}</a>{% endif %}
+            <div class="page-entete__aside">
+                <p>{{ site.labels.offres_intro|fr_typo }}</p>
+                {% include 'vitrine/sites/avocat/partials/taxe_toggle.html' %}
             </div>
-        </header>
-        <ul class="pro-cards">
-            {% for offre in site.offres %}
-            <li>{% include 'vitrine/sites/avocat/partials/pro/offre_card.html' with heading='h2' %}</li>
-            {% endfor %}
-        </ul>
+        </div>
+    </div>
+</section>
+<section class="section section--suite">
+    <div class="container">
+        {% include 'vitrine/sites/avocat/partials/domaines.html' with titre_niveau='h2' %}
     </div>
 </section>
 {% endblock %}

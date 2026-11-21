@@ -1,0 +1,59 @@
+/* Montants d'honoraires : chiffres alignés, bascule TTC / HT */
+.prix {
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+}
+.prix__pre { font-weight: 400; opacity: 0.8; }
+.prix__taxe { font-size: 0.72em; font-weight: 600; letter-spacing: 0.06em; opacity: 0.75; }
+.prix__suf { opacity: 0.8; }
+.prix__val { display: inline-block; transition: opacity 0.2s var(--ease), transform 0.25s var(--ease); }
+.prix.is-changing .prix__val { opacity: 0; transform: translateY(-0.2em); }
+
+/* Sélecteur Particulier / Entreprise */
+.taxe {
+  display: inline-flex;
+  padding: 0.25rem;
+  gap: 0.2rem;
+  border: 1px solid var(--filet-fort);
+  border-radius: var(--r-pill);
+  background: var(--papier);
+}
+.taxe__btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--r-pill);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  color: var(--encre-doux);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.taxe__btn { white-space: nowrap; }
+@media (max-width: 399px) { .taxe__btn { padding: 0.45rem 0.75rem; font-size: 0.85rem; } }
+.taxe__btn span { font-size: 0.72em; font-weight: 600; letter-spacing: 0.08em; margin-left: 0.2rem; opacity: 0.75; }
+.taxe__btn:hover { color: var(--encre); }
+.taxe__btn[aria-pressed="true"] { background: var(--encre); color: var(--ivoire); box-shadow: 0 6px 16px -10px rgba(20, 28, 43, 0.7); }
+
+.sombre .taxe { background: rgba(247, 244, 238, 0.05); border-color: var(--filet-clair-fort); }
+.sombre .taxe__btn { color: rgba(247, 244, 238, 0.72); }
+.sombre .taxe__btn:hover { color: var(--ivoire); }
+.sombre .taxe__btn[aria-pressed="true"] { background: var(--ivoire); color: var(--encre); }
+
+/* Barème en points de conduite */
+.bareme { display: grid; }
+.bareme__ligne {
+  display: grid;
+  grid-template-columns: auto minmax(1.5rem, 1fr) auto;
+  align-items: baseline;
+  column-gap: 0.6rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--filet);
+}
+.bareme__ligne:first-child { border-top: 1px solid var(--filet); }
+.bareme__nom { font-weight: 500; color: var(--encre); }
+.bareme__points { border-bottom: 1px dotted var(--filet-fort); transform: translateY(-0.3em); }
+.bareme__prix { font-family: var(--f-titre); font-size: 1.08rem; color: var(--laiton-fonce); text-align: right; }
+.bareme__detail { grid-column: 1 / -1; font-size: 0.85rem; color: var(--encre-doux); margin-top: 0.15rem; }
+@media (max-width: 479px) {
+  .bareme__ligne { grid-template-columns: 1fr auto; }
+  .bareme__points { display: none; }
+  .bareme__nom { padding-right: 1rem; }
+}

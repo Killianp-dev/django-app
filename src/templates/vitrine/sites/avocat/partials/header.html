@@ -1,69 +1,92 @@
 {% load vitrine_tags %}
-<header class="vitrine-header" role="banner">
-    <div class="vitrine-container">
-        <div class="vitrine-header__inner">
-            <a href="{% site_url 'home' %}" class="vitrine-header__logo">
-                <span class="vitrine-header__logo-text">{{ site.nom }}</span>
-            </a>
-            <nav class="vitrine-nav" aria-label="Navigation principale">
-                <ul class="vitrine-nav__list">
-                    <li class="vitrine-nav__item vitrine-nav__item--dropdown">
-                        <button type="button" class="vitrine-nav__link vitrine-nav__toggle" aria-expanded="false" aria-controls="vitrine-nav-offres">
-                            {{ site.labels.offres }}
-                        </button>
-                        <ul class="vitrine-nav__submenu" id="vitrine-nav-offres">
-                            <li class="vitrine-nav__subitem">
-                                <a href="{% site_url 'offres' %}" class="vitrine-nav__sublink">Tout voir</a>
-                            </li>
+{% with current=request.resolver_match.url_name %}
+<header class="header" data-nav-header>
+    <div class="container header__inner">
+        <a class="logo" href="{% site_url 'home' %}"{% if current == 'home' %} aria-current="page"{% endif %}>
+            <span class="logo__monogramme" aria-hidden="true">A<em>&amp;</em>C</span>
+            <span class="logo__texte">
+                <span class="logo__nom">{{ site.nom }}</span>
+                <span class="logo__ligne">Avocats · {{ site.ville }}</span>
+            </span>
+        </a>
+
+        <nav class="nav" aria-label="Navigation principale">
+            <ul class="nav__liste">
+                <li class="nav__item nav__item--menu" data-menu>
+                    <button class="nav__lien nav__toggle" type="button" aria-expanded="false" aria-controls="menu-expertises" data-menu-toggle{% if current == 'offres' or current == 'offre' %} data-current{% endif %}>
+                        {{ site.labels.offres }}
+                        <svg class="nav__chevron" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="nav__menu" id="menu-expertises">
+                        <ul class="nav__sous-liste">
                             {% for offre in site.offres %}
-                            <li class="vitrine-nav__subitem">
-                                <a href="{% site_url 'offre' offre.slug %}" class="vitrine-nav__sublink">
-                                    <span class="vitrine-nav__sublink-name">{{ offre.nom }}</span>
-                                    {% if offre.prix %}<span class="vitrine-nav__sublink-meta">{{ offre.prix }}</span>{% endif %}
+                            <li>
+                                <a class="nav__sous-lien" href="{% site_url 'offre' offre.slug %}"{% if offre.slug == request.resolver_match.kwargs.slug %} aria-current="page"{% endif %}>
+                                    <span class="nav__sous-num" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
+                                    <span class="nav__sous-nom">{{ offre.nom }}</span>
+                                    <span class="nav__sous-meta">{{ offre.accroche }}</span>
+                                    <span class="nav__sous-ref">{{ offre.duree }}</span>
                                 </a>
                             </li>
                             {% endfor %}
                         </ul>
-                    </li>
-                    {% if site.realisations %}
-                    <li class="vitrine-nav__item">
-                        <a href="{% site_url 'realisations' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'realisations' %}aria-current="page"{% endif %}>
-                            {{ site.labels.realisations }}
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if site.labels.tarifs %}
-                    <li class="vitrine-nav__item">
-                        <a href="{% site_url 'tarifs' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'tarifs' %}aria-current="page"{% endif %}>
-                            {{ site.labels.tarifs }}
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% if site.labels.faq_nav %}
-                    <li class="vitrine-nav__item">
-                        <a href="{% site_url 'faq' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'faq' %}aria-current="page"{% endif %}>
-                            {{ site.labels.faq_nav }}
-                        </a>
-                    </li>
-                    {% endif %}
-                    <li class="vitrine-nav__item">
-                        <a href="{% site_url 'about' %}" class="vitrine-nav__link" {% if request.resolver_match.url_name == 'about' %}aria-current="page"{% endif %}>
-                            {{ site.labels.about_link }}
-                        </a>
-                    </li>
-                    <li class="vitrine-nav__item">
-                        <a href="{% site_url 'contact' %}" class="vitrine-nav__link vitrine-nav__link--cta" {% if request.resolver_match.url_name == 'contact' %}aria-current="page"{% endif %}>
-                            {{ site.labels.nav_cta|default:"Contact" }}
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <button class="vitrine-nav-mobile-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="vitrine-nav-mobile">
-                <span class="vitrine-nav-mobile-toggle__bar"></span>
-                <span class="vitrine-nav-mobile-toggle__bar"></span>
-                <span class="vitrine-nav-mobile-toggle__bar"></span>
-            </button>
-        </div>
+                        <a class="nav__tout" href="{% site_url 'offres' %}"{% if current == 'offres' %} aria-current="page"{% endif %}>Toutes les expertises <span aria-hidden="true">→</span></a>
+                    </div>
+                </li>
+                {% if site.tarifs %}<li class="nav__item"><a class="nav__lien" href="{% site_url 'tarifs' %}"{% if current == 'tarifs' %} aria-current="page"{% endif %}>{{ site.labels.tarifs }}</a></li>{% endif %}
+                {% if site.labels.faq_nav %}<li class="nav__item"><a class="nav__lien" href="{% site_url 'faq' %}"{% if current == 'faq' %} aria-current="page"{% endif %}>{{ site.labels.faq_nav }}</a></li>{% endif %}
+                <li class="nav__item"><a class="nav__lien" href="{% site_url 'about' %}"{% if current == 'about' %} aria-current="page"{% endif %}>{{ site.labels.about_link }}</a></li>
+            </ul>
+        </nav>
+
+        <a class="header__tel" href="tel:{{ site.telephone_lien }}">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 3.5h2.6l1.4 4-2 1.3a11 11 0 0 0 6.6 6.6l1.3-2 4 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            {{ site.telephone }}
+        </a>
+        <a class="btn btn--primaire header__cta" href="{% site_url 'contact' %}"{% if current == 'contact' %} aria-current="page"{% endif %}>{{ site.labels.nav_cta }}</a>
+        <button class="header__burger" type="button" data-nav-toggle aria-expanded="false" aria-controls="vitrine-nav-mobile" aria-label="Ouvrir le menu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </button>
     </div>
 </header>
-{% include 'vitrine/sites/avocat/partials/nav_mobile.html' %}
+
+{# Menu mobile : panneau posé sur un voile. nav.js l'ouvre et le ferme ; avocat.js ferme au toucher du voile. #}
+<nav class="nav-mobile" id="vitrine-nav-mobile" aria-label="Navigation mobile" hidden>
+    <div class="nav-mobile__panneau">
+        <ul class="nav-mobile__liens">
+            <li><a class="nav-mobile__lien" href="{% site_url 'home' %}"{% if current == 'home' %} aria-current="page"{% endif %}>Accueil</a></li>
+            <li>
+                <details class="nav-mobile__sous"{% if current == 'offres' or current == 'offre' %} open{% endif %}>
+                    <summary class="nav-mobile__lien">
+                        {{ site.labels.offres }}
+                        <svg class="nav-mobile__deplier" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </summary>
+                    <ul class="nav-mobile__sous-liste">
+                        {% for offre in site.offres %}
+                        <li><a href="{% site_url 'offre' offre.slug %}"{% if offre.slug == request.resolver_match.kwargs.slug %} aria-current="page"{% endif %}><span aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>{{ offre.nom }}</a></li>
+                        {% endfor %}
+                        <li><a href="{% site_url 'offres' %}"{% if current == 'offres' %} aria-current="page"{% endif %}><span aria-hidden="true">→</span>Toutes les expertises</a></li>
+                    </ul>
+                </details>
+            </li>
+            {% if site.tarifs %}<li><a class="nav-mobile__lien" href="{% site_url 'tarifs' %}"{% if current == 'tarifs' %} aria-current="page"{% endif %}>{{ site.labels.tarifs }}</a></li>{% endif %}
+            {% if site.labels.faq_nav %}<li><a class="nav-mobile__lien" href="{% site_url 'faq' %}"{% if current == 'faq' %} aria-current="page"{% endif %}>{{ site.labels.faq_nav }}</a></li>{% endif %}
+            <li><a class="nav-mobile__lien" href="{% site_url 'about' %}"{% if current == 'about' %} aria-current="page"{% endif %}>{{ site.labels.about_link }}</a></li>
+        </ul>
+        <div class="nav-mobile__contact">
+            {% if site.horaires_semaine %}
+            <p class="vitrine-statut" data-statut hidden>
+                <span class="vitrine-statut__dot" aria-hidden="true"></span>
+                <span data-statut-texte></span>
+            </p>
+            {% endif %}
+            <div class="nav-mobile__actions">
+                <a class="btn btn--primaire btn--lg" href="{% site_url 'contact' %}">{{ site.labels.nav_cta }}</a>
+                <a class="btn btn--trait btn--lg" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+            </div>
+            <p class="nav-mobile__adresse">{{ site.adresse }}, {{ site.code_postal }} {{ site.ville }} · Métro {{ site.metro }}</p>
+        </div>
+    </div>
+</nav>
+{% endwith %}

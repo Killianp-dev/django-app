@@ -1,8 +1,8 @@
 {% extends 'vitrine/sites/avocat/base.html' %}
 {% load vitrine_tags %}
 
-{% block title %}{{ site.labels.faq_nav }} — {{ site.nom }}{% endblock %}
-{% block meta_description %}{{ site.labels.faq_title }}{% endblock %}
+{% block title %}Questions fréquentes — {{ site.nom }}, avocats à {{ site.ville }}{% endblock %}
+{% block meta_description %}Prix d'un premier rendez-vous, aide juridictionnelle, visioconférence, secret professionnel : les réponses du cabinet {{ site.nom }} avant un premier rendez-vous.{% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for item in site.faq %}{"@type": "Question", "name": "{{ item.question|escapejs }}", "acceptedAnswer": {"@type": "Answer", "text": "{{ item.reponse|escapejs }}"}}{% if not forloop.last %}, {% endif %}{% endfor %}]}
@@ -10,8 +10,20 @@
 {% endblock %}
 
 {% block content %}
-<div class="vitrine-container">
-    {% include 'vitrine/sites/avocat/partials/pro/breadcrumb.html' with current=site.labels.faq_nav %}
-</div>
-{% include 'vitrine/sites/avocat/partials/faq.html' %}
+<section class="page-entete">
+    <div class="container">
+        {% include 'vitrine/sites/avocat/partials/breadcrumb.html' with current=site.labels.faq_nav %}
+        <div class="page-entete__grille">
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with titre=site.labels.faq_kicker %}
+                <h1 class="titre-page" id="faq-titre">{{ site.labels.faq_title|fr_typo }}</h1>
+            </div>
+            <div class="page-entete__aside">
+                <p>Une question qui n'est pas ici ? Le secrétariat répond de 9h à 18h, et votre message est couvert par le secret professionnel.</p>
+                <a class="lien-fleche" href="{% site_url 'contact' %}">Écrire au cabinet <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'vitrine/sites/avocat/partials/faq.html' with page=True %}
 {% endblock %}

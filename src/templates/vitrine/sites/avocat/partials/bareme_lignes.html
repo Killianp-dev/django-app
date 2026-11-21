@@ -1,0 +1,12 @@
+{% load vitrine_tags %}
+{# Lignes d'un barème, en points de conduite : libellé ……… montant. #}
+<ul class="bareme">
+    {% for ligne in lignes %}
+    <li class="bareme__ligne">
+        <span class="bareme__nom">{{ ligne.nom|fr_typo }}</span>
+        <span class="bareme__points" aria-hidden="true"></span>
+        <span class="bareme__prix">{% include 'vitrine/sites/avocat/partials/prix.html' with prix=ligne.prix %}</span>
+        <span class="bareme__detail">{{ ligne.duree|fr_typo }}{% if ligne.note %} · {{ ligne.note|fr_typo }}{% endif %}</span>
+    </li>
+    {% endfor %}
+</ul>

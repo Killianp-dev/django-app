@@ -1,17 +1,24 @@
 {% load vitrine_tags %}
-<section class="vitrine-section vitrine-section--faq" aria-labelledby="faq-title">
-    <div class="vitrine-container vitrine-container--medium vitrine-faq">
-        <header class="vitrine-faq__header">
-            <span class="vitrine-section__kicker">{{ site.labels.faq_kicker }}</span>
-            <h2 class="vitrine-section__title" id="faq-title">{{ site.labels.faq_title }}</h2>
-            {% if limit and site.labels.faq_nav %}<p class="vitrine-faq__more"><a class="pro-link" href="{% site_url 'faq' %}">Toutes les questions</a></p>{% endif %}
+{# Questions fréquentes. `limit` : nombre de questions (accueil) ; `page` : la page Questions (le titre est le h1 de la page). #}
+<section class="section faq" aria-labelledby="faq-titre">
+    <div class="container faq__inner">
+        {% if not page %}
+        <header class="faq__entete" data-reveal>
+            {% include 'vitrine/sites/avocat/partials/cote.html' with piece=piece titre=site.labels.faq_kicker %}
+            <h2 class="titre-section" id="faq-titre">{{ site.labels.faq_title|fr_typo }}</h2>
+            {% if limit and site.labels.faq_nav %}<a class="lien-fleche" href="{% site_url 'faq' %}">Toutes les questions <span aria-hidden="true">→</span></a>{% endif %}
         </header>
-        <div class="vitrine-faq__list">
+        {% endif %}
+        <div class="faq__liste{% if page %} faq__liste--page{% endif %}">
             {% for item in site.faq %}
             {% if not limit or forloop.counter <= limit %}
-            <details class="vitrine-faq__item"{% if forloop.first %} open{% endif %}>
-                <summary class="vitrine-faq__question">{{ item.question }}</summary>
-                <p class="vitrine-faq__answer">{{ item.reponse }}</p>
+            <details class="question"{% if forloop.first %} open{% endif %}>
+                <summary class="question__titre">
+                    <span class="question__num" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
+                    <span class="question__texte">{{ item.question|fr_typo }}</span>
+                    <span class="question__icone" aria-hidden="true"></span>
+                </summary>
+                <div class="question__reponse"><p>{{ item.reponse|fr_typo }}</p></div>
             </details>
             {% endif %}
             {% endfor %}

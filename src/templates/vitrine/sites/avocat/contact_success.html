@@ -5,15 +5,17 @@
 {% block cta %}{% endblock %}
 
 {% block content %}
-<section class="vitrine-container vitrine-container--narrow" style="padding:var(--space-2xl) 0;">
-    <div class="vitrine-contact-success">
-        <div class="vitrine-contact-success__icon" aria-hidden="true">✓</div>
-        <h1 style="font-size:clamp(2rem,4vw,2.75rem);margin-bottom:var(--space-sm);">Message envoyé</h1>
-        <p style="font-size:var(--text-lg);color:var(--color-ink-soft);margin-bottom:var(--space-lg);">
-            Merci. Dans cette démonstration, le message n'est pas transmis à {{ site.nom }}.
-            Il part vers l'auteur du site.
-        </p>
-        <a href="{% site_url 'home' %}" class="vitrine-btn vitrine-btn--primary">Retour à l'accueil</a>
+<section class="section">
+    <div class="container">
+        <div class="succes">
+            <span class="succes__icone" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false"><path d="M5.5 12.5l4 4 9-9.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            {% include 'vitrine/sites/avocat/partials/cote.html' with titre="Message envoyé" %}
+            <h1 class="titre-page">Merci, votre message est parti.</h1>
+            <p class="chapo">Dans cette démonstration, le message n'est pas transmis à {{ site.nom }} : il part vers l'auteur du site.</p>
+            <a href="{% site_url 'home' %}" class="btn btn--primaire btn--lg">Retour à l'accueil</a>
+        </div>
     </div>
 </section>
 {% endblock %}

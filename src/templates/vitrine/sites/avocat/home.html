@@ -1,34 +1,184 @@
-{% extends 'vitrine/sites/avocat/home_commun.html' %}
-{% load vitrine_tags %}
+{% extends 'vitrine/sites/avocat/base.html' %}
+{% load static vitrine_tags %}
 
-{% block signature %}
-<section class="pro-band avocat-honoraires" aria-labelledby="honoraires-title">
-    <div class="vitrine-container">
-        <header class="pro-head">
-            <div>
-                <span class="vitrine-section__kicker">{{ site.labels.signature_kicker }}</span>
-                <h2 class="pro-head__title" id="honoraires-title">{{ site.labels.signature_title }}</h2>
-            </div>
-            <div class="pro-head__aside">
-                <p>Trois façons de facturer, choisies avec vous et écrites dans une convention signée avant toute démarche.</p>
-                <a class="pro-link" href="{% site_url 'tarifs' %}">Le détail des honoraires</a>
-            </div>
-        </header>
-        <ul class="avocat-honoraires__grid">
-            {% for formule in site.honoraires %}
-            <li class="avocat-formule{% if formule.vedette %} avocat-formule--vedette{% endif %}">
-                {% if formule.vedette %}<span class="avocat-formule__badge">Le plus demandé</span>{% endif %}
-                <h3 class="avocat-formule__titre">{{ formule.titre }}</h3>
-                <p class="avocat-formule__prix">{{ formule.prix }} <span>{{ formule.unite }}</span></p>
-                <p class="avocat-formule__texte">{{ formule.texte }}</p>
-                <ul class="avocat-formule__points">
-                    {% for point in formule.points %}<li>{{ point }}</li>{% endfor %}
-                </ul>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-</section>
+{% block title %}{{ site.titre }}{% endblock %}
+{% block body_class %}page-accueil{% endblock %}
+{% block extra_head %}
+<link rel="preload" as="image" type="image/webp" fetchpriority="high"
+      imagesrcset="{% static 'vitrine/photos/avocat/hero-bibliotheque-960.webp' %} 960w, {% static 'vitrine/photos/avocat/hero-bibliotheque-1600.webp' %} 1600w, {% static 'vitrine/photos/avocat/hero-bibliotheque-2400.webp' %} 2400w"
+      imagesizes="100vw">
+{% if site.faq %}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{% for item in site.faq %}{"@type": "Question", "name": "{{ item.question|escapejs }}", "acceptedAnswer": {"@type": "Answer", "text": "{{ item.reponse|escapejs }}"}}{% if not forloop.last %}, {% endif %}{% endfor %}]}
+</script>
+{% endif %}
 {% endblock %}
 
-{% block equipe %}{% include 'vitrine/sites/avocat/partials/pro/equipe.html' %}{% endblock %}
+{% block content %}
+{# ——— Hero : la bibliothèque du cabinet en pleine largeur, voile marine, fiche du dossier en pied ——— #}
+<section class="hero" aria-labelledby="hero-titre">
+    <picture class="hero__photo">
+        <source type="image/webp"
+                srcset="{% static 'vitrine/photos/avocat/hero-bibliotheque-960.webp' %} 960w, {% static 'vitrine/photos/avocat/hero-bibliotheque-1600.webp' %} 1600w, {% static 'vitrine/photos/avocat/hero-bibliotheque-2400.webp' %} 2400w"
+                sizes="100vw">
+        <img src="{% static site.photos.hero %}" alt="" width="1600" height="1066" fetchpriority="high" decoding="async">
+    </picture>
+    <div class="hero__voile" aria-hidden="true"></div>
+
+    <div class="container hero__inner">
+        <div class="hero__contenu">
+            {% if site.horaires_semaine %}
+            {# Mobile : l'état d'ouverture remplace la carte flottante (site.js met à jour tous les [data-statut]). #}
+            <p class="vitrine-statut hero__statut" data-statut hidden>
+                <span class="vitrine-statut__dot" aria-hidden="true"></span>
+                <span data-statut-texte></span>
+            </p>
+            {% endif %}
+            <p class="hero__surtitre" style="--i: 0">{{ site.eyebrow }}</p>
+            <h1 class="hero__titre" id="hero-titre" style="--i: 1">
+                {{ site.hero_titre.avant }} <em>{{ site.hero_titre.accent }}</em> {{ site.hero_titre.apres }}
+            </h1>
+            <p class="hero__chapo" style="--i: 2">{{ site.accroche|fr_typo }}</p>
+            <div class="hero__actions" style="--i: 3">
+                <a href="{% site_url 'contact' %}" class="btn btn--primaire btn--lg">{{ site.labels.nav_cta }}</a>
+                <a href="{% site_url 'offres' %}" class="btn btn--trait-clair btn--lg">{{ site.labels.hero_primary }}</a>
+            </div>
+            <ul class="hero__engagements" style="--i: 4">
+                {% for engagement in site.engagements %}
+                <li>
+                    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    {{ engagement|fr_typo }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="hero__carte" style="--i: 3">
+            {% if site.horaires_semaine %}
+            <p class="vitrine-statut" data-statut hidden>
+                <span class="vitrine-statut__dot" aria-hidden="true"></span>
+                <span data-statut-texte></span>
+            </p>
+            {% endif %}
+            <p class="hero__carte-role">{{ site.role_line }}</p>
+            <a class="hero__carte-tel" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+            <p class="hero__carte-adresse">{{ site.adresse }} · Métro {{ site.metro }}</p>
+        </div>
+    </div>
+
+    {% if site.reperes %}
+    <div class="container">
+        <dl class="fiche" aria-label="Le cabinet en bref" style="--i: 5">
+            {% for repere in site.reperes %}
+            <div class="fiche__ligne">
+                <dt>{{ repere.label }}</dt>
+                <dd>{% if repere.href %}<a href="{{ repere.href }}">{{ repere.value }}</a>{% else %}{{ repere.value|fr_typo }}{% endif %}</dd>
+            </div>
+            {% endfor %}
+        </dl>
+    </div>
+    {% endif %}
+</section>
+
+{# ——— Pièce 01 : les domaines, en sommaire ——— #}
+<section class="section domaines-section" aria-labelledby="domaines-titre">
+    <div class="container">
+        <header class="entete" data-reveal>
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with piece="01" titre=site.labels.offres_kicker %}
+                <h2 class="titre-section" id="domaines-titre">{{ site.labels.offres_title }}</h2>
+            </div>
+            <div class="entete__aside">
+                <p>{{ site.labels.offres_intro|fr_typo }}</p>
+                <a class="lien-fleche" href="{% site_url 'offres' %}">Toutes les expertises <span aria-hidden="true">→</span></a>
+            </div>
+        </header>
+        {% include 'vitrine/sites/avocat/partials/domaines.html' with titre_niveau='h3' %}
+    </div>
+</section>
+
+{# ——— Pièce 02 : les honoraires (section signature) ——— #}
+<section class="section sombre honoraires" aria-labelledby="honoraires-titre">
+    <div class="container">
+        <header class="entete" data-reveal>
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with piece="02" titre=site.labels.signature_kicker %}
+                <h2 class="titre-section" id="honoraires-titre">{{ site.labels.signature_title }}</h2>
+            </div>
+            <div class="entete__aside">
+                <p>Trois façons de facturer, choisies avec vous et écrites dans une convention signée avant toute démarche.</p>
+                {% include 'vitrine/sites/avocat/partials/taxe_toggle.html' %}
+            </div>
+        </header>
+        {% include 'vitrine/sites/avocat/partials/formules.html' %}
+        <div class="honoraires__pied" data-reveal>
+            <aside class="note-marge">
+                <p class="note-marge__titre">Convention d'honoraires</p>
+                <p>{{ site.convention_note|fr_typo }}</p>
+            </aside>
+            <a class="lien-fleche" href="{% site_url 'tarifs' %}">Le barème complet <span aria-hidden="true">→</span></a>
+        </div>
+    </div>
+</section>
+
+{# ——— Pièce 03 : les associés ——— #}
+{% include 'vitrine/sites/avocat/partials/associes.html' with piece="03" %}
+
+{# ——— Pièce 04 : le déroulé du dossier ——— #}
+<section class="section deroule" aria-labelledby="deroule-titre">
+    <div class="container deroule__inner">
+        <div>
+            <header class="deroule__entete" data-reveal>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with piece="04" titre=site.labels.steps_kicker %}
+                <h2 class="titre-section" id="deroule-titre">{{ site.labels.steps_title }}</h2>
+            </header>
+            <ol class="etapes">
+                {% for etape in site.etapes %}
+                <li class="etape" data-reveal>
+                    <span class="etape__num" aria-hidden="true">{{ etape.numero }}</span>
+                    <div>
+                        <h3 class="etape__titre">{{ etape.titre }}</h3>
+                        <p class="etape__texte">{{ etape.texte|fr_typo }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% if site.horaires_semaine %}{% include 'vitrine/sites/avocat/partials/horaires_carte.html' %}{% endif %}
+    </div>
+</section>
+
+{# ——— Pièce 05 : les engagements (pas de témoignages : règles de la profession) ——— #}
+{% include 'vitrine/sites/avocat/partials/engagements.html' with piece="05" %}
+
+{# ——— Pièce 06 : le cabinet, en pratique ——— #}
+<section class="section cabinet" aria-labelledby="cabinet-titre">
+    <div class="container cabinet__inner">
+        <div class="cabinet__texte" data-reveal>
+            {% include 'vitrine/sites/avocat/partials/cote.html' with piece="06" titre=site.labels.about %}
+            <h2 class="titre-section" id="cabinet-titre">{{ site.labels.about_title }}</h2>
+            <p class="chapo">{{ site.a_propos.0|fr_typo }}</p>
+            {% if site.chiffres %}
+            <dl class="chiffres">
+                {% for chiffre in site.chiffres %}
+                <div class="chiffres__item"><dt>{{ chiffre.label }}</dt><dd>{{ chiffre.valeur|fr_typo }}</dd></div>
+                {% endfor %}
+            </dl>
+            {% endif %}
+            <a class="lien-fleche" href="{% site_url 'about' %}">{{ site.labels.more }} sur le cabinet <span aria-hidden="true">→</span></a>
+        </div>
+        <aside class="dossier" aria-labelledby="dossier-titre" data-reveal>
+            <span class="onglet onglet--clair">Infos pratiques</span>
+            <h3 class="dossier__titre" id="dossier-titre">Venir au cabinet</h3>
+            <dl class="dossier__faits">
+                {% for fait in site.faits %}
+                <div><dt>{{ fait.label }}</dt><dd>{{ fait.texte|fr_typo }}</dd></div>
+                {% endfor %}
+            </dl>
+            <a class="btn btn--trait" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+        </aside>
+    </div>
+</section>
+
+{% if site.faq %}{% include 'vitrine/sites/avocat/partials/faq.html' with limit=4 piece="07" %}{% endif %}
+{% endblock %}

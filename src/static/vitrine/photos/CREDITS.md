@@ -21,7 +21,7 @@ brioche lT2pft3tawE, vitrine-pains R3iAcQxylmE, petit-dejeuner Ns2aJ5OXKds,
 comptoir-viennoiseries iKExZ008Zh0, vitrine-boutique qPQqZ0y-rJ0
 
 ## Cabinet d'avocats (`avocat/`)
-hero-bureau pXKv-0-aYDY · affaires-reunion iPheGw7_UaI · famille-enfant 8SwpPqFeoR4 ·
+hero-bibliotheque jKU2NneZAbI (Clarisse Meyer ; déclinée en 960/1600/2400 px, WebP + JPEG) · affaires-reunion iPheGw7_UaI · famille-enfant 8SwpPqFeoR4 ·
 immobilier-facade iL7u5NgpTAI · travail-contrat et about, penal (photos d'origine du projet) ·
 equipe : solene-aubert KmRM8RkL2ZI, julien-clerc pAtA8xe_iVM
 

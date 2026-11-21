@@ -1,68 +1,62 @@
-/**
- * Variables CSS — design system "chic / sobre / élégant"
- * Portée : .vitrine uniquement (pas :root global)
- */
+/* ==================================================
+   VARIABLES — Aubert & Clerc
+   ================================================= */
+:root {
+  /* Matières */
+  --encre: #141C2B;          /* texte, aplats sombres : marine neutre, sans dérive verte */
+  --encre-2: #1B2537;        /* surfaces sur fond sombre */
+  --encre-3: #0F1521;        /* pied de page */
+  --encre-doux: #4C5566;     /* texte secondaire (7,1:1 sur ivoire) */
+  --ivoire: #F7F4EE;         /* fond de page */
+  --velin: #EFEAE1;          /* fonds de section plus soutenus */
+  --papier: #FCFBF8;         /* cartes, champs */
+  --laiton: #8A6840;         /* l'accent (4,9:1 sur ivoire) */
+  --laiton-fonce: #6E5131;
+  --laiton-clair: #C9A774;   /* l'accent sur fond sombre (8,1:1 sur encre) */
+  --laiton-pale: #EADFCB;
+  --ouvert: #2F7D57;
+  --bientot: #A35F00;
+  --erreur: #A3241E;
 
-.vitrine {
-    --color-bg: #F6F3EE;
-    --color-surface: #EBE6DC;
-    --color-ink: #1A2332;
-    --color-ink-soft: #5C6573;
-    --color-accent: #8A6840;
-    --color-accent-hover: #6B4E2E;
-    --color-accent-soft: #D9B48F;
-    --color-on-accent: #FFFFFF;
-    --color-border: #D8D0C4;
-    --focus-ring: #8A6840;
-    --color-hero: #2A384C;
-    --font-heading: "Playfair Display", Georgia, serif;
-    --font-body: "Inter", -apple-system, system-ui, sans-serif;
+  /* Filets */
+  --filet: rgba(20, 28, 43, 0.11);
+  --filet-fort: rgba(20, 28, 43, 0.22);
+  --filet-clair: rgba(247, 244, 238, 0.14);
+  --filet-clair-fort: rgba(247, 244, 238, 0.3);
 
-    /* Espacements (échelle généreuse, respiration) */
-    --space-3xs: 0.25rem;
-    --space-2xs: 0.5rem;
-    --space-xs: 0.75rem;
-    --space-sm: 1rem;
-    --space-md: 1.5rem;
-    --space-lg: 2.5rem;
-    --space-xl: 4rem;
-    --space-2xl: 6rem;
-    --space-3xl: 9rem;
+  /* Typographie */
+  --f-titre: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  --f-texte: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-note: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --t-xs: 0.75rem;
+  --t-sm: 0.9063rem;
+  --t-base: 1.0625rem;
+  --t-lg: 1.1875rem;
+  --t-xl: clamp(1.3rem, 1.15rem + 0.55vw, 1.6rem);
+  --t-2xl: clamp(2rem, 1.45rem + 2.1vw, 3.1rem);
+  --t-page: clamp(2.35rem, 1.65rem + 2.9vw, 3.9rem);
+  --t-hero: clamp(2.6rem, 1.45rem + 4.6vw, 5.1rem);
 
-    /* Conteneur */
-    --container-max-width: 1320px;
-    --container-padding: 1.5rem;
+  /* Formes */
+  --r-sm: 8px;               /* boutons, champs */
+  --r: 14px;                 /* cartes */
+  --r-lg: 20px;              /* grands panneaux, photos */
+  --r-pill: 999px;
+  --ombre: 0 1px 2px rgba(20, 28, 43, 0.05), 0 12px 32px -18px rgba(20, 28, 43, 0.28);
+  --ombre-haute: 0 2px 6px rgba(20, 28, 43, 0.06), 0 34px 70px -32px rgba(20, 28, 43, 0.45);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-    /* Typographie */
-    --text-xs: 0.8125rem;
-    --text-sm: 0.9375rem;
-    --text-base: 1.0625rem;
-    --text-lg: 1.25rem;
-    --text-xl: 1.5rem;
-    --text-2xl: 2rem;
-    --text-3xl: 2.75rem;
-    --text-4xl: 3.75rem;
-    --leading-tight: 1.15;
-    --leading-snug: 1.35;
-    --leading-normal: 1.7;
-    --tracking-wide: 0.04em;
-    --tracking-wider: 0.12em;
+  /* Mise en page */
+  --container: 1240px;
+  --texte-max: 46rem;
+  --gouttiere: 1.5rem;
+  --section: clamp(4.5rem, 3rem + 5vw, 7.5rem);
+  --header-h: 82px;
+}
 
-    /* Rayons (discrets, pas arrondis façon "app") */
-    --radius-sm: 2px;
-    --radius-md: 4px;
-    --radius-lg: 6px;
-
-    /* Ombres (très douces, diffuses) */
-    --shadow-sm: 0 1px 3px rgba(20, 16, 10, 0.06);
-    --shadow-md: 0 8px 24px -4px rgba(20, 16, 10, 0.10);
-    --shadow-lg: 0 24px 48px -8px rgba(20, 16, 10, 0.16);
-
-    /* Transitions (douces et lentes = chic) */
-    --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-base: 400ms cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 700ms cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Largeur trait fin (séparateurs élégants) */
-    --rule-width: 1px;
+@media (max-width: 768px) {
+  :root {
+    --gouttiere: 1.25rem;
+    --header-h: 68px;
+  }
 }

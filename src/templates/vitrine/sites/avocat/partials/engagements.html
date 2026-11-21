@@ -1,0 +1,25 @@
+{% load vitrine_tags %}
+{# Engagements du cabinet, à la place des témoignages : la déontologie interdit les mentions laudatives. #}
+<section class="section engagements" aria-labelledby="engagements-titre">
+    <div class="container">
+        <header class="entete" data-reveal>
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with piece=piece titre=site.labels.engagements_kicker %}
+                <h2 class="titre-section" id="engagements-titre">{{ site.labels.engagements_title|fr_typo }}</h2>
+            </div>
+            <aside class="note-marge entete__aside">
+                <p class="note-marge__titre">Note</p>
+                <p>{{ site.deontologie_note|fr_typo }}</p>
+            </aside>
+        </header>
+        <ol class="engagements__liste">
+            {% for gage in site.gages %}
+            <li class="engagement" data-reveal>
+                <span class="engagement__art" aria-hidden="true">Art. {% cycle 'I' 'II' 'III' 'IV' %}</span>
+                <h3 class="engagement__titre">{{ gage.titre }}</h3>
+                <p class="engagement__texte">{{ gage.texte|fr_typo }}</p>
+            </li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>

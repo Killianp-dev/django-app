@@ -49,6 +49,8 @@ def _schema_org(site, request):
             for index, jour in enumerate(jours)
             if jour.ouverture
         ]
+    # Compléments propres à une démo (associés, domaines, zone desservie…), facultatifs.
+    data.update(getattr(site, "schema_extra", None) or {})
     return json.dumps(data, ensure_ascii=False)
 
 

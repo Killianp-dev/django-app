@@ -1,0 +1,6 @@
+/* LE CABINET — texte et chiffres ; fiche « venir au cabinet » */
+.cabinet__inner { display: grid; gap: 3.5rem; align-items: start; }
+@media (min-width: 1024px) { .cabinet__inner { grid-template-columns: minmax(0, 7fr) minmax(0, 4.6fr); gap: 5rem; } }
+.cabinet .chapo { margin-top: 1.5rem; }
+.cabinet .dossier { margin-top: 1.9rem; }
+.cabinet .dossier .btn { width: 100%; }

@@ -1,0 +1,58 @@
+/* Formulaire de contact (widgets de vitrines/forms.py : .vitrine-form__input, .vitrine-hp) */
+.formulaire {
+  padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  background: var(--papier);
+  border: 1px solid var(--filet);
+  border-radius: var(--r-lg);
+  box-shadow: var(--ombre);
+}
+.formulaire__grille { display: grid; gap: 1.35rem 1.25rem; }
+@media (min-width: 640px) {
+  .formulaire__grille { grid-template-columns: 1fr 1fr; }
+  .champ--name, .champ--offre, .champ--message, .champ--case { grid-column: 1 / -1; }
+}
+.champ { display: grid; gap: 0.45rem; }
+.champ__label { font-size: var(--t-sm); font-weight: 600; color: var(--encre); }
+.champ__requis { color: var(--laiton); }
+.champ__option { font-weight: 400; color: var(--encre-doux); font-size: 0.85em; }
+
+.vitrine-form__input {
+  width: 100%;
+  min-height: 3.1rem;
+  padding: 0.75rem 0.95rem;
+  background: #fff;
+  border: 1px solid var(--filet-fort);
+  border-radius: var(--r-sm);
+  color: var(--encre);
+  font-size: 1rem;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.vitrine-form__input::placeholder { color: #8C929C; }
+.vitrine-form__input:hover { border-color: rgba(20, 28, 43, 0.4); }
+.vitrine-form__input:focus { outline: none; border-color: var(--laiton); box-shadow: 0 0 0 4px rgba(138, 104, 64, 0.16); }
+textarea.vitrine-form__input { min-height: 10rem; resize: vertical; line-height: 1.55; }
+select.vitrine-form__input {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238A6840' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 0.8rem;
+}
+.champ--erreur .vitrine-form__input { border-color: var(--erreur); }
+.champ__erreur { font-size: 0.85rem; color: var(--erreur); }
+
+.champ--case { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.75rem; font-size: var(--t-sm); color: var(--encre-doux); }
+.champ--case input { width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; accent-color: var(--laiton); flex: none; }
+.champ--case label { flex: 1; }
+.champ--case .champ__erreur { flex-basis: 100%; }
+
+.formulaire__alerte { padding: 1rem 1.15rem; margin-bottom: 1.5rem; border-radius: var(--r-sm); background: #FBEDEA; color: var(--erreur); font-size: var(--t-sm); }
+.formulaire__alerte ul { list-style: none; }
+.formulaire__pied { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-top: 1.75rem; }
+.formulaire__secret { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--encre-doux); }
+.formulaire__secret svg { width: 1.1rem; height: 1.1rem; color: var(--laiton); }
+.vitrine-form__submit:disabled { opacity: 0.7; cursor: progress; transform: none; }
+
+/* Piège à robots */
+.vitrine-hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }

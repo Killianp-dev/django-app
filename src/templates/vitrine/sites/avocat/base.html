@@ -1,5 +1,11 @@
 {% load static vitrine_tags %}<!DOCTYPE html>
-<html lang="fr" class="vitrine">
+{% comment %}
+Aubert & Clerc — démo autonome, direction « le dossier » : marine, laiton, papier ivoire,
+pièces numérotées et notes en marge. Ses templates, son CSS et son JS (static/vitrine/avocat/)
+ne servent qu'à elle. Partagé avec les autres démos : les données (vitrines/sites/avocat.py),
+les vues, le formulaire, les partials à comportement JS (horaires, barre mobile) et le texte légal.
+{% endcomment %}
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,32 +15,41 @@
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="fr_FR">
-    <meta property="og:title" content="{% block og_title %}{{ site.nom }}{% endblock %}">
+    <meta property="og:site_name" content="{{ site.nom }}">
+    <meta property="og:title" content="{% block og_title %}{{ site.titre }}{% endblock %}">
     <meta property="og:description" content="{{ site.description }}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <link rel="stylesheet" href="{% static 'vitrine/avocat/css/main.css' %}?v=20261113-pro">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'vitrine/photos/avocat/apercu.jpg' %}">
+    <meta property="og:image:width" content="1400">
+    <meta property="og:image:height" content="933">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#141C2B">
+    <script>document.documentElement.classList.add('js');</script>
+    <link rel="preload" href="{% static 'vitrine/fonts/PlayfairDisplay-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{% static 'vitrine/fonts/Inter-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{% static 'vitrine/avocat/css/main.css' %}?v=20261121">
     <script type="application/ld+json">{{ schema_org|safe }}</script>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="vitrine vitrine--{{ site.key }} {% block body_class %}{% endblock %}">
-    {% include 'vitrine/sites/avocat/partials/skip_link.html' %}
+<body class="avocat {% block body_class %}{% endblock %}">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
     {% include 'vitrine/partials/demo_banner.html' %}
     {% include 'vitrine/sites/avocat/partials/header.html' %}
-    <main id="contenu" class="vitrine-main">
+
+    <main id="contenu" tabindex="-1">
         {% block content %}{% endblock %}
     </main>
-    {% block cta %}
-    {% include 'vitrine/sites/avocat/partials/cta_contact.html' %}
-    {% endblock %}
+
+    {% block cta %}{% include 'vitrine/sites/avocat/partials/cta_contact.html' %}{% endblock %}
     {% include 'vitrine/sites/avocat/partials/footer.html' %}
+
     {% if site.horaires_semaine %}
     <script type="application/json" id="vitrine-horaires">[{% for jour in site.horaires_semaine %}{"nom": "{{ jour.nom }}", "ouverture": "{{ jour.ouverture|default:'' }}", "fermeture": "{{ jour.fermeture|default:'' }}"}{% if not forloop.last %}, {% endif %}{% endfor %}]</script>
     {% endif %}
     {% if site.barre_mobile %}{% include 'vitrine/partials/mobile_actions.html' %}{% endif %}
-    <script src="{% static 'vitrine/js/nav.js' %}?v=1" defer></script>
-    {% if site.horaires_semaine or site.realisations %}
+    <script src="{% static 'vitrine/js/nav.js' %}?v=2" defer></script>
     <script src="{% static 'vitrine/js/site.js' %}?v=2" defer></script>
-    {% endif %}
+    <script src="{% static 'vitrine/avocat/js/avocat.js' %}?v=20261121" defer></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

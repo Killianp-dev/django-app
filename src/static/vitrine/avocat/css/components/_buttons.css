@@ -1,80 +1,39 @@
-/**
- * Boutons — sobres, bords fins, pas de coins trop ronds
- */
-
-.vitrine-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.9rem 1.75rem;
-    font-size: var(--text-sm);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    text-decoration: none;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-base);
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    min-height: 48px;
-    white-space: nowrap;
+/* Boutons : rayon doux, une légère élévation au survol. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 2.875rem;
+  padding: 0.7rem 1.35rem;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-family: var(--f-texte);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  text-align: center;
+  white-space: nowrap;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease),
+    transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn--lg { min-height: 3.25rem; padding: 0.85rem 1.7rem; font-size: 1rem; }
 
-.vitrine-btn:focus-visible {
-    outline: 2px solid var(--focus-ring);
-    outline-offset: 3px;
+.btn--primaire { background: var(--laiton); color: #fff; box-shadow: 0 10px 24px -14px rgba(110, 81, 49, 0.8); }
+.btn--primaire:hover { background: var(--laiton-fonce); }
+
+.btn--clair { background: var(--ivoire); color: var(--encre); }
+.btn--clair:hover { background: #fff; }
+
+.btn--trait { border-color: var(--filet-fort); color: var(--encre); background: transparent; }
+.btn--trait:hover { border-color: var(--encre); background: rgba(20, 28, 43, 0.03); }
+
+.btn--trait-clair { border-color: var(--filet-clair-fort); color: var(--ivoire); background: rgba(247, 244, 238, 0.04); }
+.btn--trait-clair:hover { border-color: var(--ivoire); background: rgba(247, 244, 238, 0.1); }
+
+@media (max-width: 479px) {
+  .btn--lg { white-space: normal; }
 }
-
-.vitrine-btn--primary {
-    background-color: var(--color-accent);
-    color: var(--color-on-accent);
-    border-color: var(--color-accent);
-}
-
-.vitrine-btn--primary:hover {
-    background-color: var(--color-accent-hover);
-    border-color: var(--color-accent-hover);
-    color: var(--color-on-accent);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-}
-
-.vitrine-btn--secondary {
-    background-color: transparent;
-    color: var(--color-ink);
-    border-color: var(--color-border);
-}
-
-.vitrine-btn--secondary:hover {
-    border-color: var(--color-ink);
-    background-color: var(--color-surface);
-    color: var(--color-ink);
-}
-
-.vitrine-btn--outline {
-    background-color: transparent;
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-}
-
-.vitrine-btn--outline:hover {
-    background-color: var(--color-accent);
-    color: var(--color-on-accent);
-}
-
-/* Variante "sur image" (fond sombre type hero) */
-.vitrine-btn--ghost-light {
-    background-color: transparent;
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.6);
-}
-
-.vitrine-btn--ghost-light:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: #fff;
-    color: #fff;
-}
-
-
-.vitrine-btn--lg { padding: 1.1rem 2.25rem; font-size: var(--text-base); }

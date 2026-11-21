@@ -1,0 +1,81 @@
+/* ==================================================
+   HONORAIRES — section signature : trois « actes », la formule courante surélevée
+   ================================================= */
+.honoraires { position: relative; overflow: hidden; }
+.honoraires::before {
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto auto;
+  width: 60vw;
+  height: 60vw;
+  max-width: 900px;
+  max-height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(201, 167, 116, 0.1), transparent);
+  pointer-events: none;
+}
+.honoraires .container { position: relative; }
+
+.formules { display: grid; gap: 2.75rem 1.25rem; padding-top: 1rem; }
+@media (min-width: 960px) { .formules { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; } }
+
+.formule {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.75rem, 1.4rem + 1vw, 2.4rem);
+  border: 1px solid var(--filet-clair);
+  border-radius: var(--r-lg);
+  background: rgba(247, 244, 238, 0.03);
+  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease), background-color 0.35s var(--ease);
+}
+.formule:hover { border-color: var(--filet-clair-fort); background: rgba(247, 244, 238, 0.05); }
+.formule__titre { font-size: 1.5rem; margin-bottom: 1rem; }
+.formule__prix { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.6rem; margin-bottom: 1rem; }
+.formule__prix .prix { font-family: var(--f-titre); font-size: clamp(1.9rem, 1.6rem + 1vw, 2.5rem); line-height: 1.1; color: var(--laiton-clair); }
+.formule__prix .prix__pre { font-size: 0.55em; }
+.formule__prix .prix__taxe { font-family: var(--f-texte); font-size: 0.36em; letter-spacing: 0.12em; vertical-align: 0.35em; margin-left: 0.15em; }
+.formule__unite { font-size: var(--t-sm); opacity: 0.75; }
+.formule__texte { margin-bottom: 1.5rem; }
+.formule__points { display: grid; gap: 0.55rem; margin-top: auto; padding-top: 1.25rem; border-top: 1px solid var(--filet-clair); font-size: var(--t-sm); }
+.formule__points li { display: flex; gap: 0.7rem; }
+.formule__points li::before { content: ""; flex: none; width: 0.9rem; height: 1px; margin-top: 0.8em; background: var(--laiton-clair); }
+
+.formule--vedette {
+  background: var(--ivoire);
+  border-color: var(--ivoire);
+  color: var(--encre-doux);
+  border-top-left-radius: 0;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.7);
+}
+.formule--vedette:hover { background: #fff; border-color: #fff; }
+.formule--vedette .formule__titre { color: var(--encre); }
+.formule--vedette .formule__prix .prix { color: var(--laiton-fonce); }
+.formule--vedette .formule__points { border-color: var(--filet); }
+.formule--vedette .formule__points li::before { background: var(--laiton); }
+.formule--vedette .onglet { left: -1px; background: var(--laiton-clair); color: var(--encre); }
+@media (min-width: 960px) { .formule--vedette { transform: translateY(-0.75rem); } }
+
+/* Version claire (page Honoraires) */
+.formules--clair .formule { background: var(--papier); border-color: var(--filet); color: var(--encre-doux); box-shadow: var(--ombre); }
+.formules--clair .formule:hover { border-color: var(--filet-fort); }
+.formules--clair .formule__titre { color: var(--encre); }
+.formules--clair .formule__prix .prix { color: var(--laiton-fonce); }
+.formules--clair .formule__points { border-color: var(--filet); }
+.formules--clair .formule__points li::before { background: var(--laiton); }
+.formules--clair .formule--vedette { background: var(--encre); border-color: var(--encre); color: rgba(247, 244, 238, 0.78); }
+.formules--clair .formule--vedette:hover { background: var(--encre-2); }
+.formules--clair .formule--vedette .formule__titre { color: var(--ivoire); }
+.formules--clair .formule--vedette .formule__prix .prix { color: var(--laiton-clair); }
+.formules--clair .formule--vedette .formule__points { border-color: var(--filet-clair); }
+.formules--clair .formule--vedette .formule__points li::before { background: var(--laiton-clair); }
+.formules--clair .formule--vedette .onglet { background: var(--encre); color: var(--laiton-clair); }
+
+.honoraires__pied {
+  display: grid;
+  gap: 1.5rem 3rem;
+  align-items: end;
+  margin-top: clamp(2.5rem, 2rem + 2vw, 3.75rem);
+}
+.honoraires__pied .note-marge { max-width: 44rem; }
+@media (min-width: 900px) { .honoraires__pied { grid-template-columns: 1fr auto; } }

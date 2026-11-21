@@ -1,0 +1,159 @@
+/* ==================================================
+   HERO — la bibliothèque en pleine largeur, voile marine, fiche en pied
+   Même composition sur mobile : la photo reste en fond, le texte posé dessus.
+   ================================================= */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: min(100svh, 60rem);
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: calc(var(--header-h) + clamp(3rem, 1rem + 6vw, 6.5rem));
+  background: var(--encre);
+  color: var(--ivoire);
+  overflow: hidden;
+}
+.hero__photo { position: absolute; inset: 0; z-index: -2; }
+.hero__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 68% 50%; }
+.hero__voile {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(20, 28, 43, 0.55) 0%, rgba(20, 28, 43, 0.72) 38%, rgba(20, 28, 43, 0.93) 78%, var(--encre) 100%);
+}
+@media (min-width: 1024px) {
+  .hero__voile {
+    background:
+      linear-gradient(90deg, rgba(20, 28, 43, 0.96) 0%, rgba(20, 28, 43, 0.86) 34%, rgba(20, 28, 43, 0.42) 66%, rgba(20, 28, 43, 0.22) 100%),
+      linear-gradient(0deg, rgba(20, 28, 43, 0.95) 0%, rgba(20, 28, 43, 0) 32%),
+      linear-gradient(180deg, rgba(20, 28, 43, 0.55) 0%, rgba(20, 28, 43, 0) 22%);
+  }
+}
+
+.hero__inner { display: grid; gap: 2.5rem; align-items: end; }
+@media (min-width: 1024px) { .hero__inner { grid-template-columns: minmax(0, 1fr) auto; gap: 4rem; } }
+
+.hero__contenu { max-width: 44rem; }
+.hero__surtitre {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--laiton-clair);
+}
+.hero__surtitre::before { content: ""; flex: 0 0 2.25rem; height: 1px; background: currentColor; opacity: 0.7; }
+.hero__titre {
+  margin: 1.1rem 0 1.5rem;
+  font-size: var(--t-hero);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--ivoire);
+}
+.hero__titre em {
+  font-family: var(--f-note);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.1em;
+  letter-spacing: -0.005em;
+  color: var(--laiton-clair);
+}
+.hero__chapo { max-width: 34rem; font-size: var(--t-lg); line-height: 1.6; color: rgba(247, 244, 238, 0.8); }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
+.hero__engagements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.75rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--filet-clair);
+  font-size: var(--t-sm);
+  color: rgba(247, 244, 238, 0.8);
+}
+.hero__engagements li { display: inline-flex; align-items: center; gap: 0.5rem; }
+.hero__engagements svg { width: 1rem; height: 1rem; color: var(--laiton-clair); flex: none; }
+
+@media (max-width: 479px) {
+  .hero__surtitre { letter-spacing: 0.13em; }
+  .hero__surtitre::before { flex-basis: 1.5rem; }
+  .hero__actions { display: grid; }
+  .hero__actions .btn { width: 100%; }
+}
+
+/* Carte flottante : état en direct, associés, téléphone */
+.hero__carte {
+  width: 20rem;
+  padding: 1.5rem 1.6rem;
+  background: rgba(20, 28, 43, 0.5);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid rgba(247, 244, 238, 0.16);
+  border-radius: var(--r);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
+}
+.hero__carte .vitrine-statut { margin-bottom: 0.85rem; }
+.hero__carte-role { font-size: 0.85rem; color: rgba(247, 244, 238, 0.7); line-height: 1.5; }
+.hero__carte-tel {
+  display: inline-block;
+  margin: 0.6rem 0 0.35rem;
+  font-family: var(--f-titre);
+  font-size: 1.65rem;
+  color: var(--ivoire);
+  font-variant-numeric: lining-nums;
+  transition: color 0.2s var(--ease);
+}
+.hero__carte-tel:hover { color: var(--laiton-clair); }
+.hero__carte-adresse { font-size: var(--t-xs); letter-spacing: 0.02em; color: rgba(247, 244, 238, 0.55); }
+
+/* Mobile : une pastille d'état remplace la carte */
+.hero__statut {
+  margin-bottom: 1.75rem;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid var(--filet-clair-fort);
+  border-radius: var(--r-pill);
+  background: rgba(20, 28, 43, 0.45);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 0.85rem;
+}
+@media (min-width: 1024px) { .hero__statut { display: none; } }
+@media (max-width: 1023px) { .hero__carte { display: none; } }
+
+/* Fiche du dossier, en pied du hero */
+.fiche {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: clamp(3rem, 2rem + 4vw, 5.5rem);
+  border-top: 1px solid var(--filet-clair);
+}
+.fiche__ligne { padding: 1.25rem 1rem 1.5rem 0; }
+.fiche__ligne:nth-child(even) { padding-left: 1.25rem; border-left: 1px solid var(--filet-clair); }
+.fiche__ligne:nth-child(n + 3) { border-top: 1px solid var(--filet-clair); }
+.fiche dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--laiton-clair);
+  margin-bottom: 0.35rem;
+}
+.fiche dd { font-family: var(--f-titre); font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem); color: var(--ivoire); font-variant-numeric: lining-nums; }
+.fiche dd a:hover { color: var(--laiton-clair); }
+@media (min-width: 900px) {
+  .fiche { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .fiche__ligne { padding: 1.5rem 1.5rem 2rem; border-left: 1px solid var(--filet-clair); }
+  .fiche__ligne:first-child { padding-left: 0; border-left: 0; }
+  .fiche__ligne:nth-child(n + 3) { border-top: 0; }
+}
+
+/* Entrée : cascade du texte, léger dézoom de la photo */
+.js .hero [style*="--i"] { animation: hero-monter 0.95s var(--ease) both; animation-delay: calc(var(--i) * 90ms + 120ms); }
+.js .hero__photo img { animation: hero-dezoom 2.4s var(--ease) both; }
+@keyframes hero-monter { from { opacity: 0; transform: translateY(18px); } }
+@keyframes hero-dezoom { from { transform: scale(1.06); } }

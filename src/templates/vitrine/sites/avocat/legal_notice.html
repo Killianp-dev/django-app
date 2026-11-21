@@ -4,8 +4,16 @@
 {% block cta %}{% endblock %}
 
 {% block content %}
-<article class="vitrine-container vitrine-container--narrow vitrine-legal-page" style="padding:var(--space-2xl) 0;">
-    <h1>Mentions légales</h1>
-    {% include 'vitrine/partials/legal/mentions.html' %}
+<section class="page-entete page-entete--legal">
+    <div class="container container--texte">
+        {% include 'vitrine/sites/avocat/partials/breadcrumb.html' with current="Mentions légales" %}
+        {% include 'vitrine/sites/avocat/partials/cote.html' with titre="Informations" %}
+        <h1 class="titre-page">Mentions légales</h1>
+    </div>
+</section>
+<article class="section section--suite">
+    <div class="container container--texte legal">
+        {% include 'vitrine/partials/legal/mentions.html' %}
+    </div>
 </article>
 {% endblock %}

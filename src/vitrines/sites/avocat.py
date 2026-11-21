@@ -20,6 +20,8 @@ AVOCAT = _site(
     description="Cabinet d'avocats fictif à Paris. Droit de la famille, du travail, immobilier, des affaires et pénal. Honoraires annoncés par écrit. Démonstration de site vitrine.",
     hero_variant="split",
     hero_title="Un avocat qui vous explique, avant de vous défendre.",
+    # Le titre du hero, en trois morceaux : le mot du milieu est mis en valeur (italique, laiton).
+    hero_titre=_ns(avant="Un avocat qui vous", accent="explique,", apres="avant de vous défendre."),
     accroche="Nous accompagnons les particuliers et les entreprises à chaque étape : comprendre la situation, choisir une option, la suivre jusqu'au bout.",
     presentation=(
         "Solène Aubert et Julien Clerc exercent ensemble à Paris depuis 2014. "
@@ -98,17 +100,31 @@ AVOCAT = _site(
         faq_nav="Questions",
         faq_kicker="Questions fréquentes",
         faq_title="Ce que l'on nous demande avant un premier rendez-vous",
-        avis_kicker="Témoignages",
-        avis_title="Ils nous ont confié leur dossier",
+        engagements_kicker="Engagements",
+        engagements_title="Ce à quoi le cabinet s'engage, par écrit",
         horaires_title="Horaires du cabinet",
         equipe_kicker="Les associés",
         equipe_title="Qui vous recevra",
         signature_kicker="Honoraires",
         signature_title="Le prix d'un avocat, annoncé avant",
+        signature_badge="Formule la plus courante",
     ),
     mail_tag="avocat",
-    photos=_ns(hero="vitrine/photos/avocat/hero-bureau.jpg", about="vitrine/photos/avocat/about.jpg"),
+    photos=_ns(hero="vitrine/photos/avocat/hero-bibliotheque-1600.jpg", about="vitrine/photos/avocat/about.jpg"),
     schema_type="LegalService",
+    schema_extra={
+        "priceRange": "150 € – 1 500 € HT",
+        "foundingDate": "2014",
+        "areaServed": {"@type": "City", "name": "Paris"},
+        "geo": {"@type": "GeoCoordinates", "latitude": 48.8722, "longitude": 2.3229},
+        "knowsAbout": ["Droit de la famille", "Droit du travail", "Droit immobilier", "Droit des affaires", "Droit pénal"],
+        "founder": [
+            {"@type": "Person", "name": "Solène Aubert", "jobTitle": "Avocate associée",
+             "knowsAbout": ["Droit de la famille", "Droit pénal"]},
+            {"@type": "Person", "name": "Julien Clerc", "jobTitle": "Avocat associé",
+             "knowsAbout": ["Droit du travail", "Droit immobilier", "Droit des affaires"]},
+        ],
+    },
     horaires_semaine=[
         _jour("Lundi", "Lun", "9:00", "18:00"),
         _jour("Mardi", "Mar", "9:00", "18:00"),
@@ -141,26 +157,51 @@ AVOCAT = _site(
             points=["Relevé de temps mensuel", "Plafond fixé dans la convention", "Honoraire de résultat possible"]),
     ],
     tarifs_note=(
-        "Honoraires hors taxes, TVA de 20 % en sus. Ils sont fixés dans une convention écrite, signée avant toute diligence. "
-        "Les frais de procédure (huissier, expertise) sont annoncés à part."
+        "Montants TTC pour les particuliers (TVA de 20 %), hors taxes pour les entreprises. Les honoraires sont fixés dans une "
+        "convention écrite, signée avant toute diligence. Les frais de procédure (commissaire de justice, expertise) sont annoncés à part."
     ),
+    convention_note=(
+        "Depuis la loi du 6 août 2015, l'article 10 de la loi du 31 décembre 1971 impose une convention d'honoraires écrite. "
+        "Le cabinet vous l'envoie avant toute démarche : vous savez ce que vous paierez, et pour quoi."
+    ),
+    deontologie_note=(
+        "Les règles de la profession interdisent aux avocats les mentions laudatives ou comparatives : "
+        "vous ne trouverez ici ni avis clients ni étoiles. Plutôt que des promesses, voici ce que le cabinet écrit dans chaque convention."
+    ),
+    urgence=_ns(
+        titre="Garde à vue",
+        texte="Une ligne est tenue le soir et le week-end. Donnez le nom du cabinet au commissariat : nous sommes prévenus.",
+    ),
+    mediateur=(
+        "Médiateur de la consommation de la profession d'avocat : en cas de litige sur les honoraires, "
+        "vous pouvez le saisir gratuitement après une réclamation écrite restée sans réponse."
+    ),
+    metro="Madeleine",
     tarifs=[
+        # Chaque groupe porte le nom d'une expertise : sa fiche affiche le barème correspondant.
         _groupe("Consultation", [
             _ligne("Premier rendez-vous, une heure", "150 € HT", "Au cabinet ou en visio", "Déduit si le dossier est confié"),
             _ligne("Consultation écrite", "dès 300 € HT", "Sous 10 jours"),
         ]),
-        _groupe("Famille", [
+        _groupe("Droit de la famille", [
             _ligne("Divorce par consentement mutuel", "dès 1 500 € HT", "Par époux"),
             _ligne("Résidence des enfants, pension", "dès 1 200 € HT", "Procédure devant le juge"),
         ]),
-        _groupe("Travail", [
+        _groupe("Droit du travail", [
             _ligne("Rupture conventionnelle, assistance", "dès 800 € HT", "Négociation et rédaction"),
             _ligne("Contentieux prud'homal", "220 € HT / h", "Plafond fixé à la convention"),
         ]),
-        _groupe("Immobilier et affaires", [
+        _groupe("Droit immobilier", [
             _ligne("Relecture d'un bail ou d'un compromis", "dès 350 € HT", "Sous 5 jours"),
-            _ligne("Statuts de société", "dès 1 200 € HT", "SAS ou SARL"),
+            _ligne("Litige de copropriété", "220 € HT / h", "Plafond fixé à la convention"),
+        ]),
+        _groupe("Droit des affaires", [
             _ligne("Mise en demeure", "dès 250 € HT", "Envoi en recommandé"),
+            _ligne("Statuts de société", "dès 1 200 € HT", "SAS ou SARL"),
+        ]),
+        _groupe("Droit pénal", [
+            _ligne("Assistance en garde à vue", "dès 400 € HT", "De jour comme de nuit"),
+            _ligne("Audience correctionnelle", "dès 1 000 € HT", "Préparation et plaidoirie"),
         ]),
     ],
     offres=[
@@ -187,15 +228,9 @@ AVOCAT = _site(
         _offre("droit-penal", "Droit pénal", "Garde à vue, audience et exécution de la peine.",
                "Dès la garde à vue, la personne entendue a besoin de quelqu'un qui connaît le dossier et le calendrier de la procédure.",
                ["Assistance en garde à vue", "Comparution et audience correctionnelle", "Constitution de partie civile", "Aménagement de peine"],
-               "vitrine/photos/avocat/penal.jpg", prix="sur devis", duree="Solène Aubert",
+               "vitrine/photos/avocat/penal.jpg", prix="dès 400 € HT", duree="Solène Aubert",
                suite="En garde à vue, vous pouvez demander l'avocat de votre choix. Donnez le nom du cabinet : nous sommes prévenus par le commissariat."),
     ],
-    avis=[
-        _ns(texte="Maître Aubert m'a expliqué chaque étape du divorce, avec un calendrier que nous avons tenu. Je savais toujours ce qui allait se passer.", auteur="Caroline V.", detail="Droit de la famille", date="Octobre 2026"),
-        _ns(texte="La convention d'honoraires était claire, le plafond n'a pas été dépassé. L'affaire s'est réglée avant l'audience.", auteur="Société B., dirigeant", detail="Droit des affaires", date="Juillet 2026"),
-        _ns(texte="Appelé un samedi soir pour une garde à vue, le cabinet a répondu. Je ne l'oublierai pas.", auteur="Karim S.", detail="Droit pénal", date="Mai 2026"),
-    ],
-    avis_note="Témoignages fictifs, rédigés pour la démonstration.",
     faq=[
         _ns(question="Combien coûte un premier rendez-vous ?", reponse="150 € HT pour une heure. Ce montant est déduit des honoraires si vous confiez ensuite le dossier au cabinet."),
         _ns(question="Acceptez-vous l'aide juridictionnelle ?", reponse="Oui, en droit de la famille et en droit pénal. Nous vous aidons à constituer la demande si vos ressources le permettent."),

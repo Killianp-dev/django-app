@@ -1,0 +1,15 @@
+{% load vitrine_tags %}
+{# Les trois façons de facturer. Bande marine sur l'accueil ; version claire sur la page Honoraires (`clair`). #}
+<ul class="formules{% if clair %} formules--clair{% endif %}">
+    {% for formule in site.honoraires %}
+    <li class="formule{% if formule.vedette %} formule--vedette{% endif %}">
+        {% if formule.vedette %}<span class="onglet">{{ site.labels.signature_badge }}</span>{% endif %}
+        <h3 class="formule__titre">{{ formule.titre }}</h3>
+        <p class="formule__prix">{% include 'vitrine/sites/avocat/partials/prix.html' with prix=formule.prix %} <span class="formule__unite">{{ formule.unite }}</span></p>
+        <p class="formule__texte">{{ formule.texte|fr_typo }}</p>
+        <ul class="formule__points">
+            {% for point in formule.points %}<li>{{ point|fr_typo }}</li>{% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>

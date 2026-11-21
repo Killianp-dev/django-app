@@ -1,50 +1,56 @@
 {% load vitrine_tags %}
-<footer class="vitrine-footer" role="contentinfo">
-    <div class="vitrine-container">
-        <div class="vitrine-footer__grid">
-            <div class="vitrine-footer__col vitrine-footer__col--contact">
-                <h2 class="vitrine-footer__title">{{ site.nom }}</h2>
-                <address class="vitrine-footer__address">
-                    {{ site.adresse }}<br>
-                    {{ site.code_postal }} {{ site.ville }}
-                </address>
-                <p class="vitrine-footer__contact-item">{{ site.horaires }}</p>
-                <p class="vitrine-footer__contact-item">
-                    <a href="tel:{{ site.telephone_lien }}" class="vitrine-footer__link">{{ site.telephone }}</a>
+<footer class="footer">
+    <div class="container">
+        <div class="footer__haut">
+            <div class="footer__marque">
+                <a class="logo logo--clair" href="{% site_url 'home' %}">
+                    <span class="logo__monogramme" aria-hidden="true">A<em>&amp;</em>C</span>
+                    <span class="logo__texte">
+                        <span class="logo__nom">{{ site.nom }}</span>
+                        <span class="logo__ligne">Avocats · {{ site.ville }}</span>
+                    </span>
+                </a>
+                <p class="footer__ligne">{{ site.footer_line }}.</p>
+                {% if site.horaires_semaine %}
+                <p class="vitrine-statut" data-statut hidden>
+                    <span class="vitrine-statut__dot" aria-hidden="true"></span>
+                    <span data-statut-texte></span>
                 </p>
-                <p class="vitrine-footer__contact-item">
-                    <a href="mailto:{{ site.email }}" class="vitrine-footer__link">{{ site.email }}</a>
-                </p>
+                {% endif %}
             </div>
-            <div class="vitrine-footer__col vitrine-footer__col--nav">
-                <h3 class="vitrine-footer__title">Navigation</h3>
-                <ul class="vitrine-footer__nav-list">
-                    <li><a href="{% site_url 'home' %}" class="vitrine-footer__link">Accueil</a></li>
-                    <li><a href="{% site_url 'offres' %}" class="vitrine-footer__link">{{ site.labels.offres }}</a></li>
-                    {% if site.realisations %}
-                    <li><a href="{% site_url 'realisations' %}" class="vitrine-footer__link">{{ site.labels.realisations }}</a></li>
-                    {% endif %}
-                    {% if site.labels.tarifs %}
-                    <li><a href="{% site_url 'tarifs' %}" class="vitrine-footer__link">{{ site.labels.tarifs }}</a></li>
-                    {% endif %}
-                    {% if site.labels.faq_nav %}
-                    <li><a href="{% site_url 'faq' %}" class="vitrine-footer__link">{{ site.labels.faq_nav }}</a></li>
-                    {% endif %}
-                    <li><a href="{% site_url 'about' %}" class="vitrine-footer__link">{{ site.labels.about_link }}</a></li>
-                    <li><a href="{% site_url 'contact' %}" class="vitrine-footer__link">Contact</a></li>
+            <div class="footer__col">
+                <h2 class="footer__titre">Le cabinet</h2>
+                <address class="footer__adresse">{{ site.adresse }}<br>{{ site.code_postal }} {{ site.ville }} · Métro {{ site.metro }}</address>
+                <p>{{ site.horaires|fr_typo }}</p>
+                <p><a href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a><br><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+            </div>
+            <div class="footer__col">
+                <h2 class="footer__titre">{{ site.labels.offres }}</h2>
+                <ul class="footer__liste">
+                    {% for offre in site.offres %}<li><a href="{% site_url 'offre' offre.slug %}">{{ offre.nom }}</a></li>{% endfor %}
                 </ul>
             </div>
-            <div class="vitrine-footer__col vitrine-footer__col--legal">
-                <h3 class="vitrine-footer__title">Informations</h3>
-                <p class="vitrine-legal-block">{{ site.footer_line }}</p>
-                <ul class="vitrine-footer__legal-list">
-                    <li><a href="{% site_url 'legal_notice' %}" class="vitrine-footer__link">Mentions légales</a></li>
-                    <li><a href="{% site_url 'privacy' %}" class="vitrine-footer__link">Confidentialité</a></li>
+            <div class="footer__col">
+                <h2 class="footer__titre">Navigation</h2>
+                <ul class="footer__liste">
+                    <li><a href="{% site_url 'home' %}">Accueil</a></li>
+                    {% if site.tarifs %}<li><a href="{% site_url 'tarifs' %}">{{ site.labels.tarifs }}</a></li>{% endif %}
+                    {% if site.labels.faq_nav %}<li><a href="{% site_url 'faq' %}">{{ site.labels.faq_nav }}</a></li>{% endif %}
+                    <li><a href="{% site_url 'about' %}">{{ site.labels.about_link }}</a></li>
+                    <li><a href="{% site_url 'contact' %}">{{ site.labels.nav_cta }}</a></li>
                 </ul>
             </div>
         </div>
-        <div class="vitrine-footer__bottom">
-            <p class="vitrine-footer__copyright">© {% now "Y" %} {{ site.nom }}. Exemple fictif.</p>
+        <div class="footer__profession">
+            <p>Avocats inscrits au barreau de Paris. Profession réglementée : loi n°&nbsp;71-1130 du 31&nbsp;décembre 1971 et règlement intérieur national de la profession d'avocat.</p>
+            <p>{{ site.mediateur|fr_typo }}</p>
+        </div>
+        <div class="footer__bas">
+            <p>© {% now "Y" %} {{ site.nom }} · Exemple fictif, à titre de démonstration.</p>
+            <ul class="footer__legal">
+                <li><a href="{% site_url 'legal_notice' %}">Mentions légales</a></li>
+                <li><a href="{% site_url 'privacy' %}">Confidentialité</a></li>
+            </ul>
         </div>
     </div>
 </footer>

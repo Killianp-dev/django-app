@@ -1,62 +1,81 @@
 {% extends 'vitrine/sites/avocat/base.html' %}
-{% load static %}
+{% load static vitrine_tags %}
 
-{% block title %}Contact — {{ site.nom }}{% endblock %}
+{% block title %}Prendre rendez-vous — {{ site.nom }}, avocats à {{ site.ville }}{% endblock %}
+{% block meta_description %}Écrire au cabinet {{ site.nom }} ou prendre rendez-vous, au cabinet ({{ site.adresse }}, {{ site.code_postal }} {{ site.ville }}) ou en visioconférence. Réponse sous 24 heures ouvrées.{% endblock %}
 {% block cta %}{% endblock %}
 
 {% block content %}
-<section class="vitrine-container {% if site.contact_aside %}vitrine-container--medium{% else %}vitrine-container--narrow{% endif %} vitrine-contact">
-    <header class="vitrine-contact-hero">
-        <span class="vitrine-eyebrow">Contact</span>
-        <h1 class="vitrine-contact-hero__title">{{ site.labels.contact_title }}</h1>
-        <p class="vitrine-contact-hero__text">{{ site.labels.contact_text }}{% if not site.horaires_semaine %} {{ site.horaires }}{% endif %}</p>
-    </header>
-    <div class="vitrine-contact__layout">
-    <form method="post" class="vitrine-form" novalidate>
-        {% csrf_token %}
-        {% if form.non_field_errors %}
-        <div class="vitrine-form__error" style="padding:1rem;background:#FDEDEA;border-radius:var(--radius-sm);margin-bottom:1.5rem;">
-            {{ form.non_field_errors }}
+<section class="page-entete">
+    <div class="container">
+        {% include 'vitrine/sites/avocat/partials/breadcrumb.html' with current="Prendre rendez-vous" %}
+        <div class="page-entete__grille">
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with titre="Contact" %}
+                <h1 class="titre-page">{{ site.labels.contact_title }}</h1>
+            </div>
+            <div class="page-entete__aside">
+                <p>{{ site.labels.contact_text|fr_typo }}</p>
+            </div>
         </div>
-        {% endif %}
-        {% for field in form %}
-            {% if field.name == 'website' %}
-                {{ field }}
-            {% elif field.name == 'consent' %}
-                <div class="vitrine-form__field vitrine-form__checkbox-row">
+    </div>
+</section>
+
+<section class="section section--suite">
+    <div class="container contact">
+        <form method="post" class="vitrine-form formulaire" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}<div class="formulaire__alerte" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+            <div class="formulaire__grille">
+            {% for field in form %}
+                {% if field.name == 'website' %}
                     {{ field }}
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                </div>
-                {% if field.errors %}<p class="vitrine-form__error">{{ field.errors.0 }}</p>{% endif %}
-            {% else %}
-                <div class="vitrine-form__field">
-                    <label for="{{ field.id_for_label }}" class="vitrine-form__label">
-                        {{ field.label }}{% if field.field.required %} *{% endif %}
-                    </label>
-                    {{ field }}
-                    {% if field.errors %}<p class="vitrine-form__error">{{ field.errors.0 }}</p>{% endif %}
-                </div>
+                {% elif field.name == 'consent' %}
+                    <div class="champ champ--case">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% if field.errors %}<p class="champ__erreur">{{ field.errors.0 }}</p>{% endif %}
+                    </div>
+                {% else %}
+                    <div class="champ champ--{{ field.name }}{% if field.errors %} champ--erreur{% endif %}">
+                        <label for="{{ field.id_for_label }}" class="champ__label">
+                            {{ field.label }}{% if field.field.required %} <span class="champ__requis" aria-hidden="true">*</span>{% else %} <span class="champ__option">(facultatif)</span>{% endif %}
+                        </label>
+                        {{ field }}
+                        {% if field.errors %}<p class="champ__erreur">{{ field.errors.0 }}</p>{% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div class="formulaire__pied">
+                <button type="submit" class="btn btn--primaire btn--lg vitrine-form__submit">Envoyer le message</button>
+                <p class="formulaire__secret">
+                    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><rect x="4" y="9" width="12" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+                    Couvert par le secret professionnel.
+                </p>
+            </div>
+        </form>
+
+        <div class="contact__aside">
+            {% if site.contact_aside %}
+            <aside class="dossier">
+                <span class="onglet onglet--clair">Secrétariat</span>
+                <h2 class="dossier__titre">{{ site.contact_aside.titre }}</h2>
+                <a class="contact__tel" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+                <p class="contact__mail"><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+                <dl class="dossier__faits">
+                    <div><dt>Adresse</dt><dd>{{ site.adresse }}, {{ site.code_postal }} {{ site.ville }}</dd></div>
+                    <div><dt>Métro</dt><dd>{{ site.metro }}, à deux minutes</dd></div>
+                </dl>
+                {% if site.horaires_semaine %}{% include 'vitrine/partials/horaires.html' %}{% endif %}
+            </aside>
             {% endif %}
-        {% endfor %}
-        <button type="submit" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg vitrine-form__submit">
-            Envoyer le message
-        </button>
-    </form>
-    {% if site.contact_aside %}
-    <aside class="vitrine-contact__aside">
-        <h2 class="vitrine-contact__aside-title">{{ site.contact_aside.titre }}</h2>
-        <p class="vitrine-contact__aside-text">{{ site.contact_aside.texte }}</p>
-        {% for lien in site.contact_aside.liens %}
-        <a class="vitrine-contact__aside-phone" href="{{ lien.href }}">{{ lien.label }}</a>
-        {% endfor %}
-        {% for ligne in site.contact_aside.lignes %}
-        <p class="vitrine-contact__aside-line">{{ ligne }}</p>
-        {% endfor %}
-        {% if site.horaires_semaine %}
-        {% include 'vitrine/partials/horaires.html' %}
-        {% endif %}
-    </aside>
-    {% endif %}
+            <aside class="urgence">
+                <p class="urgence__titre">{{ site.urgence.titre }}</p>
+                <p>{{ site.urgence.texte|fr_typo }}</p>
+                <a class="btn btn--clair" href="tel:{{ site.telephone_lien }}">Appeler le {{ site.telephone }}</a>
+            </aside>
+        </div>
     </div>
 </section>
 {% endblock %}

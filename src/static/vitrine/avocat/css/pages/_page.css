@@ -1,0 +1,42 @@
+/* ==================================================
+   PAGES INTERNES — en-tête de page, récit du cabinet, barème
+   ================================================= */
+.page-entete { padding: clamp(2rem, 1.5rem + 2vw, 3rem) 0 clamp(3rem, 2rem + 3vw, 5rem); }
+.page-entete__grille { display: grid; gap: 1.75rem 4rem; align-items: end; }
+@media (min-width: 900px) { .page-entete__grille { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
+.page-entete__aside { color: var(--encre-doux); max-width: 32rem; }
+.page-entete__aside > * + * { margin-top: 1.25rem; }
+.page-entete--legal .titre-page { margin-bottom: 0; }
+
+/* Récit (page Le cabinet) */
+.recit { display: grid; gap: 3rem; align-items: start; }
+@media (min-width: 1024px) {
+  .recit { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 5rem; }
+  .recit__photo { position: sticky; top: calc(var(--header-h) + 2rem); }
+}
+.recit .chapo { margin: 1.5rem 0 2rem; }
+.recit__photo { aspect-ratio: 4 / 5; border-radius: var(--r-lg); overflow: hidden; background: var(--velin); box-shadow: var(--ombre-haute); }
+.recit__photo img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 1023px) { .recit__photo { aspect-ratio: 3 / 2; } }
+.prose { display: grid; gap: 1.1rem; color: var(--encre-doux); max-width: 40rem; }
+.signature { margin-top: 2rem; font-family: var(--f-note); font-style: italic; font-size: 1.3rem; color: var(--laiton-fonce); }
+
+/* Barème complet */
+.bareme-section { background: var(--velin); }
+.bareme-grille { display: grid; gap: 1.25rem; }
+@media (min-width: 900px) { .bareme-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.bareme-groupe { padding: clamp(1.5rem, 1.2rem + 1vw, 2.25rem); background: var(--papier); border: 1px solid var(--filet); border-radius: var(--r-lg); box-shadow: var(--ombre); }
+.bareme-groupe__titre { font-size: var(--t-xl); margin-bottom: 1.25rem; }
+
+/* Encart de barème (fiche domaine) */
+.bareme-encart { padding: clamp(1.5rem, 1rem + 2vw, 3rem); background: var(--papier); border: 1px solid var(--filet); border-radius: var(--r-lg); box-shadow: var(--ombre); }
+.bareme-encart__entete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1.25rem 2rem; margin-bottom: 1.75rem; }
+.bareme-encart__note { margin-top: 1.5rem; font-size: 0.875rem; color: var(--encre-doux); }
+.bareme-encart__note .lien-fleche { margin-left: 0.5rem; }
+
+/* Message envoyé */
+.succes { max-width: 40rem; margin-inline: auto; text-align: center; display: grid; justify-items: center; gap: 1rem; }
+.succes .cote { justify-content: center; margin-bottom: 0; }
+.succes .chapo { margin-bottom: 1rem; }
+.succes__icone { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: var(--laiton-pale); color: var(--laiton-fonce); margin-bottom: 0.5rem; }
+.succes__icone svg { width: 1.75rem; height: 1.75rem; }

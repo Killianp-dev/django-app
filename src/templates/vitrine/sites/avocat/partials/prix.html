@@ -1,0 +1,5 @@
+{% load vitrine_tags %}{% comment %}
+Un montant d'honoraires. Affiché TTC par défaut (ce que paie un particulier) ;
+avocat.js bascule tous les montants en HT quand on choisit « Entreprise ».
+`prix` : la chaîne des données (« dès 1 500 € HT », « 220 € HT / h », « sur devis »).
+{% endcomment %}{% with h=prix|honoraire %}{% if h %}<span class="prix" data-ht="{{ h.ht }}" data-ttc="{{ h.ttc }}">{% if h.prefixe %}<span class="prix__pre">{{ h.prefixe }} </span>{% endif %}<span class="prix__val" data-prix-val>{{ h.ttc_texte }}</span>&nbsp;€&nbsp;<span class="prix__taxe" data-prix-taxe>TTC</span>{% if h.suffixe %}<span class="prix__suf">&nbsp;{{ h.suffixe }}</span>{% endif %}</span>{% else %}<span class="prix prix--devis">{{ prix|fr_typo }}</span>{% endif %}{% endwith %}

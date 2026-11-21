@@ -1,0 +1,10 @@
+{% load vitrine_tags %}
+{# Carte des horaires (partial partagé `horaires`, restylé ici) + prise de rendez-vous. #}
+<aside class="carte-horaires" aria-label="{{ site.labels.horaires_title }}">
+    {% include 'vitrine/partials/horaires.html' with titre=site.labels.horaires_title %}
+    <p class="carte-horaires__note">{{ site.horaires|fr_typo }}</p>
+    <div class="carte-horaires__actions">
+        <a href="{% site_url 'contact' %}" class="btn btn--primaire">{{ site.labels.nav_cta }}</a>
+        <a href="tel:{{ site.telephone_lien }}" class="btn btn--trait">{{ site.telephone }}</a>
+    </div>
+</aside>

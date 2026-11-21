@@ -172,3 +172,56 @@ class PortfolioTests(TestCase):
         html = self.client.get("/").content.decode()
         self.assertIn("Conseil informatique", html)
         self.assertIn("référencement SEO", html)
+
+
+class AvocatDossierTests(TestCase):
+    """Démo avocat, direction « le dossier »."""
+
+    def test_hero_et_fiche(self):
+        html = self.client.get("/demo-avocat/").content.decode()
+        self.assertIn('class="hero"', html)
+        self.assertIn("hero-bibliotheque-1600.webp", html)            # image responsive préchargée
+        self.assertEqual(html.count('class="fiche__ligne"'), len(SITES["avocat"].reperes))
+        self.assertIn("data-statut", html)                             # état d'ouverture en direct
+
+    def test_honoraires_ttc_par_defaut_et_ht_en_donnees(self):
+        html = self.client.get("/demo-avocat/").content.decode()
+        self.assertIn('data-ht="1500" data-ttc="1800"', html)
+        self.assertIn("data-taxe-toggle hidden", html)                 # sans JS : TTC, pas de bouton
+        self.assertEqual(html.count('<li class="formule'), len(SITES["avocat"].honoraires))
+
+    def test_pas_de_temoignages(self):
+        """Les règles de la profession interdisent les mentions laudatives : ni avis ni étoiles."""
+        for page in ["", "presentation/"]:
+            html = self.client.get("/demo-avocat/" + page).content.decode()
+            with self.subTest(page=page):
+                self.assertNotIn("★", html)
+                self.assertIn("Art. I", html)
+
+    def test_bareme_sur_chaque_fiche(self):
+        for offre in SITES["avocat"].offres:
+            html = self.client.get(f"/demo-avocat/offres/{offre.slug}/").content.decode()
+            with self.subTest(offre=offre.slug):
+                self.assertIn(f"{offre.nom} : le barème", html)
+                self.assertIn('"@type": "BreadcrumbList"', html)
+                self.assertIn('"@type": "Service"', html)
+
+    def test_donnees_structurees_du_cabinet(self):
+        data = _ld_json(self.client.get("/demo-avocat/").content.decode())
+        self.assertEqual(data["@type"], "LegalService")
+        self.assertEqual([p["name"] for p in data["founder"]], ["Solène Aubert", "Julien Clerc"])
+        self.assertIn("Droit pénal", data["knowsAbout"])
+
+
+class FiltresTypographiquesTests(TestCase):
+    def test_fr_typo(self):
+        from vitrines.templatetags.vitrine_tags import fr_typo
+        self.assertEqual(fr_typo("Combien ? 150 € HT : « oui »"), "Combien ? 150 € HT : « oui »")
+        self.assertEqual(fr_typo("<b>?</b>"), "&lt;b&gt;?&lt;/b&gt;")       # le texte est échappé
+
+    def test_honoraire(self):
+        from vitrines.templatetags.vitrine_tags import honoraire
+        h = honoraire("dès 1 500 € HT")
+        self.assertEqual((h.prefixe, h.ht, h.ttc, h.ttc_texte), ("dès", 1500, 1800, "1 800"))
+        self.assertEqual(honoraire("220 € HT / h").suffixe, "/ h")
+        self.assertIsNone(honoraire("sur devis"))

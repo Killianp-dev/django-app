@@ -1,0 +1,49 @@
+/* DÉROULÉ — frise dont le filet laiton se remplit au défilement ; horaires collants */
+.deroule__inner { display: grid; gap: 3.5rem; align-items: start; }
+@media (min-width: 1024px) {
+  .deroule__inner { grid-template-columns: minmax(0, 7fr) minmax(0, 4.4fr); gap: 5rem; }
+  .deroule .carte-horaires { position: sticky; top: calc(var(--header-h) + 2rem); }
+}
+.deroule__entete { margin-bottom: 3rem; }
+
+.etapes { position: relative; display: grid; gap: 2.5rem; }
+.etapes::before,
+.etapes::after {
+  content: "";
+  position: absolute;
+  left: calc(1.5rem - 0.5px);
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 1px;
+  background: var(--filet-fort);
+}
+.etapes::after { background: var(--laiton); transform-origin: top; transform: scaleY(1); }
+@supports (animation-timeline: view()) {
+  .etapes::after { animation: frise linear both; animation-timeline: view(); animation-range: entry 40% cover 60%; }
+  @keyframes frise { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+}
+.etape { position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.5rem; }
+.etape__num {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--ivoire);
+  border: 1px solid var(--laiton);
+  font-family: var(--f-note);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--laiton-fonce);
+}
+.etape__titre { font-size: var(--t-xl); margin: 0.55rem 0 0.5rem; }
+.etape__texte { color: var(--encre-doux); max-width: 34rem; }
+
+/* Faits pratiques (page Le cabinet) */
+.faits { display: grid; gap: 0; border-top: 1px solid var(--filet); }
+@media (min-width: 640px) { .faits { grid-template-columns: 1fr 1fr; column-gap: 2.5rem; } }
+.faits__item { padding: 1.25rem 0; border-bottom: 1px solid var(--filet); }
+.faits__item dt { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--laiton); margin-bottom: 0.3rem; }
+.faits__item dd { color: var(--encre); }

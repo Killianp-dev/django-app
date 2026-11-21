@@ -1,33 +1,50 @@
 {% extends 'vitrine/sites/avocat/base.html' %}
 {% load vitrine_tags %}
 
-{% block title %}{{ site.labels.tarifs }} — {{ site.nom }}{% endblock %}
-{% block meta_description %}{{ site.tarifs_note }}{% endblock %}
+{% block title %}Honoraires d'avocat à {{ site.ville }} — {{ site.nom }}{% endblock %}
+{% block meta_description %}Consultation, forfait ou taux horaire : les honoraires du cabinet {{ site.nom }} à {{ site.ville }}, affichés TTC et HT, fixés dans une convention écrite avant toute démarche.{% endblock %}
 
 {% block content %}
-<section class="vitrine-section">
-    <div class="vitrine-container vitrine-container--medium">
-        <header class="vitrine-section__header">
-            <span class="vitrine-section__kicker">{{ site.labels.tarifs_kicker }}</span>
-            <h1 class="vitrine-section__title">{{ site.labels.tarifs }}</h1>
-            <p class="vitrine-about-preview__text" style="margin-left:auto;margin-right:auto;">{{ site.tarifs_note }}</p>
+<section class="page-entete">
+    <div class="container">
+        {% include 'vitrine/sites/avocat/partials/breadcrumb.html' with current=site.labels.tarifs %}
+        <div class="page-entete__grille">
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with titre=site.labels.tarifs_kicker %}
+                <h1 class="titre-page">{{ site.labels.signature_title }}</h1>
+            </div>
+            <div class="page-entete__aside">
+                <p>{{ site.tarifs_note|fr_typo }}</p>
+                {% include 'vitrine/sites/avocat/partials/taxe_toggle.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section section--suite" aria-labelledby="formules-titre">
+    <div class="container">
+        <h2 class="sous-titre sous-titre--section" id="formules-titre">Trois façons de facturer</h2>
+        {% include 'vitrine/sites/avocat/partials/formules.html' with clair=True %}
+    </div>
+</section>
+
+<section class="section bareme-section" aria-labelledby="bareme-titre">
+    <div class="container">
+        <header class="entete">
+            <div>
+                {% include 'vitrine/sites/avocat/partials/cote.html' with titre="Barème indicatif" %}
+                <h2 class="titre-section" id="bareme-titre">Domaine par domaine</h2>
+            </div>
+            <aside class="note-marge entete__aside">
+                <p class="note-marge__titre">Convention d'honoraires</p>
+                <p>{{ site.convention_note|fr_typo }}</p>
+            </aside>
         </header>
-        <div class="vitrine-carte">
+        <div class="bareme-grille">
             {% for groupe in site.tarifs %}
-            <section class="vitrine-carte__groupe">
-                <h2 class="vitrine-carte__title">{{ groupe.titre }}</h2>
-                <ul class="vitrine-carte__list">
-                    {% for ligne in groupe.lignes %}
-                    <li class="vitrine-carte__ligne">
-                        <div class="vitrine-carte__nom">
-                            <span>{{ ligne.nom }}</span>
-                            {% if ligne.note %}<span class="vitrine-carte__note-ligne">{{ ligne.note }}</span>{% endif %}
-                            <span class="vitrine-carte__duree">{{ ligne.duree }}</span>
-                        </div>
-                        <span class="vitrine-carte__prix">{{ ligne.prix }}</span>
-                    </li>
-                    {% endfor %}
-                </ul>
+            <section class="bareme-groupe" aria-labelledby="bareme-{{ forloop.counter }}" data-reveal>
+                <h3 class="bareme-groupe__titre" id="bareme-{{ forloop.counter }}">{{ groupe.titre }}</h3>
+                {% include 'vitrine/sites/avocat/partials/bareme_lignes.html' with lignes=groupe.lignes %}
             </section>
             {% endfor %}
         </div>

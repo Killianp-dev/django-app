@@ -1,0 +1,39 @@
+{% load static vitrine_tags %}
+{% comment %}
+Index des domaines, comme le sommaire d'un dossier : pièce, nom, accroche, honoraires, avocat référent.
+Sur grand écran, la photo du domaine survolé (ou ciblé au clavier) s'affiche à droite (avocat.js) ;
+sans JavaScript, la première reste affichée et chaque ligne est un lien.
+`titre_niveau` : h2 (page Expertises) ou h3 (section de l'accueil).
+{% endcomment %}
+<div class="domaines" data-domaines>
+    <ol class="domaines__liste">
+        {% for offre in site.offres %}
+        <li class="domaines__item{% if forloop.first %} is-active{% endif %}" data-domaine="{{ forloop.counter0 }}">
+            <a class="domaine" href="{% site_url 'offre' offre.slug %}">
+                <span class="domaine__num" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
+                <span class="domaine__corps">
+                    {% if titre_niveau == 'h2' %}<h2 class="domaine__nom">{{ offre.nom }}</h2>{% else %}<h3 class="domaine__nom">{{ offre.nom }}</h3>{% endif %}
+                    <span class="domaine__accroche">{{ offre.accroche|fr_typo }}</span>
+                </span>
+                <span class="domaine__meta">
+                    {% include 'vitrine/sites/avocat/partials/prix.html' with prix=offre.prix %}
+                    <span class="domaine__ref">{{ offre.duree }}</span>
+                </span>
+                <svg class="domaine__fleche" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+        </li>
+        {% endfor %}
+    </ol>
+    <div class="domaines__apercu" aria-hidden="true">
+        {% for offre in site.offres %}
+        <figure class="domaines__photo{% if forloop.first %} is-active{% endif %}" data-domaine-photo="{{ forloop.counter0 }}">
+            <img src="{% static offre.image %}" alt="" width="1200" height="1500" loading="lazy" decoding="async">
+            <figcaption>
+                <span class="domaines__photo-piece">Expertise {{ forloop.counter|stringformat:"02d" }}</span>
+                <span class="domaines__photo-nom">{{ offre.nom }}</span>
+                <span class="domaines__photo-ref">Avocat référent : {{ offre.duree }}</span>
+            </figcaption>
+        </figure>
+        {% endfor %}
+    </div>
+</div>
