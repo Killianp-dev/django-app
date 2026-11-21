@@ -982,10 +982,30 @@ html[data-theme="dark"] .hero__chip svg {
 }
 
 @media (max-width: 768px) {
-  .hero__eyebrow {
-    margin-bottom: 1.2rem;
-    font-size: 0.68rem;
+  /* Mobile : simple étiquette sur une ligne (filet + petites capitales)
+     au lieu de la pastille encadrée, trop imposante sur deux lignes. */
+  .hero__eyebrow,
+  html[data-theme="dark"] .hero__eyebrow {
+    gap: 0.55rem;
+    margin-bottom: 1rem;
+    padding: 0;
+    font-size: 0.62rem;
     letter-spacing: 0.1em;
+    border: 0;
+    background: none;
+  }
+
+  .hero__eyebrow::before {
+    content: "";
+    width: 1.1rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+    flex: none;
+  }
+
+  .hero__eyebrow-dot {
+    display: none;
   }
 
   .hero__title {
