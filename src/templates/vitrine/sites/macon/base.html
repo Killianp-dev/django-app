@@ -33,7 +33,7 @@ les partials √† comportement JS (galerie, horaires, barre mobile) et le texte l√
     {% with current=request.resolver_match.url_name %}
     <header class="header" data-nav-header>
         <div class="container header__inner">
-            <a class="header__logo" href="{% site_url 'home' %}"{% if current == 'home' %} aria-current="page"{% endif %}>{{ site.nom }}</a>
+            <a class="header__logo" href="{% site_url 'home' %}" aria-label="{{ site.nom }}, accueil"{% if current == 'home' %} aria-current="page"{% endif %}>{% include 'vitrine/sites/macon/partials/logo.html' %}</a>
             <nav class="nav" aria-label="Navigation principale">
                 <ul class="nav__list">
                     <li class="nav__item nav__item--menu" data-menu>

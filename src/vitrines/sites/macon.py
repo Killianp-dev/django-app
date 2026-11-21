@@ -21,6 +21,8 @@ def _jour_chantier(jour, titre, texte, image=""):
 MACON = _site(
     key="macon",
     nom="Bertrand Maçonnerie",
+    # Logo : la marque (un parpaing vu de dessus, deux alvéoles), le nom, le métier en petites capitales.
+    logo=_ns(nom="Bertrand", metier="Maçonnerie"),
     ville="Paris",
     eyebrow="Maçonnerie générale à Paris et en petite couronne",
     role_line="Julien Bertrand, artisan maçon",

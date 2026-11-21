@@ -55,7 +55,16 @@
 
 .engagements { display: grid; gap: 0.65rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.16); font-weight: 500; color: rgba(255, 255, 255, 0.9); }
 .engagements li { display: flex; align-items: center; gap: 0.75rem; }
-.engagements svg { width: 18px; height: 18px; flex: none; color: #8FB0E6; }
+.engagements li { transition: color 0.3s var(--ease); }
+.engagements svg { width: 18px; height: 18px; flex: none; color: #8FB0E6; transition: color 0.3s var(--ease), transform 0.4s var(--ease); }
+.engagements path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+/* Au survol d'un engagement : sa coche se retrace et s'éclaircit, le texte passe en blanc */
+.engagements li:hover { color: #fff; }
+.engagements li:hover svg { color: #CFDCF2; transform: scale(1.1); }
+@media (prefers-reduced-motion: no-preference) {
+  .engagements li:hover path { animation: cocher 0.5s var(--ease); }
+}
+@keyframes cocher { from { stroke-dashoffset: 1; } }
 
 /* Le cartouche du plan, posé sur la photo : des cases avec leur intitulé, comme le tableau
    d'informations en bas d'un plan. Placé par rapport au hero, aligné sur le bord droit du conteneur.

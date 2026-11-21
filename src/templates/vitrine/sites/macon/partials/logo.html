@@ -1,0 +1,9 @@
+{# Logo : un parpaing vu de dessus (deux alvéoles), le nom, le métier en petites capitales. Sans site.logo : le nom seul. #}
+<span class="logo">
+    <svg class="logo__marque" viewBox="0 0 34 22" aria-hidden="true" focusable="false">
+        <rect class="logo__bloc" x="1.25" y="1.25" width="31.5" height="19.5" rx="3.5"/>
+        <rect class="logo__alveole" x="5.5" y="5.5" width="9.5" height="11" rx="1.6"/>
+        <rect class="logo__alveole" x="19" y="5.5" width="9.5" height="11" rx="1.6"/>
+    </svg>
+    {% if site.logo %}<span class="logo__texte"><span class="logo__nom">{{ site.logo.nom }}</span><span class="logo__metier">{{ site.logo.metier }}</span></span>{% else %}<span class="logo__nom">{{ site.nom }}</span>{% endif %}
+</span>

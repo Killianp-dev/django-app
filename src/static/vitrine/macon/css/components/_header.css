@@ -42,11 +42,7 @@
 }
 @keyframes lecture { to { transform: scaleX(1); } }
 .header__inner { display: flex; align-items: center; gap: 1.75rem; min-height: var(--header-h); }
-.header__logo {
-  margin-right: auto;
-  font-family: var(--font-titre); font-weight: 600; font-size: 1.65rem; line-height: 1; letter-spacing: 0;
-  text-decoration: none;
-}
+.header__logo { margin-right: auto; text-decoration: none; }
 
 /* Liens : une pastille arrondie. Au survol, un voile à peine marqué ; le lien de la page en cours
    se pose sur une pastille blanche, avec une ombre douce. */

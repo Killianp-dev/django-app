@@ -1,27 +1,81 @@
-/* Pied de page en cartouche de plan : des cases séparées par des filets (la grille a un fond de filet
-   et des écarts d'un pixel), chacune avec son intitulé, comme le tableau en bas d'un plan. */
-.footer { background: var(--graphite); color: var(--papier); padding-block: 4rem 2rem; }
+/* ==================================================
+   PIED DE PAGE — graphite, un fragment de mur en élévation en haut à droite (le parpaing
+   coté du hero : blocs de 50 × 20 cm à joints décalés, un bloc coté), estompé vers le texte.
+   Les cotes se tracent quand le pied de page arrive à l'écran (CSS piloté par le défilement).
+   ================================================= */
+.footer {
+  position: relative; isolation: isolate; overflow: hidden;
+  padding-block: clamp(4rem, 3rem + 4vw, 6rem) 1.75rem;
+  color: #C9CBCD;
+  background:
+    radial-gradient(60% 80% at 0% 0%, rgba(31, 79, 163, 0.2), transparent 70%),
+    var(--graphite);
+}
 .footer a { color: #D8DADC; text-decoration: none; text-underline-offset: 0.25em; transition: color 0.2s; }
-.footer a:hover { color: #fff; text-decoration: underline; }
-.footer__cartouche {
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
-  overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--rayon-carte);
-  background: rgba(255, 255, 255, 0.1);
+.footer a:hover { color: #fff; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.35); }
+
+/* ——— Le mur ——— */
+.footer__mur {
+  position: absolute; z-index: -1; top: 0; right: 0;
+  width: min(560px, 46vw); height: auto;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%), linear-gradient(0deg, transparent 0%, #000 35%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 45%), linear-gradient(0deg, transparent 0%, #000 35%);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
 }
-.footer__case { padding: 1.4rem 1.5rem 1.5rem; background: var(--graphite); font-size: 0.95rem; color: #C9CBCD; }
-.footer__case--nom { grid-column: span 2; }
-.footer__case--nav { grid-column: span 2; }
-.footer__case--nav ul { columns: 2; column-gap: 1.5rem; }
-.footer__titre { margin-bottom: 0.7rem; line-height: 1.4; font-family: var(--font-texte); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #8FB0E6; }
-.footer__nom { font-family: var(--font-titre); font-weight: 700; font-size: 1.9rem; line-height: 1.05; color: var(--papier); margin-bottom: 0.5rem; }
+.footer__bloc { fill: none; stroke: rgba(143, 176, 230, 0.3); stroke-width: 1; }
+.footer__bloc--cote { fill: rgba(31, 79, 163, 0.3); stroke: #8FB0E6; }
+.footer__cotes path { fill: none; stroke: #8FB0E6; stroke-width: 1.25; }
+.footer__cote-valeur { font-family: var(--font-titre); font-weight: 600; font-size: 15px; fill: #8FB0E6; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .footer__cotes path {
+      stroke-dasharray: 1; stroke-dashoffset: 1;
+      animation: footerTracer linear both; animation-timeline: view(); animation-range: entry 20% entry 90%;
+    }
+    .footer__cote-valeur, .footer__bloc--cote {
+      animation: footerApparaitre linear both; animation-timeline: view(); animation-range: entry 40% entry 100%;
+    }
+  }
+}
+@keyframes footerTracer { to { stroke-dashoffset: 0; } }
+@keyframes footerApparaitre { from { opacity: 0; } }
+
+/* ——— Le contenu ——— */
+.footer__tete { display: grid; gap: 0.6rem; justify-items: start; max-width: 34rem; }
+.footer__nom { font-family: var(--font-titre); font-weight: 700; font-size: clamp(2rem, 1.6rem + 1.6vw, 2.75rem); line-height: 1; color: var(--papier); }
+.footer__ligne { font-size: 0.95rem; color: #9EA2A7; }
+.footer__contact { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 1.5rem; margin-top: 0.9rem; max-width: none; }
+.footer__contact .footer__tel { font-family: var(--font-titre); font-weight: 600; font-size: 1.6rem; color: var(--papier); font-variant-numeric: tabular-nums; }
+
+.footer__colonnes {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem;
+  margin-top: clamp(2.75rem, 2rem + 3vw, 4rem); padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.95rem;
+}
+.footer__colonnes nav { grid-column: span 1; }
+.footer__titre { margin-bottom: 0.75rem; font-family: var(--font-texte); font-size: 0.68rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.14em; text-transform: uppercase; color: #8FB0E6; }
 .footer address { font-style: normal; }
-.footer li + li { margin-top: 0.35rem; }
-.footer__bas { margin-top: 1.5rem; font-size: var(--t-sm); color: #9EA2A7; max-width: none; }
-@media (max-width: 900px) {
-  .footer__cartouche { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .footer__case--nom, .footer__case--nav { grid-column: 1 / -1; }
+.footer__liens li + li { margin-top: 0.4rem; }
+.footer__liens--deux { columns: 2; column-gap: 1.25rem; }
+.footer__liens--deux li { break-inside: avoid; }
+
+.footer__bas {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem;
+  margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: var(--t-sm); color: #8D9197;
 }
-@media (max-width: 520px) {
-  .footer__cartouche { grid-template-columns: 1fr; }
-  .footer__case--nav ul { columns: 1; }
+.footer__bas p { max-width: none; }
+.footer__haut { display: inline-flex; gap: 0.4rem; }
+.footer__haut span { transition: transform 0.3s var(--ease); }
+.footer__haut:hover span { transform: translateY(-3px); }
+
+@media (max-width: 1000px) {
+  .footer__colonnes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .footer { padding-top: calc(36vw + 1.5rem); }
+  .footer__mur { width: 88vw; }
+  .footer__colonnes { grid-template-columns: 1fr; gap: 1.75rem; }
 }

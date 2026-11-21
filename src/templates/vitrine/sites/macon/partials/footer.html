@@ -1,27 +1,38 @@
 {% load vitrine_tags %}
-{# Pied de page en cartouche de plan : des cases séparées par des filets, chacune avec son intitulé. #}
+{# Pied de page : un fragment de mur en élévation (le parpaing coté du hero), estompé vers le texte ; puis les coordonnées, quatre colonnes légères et le bas de page. #}
 <footer class="footer">
-    <div class="container">
-        <div class="footer__cartouche">
-            <div class="footer__case footer__case--nom">
-                <p class="footer__nom">{{ site.nom }}</p>
-                <p>{{ site.footer_line }}</p>
-            </div>
-            <div class="footer__case">
+    <svg class="footer__mur" viewBox="0 0 560 260" aria-hidden="true" focusable="false">
+        <rect class="footer__bloc" x="0" y="84" width="100" height="40" rx="3"/><rect class="footer__bloc" x="108" y="84" width="100" height="40" rx="3"/><rect class="footer__bloc footer__bloc--cote" x="216" y="84" width="100" height="40" rx="3"/><rect class="footer__bloc" x="324" y="84" width="100" height="40" rx="3"/><rect class="footer__bloc" x="432" y="84" width="100" height="40" rx="3"/><rect class="footer__bloc" x="540" y="84" width="100" height="40" rx="3"/><rect class="footer__bloc" x="-54" y="132" width="100" height="40" rx="3"/><rect class="footer__bloc" x="54" y="132" width="100" height="40" rx="3"/><rect class="footer__bloc" x="162" y="132" width="100" height="40" rx="3"/><rect class="footer__bloc" x="270" y="132" width="100" height="40" rx="3"/><rect class="footer__bloc" x="378" y="132" width="100" height="40" rx="3"/><rect class="footer__bloc" x="486" y="132" width="100" height="40" rx="3"/><rect class="footer__bloc" x="0" y="180" width="100" height="40" rx="3"/><rect class="footer__bloc" x="108" y="180" width="100" height="40" rx="3"/><rect class="footer__bloc" x="216" y="180" width="100" height="40" rx="3"/><rect class="footer__bloc" x="324" y="180" width="100" height="40" rx="3"/><rect class="footer__bloc" x="432" y="180" width="100" height="40" rx="3"/><rect class="footer__bloc" x="540" y="180" width="100" height="40" rx="3"/><rect class="footer__bloc" x="-54" y="228" width="100" height="40" rx="3"/><rect class="footer__bloc" x="54" y="228" width="100" height="40" rx="3"/><rect class="footer__bloc" x="162" y="228" width="100" height="40" rx="3"/><rect class="footer__bloc" x="270" y="228" width="100" height="40" rx="3"/><rect class="footer__bloc" x="378" y="228" width="100" height="40" rx="3"/><rect class="footer__bloc" x="486" y="228" width="100" height="40" rx="3"/>
+        <g class="footer__cotes">
+            <path pathLength="1" d="M216 54 H316"/>
+            <path pathLength="1" d="M216 46 V62 M316 46 V62"/>
+            <path pathLength="1" d="M198 84 V124"/>
+            <path pathLength="1" d="M190 84 H206 M190 124 H206"/>
+        </g>
+        <text class="footer__cote-valeur" x="266.0" y="44" text-anchor="middle">50 cm</text>
+        <text class="footer__cote-valeur" x="186" y="104.0" text-anchor="middle" transform="rotate(-90 186 104.0)">20 cm</text>
+    </svg>
+    <div class="container footer__inner">
+        <div class="footer__tete">
+            <p class="footer__nom"><span class="vitrine-sr-only">{{ site.nom }}</span><span aria-hidden="true">{% include 'vitrine/sites/macon/partials/logo.html' %}</span></p>
+            <p class="footer__ligne">{{ site.footer_line }}</p>
+            <p class="footer__contact">
+                <a class="footer__tel" href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a>
+                <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+            </p>
+        </div>
+        <div class="footer__colonnes">
+            <div>
                 <p class="footer__titre">Adresse</p>
                 <address>{{ site.adresse }}<br>{{ site.code_postal }} {{ site.ville }}</address>
             </div>
-            <div class="footer__case">
-                <p class="footer__titre">Contact</p>
-                <p><a href="tel:{{ site.telephone_lien }}">{{ site.telephone }}</a><br><a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
-            </div>
-            <div class="footer__case">
+            <div>
                 <p class="footer__titre">Horaires</p>
                 <p>{{ site.horaires|fr_typo }}</p>
             </div>
-            <nav class="footer__case footer__case--nav" aria-labelledby="footer-nav-titre">
+            <nav aria-labelledby="footer-nav-titre">
                 <h2 class="footer__titre" id="footer-nav-titre">Navigation</h2>
-                <ul>
+                <ul class="footer__liens footer__liens--deux">
                     <li><a href="{% site_url 'home' %}">Accueil</a></li>
                     <li><a href="{% site_url 'offres' %}">{{ site.labels.offres }}</a></li>
                     {% if site.realisations %}<li><a href="{% site_url 'realisations' %}">{{ site.labels.realisations }}</a></li>{% endif %}
@@ -30,14 +41,17 @@
                     <li><a href="{% site_url 'contact' %}">Contact</a></li>
                 </ul>
             </nav>
-            <div class="footer__case">
+            <div>
                 <h2 class="footer__titre">Informations</h2>
-                <ul>
+                <ul class="footer__liens">
                     <li><a href="{% site_url 'legal_notice' %}">Mentions légales</a></li>
                     <li><a href="{% site_url 'privacy' %}">Confidentialité</a></li>
                 </ul>
             </div>
         </div>
-        <p class="footer__bas">© {% now "Y" %} {{ site.nom }}. Exemple fictif.</p>
+        <div class="footer__bas">
+            <p>© {% now "Y" %} {{ site.nom }}. Exemple fictif.</p>
+            <a class="footer__haut" href="#contenu">Haut de page <span aria-hidden="true">↑</span></a>
+        </div>
     </div>
 </footer>
