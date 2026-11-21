@@ -12,7 +12,7 @@
 }
 
 /* Bandeau de démonstration (vitrine/partials/demo_banner.html) */
-.vitrine-demo-banner { background: var(--graphite); color: #D8DADC; font-size: var(--t-sm); padding: 0.55rem var(--gouttiere); text-align: center; }
+.vitrine-demo-banner { background: var(--graphite); color: var(--sur-sombre-doux); font-size: var(--t-sm); padding: 0.55rem var(--gouttiere); text-align: center; }
 .vitrine-demo-banner__text { margin: 0 auto; max-width: none; }
 .vitrine-demo-banner__link { color: #fff; font-weight: 600; white-space: nowrap; }
 

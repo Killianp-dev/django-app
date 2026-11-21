@@ -17,7 +17,7 @@
   content: ""; position: absolute; left: 0; top: 1.25rem; bottom: 1.25rem; width: 3px; border-radius: 0 3px 3px 0;
   background: var(--cordeau); transform: scaleY(0); transition: transform 0.35s var(--ease);
 }
-.nomenclature__ligne:hover, .nomenclature__ligne:focus-within { background: #FFFFFF; }
+.nomenclature__ligne:hover, .nomenclature__ligne:focus-within { background: #fff; }
 .nomenclature__ligne:hover::before, .nomenclature__ligne:focus-within::before { transform: scaleY(1); }
 
 .nomenclature__photo { overflow: hidden; aspect-ratio: 3 / 2; border-radius: var(--rayon); }

@@ -23,7 +23,7 @@
 .cote__valeur { flex: none; }
 
 /* Version claire, sur les fonds graphite */
-.cote--clair { --cote-couleur: #8FB0E6; }
+.cote--clair { --cote-couleur: var(--cordeau-clair); }
 
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {

@@ -16,10 +16,10 @@ a:hover .logo__alveole { transform: scale(0.82); }
 .logo__metier { font-size: 0.6rem; font-weight: 600; line-height: 1; letter-spacing: 0.26em; text-transform: uppercase; color: var(--graphite-doux); transition: color 0.45s var(--ease); }
 
 /* Sur fond sombre : l'en-tête posé sur la photo du hero, le pied de page */
-.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .logo__metier { color: rgba(255, 255, 255, 0.7); }
-.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .logo__alveole { fill: #8FB0E6; }
-.footer .logo__alveole { fill: #8FB0E6; }
-.footer .logo__metier { color: #9EA2A7; font-size: 0.7rem; }
+.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .logo__metier { color: var(--sur-sombre-doux); }
+.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .logo__alveole { fill: var(--cordeau-clair); }
+.footer .logo__alveole { fill: var(--cordeau-clair); }
+.footer .logo__metier { color: var(--sur-sombre-discret); font-size: 0.7rem; }
 .footer .logo__marque { width: 46px; height: 30px; }
 .footer .logo { gap: 0.9rem; }
 .footer .logo__nom { font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem); }

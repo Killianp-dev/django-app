@@ -4,7 +4,7 @@
 .formulaire__requis { font-weight: 400; color: var(--graphite-doux); }
 .vitrine-form__input {
   width: 100%; min-height: 48px; padding: 0.7rem 0.85rem;
-  background: #fff; border: 1px solid #8A8F95; border-radius: var(--rayon);
+  background: #fff; border: 1px solid var(--trait-champ); border-radius: var(--rayon);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 textarea.vitrine-form__input { min-height: 9rem; resize: vertical; }
@@ -13,7 +13,7 @@ textarea.vitrine-form__input { min-height: 9rem; resize: vertical; }
 .formulaire__case input { width: 22px; height: 22px; margin-top: 0.1rem; flex: none; accent-color: var(--cordeau); }
 .formulaire__case label { color: var(--graphite-doux); }
 .formulaire__erreur, .formulaire__erreurs { color: var(--erreur); font-weight: 500; font-size: var(--t-sm); }
-.formulaire__erreurs { padding: 0.85rem 1.1rem; border-radius: var(--rayon); background: #FBEDEC; }
+.formulaire__erreurs { padding: 0.85rem 1.1rem; border-radius: var(--rayon); background: var(--erreur-pale); }
 .formulaire .btn { justify-self: start; }
 .formulaire .btn:disabled { opacity: 0.7; cursor: wait; }
 /* Piège à robots du formulaire partagé : hors de vue, hors tabulation (tabindex -1 dans forms.py). */

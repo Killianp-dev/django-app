@@ -15,6 +15,21 @@
   --ouvert: #2F7D57;
   --bientot: #A35F00;
   --erreur: #A3241E;
+  --erreur-pale: #FBEDEC;    /* fond du message d'erreur du formulaire */
+  --trait-champ: #8A8F95;    /* contour des champs (3,3:1 sur blanc, seuil des éléments d'interface) */
+
+  /* Sur fond sombre (hero, carnet, avis à la une, appel final, pied de page).
+     Contrastes mesurés sur --graphite. */
+  --graphite-clair: #2A2B2F;        /* haut des bandes sombres (dégradé) */
+  --cordeau-clair: #8FB0E6;         /* l'accent : étiquettes, cotes, coches, repères (7,5:1) */
+  --sur-sombre: var(--papier);      /* titres, liens au survol (15,5:1) */
+  --sur-sombre-doux: #C3C6C9;       /* texte courant, liens (9,6:1) */
+  --sur-sombre-discret: #9EA2A7;    /* dates, mentions, copyright (6,4:1) */
+  /* Le fond des bandes sombres : graphite qui s'éclaircit vers le haut, un halo de cordeau en haut à droite.
+     Le même partout, pour que les bandes se répondent. */
+  --fond-sombre:
+    radial-gradient(70% 90% at 100% 0%, rgba(31, 79, 163, 0.3), transparent 70%),
+    linear-gradient(180deg, var(--graphite-clair) 0%, var(--graphite) 100%);
 
   /* Typographie */
   --font-titre: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;

@@ -21,7 +21,7 @@
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .nav__link { color: rgba(255, 255, 255, 0.88); }
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .nav__link:hover { color: #fff; }
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .nav__link:hover { background: rgba(255, 255, 255, 0.1); }
-.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .header__tel svg { color: #8FB0E6; }
+.js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .header__tel svg { color: var(--cordeau-clair); }
 .js .page-accueil .header:not(.is-scrolled):not(:has([aria-expanded="true"])) .header__burger {
   background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.22);
 }

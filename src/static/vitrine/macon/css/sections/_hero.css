@@ -8,7 +8,7 @@
   /* Le hero passe sous l'en-tête, transparent tant qu'on n'a pas défilé */
   margin-top: calc(-1 * var(--header-h));
   padding-block: calc(var(--header-h) + 5rem) 7rem;
-  background: var(--graphite); color: #fff;
+  background: var(--graphite); color: var(--sur-sombre);
 }
 /* Un voile en haut : l'en-tête transparent reste lisible, même sur la photo */
 .hero::after {
@@ -39,7 +39,7 @@
 .hero__contenu { position: relative; display: grid; align-items: end; }
 .hero__texte { max-width: 34rem; }
 .hero__titre { font-size: var(--t-hero); font-weight: 700; line-height: 0.96; max-width: 10ch; color: #fff; }
-.hero__accroche { margin-top: 1.5rem; font-size: var(--t-lg); line-height: 1.6; color: rgba(255, 255, 255, 0.78); max-width: 38ch; }
+.hero__accroche { margin-top: 1.5rem; font-size: var(--t-lg); line-height: 1.6; color: var(--sur-sombre-doux); max-width: 38ch; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
 /* Bouton verre, sur le graphite : un liseré discret et un reflet en haut ; au survol, le verre s'éclaircit */
 .btn--verre {
@@ -53,14 +53,14 @@
   transform: translateY(-1px);
 }
 
-.engagements { display: grid; gap: 0.65rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.16); font-weight: 500; color: rgba(255, 255, 255, 0.9); }
+.engagements { display: grid; gap: 0.65rem; margin-top: 2.25rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.16); font-weight: 500; color: var(--sur-sombre-doux); }
 .engagements li { display: flex; align-items: center; gap: 0.75rem; }
 .engagements li { transition: color 0.3s var(--ease); }
-.engagements svg { width: 18px; height: 18px; flex: none; color: #8FB0E6; transition: color 0.3s var(--ease), transform 0.4s var(--ease); }
+.engagements svg { width: 18px; height: 18px; flex: none; color: var(--cordeau-clair); transition: color 0.3s var(--ease), transform 0.4s var(--ease); }
 .engagements path { stroke-dasharray: 1; stroke-dashoffset: 0; }
 /* Au survol d'un engagement : sa coche se retrace et s'éclaircit, le texte passe en blanc */
-.engagements li:hover { color: #fff; }
-.engagements li:hover svg { color: #CFDCF2; transform: scale(1.1); }
+.engagements li:hover { color: var(--sur-sombre); }
+.engagements li:hover svg { color: var(--cordeau-pale); transform: scale(1.1); }
 @media (prefers-reduced-motion: no-preference) {
   .engagements li:hover path { animation: cocher 0.5s var(--ease); }
 }
@@ -126,7 +126,7 @@
   .hero__cadre { inset: 0 auto auto 0; width: max(calc(var(--photo-h) * 1.5), 122vw); height: auto; aspect-ratio: 3 / 2; transform: translateX(-13%); }
   .hero__cadre::after { display: none; }
   .hero__carte, .hero__legende { display: none; }
-  .hero__statut { display: inline-flex; margin-bottom: 1rem; color: rgba(255, 255, 255, 0.85); font-size: var(--t-sm); }
+  .hero__statut { display: inline-flex; margin-bottom: 1rem; color: var(--sur-sombre-doux); font-size: var(--t-sm); }
   .hero__statut.is-open { color: #fff; }
   .bandeau-cartouche { margin-top: 1.5rem; }
   .cartouche--bandeau { grid-template-columns: repeat(2, minmax(0, 1fr)); box-shadow: var(--ombre-douce); }

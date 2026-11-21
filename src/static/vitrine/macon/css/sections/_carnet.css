@@ -2,12 +2,10 @@
    Valable pour tout métier de l'artisanat : seules les données (site.carnet) changent. */
 .carnet {
   color: var(--papier);
-  background:
-    radial-gradient(70% 60% at 85% 10%, rgba(31, 79, 163, 0.28), transparent 70%),
-    linear-gradient(180deg, #2A2B2F 0%, var(--graphite) 100%);
+  background: var(--fond-sombre);
 }
-.carnet .kicker { color: #8FB0E6; }
-.carnet .section__intro { color: #C3C6C9; }
+.carnet .kicker { color: var(--cordeau-clair); }
+.carnet .section__intro { color: var(--sur-sombre-doux); }
 /* Grand écran : le carnet occupe les deux tiers ; les notes s'écrivent dans la marge, à droite,
    chacune à la hauteur du jour qu'elle commente (unités cqw : relatives à cette grille). */
 .carnet__grille { container-type: inline-size; }
@@ -74,12 +72,12 @@
   .carnet__marge {
     position: absolute; top: 1.35rem; left: calc(100% + var(--pad) + 4rem); width: calc(36cqw - 4rem);
     margin: 0; padding: 0; border: 0; border-radius: 0; background: none;
-    color: #C3C6C9; font-size: 0.975rem;
+    color: var(--sur-sombre-doux); font-size: 0.975rem;
   }
   .carnet__marge .carnet__marge-titre { font-size: 1.35rem; color: var(--papier); margin-bottom: 0.3rem; }
   .carnet__marge::before {      /* le trait de rappel, du bord du jour jusqu'à la note */
     content: ""; position: absolute; top: 0.7rem; right: calc(100% + 0.9rem); width: calc(4rem + var(--pad) - 0.9rem);
-    border-top: 1px dashed rgba(143, 176, 230, 0.75);
+    border-top: 1px dashed color-mix(in srgb, var(--cordeau-clair) 75%, transparent);
   }
   .carnet__marge::after {       /* le repère, sur le bord du jour */
     content: ""; position: absolute; top: calc(0.7rem - 3px); right: calc(100% + 4rem + var(--pad) - 3px);

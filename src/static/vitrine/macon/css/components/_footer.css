@@ -6,13 +6,11 @@
 .footer {
   position: relative; isolation: isolate; overflow: hidden;
   padding-block: clamp(4rem, 3rem + 4vw, 6rem) 1.75rem;
-  color: #C9CBCD;
-  background:
-    radial-gradient(60% 80% at 0% 0%, rgba(31, 79, 163, 0.2), transparent 70%),
-    var(--graphite);
+  color: var(--sur-sombre-doux);
+  background: var(--fond-sombre);
 }
-.footer a { color: #D8DADC; text-decoration: none; text-underline-offset: 0.25em; transition: color 0.2s; }
-.footer a:hover { color: #fff; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.35); }
+.footer a { color: var(--sur-sombre-doux); text-decoration: none; text-underline-offset: 0.25em; transition: color 0.2s; }
+.footer a:hover { color: var(--sur-sombre); text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.35); }
 
 /* ——— Le mur ——— */
 .footer__mur {
@@ -22,10 +20,10 @@
   mask-image: linear-gradient(90deg, transparent 0%, #000 45%), linear-gradient(0deg, transparent 0%, #000 35%);
   -webkit-mask-composite: source-in; mask-composite: intersect;
 }
-.footer__bloc { fill: none; stroke: rgba(143, 176, 230, 0.3); stroke-width: 1; }
-.footer__bloc--cote { fill: rgba(31, 79, 163, 0.3); stroke: #8FB0E6; }
-.footer__cotes path { fill: none; stroke: #8FB0E6; stroke-width: 1.25; }
-.footer__cote-valeur { font-family: var(--font-titre); font-weight: 600; font-size: 15px; fill: #8FB0E6; }
+.footer__bloc { fill: none; stroke: color-mix(in srgb, var(--cordeau-clair) 30%, transparent); stroke-width: 1; }
+.footer__bloc--cote { fill: rgba(31, 79, 163, 0.3); stroke: var(--cordeau-clair); }
+.footer__cotes path { fill: none; stroke: var(--cordeau-clair); stroke-width: 1.25; }
+.footer__cote-valeur { font-family: var(--font-titre); font-weight: 600; font-size: 15px; fill: var(--cordeau-clair); }
 
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
@@ -44,7 +42,7 @@
 /* ——— Le contenu ——— */
 .footer__tete { display: grid; gap: 0.6rem; justify-items: start; max-width: 34rem; }
 .footer__nom { font-family: var(--font-titre); font-weight: 700; font-size: clamp(2rem, 1.6rem + 1.6vw, 2.75rem); line-height: 1; color: var(--papier); }
-.footer__ligne { font-size: 0.95rem; color: #9EA2A7; }
+.footer__ligne { font-size: 0.95rem; color: var(--sur-sombre-discret); }
 .footer__contact { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 1.5rem; margin-top: 0.9rem; max-width: none; }
 .footer__contact .footer__tel { font-family: var(--font-titre); font-weight: 600; font-size: 1.6rem; color: var(--papier); font-variant-numeric: tabular-nums; }
 
@@ -55,7 +53,7 @@
   font-size: 0.95rem;
 }
 .footer__colonnes nav { grid-column: span 1; }
-.footer__titre { margin-bottom: 0.75rem; font-family: var(--font-texte); font-size: 0.68rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.14em; text-transform: uppercase; color: #8FB0E6; }
+.footer__titre { margin-bottom: 0.75rem; font-family: var(--font-texte); font-size: 0.68rem; font-weight: 600; line-height: 1.4; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cordeau-clair); }
 .footer address { font-style: normal; }
 .footer__liens li + li { margin-top: 0.4rem; }
 .footer__liens--deux { columns: 2; column-gap: 1.25rem; }
@@ -64,7 +62,7 @@
 .footer__bas {
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem;
   margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.07);
-  font-size: var(--t-sm); color: #8D9197;
+  font-size: var(--t-sm); color: var(--sur-sombre-discret);
 }
 .footer__bas p { max-width: none; }
 .footer__haut { display: inline-flex; gap: 0.4rem; }

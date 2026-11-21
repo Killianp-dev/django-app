@@ -31,18 +31,16 @@
 /* L'avis à la une : graphite, la citation en grand dans la police des titres */
 .avis__carte--une {
   color: var(--papier);
-  background:
-    radial-gradient(80% 70% at 100% 0%, rgba(31, 79, 163, 0.3), transparent 70%),
-    linear-gradient(180deg, #2A2B2F 0%, var(--graphite) 100%);
+  background: var(--fond-sombre);
   box-shadow: var(--ombre-haute);
 }
-.avis__carte--une .avis__chantier { color: #8FB0E6; }
+.avis__carte--une .avis__chantier { color: var(--cordeau-clair); }
 .avis__carte--une .avis__texte { display: flex; align-items: center; }
 .avis__carte--une .avis__texte p {
   font-family: var(--font-titre); font-weight: 600; font-size: clamp(1.6rem, 1.2rem + 1.3vw, 2.15rem); line-height: 1.18;
   text-wrap: balance;
 }
 .avis__carte--une .avis__auteur { border-top-color: rgba(255, 255, 255, 0.12); }
-.avis__carte--une .avis__initiale { background: rgba(143, 176, 230, 0.18); color: #CFDCF2; }
-.avis__carte--une .avis__qui span { color: #B9BDC2; }
-.avis__carte--une .avis__note { color: #8FB0E6; }
+.avis__carte--une .avis__initiale { background: color-mix(in srgb, var(--cordeau-clair) 18%, transparent); color: var(--cordeau-pale); }
+.avis__carte--une .avis__qui span { color: var(--sur-sombre-discret); }
+.avis__carte--une .avis__note { color: var(--cordeau-clair); }
