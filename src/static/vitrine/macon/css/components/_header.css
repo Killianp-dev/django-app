@@ -9,24 +9,20 @@
 }
 .header.is-scrolled { background: rgba(248, 248, 245, 0.94); border-bottom-color: transparent; box-shadow: 0 8px 30px -16px rgba(30, 31, 34, 0.28); }
 
-/* Réglet de lecture : sous l'en-tête, une règle graduée (un tic tous les 8 px, un grand tous
-   les 80 px) se découvre de gauche à droite au fil de la page. Piloté par le défilement, sans JS ;
-   les graduations ne se déforment pas (découpe, pas d'étirement). */
+/* Avancement de lecture : un filet de cordeau, fin, sous l'en-tête, qui avance avec la page.
+   Piloté par le défilement, sans JS. */
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
     .header::after {
-      content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 7px; pointer-events: none;
-      background:
-        linear-gradient(var(--cordeau), var(--cordeau)) top / 100% 1px no-repeat,
-        repeating-linear-gradient(90deg, var(--cordeau) 0 1px, transparent 1px 80px) top / 100% 7px no-repeat,
-        repeating-linear-gradient(90deg, rgba(31, 79, 163, 0.55) 0 1px, transparent 1px 8px) top / 100% 4px no-repeat;
-      clip-path: inset(0 100% 0 0);
-      animation: reglet linear both;
+      content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 2px; pointer-events: none;
+      background: var(--cordeau); opacity: 0.55;
+      transform: scaleX(0); transform-origin: left;
+      animation: lecture linear both;
       animation-timeline: scroll(root);
     }
   }
 }
-@keyframes reglet { to { clip-path: inset(0 0 0 0); } }
+@keyframes lecture { to { transform: scaleX(1); } }
 .header__inner { display: flex; align-items: center; gap: 1.75rem; min-height: var(--header-h); }
 .header__logo {
   margin-right: auto;

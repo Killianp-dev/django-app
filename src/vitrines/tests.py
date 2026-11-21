@@ -122,30 +122,18 @@ class MaconAutonomeTests(TestCase):
         self.assertIn("data-statut", html)                     # carte d'ouverture en direct
         self.assertIn('"@type": "FAQPage"', html)               # FAQ balisée pour les moteurs
 
-    def test_estimateur_prix_du_bordereau(self):
-        """Chaque prix unitaire de l'estimateur est celui du bordereau des prix indicatifs."""
-        lignes = {
-            ligne.nom: re.sub(r"\s", " ", ligne.prix)
-            for groupe in SITES["macon"].tarifs for ligne in groupe.lignes
-        }
-        for ouvrage in SITES["macon"].estimateur.ouvrages:
-            with self.subTest(ouvrage=ouvrage.cle):
-                attendu = f"dès {ouvrage.prix:,} € HT / {ouvrage.unite}".replace(",", " ")
-                self.assertIn(attendu, lignes.values())
-                self.assertTrue(ouvrage.min <= ouvrage.defaut <= ouvrage.max)
-                self.assertIn(ouvrage.offre, [o.nom for o in SITES["macon"].offres])
-
-    def test_estimateur_sur_l_accueil(self):
+    def test_preparer_sa_demande(self):
+        """Le bloc ne dépend que des savoir-faire : il convient à n'importe quel artisan."""
         html = self.client.get("/demo-macon/").content.decode()
-        self.assertIn("data-estimateur hidden", html)            # caché sans JavaScript
-        self.assertEqual(html.count('name="ouvrage"'), len(SITES["macon"].estimateur.ouvrages))
+        self.assertIn("data-demande hidden", html)               # caché sans JavaScript
+        self.assertEqual(html.count('name="travaux"'), len(SITES["macon"].offres))
         self.assertIn('type="range"', html)
 
-    def test_contact_reprend_l_estimation(self):
+    def test_contact_reprend_la_demande(self):
         html = self.client.get(
-            "/demo-macon/contact/", {"prestation": "Gros œuvre", "estimation": "Dalle, 30 m², à partir de 2 850 € HT."}
+            "/demo-macon/contact/", {"prestation": "Gros œuvre", "demande": "Gros œuvre : début souhaité dans 6 semaines."}
         ).content.decode()
-        self.assertIn("Dalle, 30 m², à partir de 2 850 € HT.", html)
+        self.assertIn("Gros œuvre : début souhaité dans 6 semaines.", html)
         self.assertIn('value="Gros œuvre" selected', html)
 
     def test_texte_legal_partage(self):

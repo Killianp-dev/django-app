@@ -1,10 +1,10 @@
 /* ==================================================
-   ESTIMATEUR — un ouvrage, un mètre ruban, un montant « à partir de » (macon.js).
+   DEMANDE — un ouvrage, un mètre ruban, un montant « à partir de » (macon.js).
    Le mètre : un boîtier graphite, un ruban qui en sort jusqu'au curseur (--p, de 0 à 1),
    des graduations à l'échelle de l'ouvrage (--tics, --grands), une cote au-dessus qui
    mesure la longueur tirée. Le curseur est un range natif : clavier et toucher inclus.
    ================================================= */
-.estimateur {
+.demande {
   margin-top: 2.5rem;
   padding: clamp(1.4rem, 3.2vw, 2.6rem);
   background: var(--papier);
@@ -12,49 +12,48 @@
   border-radius: var(--rayon-grand);
   box-shadow: var(--ombre-douce);
 }
-.estimateur[hidden] { display: none; }
+.demande[hidden] { display: none; }
 /* Ordinateur : titre et ouvrages à gauche, le mètre et le montant à droite, sur toute la hauteur. */
-.estimateur { display: grid; gap: 2rem 4rem; }
-.estimateur__corps { display: contents; }
+.demande { display: grid; gap: 2rem 4rem; }
+.demande__corps { display: contents; }
 @media (min-width: 900px) {
-  .estimateur { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr); }
-  .estimateur__tete { grid-column: 1; grid-row: 1; }
-  .estimateur__ouvrages { grid-column: 1; grid-row: 2; }
-  .estimateur__mesure { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .demande { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr); }
+  .demande__tete { grid-column: 1; grid-row: 1; }
+  .demande__ouvrages { grid-column: 1; grid-row: 2; }
+  .demande__mesure { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 }
-.estimateur__tete { display: grid; gap: 0.6rem; }
-.estimateur__titre { font-size: var(--t-xl); }
-.estimateur__intro { color: var(--graphite-doux); max-width: 46ch; }
+.demande__tete { display: grid; gap: 0.6rem; }
+.demande__titre { font-size: var(--t-xl); }
+.demande__intro { color: var(--graphite-doux); max-width: 46ch; }
 
 /* ——— Les ouvrages : une liste de choix, l'ouvrage retenu marqué d'un trait de cordeau ——— */
-.estimateur__ouvrages { display: grid; gap: 0.2rem; border: 0; min-width: 0; }
-.estimateur__legende {
+.demande__ouvrages { display: grid; gap: 0.2rem; border: 0; min-width: 0; }
+.demande__legende {
   margin-bottom: 0.6rem;
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--graphite-doux);
 }
-.estimateur__choix {
-  position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+.demande__choix {
+  position: relative; display: grid; gap: 0.1rem;
   padding: 0.7rem 0.9rem 0.7rem 1.1rem; border-radius: var(--rayon);
   cursor: pointer; transition: background-color 0.2s, color 0.2s;
 }
-.estimateur__choix input { position: absolute; opacity: 0; pointer-events: none; }
-.estimateur__choix::before {
+.demande__choix input { position: absolute; opacity: 0; pointer-events: none; }
+.demande__choix::before {
   content: ""; position: absolute; left: 0; top: 0.6rem; bottom: 0.6rem; width: 3px; border-radius: 0 3px 3px 0;
   background: var(--cordeau); transform: scaleY(0); transition: transform 0.3s var(--ease);
 }
-.estimateur__choix:hover { background: var(--beton); }
-.estimateur__choix:has(:checked) { background: var(--cordeau-pale); }
-.estimateur__choix:has(:checked)::before { transform: scaleY(1); }
-.estimateur__choix:has(:focus-visible) { outline: 2px solid var(--cordeau); outline-offset: 2px; }
-.estimateur__nom { font-weight: 500; line-height: 1.3; }
-.estimateur__choix:has(:checked) .estimateur__nom { font-weight: 600; color: var(--cordeau-fonce); }
-.estimateur__unitaire { flex: none; font-family: var(--font-titre); font-weight: 600; font-size: 1.05rem; color: var(--graphite-doux); font-variant-numeric: tabular-nums; }
-.estimateur__choix:has(:checked) .estimateur__unitaire { color: var(--cordeau); }
+.demande__choix:hover { background: var(--beton); }
+.demande__choix:has(:checked) { background: var(--cordeau-pale); }
+.demande__choix:has(:checked)::before { transform: scaleY(1); }
+.demande__choix:has(:focus-visible) { outline: 2px solid var(--cordeau); outline-offset: 2px; }
+.demande__nom { font-family: var(--font-titre); font-weight: 600; font-size: 1.3rem; line-height: 1.15; }
+.demande__choix:has(:checked) .demande__nom { color: var(--cordeau-fonce); }
+.demande__unitaire { font-size: var(--t-sm); color: var(--graphite-doux); line-height: 1.4; }
 
 /* ——— Le mètre ——— */
-.estimateur__mesure { display: grid; gap: 2rem; min-width: 0; }
+.demande__mesure { display: grid; gap: 2rem; min-width: 0; }
 .metre {
-  --p: 0.3; --tics: 75; --grands: 15;
+  --p: 0.15; --tics: 26;
   --tw: 18px;                       /* largeur du crochet (le curseur) */
   --boitier: 84px;
   display: grid; grid-template-columns: var(--boitier) minmax(0, 1fr); row-gap: 0.5rem;
@@ -111,7 +110,6 @@
 .metre__graduations {
   position: absolute; top: 0; bottom: 0; left: calc(var(--tw) / 2); width: calc(100cqw - var(--tw));
   background:
-    linear-gradient(90deg, var(--graphite) 0 1px, transparent 1px) 0 0 / calc(100% / var(--grands)) 18px repeat-x,
     linear-gradient(90deg, rgba(30, 31, 34, 0.55) 0 1px, transparent 1px) 0 0 / calc(100% / var(--tics)) 9px repeat-x;
 }
 .metre__graduations span {
@@ -119,7 +117,11 @@
   font-family: var(--font-titre); font-weight: 600; font-size: 0.95rem; line-height: 1.4; color: var(--cordeau-fonce);
   font-variant-numeric: tabular-nums;
 }
-.metre__graduations span:first-child { transform: translateX(2px); }
+/* Chaque repère porte son grand tic */
+.metre__graduations span::before {
+  content: ""; position: absolute; left: 50%; top: -19px; width: 1px; height: 17px; background: var(--graphite);
+}
+.metre__graduations span { white-space: nowrap; }
 
 /* Le crochet : le range natif, posé sur toute la piste */
 .metre__curseur {
@@ -148,25 +150,26 @@
 .metre__curseur:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--papier), 0 0 0 5px var(--cordeau); }
 
 /* ——— Le résultat ——— */
-.estimateur__resultat {
+.demande__resultat {
   display: grid; gap: 0.4rem; justify-items: start;
   padding-top: 1.5rem; border-top: 1px solid var(--filet);
 }
-.estimateur__ligne { color: var(--graphite-doux); font-size: var(--t-sm); }
-.estimateur__ligne strong { display: block; color: var(--graphite); font-size: var(--t-base); font-weight: 600; }
-.estimateur__montant { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6rem; }
-.estimateur__des { font-weight: 500; color: var(--graphite-doux); }
-.estimateur__prix {
-  font-family: var(--font-titre); font-weight: 700; font-size: clamp(2.6rem, 2rem + 2.4vw, 3.6rem); line-height: 1;
+.demande__ligne { color: var(--graphite-doux); font-size: var(--t-sm); }
+.demande__ligne strong { display: block; color: var(--graphite); font-size: var(--t-base); font-weight: 600; }
+.demande__montant { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.6rem; }
+.demande__des { font-weight: 500; color: var(--graphite-doux); }
+.demande__prix {
+  font-family: var(--font-titre); font-weight: 700; font-size: clamp(2.3rem, 1.8rem + 2vw, 3.2rem); line-height: 1;
   color: var(--graphite); font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
 }
-.estimateur__ht { font-family: var(--font-titre); font-weight: 600; font-size: 1.5rem; color: var(--graphite-doux); }
-.estimateur__action { margin-top: 1rem; white-space: normal; text-align: center; }
+.demande__note { max-width: 44ch; font-size: var(--t-sm); color: var(--graphite-doux); }
+.demande__action { margin-top: 1rem; white-space: normal; text-align: center; }
 
 @media (max-width: 640px) {
   .metre { --boitier: 60px; --tw: 18px; }
   .metre__ruban { height: 38px; }
   .metre__cote { font-size: 1.25rem; }
-  .estimateur__choix { padding-block: 0.6rem; }
-  .estimateur__action { width: 100%; }
+  .metre__graduations span:nth-child(even) { visibility: hidden; }   /* un mois sur deux sur petit écran */
+  .demande__choix { padding-block: 0.6rem; }
+  .demande__action { width: 100%; }
 }

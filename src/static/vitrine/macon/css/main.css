@@ -13,7 +13,7 @@
 /* 2. Components */
 @import url('./components/_cote.css?v=p1');
 @import url('./components/_buttons.css?v=p1');
-@import url('./components/_header.css?v=p1');
+@import url('./components/_header.css?v=p2');
 @import url('./components/_cartouche.css?v=p1');
 @import url('./components/_tableaux.css?v=p1');
 @import url('./components/_galerie.css?v=p1');
@@ -23,7 +23,7 @@
 
 /* 3. Sections */
 @import url('./sections/_hero.css?v=p1');
-@import url('./sections/_estimateur.css?v=p2');
+@import url('./sections/_demande.css?v=p4');
 @import url('./sections/_carnet.css?v=p2');
 @import url('./sections/_deroule.css?v=p1');
 @import url('./sections/_avis.css?v=p1');
