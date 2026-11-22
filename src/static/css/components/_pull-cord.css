@@ -56,26 +56,37 @@ html[data-theme="dark"] .pull-cord {
   cursor: grabbing;
 }
 
+/* Tout bouge par transformation (pas de recalcul de mise en page à chaque image) :
+   le balancement tourne le bloc, l'allongement découpe un fil plus long que
+   nécessaire (clip-path) et descend l'olive (translate). */
 .pull-cord__swing {
+  --cord-slack: 72px;         /* réserve de fil sous l'olive, pour le tirage */
   position: absolute;
   top: 0;
   left: 0;
   width: 0;
-  height: calc(var(--cord-hang) + var(--cord-ext, 0px));
+  height: var(--cord-hang);
   transform: rotate(var(--cord-angle, 0deg));
   transform-origin: 50% 0;
+  will-change: transform;
   pointer-events: none;
 }
 
-/* Le cordon sort en fondu de sous l'en-tête : pas de trait coupé net. */
+/* Le cordon sort en fondu de sous l'en-tête : pas de trait coupé net.
+   --gap-a / --gap-b (posés par app.js) : là où il croise une ligne de texte du
+   hero, il s'efface en fondu, comme s'il passait derrière. */
 .pull-cord__string {
   position: absolute;
   top: 0;
-  bottom: calc(var(--cord-knob-h) - 2px);
   left: -0.6px;
   width: 1.2px;
+  height: calc(var(--cord-hang) - var(--cord-knob-h) + 2px + var(--cord-slack));
   border-radius: 1px;
-  background: linear-gradient(to bottom, transparent, var(--cord-color) 30%, var(--cord-color));
+  background: linear-gradient(to bottom, transparent, var(--cord-color) 24px, var(--cord-color));
+  clip-path: inset(0 0 calc(var(--cord-slack) - var(--cord-ext, 0px)) 0);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--gap-a, -20px) - 4px), transparent var(--gap-a, -20px), transparent var(--gap-b, -20px), #000 calc(var(--gap-b, -20px) + 4px));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--gap-a, -20px) - 4px), transparent var(--gap-a, -20px), transparent var(--gap-b, -20px), #000 calc(var(--gap-b, -20px) + 4px));
+  will-change: clip-path;
 }
 
 /* L'olive : goutte allongée, reflet doux, petite bague en haut. */
@@ -86,6 +97,8 @@ html[data-theme="dark"] .pull-cord {
   width: var(--cord-knob-w);
   height: var(--cord-knob-h);
   border-radius: 45% 45% 50% 50% / 32% 32% 68% 68%;
+  translate: 0 var(--cord-ext, 0px);
+  will-change: translate;
   background:
     radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 42%),
     linear-gradient(170deg, var(--knob-a), var(--knob-b));
@@ -236,8 +249,6 @@ html.theme-vt::view-transition-new(root) {
   stroke-dashoffset: 0;
 }
 
-/* Mobile : peu de place entre l'en-tête et le hero, la note se cale à la
-   hauteur de l'olive, flèche plus courte. */
 /* Après une bascule : fondu rapide, puis remise à zéro instantanée avant de
    rejouer l'entrée (classes posées par app.js). */
 .pull-cord.is-invite-out .pull-cord__invite {
@@ -252,20 +263,29 @@ html.theme-vt::view-transition-new(root) {
   transition: none !important;
 }
 
+/* Mobile : l'olive descend sous la ligne d'accroche du hero (longueur posée par
+   app.js, --cord-hang), à droite du titre. À gauche, la note recouvrirait le
+   titre : elle passe sous l'olive, à droite, et la flèche remonte vers elle. */
 @media (max-width: 768px) {
   .pull-cord__invite {
-    top: calc(var(--cord-hang) - 20px);
-    right: 9px;
-  }
-
-  .pull-cord__invite-text {
-    top: 2px;
-    font-size: 1rem;
+    top: calc(var(--cord-hang) + 1px);
+    right: auto;
+    left: 1px;
+    flex-direction: column-reverse;   /* la flèche (après le texte dans le HTML) passe au-dessus */
+    align-items: flex-start;
+    gap: 1px;
   }
 
   .pull-cord__invite-arrow {
-    width: 22px;
-    height: 16px;
+    width: 20px;
+    height: 15px;
+    transform: scaleX(-1);   /* part d'en bas à droite, pointe vers l'olive en haut à gauche */
+  }
+
+  .pull-cord__invite-text {
+    top: 0;
+    padding-left: 4px;
+    font-size: 0.84rem;   /* tient entre le cordon et la marge droite, à toutes les largeurs */
   }
 }
 

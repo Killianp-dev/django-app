@@ -7,7 +7,7 @@
   // DOM Elements - cached selectors
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');
-  const navLinks = document.querySelectorAll('.nav-links a');
+  const navLinks = document.querySelectorAll('.nav-links > li > a');
   const navbar = document.querySelector('.navbar');
 
   // Aperçu du hero, piloté aussi par les pastilles « Votre métier »
@@ -68,7 +68,7 @@
 
   function moveNavThumb(instant = false) {
     if (!navList || !navList.classList.contains('has-thumb')) return;
-    const active = navList.querySelector('a.active');
+    const active = navList.querySelector(':scope > li > a.active');
     navList.classList.toggle('is-instant', instant);
     if (thumbAnimation) {
       thumbAnimation.stop();
@@ -129,6 +129,8 @@
 
   function preventBackgroundScroll(event) {
     if (!isNavOpen()) return;
+    // Le panneau peut dépasser l'écran (démos dépliées) : on le laisse défiler.
+    if (navMenu.contains(event.target) && navMenu.scrollHeight > navMenu.clientHeight) return;
     event.preventDefault();
   }
 
@@ -174,6 +176,49 @@
     }
   }
 
+  // ===== Menu : démos sous « Exemples » =====
+  // Ordinateur : la liste s'ouvre au survol (CSS) et « Exemples » mène à la section.
+  // Mobile : pas de survol ; un appui sur « Exemples » déplie la liste (la section
+  // reste accessible par « Tous les exemples », en fin de liste).
+  function initNavDemos() {
+    const item = document.querySelector('[data-nav-demos]');
+    const link = item && item.querySelector(':scope > a');
+    const list = item && item.querySelector('.nav-demos');
+    if (!link || !list) return;
+
+    const setOpen = (open) => {
+      item.classList.toggle('is-open', open);
+      if (isMobileNav()) link.setAttribute('aria-expanded', String(open));
+    };
+
+    // Rôle de bouton sur mobile seulement : sur ordinateur, c'est un lien.
+    const syncRole = () => {
+      if (isMobileNav()) {
+        link.setAttribute('role', 'button');
+        link.setAttribute('aria-controls', list.id);
+        link.setAttribute('aria-expanded', String(item.classList.contains('is-open')));
+      } else {
+        ['role', 'aria-controls', 'aria-expanded'].forEach((attr) => link.removeAttribute(attr));
+      }
+    };
+    syncRole();
+    mobileNavQuery.addEventListener('change', syncRole);
+
+    link.addEventListener('click', (event) => {
+      if (!isMobileNav()) return;
+      event.preventDefault();
+      event.stopPropagation(); // sinon le menu se ferme, comme sur tout lien suivi
+      setOpen(!item.classList.contains('is-open'));
+    });
+
+    // Rôle de bouton : Espace l'active aussi.
+    link.addEventListener('keydown', (event) => {
+      if (event.key !== ' ' || !isMobileNav()) return;
+      event.preventDefault();
+      setOpen(!item.classList.contains('is-open'));
+    });
+  }
+
   function initMobileMenu() {
     if (!hamburger || !navMenu) return;
 
@@ -201,6 +246,7 @@
         return;
       }
 
+      if (event.key === ' ' && event.target.closest('button, [role="button"]')) return;
       if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) {
         event.preventDefault();
         return;
@@ -621,13 +667,66 @@
     if (!cord || !grip || !knob) return;
 
     // --- Alignement : la tirette pend à l'aplomb du bouton de thème. ---
+    // Sur mobile, l'olive descend juste sous la ligne d'accroche du hero (une ou
+    // deux lignes selon la largeur) : on mesure sa position sans les transformations
+    // de l'animation d'entrée (offsetTop), pour ne pas viser une position de départ.
+    const eyebrow = document.querySelector('.hero__eyebrow');
+    const mobile = window.matchMedia('(max-width: 768px)');
+    const pageTop = (el) => {
+      let y = 0;
+      for (let node = el; node; node = node.offsetParent) y += node.offsetTop;
+      return y;
+    };
+    const pageLeft = (el) => {
+      let x = 0;
+      for (let node = el; node; node = node.offsetParent) x += node.offsetLeft;
+      return x;
+    };
+    const swing = cord.querySelector('.pull-cord__swing');
+    const string = cord.querySelector('.pull-cord__string');
+
+    // Le fil croise-t-il une ligne de l'accroche ? On prend les lignes réellement
+    // écrites (une ou deux selon la largeur) et, pour celles qu'il traverse, on
+    // l'efface sur leur hauteur : il semble passer derrière le texte. Positions
+    // relatives à l'accroche, pour ignorer le décalage de l'animation d'entrée.
+    const placeGap = (cordX) => {
+      string.style.removeProperty('--gap-a');
+      string.style.removeProperty('--gap-b');
+      if (!eyebrow) return;
+      const box = eyebrow.getBoundingClientRect();
+      const range = document.createRange();
+      range.selectNodeContents(eyebrow);
+      const originX = pageLeft(eyebrow);
+      const originY = pageTop(eyebrow) - cord.offsetTop;
+      let top = Infinity;
+      let bottom = -Infinity;
+      Array.from(range.getClientRects()).forEach((r) => {
+        const left = originX + r.left - box.left;
+        const right = originX + r.right - box.left;
+        if (r.width < 1 || cordX < left - 4 || cordX > right + 4) return;
+        top = Math.min(top, originY + r.top - box.top);
+        bottom = Math.max(bottom, originY + r.bottom - box.top);
+      });
+      if (bottom < 0) return;
+      string.style.setProperty('--gap-a', `${Math.round(top - 2)}px`);
+      string.style.setProperty('--gap-b', `${Math.round(bottom + 2)}px`);
+    };
+
     const place = () => {
       if (!button || !button.offsetParent) {
         cord.classList.remove('is-placed');
         return;
       }
       const rect = button.getBoundingClientRect();
-      cord.style.setProperty('--cord-x', `${(rect.left + rect.width / 2 + window.scrollX).toFixed(1)}px`);
+      const cordX = rect.left + rect.width / 2 + window.scrollX;
+      cord.style.setProperty('--cord-x', `${cordX.toFixed(1)}px`);
+      if (mobile.matches && eyebrow) {
+        const below = pageTop(eyebrow) + eyebrow.offsetHeight - cord.offsetTop;
+        cord.style.setProperty('--cord-hang', `${Math.round(below + 8 + 18)}px`);
+      } else {
+        cord.style.removeProperty('--cord-hang');
+      }
+      placeGap(cordX);
       cord.classList.add('is-placed');
     };
     place();
@@ -660,10 +759,13 @@
     const settled = (s) => Math.abs(s.x) < 0.05 && Math.abs(s.v) < 0.05;
 
     function tick(now) {
-      const elapsed = (now - last) / 1000 || 0.016;
+      const gap = (now - last) / 1000 || 0.016;
       last = now;
-      if (!drag && elapsed > 0.25) {
-        // Onglet figé ou très ralenti : le cordon est revenu au repos entre-temps.
+      // Image en retard (bascule de thème, capture de la transition, téléphone
+      // chargé) : on avance d'un pas normal au lieu de sauter, le mouvement reste
+      // continu. Seul un onglet resté caché longtemps remet le cordon au repos.
+      const elapsed = Math.min(gap, 0.034);
+      if (!drag && gap > 1) {
         ext.x = ext.v = ang.x = ang.v = 0;
       } else if (!drag) {
         // Sous-pas de 4 ms au plus : un ressort raide reste stable même à bas régime.
@@ -720,7 +822,7 @@
       if (!drag.moved && Math.hypot(dx, dy) > 4) drag.moved = true;
       ext.x = rubber(dy);
       ext.v = 0;
-      const length = cord.querySelector('.pull-cord__swing').offsetHeight;
+      const length = swing.offsetHeight;
       const target = (-Math.atan2(dx, length) * 180) / Math.PI;
       ang.x = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, target));
       ang.v = 0;
@@ -753,14 +855,14 @@
         toggleTheme(knob);
         return;
       }
+      // Bascule d'abord, coup sec ensuite : le recalcul des couleurs de toute la
+      // page ne tombe plus au milieu du mouvement (il saccadait sur mobile).
+      toggleTheme(knob);
       ext.v = 520;
       ang.v += (Math.random() - 0.5) * 30;
       run();
       cord.classList.add('is-armed');
-      window.setTimeout(() => {
-        cord.classList.remove('is-armed');
-        toggleTheme(knob);
-      }, 110);
+      window.setTimeout(() => cord.classList.remove('is-armed'), 160);
     });
 
     // Au survol, le cordon frémit, comme effleuré.
@@ -1236,6 +1338,7 @@
   function init() {
     initThemeToggle();
     initMobileMenu();
+    initNavDemos();
     initNavbarState();
     initNavThumb();
     initActiveNavigation();

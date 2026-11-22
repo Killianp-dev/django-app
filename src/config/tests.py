@@ -1,3 +1,4 @@
+import re
 from datetime import date
 
 from django.core import mail
@@ -155,3 +156,13 @@ class SeoTests(TestCase):
         self.assertEqual(ordre[4], "beaute")
         self.assertEqual(ordre[-1], "avocat")          # l'avocat ouvre le hero : il ferme les Exemples
         self.assertEqual(sorted(ordre), sorted(p.namespace for p in exemples))
+
+    def test_sous_menu_exemples_liste_les_demos(self):
+        # Sur toutes les pages du site (le menu est commun), dans l'ordre de la section Exemples.
+        for url in [reverse("index"), reverse("blog:home"), reverse("mentions_legales")]:
+            with self.subTest(url=url):
+                html = self.client.get(url).content.decode()
+                menu = html[html.index('class="nav-demos"'):html.index('class="nav-menu__footer"')]
+                liens = re.findall(r'class="nav-demos__link" href="([^"]+)"', menu)
+                self.assertEqual(liens, ["/demo-macon/", "/demo-boucherie/", "/demo-boulangerie/",
+                                         "/demo-coiffeur/", "/demo-institut/", "/demo-avocat/"])

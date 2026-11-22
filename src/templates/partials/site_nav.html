@@ -8,7 +8,26 @@ Navigation principale, partagée par base.html et index.html.
         <p class="nav-menu__kicker" aria-hidden="true">Menu</p>
         <ul class="nav-links">
             <li><a href="{% if on_home %}#hero{% else %}{{ index_url }}{% endif %}"><span class="nav-links__index" aria-hidden="true">01</span><span class="nav-links__label">Accueil</span></a></li>
-            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__index" aria-hidden="true">02</span><span class="nav-links__label">Exemples</span></a></li>
+            <li class="nav-links__demos" data-nav-demos>
+                <a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__index" aria-hidden="true">02</span><span class="nav-links__label">Exemples</span></a>
+                {% comment %}Ordinateur : s'ouvre au survol d'« Exemples » et au clavier (focus dans l'élément) ; un clic mène à la section.
+                Mobile : pas de survol, un appui sur « Exemples » déplie la liste (app.js, initNavDemos).{% endcomment %}
+                <div class="nav-demos" id="nav-demos">
+                    <div class="nav-demos__inner">
+                        <p class="nav-demos__kicker" aria-hidden="true">Une démo par métier</p>
+                        <ul class="nav-demos__list" aria-label="Démos par métier">
+                            {% for projet in DEMOS_NAV %}
+                            <li><a class="nav-demos__link" href="{{ projet.url }}">
+                                <span class="nav-demos__icon">{% include "partials/trade_icon.html" with nom=projet.namespace %}</span>
+                                <span class="nav-demos__text"><span class="nav-demos__metier">{{ projet.metier }}</span><span class="nav-demos__nom">{{ projet.nom }}</span></span>
+                            </a></li>
+                            {% endfor %}
+                            {# Mobile seulement : « Exemples » y déplie la liste au lieu de mener à la section. #}
+                            <li class="nav-demos__all"><a class="nav-demos__link nav-demos__link--all" href="{% if not on_home %}{{ index_url }}{% endif %}#exemples">Tous les exemples <span aria-hidden="true">→</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
             <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#a-propos"><span class="nav-links__index" aria-hidden="true">03</span><span class="nav-links__label">À propos</span></a></li>
             <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#formule"><span class="nav-links__index" aria-hidden="true">04</span><span class="nav-links__label">Formule</span></a></li>
             <li><a href="{% if on_home %}#blog{% else %}{% url 'blog:home' %}{% endif %}"{% if request.resolver_match.namespace == 'blog' %} class="active" aria-current="page"{% endif %}><span class="nav-links__index" aria-hidden="true">05</span><span class="nav-links__label">Blog</span></a></li>

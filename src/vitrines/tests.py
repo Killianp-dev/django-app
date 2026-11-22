@@ -112,6 +112,20 @@ class DemosAutonomesTests(TestCase):
                     self.assertNotIn("site.theme", html)
 
 
+class RetourAccueilTests(TestCase):
+    """Depuis une démo, le visiteur a toujours un chemin vers l'accueil : le bandeau en haut,
+    puis la pastille flottante qui prend le relais (son rond « K » reste même réduite)."""
+
+    def test_bandeau_et_pastille_renvoient_a_l_accueil(self):
+        for key, prefix in PREFIXES.items():
+            for page in ["", "offres/", "contact/"]:
+                with self.subTest(site=key, page=page):
+                    html = self.client.get(prefix + page).content.decode()
+                    self.assertIn('class="vitrine-demo-banner__link"', html)
+                    self.assertRegex(html, r'class="demo-cta-flottant__retour" href="/"')
+                    self.assertIn("vitrine/js/demo_cta.js", html)
+
+
 class MaconAutonomeTests(TestCase):
     """Particularités de la démo maçon."""
 
