@@ -547,43 +547,293 @@
     window.addEventListener('resize', request);
   }
 
-  // ===== Theme toggle =====
-  // Thème sombre par défaut ; un clic sur le bouton bascule et mémorise le choix.
+  // ===== Thème : bouton de l'en-tête et tirette =====
+  // Thème sombre par défaut. Deux commandes font la même chose : le bouton de
+  // l'en-tête et la tirette qui pend dessous. On tire l'olive vers le bas : passé
+  // le seuil, on relâche et le thème bascule ; un clic sur l'olive joue le même
+  // geste. Le cordon revient sur un ressort et se balance un peu ; au survol, il
+  // frémit ; un clic sur le bouton le fait sursauter. La nouvelle teinte s'étend
+  // en cercle depuis le geste (View Transitions).
   function initThemeToggle() {
-    const button = document.querySelector('.theme-toggle');
     const root = document.documentElement;
     const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const button = document.querySelector('.theme-toggle');
+    const cord = document.querySelector('[data-pull-cord]');
+    const grip = cord && cord.querySelector('.pull-cord__hit');
+    const knob = cord && cord.querySelector('.pull-cord__knob');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    function currentTheme() {
-      return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    }
+    const currentTheme = () => (root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
 
     function syncButton(theme) {
-      if (!button) return;
       const isDark = theme === 'dark';
-      button.setAttribute('aria-pressed', String(isDark));
-      button.setAttribute('aria-label', isDark ? 'Activer le thème clair' : 'Activer le thème sombre');
-      if (metaTheme) {
-        metaTheme.setAttribute('content', isDark ? '#131315' : '#1c1a1b');
+      if (button) {
+        button.setAttribute('aria-pressed', String(isDark));
+        button.setAttribute('aria-label', isDark ? 'Activer le thème clair' : 'Activer le thème sombre');
       }
+      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#131315' : '#1c1a1b');
     }
 
-    function setTheme(theme) {
+    function applyTheme(theme) {
       root.setAttribute('data-theme', theme);
       syncButton(theme);
     }
 
-    syncButton(currentTheme());
-
-    if (!button) return;
-
-    button.addEventListener('click', () => {
+    // origin : l'élément d'où part le cercle de la nouvelle teinte.
+    function toggleTheme(origin) {
       const theme = currentTheme() === 'dark' ? 'light' : 'dark';
       try {
         localStorage.setItem('theme', theme);
       } catch (e) {}
-      setTheme(theme);
+      if (cord) cord.dispatchEvent(new CustomEvent('cord:used'));
+
+      if (!document.startViewTransition || reduceMotion.matches || !origin) {
+        applyTheme(theme);
+        return;
+      }
+
+      // Le cercle part du centre de l'élément et couvre le coin le plus éloigné.
+      const rect = origin.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const r = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+      root.style.setProperty('--vt-x', `${x}px`);
+      root.style.setProperty('--vt-y', `${y}px`);
+      root.style.setProperty('--vt-r', `${Math.ceil(r)}px`);
+      root.classList.add('theme-vt');
+
+      const transition = document.startViewTransition(() => applyTheme(theme));
+      transition.finished.finally(() => {
+        root.classList.remove('theme-vt');
+        ['--vt-x', '--vt-y', '--vt-r'].forEach((prop) => root.style.removeProperty(prop));
+      });
+    }
+
+    syncButton(currentTheme());
+
+    if (button) {
+      button.addEventListener('click', () => {
+        toggleTheme(button);
+        if (cord) cord.dispatchEvent(new CustomEvent('cord:nudge'));
+      });
+    }
+
+    if (!cord || !grip || !knob) return;
+
+    // --- Alignement : la tirette pend à l'aplomb du bouton de thème. ---
+    const place = () => {
+      if (!button || !button.offsetParent) {
+        cord.classList.remove('is-placed');
+        return;
+      }
+      const rect = button.getBoundingClientRect();
+      cord.style.setProperty('--cord-x', `${(rect.left + rect.width / 2 + window.scrollX).toFixed(1)}px`);
+      cord.classList.add('is-placed');
+    };
+    place();
+    window.addEventListener('resize', place);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+
+    // --- Physique : deux ressorts amortis, allongement (px) et angle (deg). ---
+    const THRESHOLD = 26;   // allongement à dépasser pour basculer
+    const MAX_PULL = 64;    // butée douce
+    const MAX_ANGLE = 28;
+    const ext = { x: 0, v: 0, k: 340, c: 15 };    // revient vite, petit rebond
+    const ang = { x: 0, v: 0, k: 70, c: 3.2 };    // balancier, plus libre
+
+    let frame = 0;
+    let last = 0;
+    let drag = null;
+    let suppressClick = false;
+
+    const render = () => {
+      cord.style.setProperty('--cord-ext', `${ext.x.toFixed(2)}px`);
+      cord.style.setProperty('--cord-angle', `${ang.x.toFixed(2)}deg`);
+    };
+
+    const step = (s, dt) => {
+      const a = -s.k * s.x - s.c * s.v;
+      s.v += a * dt;
+      s.x += s.v * dt;
+    };
+
+    const settled = (s) => Math.abs(s.x) < 0.05 && Math.abs(s.v) < 0.05;
+
+    function tick(now) {
+      const elapsed = (now - last) / 1000 || 0.016;
+      last = now;
+      if (!drag && elapsed > 0.25) {
+        // Onglet figé ou très ralenti : le cordon est revenu au repos entre-temps.
+        ext.x = ext.v = ang.x = ang.v = 0;
+      } else if (!drag) {
+        // Sous-pas de 4 ms au plus : un ressort raide reste stable même à bas régime.
+        const n = Math.ceil(elapsed / 0.004);
+        for (let i = 0; i < n; i += 1) {
+          step(ext, elapsed / n);
+          step(ang, elapsed / n);
+        }
+        // Au retour, le cordon peut remonter un peu, pas davantage.
+        if (ext.x < -8) {
+          ext.x = -8;
+          ext.v = 0;
+        }
+      }
+      render();
+      if (drag || !settled(ext) || !settled(ang)) {
+        frame = window.requestAnimationFrame(tick);
+      } else {
+        ext.x = ext.v = ang.x = ang.v = 0;
+        render();
+        frame = 0;
+      }
+    }
+
+    const run = () => {
+      if (reduceMotion.matches) {
+        ext.x = ext.v = ang.x = ang.v = 0;
+        render();
+        return;
+      }
+      if (frame) return;
+      last = performance.now();
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    // Résistance croissante : on sent la butée sans la heurter.
+    const rubber = (d) => (d <= 0 ? 0 : MAX_PULL * (1 - Math.exp(-d / MAX_PULL)));
+
+    grip.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      event.preventDefault();
+      drag = { id: event.pointerId, x0: event.clientX, y0: event.clientY, moved: false };
+      try {
+        grip.setPointerCapture(event.pointerId);
+      } catch (e) {}
+      cord.classList.add('is-pulling');
+      run();
     });
+
+    grip.addEventListener('pointermove', (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const dx = event.clientX - drag.x0;
+      const dy = event.clientY - drag.y0;
+      if (!drag.moved && Math.hypot(dx, dy) > 4) drag.moved = true;
+      ext.x = rubber(dy);
+      ext.v = 0;
+      const length = cord.querySelector('.pull-cord__swing').offsetHeight;
+      const target = (-Math.atan2(dx, length) * 180) / Math.PI;
+      ang.x = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, target));
+      ang.v = 0;
+      cord.classList.toggle('is-armed', ext.x > THRESHOLD);
+    });
+
+    const release = (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const pulled = drag.moved;
+      const armed = ext.x > THRESHOLD;
+      drag = null;
+      cord.classList.remove('is-pulling', 'is-armed');
+      if (pulled) {
+        suppressClick = true;
+        if (armed) toggleTheme(knob);
+      }
+      run();
+    };
+
+    grip.addEventListener('pointerup', release);
+    grip.addEventListener('pointercancel', release);
+
+    // Clic simple sur l'olive : un petit coup sec vers le bas, puis la bascule.
+    grip.addEventListener('click', () => {
+      if (suppressClick) {
+        suppressClick = false;
+        return;
+      }
+      if (reduceMotion.matches) {
+        toggleTheme(knob);
+        return;
+      }
+      ext.v = 520;
+      ang.v += (Math.random() - 0.5) * 30;
+      run();
+      cord.classList.add('is-armed');
+      window.setTimeout(() => {
+        cord.classList.remove('is-armed');
+        toggleTheme(knob);
+      }, 110);
+    });
+
+    // Au survol, le cordon frémit, comme effleuré.
+    grip.addEventListener('pointerenter', (event) => {
+      if (drag || event.pointerType !== 'mouse') return;
+      ang.v += event.movementX > 0 ? -22 : 22;
+      run();
+    });
+
+    // Clic sur le bouton de l'en-tête : la tirette sursaute, comme tirée d'en haut.
+    cord.addEventListener('cord:nudge', () => {
+      if (drag) return;
+      ext.v -= 260;
+      ang.v += (Math.random() - 0.5) * 40;
+      run();
+    });
+
+    // --- Invitation : une note « tirez, pour voir » et le cordon qui frémit seul. ---
+    // À chaque visite de l'accueil, quel que soit le thème (la couleur suit l'accent
+    // du thème). À chaque bascule, elle s'efface aussitôt puis rejoue son entrée
+    // quelques secondes plus tard, comme au chargement. Rien si le visiteur a défilé.
+    const invite = cord.querySelector('[data-pull-cord-invite]');
+    if (!invite) return;
+
+    const INVITE_DELAY = 2200;
+    let timers = [];
+
+    const clearTimers = () => {
+      timers.forEach((id) => window.clearTimeout(id));
+      timers = [];
+    };
+
+    // Petit coup tiré d'en haut, puis le cordon se balance.
+    const wave = (side) => {
+      if (drag) return;
+      ext.v += 170;
+      ang.v += 62 * side;
+      run();
+    };
+
+    const showInvite = () => {
+      clearTimers();
+      timers.push(window.setTimeout(() => {
+        if (window.scrollY > 40 || !cord.classList.contains('is-placed')) return;
+        cord.classList.add('is-inviting');
+        wave(1);
+        // Un second frémissement plus tard, s'il n'a toujours pas tiré.
+        timers.push(window.setTimeout(() => wave(-1), 5200));
+      }, INVITE_DELAY));
+    };
+
+    // Fondu rapide, puis remise à zéro sans transition (sinon la flèche se
+    // « dé-dessinerait » à l'envers) : l'entrée pourra se rejouer à l'identique.
+    const hideInvite = () => {
+      clearTimers();
+      if (!cord.classList.contains('is-inviting')) return;
+      cord.classList.add('is-invite-out');
+      timers.push(window.setTimeout(() => {
+        cord.classList.add('is-invite-reset');
+        cord.classList.remove('is-inviting', 'is-invite-out');
+        void invite.offsetWidth; // applique l'état de départ avant de rendre les transitions
+        cord.classList.remove('is-invite-reset');
+      }, 220));
+    };
+
+    cord.addEventListener('cord:used', () => {
+      hideInvite();
+      // showInvite vide les minuteurs : on le lance après la remise à zéro.
+      const resetDone = window.setTimeout(showInvite, 240);
+      timers.push(resetDone);
+    });
+
+    showInvite();
   }
 
   // ===== Hero : aperçu des démos =====

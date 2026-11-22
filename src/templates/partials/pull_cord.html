@@ -1,0 +1,19 @@
+<!-- Tirette de thème (accueil seulement, via le bloc pull_cord de base.html) : pend sous l'en-tête, dans le haut de la page (elle défile avec
+     elle). Doublon ludique du bouton de l'en-tête, réservé à la souris et au tactile :
+     le clavier et les lecteurs d'écran passent par le bouton. -->
+<div class="pull-cord" data-pull-cord aria-hidden="true">
+    <span class="pull-cord__hit"></span>
+    <span class="pull-cord__swing">
+        <span class="pull-cord__string"></span>
+        <span class="pull-cord__knob"></span>
+    </span>
+    <!-- Invitation : note manuscrite et flèche qui se dessine vers l'olive, à chaque
+         visite, dans les deux thèmes. -->
+    <span class="pull-cord__invite" data-pull-cord-invite>
+        <span class="pull-cord__invite-text">tirez, pour voir</span>
+        <svg class="pull-cord__invite-arrow" viewBox="0 0 40 30" focusable="false">
+            <path d="M3 25c9 1.5 20-1 28-15" pathLength="1"/>
+            <path d="M25.5 11.5 31 9.5l1.6 5.8" pathLength="1"/>
+        </svg>
+    </span>
+</div>

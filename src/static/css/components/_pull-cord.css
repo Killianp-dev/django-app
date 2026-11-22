@@ -1,0 +1,278 @@
+/* ==================================================
+   TIRETTE DE THÈME
+   Un cordon qui part du bas de l'en-tête et pend dans le haut de la page,
+   à l'aplomb du bouton de thème, terminé par une olive. Il ne suit pas
+   l'en-tête : il défile avec la page et passe dessous. On le tire (ou on
+   clique) pour basculer le thème, comme le bouton.
+   La physique (ressort, balancement) et l'alignement sur le bouton sont
+   dans app.js, qui pilote --cord-x, --cord-ext (allongement) et --cord-angle.
+   ================================================= */
+
+.pull-cord {
+  --cord-hang: 84px;          /* longueur sous l'en-tête, au repos */
+  --cord-knob-w: 11px;
+  --cord-knob-h: 18px;
+  --cord-color: color-mix(in srgb, var(--color-ink) 34%, transparent);
+  --knob-a: var(--brand-chip-a);
+  --knob-b: var(--brand-chip-b);
+  --knob-halo: rgba(var(--accent-bright-rgb), 0);
+  position: absolute;
+  top: var(--navbar-height);
+  left: var(--cord-x, 0);
+  z-index: 30;                /* au-dessus du hero, sous le bandeau cookies (40) et l'en-tête (1000) */
+  width: 0;
+  height: 0;
+  visibility: hidden;         /* tant que app.js ne l'a pas alignée sur le bouton */
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.pull-cord.is-placed {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0s linear 0s;
+}
+
+html[data-theme="dark"] .pull-cord {
+  --cord-color: color-mix(in srgb, var(--color-ink) 30%, transparent);
+  /* Éteint, l'olive garde une petite lueur : on devine qu'elle rallume. */
+  --knob-halo: rgba(var(--accent-bright-rgb), 0.22);
+}
+
+/* Zone de prise : le bas du cordon et l'olive, avec de la marge. */
+.pull-cord__hit {
+  position: absolute;
+  top: calc(var(--cord-hang) - 34px);
+  left: -20px;
+  width: 40px;
+  height: 46px;
+  cursor: grab;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 1;
+}
+
+.pull-cord.is-pulling .pull-cord__hit {
+  cursor: grabbing;
+}
+
+.pull-cord__swing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: calc(var(--cord-hang) + var(--cord-ext, 0px));
+  transform: rotate(var(--cord-angle, 0deg));
+  transform-origin: 50% 0;
+  pointer-events: none;
+}
+
+/* Le cordon sort en fondu de sous l'en-tête : pas de trait coupé net. */
+.pull-cord__string {
+  position: absolute;
+  top: 0;
+  bottom: calc(var(--cord-knob-h) - 2px);
+  left: -0.6px;
+  width: 1.2px;
+  border-radius: 1px;
+  background: linear-gradient(to bottom, transparent, var(--cord-color) 30%, var(--cord-color));
+}
+
+/* L'olive : goutte allongée, reflet doux, petite bague en haut. */
+.pull-cord__knob {
+  position: absolute;
+  bottom: 0;
+  left: calc(var(--cord-knob-w) / -2);
+  width: var(--cord-knob-w);
+  height: var(--cord-knob-h);
+  border-radius: 45% 45% 50% 50% / 32% 32% 68% 68%;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(170deg, var(--knob-a), var(--knob-b));
+  box-shadow:
+    inset 0 -2px 3px rgba(0, 0, 0, 0.14),
+    0 4px 10px -3px rgba(20, 24, 31, 0.28),
+    0 0 14px 2px var(--knob-halo);
+  transition: box-shadow 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+}
+
+.pull-cord__knob::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: 5px;
+  height: 3px;
+  margin-left: -2.5px;
+  border-radius: 1.5px;
+  background: color-mix(in srgb, var(--color-ink) 55%, transparent);
+}
+
+.pull-cord__hit:hover + .pull-cord__swing .pull-cord__knob {
+  box-shadow:
+    inset 0 -2px 3px rgba(0, 0, 0, 0.14),
+    0 6px 14px -3px rgba(var(--accent-rgb), 0.4),
+    0 0 16px 3px rgba(var(--accent-bright-rgb), 0.22);
+}
+
+/* Assez tiré pour basculer : l'olive s'allume franchement. */
+.pull-cord.is-armed .pull-cord__knob {
+  transform: scale(1.08);
+  box-shadow:
+    inset 0 -2px 3px rgba(0, 0, 0, 0.1),
+    0 6px 14px -3px rgba(var(--accent-rgb), 0.45),
+    0 0 22px 6px rgba(var(--accent-bright-rgb), 0.4);
+}
+
+/* Menu mobile ouvert : la tirette s'efface derrière le panneau. */
+html.nav-open .pull-cord {
+  visibility: hidden;
+  opacity: 0;
+}
+
+@media (max-width: 768px) {
+  .pull-cord {
+    --cord-hang: 40px;
+  }
+}
+
+/* Bascule de thème : la nouvelle teinte s'étend en cercle depuis le geste
+   (l'olive ou le bouton). L'en-tête rejoint la page le temps de la bascule
+   pour s'éclairer avec elle. */
+html.theme-vt .navbar {
+  view-transition-name: none;
+}
+
+html.theme-vt::view-transition-old(root) {
+  animation: none;
+}
+
+html.theme-vt::view-transition-new(root) {
+  animation: themeReveal 0.7s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes themeReveal {
+  from {
+    clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 0));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 100%) var(--vt-y, 0));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pull-cord,
+  .pull-cord__knob {
+    transition: none !important;
+  }
+}
+
+/* ---------- Invitation ----------
+   Note manuscrite à gauche de l'olive, flèche qui monte vers elle. Elle apparaît
+   à chaque visite (classe is-inviting posée par app.js) et reste dans les deux
+   thèmes : accent champagne en sombre, bordeaux en clair. */
+.pull-cord__invite {
+  position: absolute;
+  top: calc(var(--cord-hang) - 12px);
+  right: 11px;
+  width: max-content;   /* le conteneur fait 0 px de large : sans ça la flèche déborde */
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+  color: var(--color-accent);
+}
+
+.pull-cord__invite-text {
+  position: relative;
+  top: 12px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.12rem;
+  line-height: 1;
+  letter-spacing: 0.005em;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(4px);
+  transition: opacity 0.6s ease, filter 0.6s ease, transform 0.8s var(--ease-out);
+}
+
+.pull-cord__invite-arrow {
+  width: 30px;
+  height: 22px;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;   /* sinon l'extrémité arrondie laisse un point avant le tracé */
+  transition: opacity 0.2s ease 0.35s;
+}
+
+.pull-cord.is-inviting .pull-cord__invite-arrow {
+  opacity: 0.85;
+}
+
+.pull-cord__invite-arrow path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.6s var(--ease-out) 0.35s;
+}
+
+.pull-cord__invite-arrow path + path {
+  transition-delay: 0.85s;
+  transition-duration: 0.25s;
+}
+
+.pull-cord.is-inviting .pull-cord__invite-text {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+.pull-cord.is-inviting .pull-cord__invite-arrow path {
+  stroke-dashoffset: 0;
+}
+
+/* Mobile : peu de place entre l'en-tête et le hero, la note se cale à la
+   hauteur de l'olive, flèche plus courte. */
+/* Après une bascule : fondu rapide, puis remise à zéro instantanée avant de
+   rejouer l'entrée (classes posées par app.js). */
+.pull-cord.is-invite-out .pull-cord__invite {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.pull-cord.is-invite-reset .pull-cord__invite,
+.pull-cord.is-invite-reset .pull-cord__invite-text,
+.pull-cord.is-invite-reset .pull-cord__invite-arrow,
+.pull-cord.is-invite-reset .pull-cord__invite-arrow path {
+  transition: none !important;
+}
+
+@media (max-width: 768px) {
+  .pull-cord__invite {
+    top: calc(var(--cord-hang) - 20px);
+    right: 9px;
+  }
+
+  .pull-cord__invite-text {
+    top: 2px;
+    font-size: 1rem;
+  }
+
+  .pull-cord__invite-arrow {
+    width: 22px;
+    height: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pull-cord__invite-text,
+  .pull-cord__invite-arrow path {
+    transition: none !important;
+    filter: none;
+  }
+}
