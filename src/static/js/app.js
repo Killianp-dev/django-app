@@ -720,11 +720,10 @@
       const rect = button.getBoundingClientRect();
       const cordX = rect.left + rect.width / 2 + window.scrollX;
       cord.style.setProperty('--cord-x', `${cordX.toFixed(1)}px`);
+      cord.style.removeProperty('--cord-hang');
       if (mobile.matches && eyebrow) {
         const below = pageTop(eyebrow) + eyebrow.offsetHeight - cord.offsetTop;
         cord.style.setProperty('--cord-hang', `${Math.round(below + 8 + 18)}px`);
-      } else {
-        cord.style.removeProperty('--cord-hang');
       }
       placeGap(cordX);
       cord.classList.add('is-placed');

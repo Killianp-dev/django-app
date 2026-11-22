@@ -142,50 +142,29 @@ html[data-theme="dark"] .hero {
 /* ---------- Texte ---------- */
 
 .hero__eyebrow {
-  display: inline-flex;
+  /* Une ligne de signature, pas une étiquette : casse normale, petite, couleur
+     atténuée du texte, précédée d'un filet très fin teinté de l'accent. */
+  display: flex;
   align-items: center;
-  gap: 0.6rem;
-  margin: 0 0 1.5rem;
-  padding: 0.42rem 0.95rem 0.42rem 0.8rem;
+  gap: 0.75rem;
+  margin: 0 0 1.4rem;
   font-family: var(--font-sans);
-  font-size: 0.76rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  border: 1px solid rgba(var(--accent-rgb), 0.26);
-  border-radius: var(--radius-full);
-  background: rgba(var(--accent-rgb), 0.07);
+  font-size: 0.84rem;
+  font-weight: 450;
+  letter-spacing: 0.01em;
+  color: var(--color-ink-muted);
 }
 
-html[data-theme="dark"] .hero__eyebrow {
-  color: var(--color-accent-bright);
-  border-color: rgba(var(--accent-glow-rgb), 0.26);
-  background: rgba(var(--accent-bright-rgb), 0.08);
-}
-
-.hero__eyebrow-dot {
-  position: relative;
-  width: 0.46rem;
-  height: 0.46rem;
-  border-radius: 50%;
-  background: currentColor;
-  flex: none;
-}
-
-.hero__eyebrow-dot::after {
+.hero__eyebrow::before {
   content: "";
-  position: absolute;
-  inset: -0.28rem;
-  border-radius: 50%;
-  border: 1px solid currentColor;
-  opacity: 0;
-  animation: heroDotPulse 2.6s var(--ease-out) infinite;
+  flex: none;
+  width: 1.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.7), rgba(var(--accent-rgb), 0.15));
 }
 
-@keyframes heroDotPulse {
-  0% { transform: scale(0.5); opacity: 0.6; }
-  70%, 100% { transform: scale(1.35); opacity: 0; }
+html[data-theme="dark"] .hero__eyebrow::before {
+  background: linear-gradient(90deg, rgba(var(--accent-bright-rgb), 0.75), rgba(var(--accent-bright-rgb), 0.15));
 }
 
 .hero__title {
@@ -945,6 +924,12 @@ html[data-theme="dark"] .hero__chip svg {
   .hero__chip {
     left: -0.9rem;
   }
+
+  /* La pastille du haut reste ancrée à droite seulement : sinon, tenue à gauche
+     et à droite à la fois, elle s'étire sur toute la largeur de l'aperçu. */
+  .hero__chip--top {
+    left: auto;
+  }
 }
 
 @media (max-width: 880px) {
@@ -987,29 +972,26 @@ html[data-theme="dark"] .hero__chip svg {
 }
 
 @media (max-width: 768px) {
-  /* Mobile : simple étiquette sur une ligne (filet + petites capitales)
-     au lieu de la pastille encadrée, trop imposante sur deux lignes. */
-  .hero__eyebrow,
-  html[data-theme="dark"] .hero__eyebrow {
-    gap: 0.55rem;
+  /* Mobile : sur deux lignes, sans le point médian, pour rester à gauche de la
+     tirette qui pend juste en dessous ; le filet s'aligne sur la première ligne. */
+  .hero__eyebrow {
+    align-items: flex-start;
+    gap: 0.6rem;
     margin-bottom: 1rem;
-    padding: 0;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    border: 0;
-    background: none;
+    font-size: 0.78rem;
+    line-height: 1.45;
   }
 
   .hero__eyebrow::before {
-    content: "";
-    width: 1.1rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.7;
-    flex: none;
+    width: 1.25rem;
+    margin-top: 0.72em;
   }
 
-  .hero__eyebrow-dot {
+  .hero__eyebrow-text > span:not(.hero__eyebrow-sep) {
+    display: block;
+  }
+
+  .hero__eyebrow-sep {
     display: none;
   }
 
@@ -1102,8 +1084,7 @@ html[data-theme="dark"] .hero__chip svg {
     animation: none;
   }
 
-  .hero__scroll-line,
-  .hero__eyebrow-dot::after {
+  .hero__scroll-line {
     animation: none;
   }
 

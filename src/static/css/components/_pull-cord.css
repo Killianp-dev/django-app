@@ -181,15 +181,19 @@ html.theme-vt::view-transition-new(root) {
 }
 
 /* ---------- Invitation ----------
-   Note manuscrite à gauche de l'olive, flèche qui monte vers elle. Elle apparaît
-   à chaque visite (classe is-inviting posée par app.js) et reste dans les deux
-   thèmes : accent champagne en sombre, bordeaux en clair. */
+   Note manuscrite à droite de la tirette, sur toutes les largeurs. Ordinateur :
+   à hauteur de l'olive, la flèche pointe vers elle (la note reste ainsi au-dessus
+   de l'aperçu des démos, quelle que soit la hauteur de l'écran). Mobile : sous
+   l'olive, faute de place à côté. Elle apparaît à chaque visite (classe
+   is-inviting posée par app.js) et reste dans les deux thèmes : accent champagne
+   en sombre, bordeaux en clair. */
 .pull-cord__invite {
   position: absolute;
-  top: calc(var(--cord-hang) - 12px);
-  right: 11px;
+  top: calc(var(--cord-hang) - 20px);
+  left: 8px;
   width: max-content;   /* le conteneur fait 0 px de large : sans ça la flèche déborde */
   display: flex;
+  flex-direction: row-reverse;   /* la flèche (après le texte dans le HTML) passe à gauche, côté olive */
   align-items: flex-end;
   gap: 2px;
   pointer-events: none;
@@ -199,7 +203,7 @@ html.theme-vt::view-transition-new(root) {
 
 .pull-cord__invite-text {
   position: relative;
-  top: 12px;
+  top: 6px;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.12rem;
@@ -212,9 +216,11 @@ html.theme-vt::view-transition-new(root) {
 }
 
 .pull-cord__invite-arrow {
-  width: 30px;
-  height: 22px;
+  width: 26px;
+  height: 19px;
   overflow: visible;
+  transform: scaleX(-1);   /* part d'en bas à droite, pointe vers l'olive en haut à gauche */
+  translate: 0 5px;        /* ordinateur : la pointe arrive à mi-hauteur de l'olive */
   fill: none;
   stroke: currentColor;
   stroke-width: 1.3;
@@ -264,12 +270,11 @@ html.theme-vt::view-transition-new(root) {
 }
 
 /* Mobile : l'olive descend sous la ligne d'accroche du hero (longueur posée par
-   app.js, --cord-hang), à droite du titre. À gauche, la note recouvrirait le
-   titre : elle passe sous l'olive, à droite, et la flèche remonte vers elle. */
+   app.js, --cord-hang) ; note et flèche plus petites, pour tenir entre le cordon
+   et la marge droite à toutes les largeurs. */
 @media (max-width: 768px) {
   .pull-cord__invite {
     top: calc(var(--cord-hang) + 1px);
-    right: auto;
     left: 1px;
     flex-direction: column-reverse;   /* la flèche (après le texte dans le HTML) passe au-dessus */
     align-items: flex-start;
@@ -279,13 +284,13 @@ html.theme-vt::view-transition-new(root) {
   .pull-cord__invite-arrow {
     width: 20px;
     height: 15px;
-    transform: scaleX(-1);   /* part d'en bas à droite, pointe vers l'olive en haut à gauche */
+    translate: none;
   }
 
   .pull-cord__invite-text {
     top: 0;
     padding-left: 4px;
-    font-size: 0.84rem;   /* tient entre le cordon et la marge droite, à toutes les largeurs */
+    font-size: 0.84rem;
   }
 }
 

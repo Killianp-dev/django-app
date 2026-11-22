@@ -10,7 +10,7 @@
 
 /* 2. Components - Éléments réutilisables */
 @import url('./components/_navbar.css?v=20261122-demos');
-@import url('./components/_pull-cord.css?v=20261122-mobile');
+@import url('./components/_pull-cord.css?v=20261122-fleche2');
 @import url('./components/_buttons.css?v=20261119-champagne');
 @import url('./components/_cards.css');
 @import url('./components/_footer.css?v=20261119-seo');
@@ -18,7 +18,7 @@
 @import url('./components/cookie-modal.css?v=20261119-champagne');
 
 /* 3. Sections - Sections spécifiques de la page */
-@import url('./sections/_hero.css?v=20261121-motion');
+@import url('./sections/_hero.css?v=20261122-pastille2');
 @import url('./sections/_asymetric.css?v=20261120-accueils');
 @import url('./sections/_blog.css?v=20261120-onglets');
 @import url('./sections/_blog-integration.css?v=20261120-haut');
