@@ -1,0 +1,24 @@
+{% load static %}{% comment %}
+Rappel « votre site, c'est possible » : bandeau de fin de page + pastille flottante.
+Commun aux six démos, volontairement neutre (styles isolés dans vitrine/css/demo_cta.css, préfixe .demo-cta)
+pour ne dépendre du design d'aucune démo. Les deux renvoient au formulaire de l'accueil, sujet pré-rempli.
+{% endcomment %}<link rel="stylesheet" href="{% static 'vitrine/css/demo_cta.css' %}?v=1">
+<section class="demo-cta" aria-labelledby="demo-cta-titre">
+    <div class="demo-cta__inner">
+        <div class="demo-cta__texte">
+            <p class="demo-cta__eyebrow">Site de démonstration</p>
+            <h2 class="demo-cta__titre" id="demo-cta-titre">Un site comme celui-ci pour votre activité&nbsp;?</h2>
+            <p class="demo-cta__desc">{{ site.nom }} n'existe pas : c'est un exemple de ce que je peux construire pour vous, sur mesure, rapide et pensé pour être trouvé sur Google. Je réponds personnellement.</p>
+        </div>
+        <a class="demo-cta__btn" href="/?sujet=Un%20site%20comme%20la%20d%C3%A9mo%20{{ site.nom|urlencode }}#form">Me contacter <span aria-hidden="true">→</span></a>
+    </div>
+</section>
+<div class="demo-cta-flottant" data-demo-cta hidden>
+    <a class="demo-cta-flottant__lien" href="/?sujet=Un%20site%20comme%20la%20d%C3%A9mo%20{{ site.nom|urlencode }}#form">
+        <span class="demo-cta-flottant__texte">Ce site vous plaît&nbsp;? <strong>Faire le mien <span aria-hidden="true">→</span></strong></span>
+    </a>
+    <button class="demo-cta-flottant__fermer" type="button" aria-label="Masquer ce rappel" data-demo-cta-fermer>
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+</div>
+<script src="{% static 'vitrine/js/demo_cta.js' %}?v=1" defer></script>

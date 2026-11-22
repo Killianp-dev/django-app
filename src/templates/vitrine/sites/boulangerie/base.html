@@ -27,6 +27,7 @@
     {% block cta %}
     {% include 'vitrine/sites/boulangerie/partials/cta_contact.html' %}
     {% endblock %}
+    {% include 'vitrine/partials/demo_cta.html' %}
     {% include 'vitrine/sites/boulangerie/partials/footer.html' %}
     {% if site.horaires_semaine %}
     <script type="application/json" id="vitrine-horaires">[{% for jour in site.horaires_semaine %}{"nom": "{{ jour.nom }}", "ouverture": "{{ jour.ouverture|default:'' }}", "fermeture": "{{ jour.fermeture|default:'' }}"}{% if not forloop.last %}, {% endif %}{% endfor %}]</script>

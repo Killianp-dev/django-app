@@ -1,0 +1,35 @@
+/* Rappel de contact des démos : isolé du design de chaque démo, un seul bleu-ardoise sobre. */
+.demo-cta, .demo-cta-flottant {
+    --dc-fond: #f4f5f7; --dc-texte: #1f2933; --dc-doux: #5b6672; --dc-trait: #dde1e6;
+    --dc-accent: #25364a; --dc-accent-survol: #31465f;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.demo-cta { background: var(--dc-fond); color: var(--dc-texte); border-top: 1px solid var(--dc-trait); padding: clamp(2.5rem, 6vw, 4rem) 1.25rem; }
+.demo-cta__inner { max-width: 62rem; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.demo-cta__texte { max-width: 40rem; }
+.demo-cta__eyebrow { margin: 0 0 .5rem; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--dc-doux); }
+.demo-cta__titre { margin: 0 0 .6rem; font-size: clamp(1.35rem, 3vw, 1.75rem); line-height: 1.25; font-weight: 600; color: var(--dc-texte); letter-spacing: 0; text-transform: none; font-family: inherit; }
+.demo-cta__desc { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--dc-doux); max-width: none; }
+.demo-cta__btn { flex: none; display: inline-flex; gap: .5rem; align-items: center; padding: .85rem 1.5rem; border-radius: 999px; background: var(--dc-accent); color: #fff; font-weight: 600; font-size: 1rem; text-decoration: none; box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 6px 16px rgba(37,54,74,.18); transition: background .2s, transform .2s; }
+.demo-cta__btn:hover { background: var(--dc-accent-survol); transform: translateY(-1px); }
+.demo-cta__btn:focus-visible, .demo-cta-flottant a:focus-visible, .demo-cta-flottant button:focus-visible { outline: 3px solid #7aa7e0; outline-offset: 2px; }
+
+.demo-cta-flottant { position: fixed; right: 1rem; bottom: 1rem; z-index: 60; display: flex; align-items: center; background: var(--dc-accent); color: #fff; border-radius: 999px; box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 10px 28px rgba(15,25,40,.28); opacity: 0; transform: translateY(12px); transition: opacity .3s, transform .3s; }
+.demo-cta-flottant[hidden] { display: none; }
+.demo-cta-flottant.is-visible { opacity: 1; transform: none; }
+.demo-cta-flottant__lien { color: inherit; text-decoration: none; padding: .7rem .4rem .7rem 1.1rem; font-size: .9rem; line-height: 1.2; }
+.demo-cta-flottant__texte strong { margin-left: .35rem; font-weight: 600; }
+.demo-cta-flottant__lien:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+.demo-cta-flottant__fermer { appearance: none; border: 0; background: transparent; color: rgba(255,255,255,.7); width: 2.25rem; height: 2.25rem; margin-right: .3rem; border-radius: 50%; display: grid; place-items: center; cursor: pointer; }
+.demo-cta-flottant__fermer:hover { color: #fff; background: rgba(255,255,255,.12); }
+.demo-cta-flottant__fermer svg { width: 1rem; height: 1rem; }
+
+@media (max-width: 720px) {
+    .demo-cta__inner { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
+    .demo-cta__btn { width: 100%; justify-content: center; box-sizing: border-box; }
+    /* au-dessus de la barre d'actions mobile des démos */
+    .demo-cta-flottant { left: .75rem; right: .75rem; bottom: 4.75rem; justify-content: space-between; }
+    .demo-cta-flottant__lien { flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .demo-cta-flottant, .demo-cta__btn { transition: none; } }
+@media print { .demo-cta-flottant { display: none; } }
