@@ -335,27 +335,26 @@ html[data-theme="dark"] .project__index {
   color: var(--color-ink-soft);
 }
 
-.project__points li::before {
+.project__points li::before,
+.project__points li::after {
   content: "";
   position: absolute;
-  top: 0.12rem;
+  top: calc((1.45em - 1.1rem) / 2);   /* centrée sur la première ligne */
   left: 0;
   width: 1.1rem;
   height: 1.1rem;
   border-radius: 50%;
+}
+
+.project__points li::before {
   background: rgba(var(--accent-rgb), 0.12);
 }
 
+/* Coche en masque SVG, centrée dans la pastille par construction. */
 .project__points li::after {
-  content: "";
-  position: absolute;
-  top: 0.42rem;
-  left: 0.34rem;
-  width: 0.42rem;
-  height: 0.24rem;
-  border-left: 1.6px solid var(--color-accent);
-  border-bottom: 1.6px solid var(--color-accent);
-  transform: rotate(-45deg);
+  background: var(--color-accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.6 8.3l2.3 2.3 4.5-4.7' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.6 8.3l2.3 2.3 4.5-4.7' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
 }
 
 html[data-theme="dark"] .project__points li::before {
@@ -363,7 +362,7 @@ html[data-theme="dark"] .project__points li::before {
 }
 
 html[data-theme="dark"] .project__points li::after {
-  border-color: var(--color-accent-bright);
+  background: var(--color-accent-bright);
 }
 
 .project__link {

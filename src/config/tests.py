@@ -166,3 +166,12 @@ class SeoTests(TestCase):
                 liens = re.findall(r'class="nav-demos__link" href="([^"]+)"', menu)
                 self.assertEqual(liens, ["/demo-macon/", "/demo-boucherie/", "/demo-boulangerie/",
                                          "/demo-coiffeur/", "/demo-institut/", "/demo-avocat/"])
+
+    def test_tirette_sur_l_accueil_et_le_blog(self):
+        post = BlogPost.objects.create(title="Article tirette", published=True)
+        avec = [reverse("index"), reverse("blog:home"), reverse("blog:notes"), post.get_absolute_url()]
+        sans = [reverse("mentions_legales"), reverse("cgv")]
+        for url in avec + sans:
+            with self.subTest(url=url):
+                html = self.client.get(url).content.decode()
+                self.assertEqual("data-pull-cord" in html, url in avec)
