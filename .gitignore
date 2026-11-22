@@ -94,3 +94,6 @@ package-lock.json
 
 # Fichiers d'audit CSS générés
 css-naming-audit-report.md
+
+# Compétences locales de Claude Code
+.claude/
