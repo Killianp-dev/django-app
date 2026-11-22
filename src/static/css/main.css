@@ -10,7 +10,7 @@
 
 /* 2. Components - Éléments réutilisables */
 @import url('./components/_navbar.css?v=20261122-demos');
-@import url('./components/_pull-cord.css?v=20261122-fleche2');
+@import url('./components/_pull-cord.css?v=20261122-ligne');
 @import url('./components/_buttons.css?v=20261119-champagne');
 @import url('./components/_cards.css');
 @import url('./components/_footer.css?v=20261119-seo');

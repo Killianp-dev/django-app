@@ -184,7 +184,7 @@ html.theme-vt::view-transition-new(root) {
    Note manuscrite à droite de la tirette, sur toutes les largeurs. Ordinateur :
    à hauteur de l'olive, la flèche pointe vers elle (la note reste ainsi au-dessus
    de l'aperçu des démos, quelle que soit la hauteur de l'écran). Mobile : sous
-   l'olive, faute de place à côté. Elle apparaît à chaque visite (classe
+   l'olive (flèche et note sur la même ligne), faute de place à côté. Elle apparaît à chaque visite (classe
    is-inviting posée par app.js) et reste dans les deux thèmes : accent champagne
    en sombre, bordeaux en clair. */
 .pull-cord__invite {
@@ -203,7 +203,7 @@ html.theme-vt::view-transition-new(root) {
 
 .pull-cord__invite-text {
   position: relative;
-  top: 6px;
+  top: 11px;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: 1.12rem;
@@ -220,7 +220,7 @@ html.theme-vt::view-transition-new(root) {
   height: 19px;
   overflow: visible;
   transform: scaleX(-1);   /* part d'en bas à droite, pointe vers l'olive en haut à gauche */
-  translate: 0 5px;        /* ordinateur : la pointe arrive à mi-hauteur de l'olive */
+  translate: 0 9px;        /* ordinateur : la pointe arrive à mi-hauteur de l'olive */
   fill: none;
   stroke: currentColor;
   stroke-width: 1.3;
@@ -275,10 +275,10 @@ html.theme-vt::view-transition-new(root) {
 @media (max-width: 768px) {
   .pull-cord__invite {
     top: calc(var(--cord-hang) + 1px);
-    left: 1px;
-    flex-direction: column-reverse;   /* la flèche (après le texte dans le HTML) passe au-dessus */
-    align-items: flex-start;
-    gap: 1px;
+    left: -4px;
+    flex-direction: row-reverse;   /* flèche et note sur une seule ligne : la flèche à gauche, côté olive */
+    align-items: flex-end;
+    gap: 3px;
   }
 
   .pull-cord__invite-arrow {
@@ -288,8 +288,8 @@ html.theme-vt::view-transition-new(root) {
   }
 
   .pull-cord__invite-text {
-    top: 0;
-    padding-left: 4px;
+    top: 8px;
+    padding-left: 0;
     font-size: 0.84rem;
   }
 }
