@@ -1,10 +1,12 @@
 from html import unescape
+import io
 import uuid
 from math import ceil
 from pathlib import Path
 
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.db.models.signals import post_delete
@@ -19,6 +21,43 @@ User = get_user_model()
 
 # Signature des articles quand le compte auteur n'a pas de nom renseigné.
 DEFAULT_AUTHOR_NAME = "Killian P."
+
+# Les images envoyées sont réduites à l'enregistrement : un appareil photo livre
+# 5 à 13 Mo, alors que 1920 px de large suffisent à l'écran.
+MAX_IMAGE_SIDE = 1920
+
+
+def shrink_uploaded_image(field_file):
+    """Réduit et ré-encode (JPEG, PNG ou WebP) un fichier tout juste envoyé.
+
+    Sans effet sur un fichier déjà enregistré, un GIF (animation) ou un fichier
+    illisible : l'original est alors conservé tel quel.
+    """
+    if not field_file or getattr(field_file, "_committed", True):
+        return
+    from PIL import Image, ImageOps
+
+    try:
+        field_file.file.seek(0)
+        with Image.open(field_file.file) as img:
+            fmt = img.format
+            if fmt not in ("JPEG", "PNG", "WEBP") or getattr(img, "is_animated", False):
+                return
+            img = ImageOps.exif_transpose(img)
+            img.thumbnail((MAX_IMAGE_SIDE, MAX_IMAGE_SIDE), Image.LANCZOS)
+            out = io.BytesIO()
+            if fmt == "JPEG":
+                img.convert("RGB").save(out, "JPEG", quality=82, optimize=True, progressive=True)
+            else:
+                img.save(out, fmt, optimize=True, **({"quality": 82} if fmt == "WEBP" else {}))
+    except Exception:
+        field_file.file.seek(0)
+        return
+    if out.tell() < field_file.size:
+        field_file.save(field_file.name, ContentFile(out.getvalue()), save=False)
+    else:
+        field_file.file.seek(0)
+
 
 class BlogPost(models.Model):
     # Rubriques du blog : les conseils visent les commerçants (et sont mis en avant),
@@ -53,6 +92,7 @@ class BlogPost(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
+        shrink_uploaded_image(self.thumbnail)
         super().save(*args, **kwargs)
 
     @property
@@ -150,6 +190,7 @@ class BlogImage(models.Model):
                 and previous.image.name != self.image.name
             ):
                 previous.image.delete(save=False)
+        shrink_uploaded_image(self.image)
         super().save(*args, **kwargs)
 
 

@@ -54,6 +54,7 @@ EMAIL_HOST = 'mail.killianp-dev.fr'  # Adresse du serveur SMTP
 EMAIL_PORT = 587                    # Port pour SMTP TLS
 EMAIL_USE_SSL = False              # Désactive SSL
 EMAIL_USE_TLS = True               # Active TLS pour sécuriser la connexion
+EMAIL_TIMEOUT = 10                 # Un SMTP lent ne doit pas bloquer un worker Gunicorn
 
 EMAIL_HOST_USER = 'no-reply@killianp-dev.fr'  # Adresse e-mail utilisée pour l'envoi
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')   # Mot de passe associé à cette adresse
@@ -68,7 +69,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'livereload',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
@@ -85,8 +85,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'livereload.middleware.LiveReloadScript',
 ]
+
+# Rechargement automatique : uniquement en développement.
+if DEBUG:
+    INSTALLED_APPS.insert(INSTALLED_APPS.index('django.contrib.staticfiles'), 'livereload')
+    MIDDLEWARE.append('livereload.middleware.LiveReloadScript')
 
 ROOT_URLCONF = 'config.urls'
 
@@ -127,6 +131,7 @@ DATABASES = {
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT'),
+        'CONN_MAX_AGE': 60,  # réutilise la connexion entre requêtes
     }
 }
 
