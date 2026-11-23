@@ -42,17 +42,27 @@
   box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
-/* Filet qui relie les étapes */
+/* Filet qui relie les étapes : vertical sous l'icône quand les cartes
+   s'empilent, horizontal à hauteur des icônes sur trois colonnes. */
+.offer-step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 3rem;   /* axe de l'icône : marge 1.6rem + demi-pastille 1.4rem */
+  width: 1px;
+  height: calc(1.25rem + 1px);
+  background: repeating-linear-gradient(180deg, var(--color-border-strong) 0 4px, transparent 4px 8px);
+  pointer-events: none;
+}
+
 @media (min-width: 800px) {
   .offer-step:not(:last-child)::after {
-    content: "";
-    position: absolute;
     top: 2.95rem;
+    left: auto;
     right: -1.75rem;
     width: 1.75rem;
     height: 1px;
     background: repeating-linear-gradient(90deg, var(--color-border-strong) 0 4px, transparent 4px 8px);
-    pointer-events: none;
   }
 }
 

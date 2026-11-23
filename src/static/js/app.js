@@ -44,17 +44,21 @@
     const contact = document.getElementById('contact-form');
     if (contact) targets.push({ link: null, section: contact });
 
-    const visible = new Set();
-    const observer = new IntersectionObserver((records) => {
-      records.forEach((record) => {
-        if (record.isIntersecting) visible.add(record.target);
-        else visible.delete(record.target);
+    // Section surlignée : la dernière (dans l'ordre de la page) dont le haut a
+    // passé le milieu de l'écran. Les sections sans entrée dans le menu
+    // (Déroulement) gardent ainsi la précédente, même après un saut direct.
+    // L'observateur ne sert qu'à déclencher le calcul quand une section
+    // traverse cette ligne.
+    const observer = new IntersectionObserver(() => {
+      const line = window.innerHeight / 2;
+      let current = null;
+      targets.forEach((target) => {
+        if (target.section.getBoundingClientRect().top <= line) current = target;
       });
-      const current = targets.find((target) => visible.has(target.section));
       if (!current) return;
       navLinks.forEach((link) => link.classList.toggle('active', link === current.link));
       moveNavThumb();
-    }, { rootMargin: '-30% 0px -60% 0px' });
+    }, { rootMargin: '-50% 0px -49% 0px' });
 
     targets.forEach((target) => observer.observe(target.section));
   }
