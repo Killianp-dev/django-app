@@ -1039,11 +1039,132 @@ html[data-theme="dark"] .hero__chip svg {
     font-size: 0.74rem;
   }
 
-  .hero__chip--top {
-    left: auto;
-    right: 0.6rem;
-    top: 3.4rem;
-    bottom: auto;
+  /* ---------- Mobile : le carrousel passe en fond ----------
+     Le bloc texte s'efface de la mise en page (display: contents) : ses enfants
+     deviennent les lignes de la grille du hero. L'aperçu se pose sur les lignes
+     « métiers → chiffres », bord à bord, derrière elles. Seuls restent les captures
+     en fondu, un voile pour la lecture et les points de navigation, sous les chiffres. */
+  .hero__inner {
+    gap: 0;
+    padding-bottom: 4.25rem;
+  }
+
+  .hero__overlay {
+    display: contents;
+  }
+
+  .hero__overlay > * {
+    grid-column: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__eyebrow { grid-row: 1; }
+  .hero__title { grid-row: 2; }
+  .hero__subtitle { grid-row: 3; }
+  .hero__trades { grid-row: 4; }
+  .hero__actions { grid-row: 5; }
+  .hero__facts { grid-row: 6; }
+
+  .hero__trades {
+    margin-top: 2.4rem;
+  }
+
+  .hero__preview {
+    grid-column: 1;
+    grid-row: 4 / 7;
+    align-self: stretch;
+    justify-self: stretch;
+    z-index: 0;
+    width: auto;
+    max-width: none;
+    /* Bord à bord, et jusqu'au bas du hero */
+    margin: 0 calc(var(--page-gutter) * -1) -4.25rem;
+    pointer-events: none;
+  }
+
+  .hero__deck,
+  .hero__chip,
+  .hero__window-bar,
+  .hero__window-ok {
+    display: none;
+  }
+
+  .hero__window {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    animation: none;
+    transform: none;
+  }
+
+  .hero__screen {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    background: transparent;
+  }
+
+  .hero__shot {
+    object-position: center top;
+    filter: blur(6px) saturate(0.85);
+  }
+
+  .hero__shot.is-active {
+    filter: blur(1.5px) saturate(0.85);
+  }
+
+  /* Voile : fondu avec le fond en haut et en bas, assez dense au milieu pour
+     que pastilles, boutons et chiffres restent nets sur la capture. */
+  .hero__screen::after {
+    opacity: 1;
+    background: linear-gradient(
+      to bottom,
+      var(--color-bg) 0%,
+      color-mix(in srgb, var(--color-bg) 74%, transparent) 16%,
+      color-mix(in srgb, var(--color-bg) 68%, transparent) 50%,
+      color-mix(in srgb, var(--color-bg) 78%, transparent) 82%,
+      var(--color-bg) 100%
+    );
+  }
+
+  /* Points de navigation : sous les chiffres, centrés, seuls cliquables */
+  .hero__window-status {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.35rem;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    border: 0;
+  }
+
+  .hero__pager {
+    pointer-events: auto;
+  }
+
+  .hero__pager-dot {
+    background: var(--hero-muted);
+  }
+
+  /* Sur la capture, les pastilles et le bouton secondaire prennent un fond flouté */
+  .hero__trade,
+  .hero .hero-btn:nth-child(2) {
+    background: color-mix(in srgb, var(--color-bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  .hero__trade--autre {
+    background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+  }
+
+  .hero__trade.is-selected {
+    background: var(--color-accent-soft);
   }
 }
 

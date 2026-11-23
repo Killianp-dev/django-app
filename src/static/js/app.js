@@ -879,7 +879,7 @@
       run();
     });
 
-    // --- Invitation : une note « Click me ! » et le cordon qui frémit seul. ---
+    // --- Invitation : une note « Tirez-moi ! » et le cordon qui frémit seul. ---
     // À chaque visite de l'accueil, quel que soit le thème (la couleur suit l'accent
     // du thème). À chaque bascule, elle s'efface aussitôt puis rejoue son entrée
     // quelques secondes plus tard, comme au chargement. Rien si le visiteur a défilé.
