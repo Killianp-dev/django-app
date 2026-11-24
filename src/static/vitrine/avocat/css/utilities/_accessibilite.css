@@ -25,12 +25,6 @@
   border: 0;
 }
 
-/* Bandeau de démonstration (partial partagé) */
-.vitrine-demo-banner { position: relative; z-index: 70; background: #0B101A; border-bottom: 1px solid rgba(201, 167, 116, 0.35); padding: 0.6rem var(--gouttiere); text-align: center; }
-.vitrine-demo-banner__text { font-size: 0.8rem; color: rgba(247, 244, 238, 0.8); line-height: 1.5; }
-.vitrine-demo-banner__text strong { color: var(--ivoire); font-weight: 600; }
-.vitrine-demo-banner__link { color: var(--laiton-clair); text-decoration: underline; text-underline-offset: 2px; font-weight: 600; white-space: nowrap; }
-.vitrine-demo-banner__link:hover { color: var(--ivoire); }
 
 /* Barre d'action mobile (partial partagé) */
 .vitrine-actionbar { display: none; }

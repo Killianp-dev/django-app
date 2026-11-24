@@ -153,9 +153,12 @@ server {
         expires 7d;
     }
 
+    # Fichiers statiques aux noms hachés (ManifestStaticFilesStorage) : un fichier
+    # modifié change d'adresse, on peut donc le garder un an en cache.
     location /static/ {
         alias /var/www/django-app/src/staticfiles/;
-        expires 7d;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        gzip_static on;
     }
 
     location / {
@@ -186,6 +189,26 @@ RuntimeDirectory=django-app
 
 et utilisez `unix:/run/django-app/gunicorn.sock` partout (Gunicorn + Nginx).
 
+### En-têtes de sécurité
+
+Django pose déjà `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, la CSP et la
+`Permissions-Policy` (`config/middleware.py`). Dans Nginx, ne gardez que HSTS : sinon ces en-têtes
+sont envoyés deux fois. Attention, un `add_header` dans un `location` annule ceux du bloc `server` :
+répétez HSTS dans `location /static/` si besoin.
+
+```nginx
+add_header Strict-Transport-Security "max-age=63072000" always;
+```
+
+Compression : `gzip on; gzip_types text/css application/javascript image/svg+xml application/json;`
+(et le module brotli s'il est installé).
+
+### CSP : passer du mode test au mode bloquant
+
+La CSP part en `Content-Security-Policy-Report-Only` : rien n'est bloqué, les écarts s'affichent dans
+la console du navigateur (F12). Après quelques jours sans message `Content-Security-Policy` en
+parcourant le site, le blog et l'admin, ajoutez `CSP_REPORT_ONLY=False` au `.env` puis redémarrez.
+
 ## 7. HTTPS
 
 ```bash
@@ -213,7 +236,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 cd src
 python manage.py migrate
-python manage.py collectstatic --no-input
+python manage.py collectstatic --no-input   # obligatoire : sans manifeste, les pages renvoient une erreur 500
 sudo systemctl restart django-app
 ```
 

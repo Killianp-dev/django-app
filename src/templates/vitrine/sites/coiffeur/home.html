@@ -12,8 +12,8 @@
 <section class="salon-hero" aria-labelledby="salon-hero-title">
     <div class="vitrine-container salon-hero__inner">
         <div class="salon-hero__content">
-            <span class="vitrine-eyebrow">{{ site.eyebrow }}</span>
-            <h1 class="salon-hero__title" id="salon-hero-title">{{ site.nom }}</h1>
+            {# Le métier et la ville font partie du titre (h1) : c'est ce que tape le client. #}
+            <h1 class="salon-hero__title" id="salon-hero-title"><span class="vitrine-eyebrow">{{ site.eyebrow }}</span> <span class="salon-hero__nom">{{ site.nom }}</span></h1>
             <p class="salon-hero__lead">{{ site.accroche }}</p>
             <div class="salon-hero__actions">
                 <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">{{ site.labels.nav_cta }}</a>

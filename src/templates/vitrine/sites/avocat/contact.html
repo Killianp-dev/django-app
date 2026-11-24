@@ -28,7 +28,7 @@
             {% if form.non_field_errors %}<div class="formulaire__alerte" role="alert">{{ form.non_field_errors }}</div>{% endif %}
             <div class="formulaire__grille">
             {% for field in form %}
-                {% if field.name == 'website' %}
+                {% if field.name == 'website' or field.is_hidden %}
                     {{ field }}
                 {% elif field.name == 'consent' %}
                     <div class="champ champ--case">

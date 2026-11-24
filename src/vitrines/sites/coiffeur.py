@@ -12,9 +12,9 @@ COIFFEUR = _site(
     nature="un salon de coiffure fictif",
     adresse="14 rue des Martyrs",
     code_postal="75009",
-    telephone="01 42 80 21 21",
-    telephone_lien="0142802121",
-    email="contact@salon-louise-demo.fr",
+    telephone="01 99 00 21 21",
+    telephone_lien="0199002121",
+    email="contact@salon-louise.example",
     horaires="Mardi au vendredi, 9h–19h, jusqu'à 20h le jeudi. Samedi, 9h–18h.",
     titre="Salon Louise — Coiffeur à Paris",
     description="Salon de coiffure fictif à Paris. Coupe, couleur, soin, barbe, tarifs affichés. Démonstration de site vitrine.",
@@ -38,7 +38,7 @@ COIFFEUR = _site(
     reperes=[
         _ns(label="Adresse", value="14 rue des Martyrs", href=""),
         _ns(label="Horaires", value="Mar–sam, dès 9h", href=""),
-        _ns(label="Téléphone", value="01 42 80 21 21", href="tel:0142802121"),
+        _ns(label="Téléphone", value="01 99 00 21 21", href="tel:0199002121"),
         _ns(label="Créneau", value="Sur rendez-vous", href=""),
     ],
     gages=[
@@ -49,7 +49,7 @@ COIFFEUR = _site(
     contact_aside=_ns(
         titre="Appeler le salon",
         texte="Entre deux rendez-vous, le téléphone est décroché. Un message reçoit une réponse dans la journée.",
-        liens=[_ns(label="01 42 80 21 21", href="tel:0142802121")],
+        liens=[_ns(label="01 99 00 21 21", href="tel:0199002121")],
         lignes=["14 rue des Martyrs, 75009 Paris", "Métro Notre-Dame-de-Lorette, à trois minutes à pied"],
     ),
     labels=_ns(

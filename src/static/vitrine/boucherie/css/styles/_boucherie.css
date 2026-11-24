@@ -22,6 +22,8 @@
 .vitrine--boucherie .pro-hero__bg::after { background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(28, 19, 18, 0.82), rgba(28, 19, 18, 0.55)); }
 .vitrine--boucherie .pro-hero__title { font-size: clamp(3.4rem, 9vw, 7.5rem); }
 .vitrine--boucherie .pro-hero__eyebrow {
+    margin-left: auto;
+    margin-right: auto;
     padding: 0.4rem 0;
     border-top: 1px solid currentColor;
     border-bottom: 1px solid currentColor;

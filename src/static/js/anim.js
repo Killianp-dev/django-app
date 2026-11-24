@@ -1,6 +1,6 @@
 // anim.js — animations du site principal avec Motion (static/vendor/motion) :
 // entrée du hero en séquence, apparitions au défilement, ressorts doux,
-// compteurs et icônes qui se dessinent.
+// et icônes qui se dessinent.
 //
 // La classe « anim » est posée sur <html> dans le <head> (base.html) seulement si
 // le visiteur n'a pas demandé moins d'animations. Elle cache l'entrée du hero en
@@ -54,27 +54,9 @@
     });
   }
 
-  // ===== Compteurs =====
-  // Le chiffre défile depuis zéro ; ce qui l'entoure (« ~ ») ne bouge pas.
-  function countUp(el, { delay = 0, duration = 1 } = {}) {
-    const target = parseInt(el.textContent, 10);
-    if (!Number.isFinite(target) || target < 2) return;
-    el.style.minWidth = `${String(target).length}ch`;
-    el.textContent = '0';
-    animate(0, target, {
-      duration,
-      delay,
-      ease: EASE,
-      onUpdate: (value) => { el.textContent = String(Math.round(value)); }
-    }).then(() => {
-      el.textContent = String(target);
-      clear(el, 'min-width');
-    });
-  }
-
   // ===== Hero : entrée en séquence =====
   // Accroche, titre, sous-titre, puis les pastilles métier une à une, les boutons
-  // et les chiffres ; l'aperçu glisse en parallèle, puis les puces flottantes.
+  // et les chiffres ; l'aperçu glisse en parallèle.
   function heroEntrance() {
     const hero = document.querySelector('.hero');
     if (!hero) return;
@@ -136,26 +118,17 @@
           opacity: { duration: 0.45, ease: EASE, delay }
         }));
       });
-      qa('[data-count]').forEach((el, i) => countUp(el, { delay: factsDelay + 0.1 + i * 0.08, duration: 0.9 }));
     }
 
     // Aperçu des démos : glisse et se pose avec un léger ressort.
     const preview = q('.hero__preview');
     if (preview) {
-      steps.push(animate(preview, { opacity: [0, 1], y: [28, 0], scale: [0.97, 1] }, {
+      // Sans fondu d'opacité : la capture doit être peinte dès le chargement (LCP).
+      steps.push(animate(preview, { y: [28, 0], scale: [0.97, 1] }, {
         y: { ...SPRING, visualDuration: 0.8, delay: 0.2 },
-        scale: { ...SPRING, visualDuration: 0.8, delay: 0.2 },
-        opacity: { duration: 0.6, ease: EASE, delay: 0.2 }
+        scale: { ...SPRING, visualDuration: 0.8, delay: 0.2 }
       }));
-      // Les puces flottantes ont leur propre lévitation (transform) : on ne joue que sur l'opacité et le flou.
-      qa('.hero__chip').forEach((chip, i) => {
-        const delay = 0.75 + i * 0.14;
-        steps.push(animate(chip, { opacity: [0, 1], filter: ['blur(8px)', 'blur(0px)'] }, { duration: 0.6, ease: EASE, delay }));
-        drawIcon(chip.querySelector('svg'), { delay: delay + 0.1, duration: 0.8 });
-      });
     }
-
-    steps.push(rise(q('.hero__scroll'), actionsDelay + 0.35, 8));
 
     // Une fois tout en place, on rend la main au CSS (survols, transitions).
     Promise.all(steps.filter(Boolean).map((step) => step.finished || step)).then(() => {

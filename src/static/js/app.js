@@ -544,30 +544,51 @@
     const declineBtn = document.getElementById('declineCookies');
     if (!cookieModal || !acceptBtn || !declineBtn) return;
 
+    // Le choix est daté : au-delà de six mois (window.CONSENT_MAX_AGE, base.html),
+    // window.consentChoice() le considère comme absent et le bandeau revient.
     const remember = (choice) => {
       try {
         localStorage.setItem('cookie-consent', choice);
+        localStorage.setItem('cookie-consent-date', String(Date.now()));
       } catch (e) {}
     };
 
-    let choice = null;
-    try {
-      choice = localStorage.getItem('cookie-consent');
-    } catch (e) {}
+    const open = () => cookieModal.classList.add('show');
+    const close = () => cookieModal.classList.remove('show');
 
-    if (choice === null) {
-      window.setTimeout(() => cookieModal.classList.add('show'), 600);
-    }
+    const choice = typeof window.consentChoice === 'function' ? window.consentChoice() : null;
+    if (choice === null) window.setTimeout(open, 600);
 
     acceptBtn.addEventListener('click', () => {
       remember('accepted');
       if (typeof window.loadAnalytics === 'function') window.loadAnalytics();
-      cookieModal.classList.remove('show');
+      close();
     });
 
+    // Refuser après avoir accepté : on efface les cookies déjà posés par Google Analytics.
     declineBtn.addEventListener('click', () => {
       remember('declined');
-      cookieModal.classList.remove('show');
+      if (window.analyticsLoaded && typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { analytics_storage: 'denied' });
+      }
+      document.cookie.split(';').forEach((part) => {
+        const name = part.split('=')[0].trim();
+        if (!/^_ga/.test(name)) return;
+        const host = window.location.hostname.replace(/^www\./, '');
+        [host, '.' + host, window.location.hostname].forEach((domain) => {
+          document.cookie = `${name}=; Max-Age=0; path=/; domain=${domain}`;
+        });
+        document.cookie = `${name}=; Max-Age=0; path=/`;
+      });
+      close();
+    });
+
+    // « Gérer les cookies » (pied de page, page Confidentialité) : rouvre le bandeau.
+    document.querySelectorAll('[data-cookie-settings]').forEach((button) => {
+      button.addEventListener('click', () => {
+        open();
+        acceptBtn.focus();
+      });
     });
   }
 
@@ -597,20 +618,13 @@
     window.addEventListener('resize', request);
   }
 
-  // ===== Thème : bouton de l'en-tête et tirette =====
-  // Thème sombre par défaut. Deux commandes font la même chose : le bouton de
-  // l'en-tête et la tirette qui pend dessous. On tire l'olive vers le bas : passé
-  // le seuil, on relâche et le thème bascule ; un clic sur l'olive joue le même
-  // geste. Le cordon revient sur un ressort et se balance un peu ; au survol, il
-  // frémit ; un clic sur le bouton le fait sursauter. La nouvelle teinte s'étend
-  // en cercle depuis le geste (View Transitions).
+  // ===== Thème : bouton de l'en-tête =====
+  // Thème sombre par défaut. La nouvelle teinte s'étend en cercle depuis le
+  // bouton (View Transitions), sauf si le visiteur demande moins d'animations.
   function initThemeToggle() {
     const root = document.documentElement;
     const metaTheme = document.querySelector('meta[name="theme-color"]');
     const button = document.querySelector('.theme-toggle');
-    const cord = document.querySelector('[data-pull-cord]');
-    const grip = cord && cord.querySelector('.pull-cord__hit');
-    const knob = cord && cord.querySelector('.pull-cord__knob');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const currentTheme = () => (root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
@@ -621,7 +635,7 @@
         button.setAttribute('aria-pressed', String(isDark));
         button.setAttribute('aria-label', isDark ? 'Activer le thème clair' : 'Activer le thème sombre');
       }
-      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#131315' : '#1c1a1b');
+      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#131315' : '#f5f2ed');
     }
 
     function applyTheme(theme) {
@@ -629,20 +643,18 @@
       syncButton(theme);
     }
 
-    // origin : l'élément d'où part le cercle de la nouvelle teinte.
     function toggleTheme(origin) {
       const theme = currentTheme() === 'dark' ? 'light' : 'dark';
       try {
         localStorage.setItem('theme', theme);
       } catch (e) {}
-      if (cord) cord.dispatchEvent(new CustomEvent('cord:used'));
 
       if (!document.startViewTransition || reduceMotion.matches || !origin) {
         applyTheme(theme);
         return;
       }
 
-      // Le cercle part du centre de l'élément et couvre le coin le plus éloigné.
+      // Le cercle part du centre du bouton et couvre le coin le plus éloigné.
       const rect = origin.getBoundingClientRect();
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
@@ -661,290 +673,15 @@
 
     syncButton(currentTheme());
 
-    if (button) {
-      button.addEventListener('click', () => {
-        toggleTheme(button);
-        if (cord) cord.dispatchEvent(new CustomEvent('cord:nudge'));
-      });
-    }
-
-    if (!cord || !grip || !knob) return;
-
-    // --- Alignement : la tirette pend à l'aplomb du bouton de thème. ---
-    // Sur mobile, l'olive descend juste sous la ligne d'accroche du hero (une ou
-    // deux lignes selon la largeur) : on mesure sa position sans les transformations
-    // de l'animation d'entrée (offsetTop), pour ne pas viser une position de départ.
-    const eyebrow = document.querySelector('.hero__eyebrow');
-    const mobile = window.matchMedia('(max-width: 768px)');
-    const pageTop = (el) => {
-      let y = 0;
-      for (let node = el; node; node = node.offsetParent) y += node.offsetTop;
-      return y;
-    };
-    const pageLeft = (el) => {
-      let x = 0;
-      for (let node = el; node; node = node.offsetParent) x += node.offsetLeft;
-      return x;
-    };
-    const swing = cord.querySelector('.pull-cord__swing');
-    const string = cord.querySelector('.pull-cord__string');
-
-    // Le fil croise-t-il une ligne de l'accroche ? On prend les lignes réellement
-    // écrites (une ou deux selon la largeur) et, pour celles qu'il traverse, on
-    // l'efface sur leur hauteur : il semble passer derrière le texte. Positions
-    // relatives à l'accroche, pour ignorer le décalage de l'animation d'entrée.
-    const placeGap = (cordX) => {
-      string.style.removeProperty('--gap-a');
-      string.style.removeProperty('--gap-b');
-      if (!eyebrow) return;
-      const box = eyebrow.getBoundingClientRect();
-      const range = document.createRange();
-      range.selectNodeContents(eyebrow);
-      const originX = pageLeft(eyebrow);
-      const originY = pageTop(eyebrow) - cord.offsetTop;
-      let top = Infinity;
-      let bottom = -Infinity;
-      Array.from(range.getClientRects()).forEach((r) => {
-        const left = originX + r.left - box.left;
-        const right = originX + r.right - box.left;
-        if (r.width < 1 || cordX < left - 4 || cordX > right + 4) return;
-        top = Math.min(top, originY + r.top - box.top);
-        bottom = Math.max(bottom, originY + r.bottom - box.top);
-      });
-      if (bottom < 0) return;
-      string.style.setProperty('--gap-a', `${Math.round(top - 2)}px`);
-      string.style.setProperty('--gap-b', `${Math.round(bottom + 2)}px`);
-    };
-
-    const place = () => {
-      if (!button || !button.offsetParent) {
-        cord.classList.remove('is-placed');
-        return;
-      }
-      const rect = button.getBoundingClientRect();
-      const cordX = rect.left + rect.width / 2 + window.scrollX;
-      cord.style.setProperty('--cord-x', `${cordX.toFixed(1)}px`);
-      cord.style.removeProperty('--cord-hang');
-      if (mobile.matches && eyebrow) {
-        const below = pageTop(eyebrow) + eyebrow.offsetHeight - cord.offsetTop;
-        cord.style.setProperty('--cord-hang', `${Math.round(below + 8 + 18)}px`);
-      }
-      placeGap(cordX);
-      cord.classList.add('is-placed');
-    };
-    place();
-    window.addEventListener('resize', place);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
-
-    // --- Physique : deux ressorts amortis, allongement (px) et angle (deg). ---
-    const THRESHOLD = 26;   // allongement à dépasser pour basculer
-    const MAX_PULL = 64;    // butée douce
-    const MAX_ANGLE = 28;
-    const ext = { x: 0, v: 0, k: 340, c: 15 };    // revient vite, petit rebond
-    const ang = { x: 0, v: 0, k: 70, c: 3.2 };    // balancier, plus libre
-
-    let frame = 0;
-    let last = 0;
-    let drag = null;
-    let suppressClick = false;
-
-    const render = () => {
-      cord.style.setProperty('--cord-ext', `${ext.x.toFixed(2)}px`);
-      cord.style.setProperty('--cord-angle', `${ang.x.toFixed(2)}deg`);
-    };
-
-    const step = (s, dt) => {
-      const a = -s.k * s.x - s.c * s.v;
-      s.v += a * dt;
-      s.x += s.v * dt;
-    };
-
-    const settled = (s) => Math.abs(s.x) < 0.05 && Math.abs(s.v) < 0.05;
-
-    function tick(now) {
-      const gap = (now - last) / 1000 || 0.016;
-      last = now;
-      // Image en retard (bascule de thème, capture de la transition, téléphone
-      // chargé) : on avance d'un pas normal au lieu de sauter, le mouvement reste
-      // continu. Seul un onglet resté caché longtemps remet le cordon au repos.
-      const elapsed = Math.min(gap, 0.034);
-      if (!drag && gap > 1) {
-        ext.x = ext.v = ang.x = ang.v = 0;
-      } else if (!drag) {
-        // Sous-pas de 4 ms au plus : un ressort raide reste stable même à bas régime.
-        const n = Math.ceil(elapsed / 0.004);
-        for (let i = 0; i < n; i += 1) {
-          step(ext, elapsed / n);
-          step(ang, elapsed / n);
-        }
-        // Au retour, le cordon peut remonter un peu, pas davantage.
-        if (ext.x < -8) {
-          ext.x = -8;
-          ext.v = 0;
-        }
-      }
-      render();
-      if (drag || !settled(ext) || !settled(ang)) {
-        frame = window.requestAnimationFrame(tick);
-      } else {
-        ext.x = ext.v = ang.x = ang.v = 0;
-        render();
-        frame = 0;
-      }
-    }
-
-    const run = () => {
-      if (reduceMotion.matches) {
-        ext.x = ext.v = ang.x = ang.v = 0;
-        render();
-        return;
-      }
-      if (frame) return;
-      last = performance.now();
-      frame = window.requestAnimationFrame(tick);
-    };
-
-    // Résistance croissante : on sent la butée sans la heurter.
-    const rubber = (d) => (d <= 0 ? 0 : MAX_PULL * (1 - Math.exp(-d / MAX_PULL)));
-
-    grip.addEventListener('pointerdown', (event) => {
-      if (event.button !== 0) return;
-      event.preventDefault();
-      drag = { id: event.pointerId, x0: event.clientX, y0: event.clientY, moved: false };
-      try {
-        grip.setPointerCapture(event.pointerId);
-      } catch (e) {}
-      cord.classList.add('is-pulling');
-      run();
-    });
-
-    grip.addEventListener('pointermove', (event) => {
-      if (!drag || event.pointerId !== drag.id) return;
-      const dx = event.clientX - drag.x0;
-      const dy = event.clientY - drag.y0;
-      if (!drag.moved && Math.hypot(dx, dy) > 4) drag.moved = true;
-      ext.x = rubber(dy);
-      ext.v = 0;
-      const length = swing.offsetHeight;
-      const target = (-Math.atan2(dx, length) * 180) / Math.PI;
-      ang.x = Math.max(-MAX_ANGLE, Math.min(MAX_ANGLE, target));
-      ang.v = 0;
-      cord.classList.toggle('is-armed', ext.x > THRESHOLD);
-    });
-
-    const release = (event) => {
-      if (!drag || event.pointerId !== drag.id) return;
-      const pulled = drag.moved;
-      const armed = ext.x > THRESHOLD;
-      drag = null;
-      cord.classList.remove('is-pulling', 'is-armed');
-      if (pulled) {
-        suppressClick = true;
-        if (armed) toggleTheme(knob);
-      }
-      run();
-    };
-
-    grip.addEventListener('pointerup', release);
-    grip.addEventListener('pointercancel', release);
-
-    // Clic simple sur l'olive : un petit coup sec vers le bas, puis la bascule.
-    grip.addEventListener('click', () => {
-      if (suppressClick) {
-        suppressClick = false;
-        return;
-      }
-      if (reduceMotion.matches) {
-        toggleTheme(knob);
-        return;
-      }
-      // Bascule d'abord, coup sec ensuite : le recalcul des couleurs de toute la
-      // page ne tombe plus au milieu du mouvement (il saccadait sur mobile).
-      toggleTheme(knob);
-      ext.v = 520;
-      ang.v += (Math.random() - 0.5) * 30;
-      run();
-      cord.classList.add('is-armed');
-      window.setTimeout(() => cord.classList.remove('is-armed'), 160);
-    });
-
-    // Au survol, le cordon frémit, comme effleuré.
-    grip.addEventListener('pointerenter', (event) => {
-      if (drag || event.pointerType !== 'mouse') return;
-      ang.v += event.movementX > 0 ? -22 : 22;
-      run();
-    });
-
-    // Clic sur le bouton de l'en-tête : la tirette sursaute, comme tirée d'en haut.
-    cord.addEventListener('cord:nudge', () => {
-      if (drag) return;
-      ext.v -= 260;
-      ang.v += (Math.random() - 0.5) * 40;
-      run();
-    });
-
-    // --- Invitation : une note « Tirez-moi ! » et le cordon qui frémit seul. ---
-    // À chaque visite de l'accueil, quel que soit le thème (la couleur suit l'accent
-    // du thème). À chaque bascule, elle s'efface aussitôt puis rejoue son entrée
-    // quelques secondes plus tard, comme au chargement. Rien si le visiteur a défilé.
-    const invite = cord.querySelector('[data-pull-cord-invite]');
-    if (!invite) return;
-
-    const INVITE_DELAY = 2200;
-    let timers = [];
-
-    const clearTimers = () => {
-      timers.forEach((id) => window.clearTimeout(id));
-      timers = [];
-    };
-
-    // Petit coup tiré d'en haut, puis le cordon se balance.
-    const wave = (side) => {
-      if (drag) return;
-      ext.v += 170;
-      ang.v += 62 * side;
-      run();
-    };
-
-    const showInvite = () => {
-      clearTimers();
-      timers.push(window.setTimeout(() => {
-        if (window.scrollY > 40 || !cord.classList.contains('is-placed')) return;
-        cord.classList.add('is-inviting');
-        wave(1);
-        // Un second frémissement plus tard, s'il n'a toujours pas tiré.
-        timers.push(window.setTimeout(() => wave(-1), 5200));
-      }, INVITE_DELAY));
-    };
-
-    // Fondu rapide, puis remise à zéro sans transition (sinon la flèche se
-    // « dé-dessinerait » à l'envers) : l'entrée pourra se rejouer à l'identique.
-    const hideInvite = () => {
-      clearTimers();
-      if (!cord.classList.contains('is-inviting')) return;
-      cord.classList.add('is-invite-out');
-      timers.push(window.setTimeout(() => {
-        cord.classList.add('is-invite-reset');
-        cord.classList.remove('is-inviting', 'is-invite-out');
-        void invite.offsetWidth; // applique l'état de départ avant de rendre les transitions
-        cord.classList.remove('is-invite-reset');
-      }, 220));
-    };
-
-    cord.addEventListener('cord:used', () => {
-      hideInvite();
-      // showInvite vide les minuteurs : on le lance après la remise à zéro.
-      const resetDone = window.setTimeout(showInvite, 240);
-      timers.push(resetDone);
-    });
-
-    showInvite();
+    if (button) button.addEventListener('click', () => toggleTheme(button));
   }
 
   // ===== Hero : aperçu des démos =====
   // Les captures défilent en fondu ; l'adresse, le métier et le lien suivent.
-  // Pause au survol, au focus et quand l'onglet est caché ; pas de défilement
-  // automatique si l'utilisateur demande moins d'animations.
+  // Pause au survol, au focus, quand l'onglet est caché et par le bouton pause
+  // (WCAG 2.2.2) ; pas de défilement automatique si l'utilisateur demande moins
+  // d'animations. Seule la première capture est chargée avec la page : chaque
+  // suivante l'est juste avant d'être montrée (data-src → src).
   function initHeroPreview() {
     const preview = document.querySelector('[data-hero-preview]');
     if (!preview) return;
@@ -955,8 +692,7 @@
     const label = preview.querySelector('[data-preview-label]');
     const link = preview.querySelector('[data-preview-link]');
     const win = preview.querySelector('[data-hero-window]');
-    const deck = preview.querySelector('.hero__deck');
-    const deckImages = Array.from(preview.querySelectorAll('[data-deck-img]'));
+    const pauseButton = preview.querySelector('[data-preview-pause]');
     if (shots.length < 2) return;
 
     const DELAY = 4500;
@@ -964,7 +700,17 @@
     let timer = null;
     let hovered = false;
     let pinned = false;
+    let paused = false;
     let visible = true;
+
+    function load(index) {
+      const shot = shots[(index + shots.length) % shots.length];
+      if (!shot || !shot.dataset.src) return;
+      if (shot.dataset.srcset) shot.srcset = shot.dataset.srcset;
+      shot.src = shot.dataset.src;
+      delete shot.dataset.src;
+      delete shot.dataset.srcset;
+    }
 
     preview.style.setProperty('--hero-delay', DELAY + 'ms');
 
@@ -979,6 +725,8 @@
     function show(index) {
       current = (index + shots.length) % shots.length;
       const shot = shots[current];
+      load(current);
+      load(current + 1);
       shots.forEach((el, i) => el.classList.toggle('is-active', i === current));
       dots.forEach((el, i) => {
         el.classList.toggle('is-active', i === current);
@@ -991,12 +739,6 @@
         link.href = shot.dataset.url;
         link.setAttribute('aria-label', 'Ouvrir la démo : ' + shot.dataset.label);
       }
-      // La pile derrière la fenêtre montre toujours les démos suivantes.
-      deckImages.forEach((img, i) => {
-        img.src = shots[(current + i + 1) % shots.length].getAttribute('src');
-      });
-      replay(deck, 'is-shuffling');
-      replay(win, 'is-loading');
       preview.dispatchEvent(new CustomEvent('herodemo', { detail: { index: current } }));
     }
 
@@ -1008,7 +750,8 @@
 
     function start() {
       stop();
-      if (pinned || prefersReducedMotion() || hovered || document.hidden || !visible) return;
+      if (pinned || paused || prefersReducedMotion() || hovered || document.hidden || !visible) return;
+      load(current + 1);
       timer = window.setInterval(() => show(current + 1), DELAY);
       // Le remplissage du point actif repart de zéro, calé sur le minuteur.
       replay(preview, 'is-autoplay');
@@ -1024,6 +767,25 @@
         start();
       });
     });
+
+    function setPaused(value) {
+      paused = value;
+      preview.classList.toggle('is-paused', paused);
+      if (pauseButton) {
+        pauseButton.setAttribute('aria-pressed', String(paused));
+        pauseButton.setAttribute('aria-label', paused
+          ? 'Reprendre le défilement des démos'
+          : 'Mettre en pause le défilement des démos');
+      }
+      if (paused) stop();
+      else start();
+    }
+
+    if (pauseButton) {
+      // Sans défilement automatique (moins d'animations demandé), le bouton n'a pas lieu d'être.
+      if (prefersReducedMotion()) pauseButton.hidden = true;
+      pauseButton.addEventListener('click', () => setPaused(!paused));
+    }
 
     preview.addEventListener('mouseenter', () => { hovered = true; stop(); });
     preview.addEventListener('mouseleave', () => { hovered = false; start(); });

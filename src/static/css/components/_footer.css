@@ -104,6 +104,35 @@ html[data-theme="dark"] .footer {
   text-decoration: none;
 }
 
+/* « Gérer les cookies » : un bouton (il rouvre le bandeau), habillé comme les liens. */
+.footer__cookies {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--footer-strong);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.footer__cookies:hover {
+  color: var(--footer-link-hover);
+}
+
+.footer__cookies:focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Liens du pied de page : zone de clic d'au moins 24 px de haut (WCAG 2.5.8). */
+.footer__col li > a,
+.footer__cookies {
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
+}
+
 .footer__bottom {
   max-width: var(--content-max);
   margin: 0 auto;

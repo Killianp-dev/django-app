@@ -121,7 +121,9 @@ class RetourAccueilTests(TestCase):
             for page in ["", "offres/", "contact/"]:
                 with self.subTest(site=key, page=page):
                     html = self.client.get(prefix + page).content.decode()
-                    self.assertIn('class="vitrine-demo-banner__link"', html)
+                    self.assertRegex(html, r'class="demo-banner__marque" href="/"')
+                    self.assertIn('class="demo-banner__retour" href="/#exemples"', html)
+                    self.assertIn("Démo réalisée par <strong>killianp.dev</strong>", html)
                     self.assertRegex(html, r'class="demo-cta-flottant__retour" href="/"')
                     self.assertIn("vitrine/js/demo_cta.js", html)
 
@@ -272,3 +274,51 @@ class FiltresTypographiquesTests(TestCase):
         self.assertEqual(fr_typo("dès 95 € HT / m²"), "dès 95\u00a0€\u00a0HT\u202f/\u202fm²")
         self.assertEqual(fr_typo("3,00 × 2,15 m"), "3,00\u202f×\u202f2,15\u00a0m")
         self.assertEqual(milliers(1100), "1\u00a0100")
+
+
+class AuditCorrectionsDemosTests(TestCase):
+    """Corrections de l'audit du 24/11/2026 sur les démos."""
+
+    def test_numeros_de_fiction_et_adresses_non_attribuables(self):
+        # Plage 01 99 00 réservée à la fiction par l'ARCEP ; domaine .example (RFC 2606).
+        for key, site in SITES.items():
+            with self.subTest(site=key):
+                self.assertTrue(site.telephone.startswith("01 99 00 "), site.telephone)
+                self.assertTrue(site.email.endswith(".example"), site.email)
+
+    def test_pas_de_canonical_sur_une_page_noindex(self):
+        for key, prefix in PREFIXES.items():
+            with self.subTest(site=key):
+                html = self.client.get(prefix + "?utm_source=test").content.decode()
+                self.assertIn('content="noindex, follow"', html)
+                self.assertNotIn('rel="canonical"', html)
+                self.assertIn(f'<meta property="og:url" content="https://www.killianp-dev.fr{prefix}">', html)
+                self.assertIn('property="og:image"', html)
+
+    def test_donnees_structurees_pointent_vers_la_demo(self):
+        for key, prefix in PREFIXES.items():
+            with self.subTest(site=key):
+                html = self.client.get(prefix).content.decode()
+                bloc = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S).group(1)
+                self.assertEqual(json.loads(bloc)["url"], f"https://www.killianp-dev.fr{prefix}")
+
+    def test_robot_ecarte_sans_email(self):
+        from django.core import mail
+        for key, prefix in PREFIXES.items():
+            with self.subTest(site=key):
+                reponse = self.client.post(prefix + "contact/", {
+                    "name": "Robot", "email": "robot@example.com", "message": "Bonjour", "consent": "on",
+                })
+                self.assertRedirects(reponse, prefix + "contact/succes/")
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_visiteur_reel_envoie_le_message(self):
+        import time
+        from django.core import mail
+        from contact_form.forms import sign_rendered_at
+        reponse = self.client.post(PREFIXES["coiffeur"] + "contact/", {
+            "name": "Claire", "email": "claire@example.com", "message": "Une coupe samedi ?",
+            "consent": "on", "rendered_at": sign_rendered_at(time.time() - 30),
+        })
+        self.assertRedirects(reponse, PREFIXES["coiffeur"] + "contact/succes/")
+        self.assertEqual(len(mail.outbox), 1)

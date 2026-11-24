@@ -40,39 +40,7 @@
     border-width: 0;
 }
 
-/* Bandeau démo */
-.vitrine-demo-banner {
-    background-color: #2A2420;
-    border-bottom: 1px solid #7C5C3E;
-    padding: 0.65rem 0;
-    text-align: center;
-    position: relative;
-    z-index: 101;
-}
 
-.vitrine-demo-banner__content {
-    max-width: var(--container-max-width);
-    margin: 0 auto;
-    padding: 0 var(--container-padding);
-}
 
-.vitrine-demo-banner__text {
-    width: 100%;
-    max-width: none;
-    margin: 0 auto;
-    font-size: 0.8125rem;
-    color: #E8DFD3;
-    letter-spacing: 0.01em;
-    text-align: center;
-}
 
-.vitrine-demo-banner__link {
-    color: #D9B48F;
-    text-decoration: underline;
-    font-weight: 600;
-    white-space: nowrap;
-}
 
-.vitrine-demo-banner__link:hover {
-    color: #fff;
-}

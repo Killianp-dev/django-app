@@ -4,7 +4,7 @@ import logging
 
 from django.conf import settings
 from django.core.mail import send_mail
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import FormView, TemplateView
 
@@ -28,7 +28,8 @@ def _schema_org(site, request):
         "description": site.description,
         "telephone": site.telephone,
         "email": site.email,
-        "url": request.build_absolute_uri("/"),
+        # Adresse de la démo elle-même (et non l'accueil du portfolio).
+        "url": f"{settings.SITE_URL}{reverse(f'{request.resolver_match.namespace}:home')}",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": site.adresse,
@@ -51,7 +52,8 @@ def _schema_org(site, request):
         ]
     # Compléments propres à une démo (associés, domaines, zone desservie…), facultatifs.
     data.update(getattr(site, "schema_extra", None) or {})
-    return json.dumps(data, ensure_ascii=False)
+    # « </ » échappé : le texte ne peut pas refermer la balise <script> qui l'entoure.
+    return json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
 
 
 class SiteMixin:
@@ -161,6 +163,17 @@ class ContactView(SiteMixin, FormView):
 
     def get_success_url(self):
         return reverse(f"{self.request.resolver_match.namespace}:contact_success")
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        reason = form.rejection_reason()
+        if reason:
+            # Robot : la page de succès habituelle, sans e-mail.
+            logger.info("Rejet du formulaire de la vitrine (motif=%s)", reason)
+            return HttpResponseRedirect(self.get_success_url())
+        if form.is_valid():
+            return self.form_valid(form)
+        return self.form_invalid(form)
 
     def form_valid(self, form):
         data = form.cleaned_data

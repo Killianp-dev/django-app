@@ -44,10 +44,6 @@
 
 
 
-html[data-theme="dark"] .hero__scroll:hover .hero__scroll-line {
-  box-shadow: 0 0 16px rgba(var(--accent-glow-rgb), 0.55);
-}
-
 /* Boutons */
 .hero-btn::before,
 .btn::before,
@@ -178,10 +174,6 @@ html[data-theme="dark"] .footer a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__scroll-line {
-    animation: none;
-  }
-
   .hero-btn:hover::before,
   .btn:hover::before,
   .btn.btn--outline:hover::before,

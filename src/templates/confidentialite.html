@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Confidentialité et cookies · killianp.dev{% endblock %}
+{% block extra_head %}
+{% include "partials/seo.html" with title="Confidentialité et cookies · killianp.dev" description="Quelles données le site killianp.dev recueille, pourquoi, combien de temps elles sont gardées, et comment exercer vos droits ou changer votre choix sur les cookies." %}
+{% endblock %}
+{% block content %}
+<div class="mentions-legales">
+    <h1>Confidentialité et cookies</h1>
+    <p class="mentions-legales__meta">Mise à jour le 24 novembre 2026.</p>
+
+    <section>
+        <h2>Responsable du traitement</h2>
+        <p><strong>Killian&nbsp;P.</strong>, entrepreneur individuel, nom commercial Neuralab, 8 bis rue Abel, 75012 Paris. Pour toute question sur vos données : <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>.</p>
+    </section>
+
+    <section>
+        <h2>Formulaire de contact</h2>
+        <p><strong>Données :</strong> votre nom, votre adresse e-mail, le sujet et le message que vous écrivez.</p>
+        <p><strong>Usage :</strong> vous répondre, puis préparer un devis si vous le demandez. Rien n'est revendu ni utilisé pour de la publicité.</p>
+        <p><strong>Base légale :</strong> les mesures précontractuelles prises à votre demande (art. 6.1.b du RGPD).</p>
+        <p><strong>Durée :</strong> trois ans après notre dernier échange, sauf si nous travaillons ensemble : les données suivent alors la durée du contrat et les obligations comptables.</p>
+        <p><strong>Destinataires :</strong> moi seul. Le message est enregistré sur le serveur du site (IONOS, en France) et transmis à ma boîte e-mail.</p>
+    </section>
+
+    <section>
+        <h2>Mesure d'audience</h2>
+        <p>Si vous l'acceptez dans le bandeau, le site utilise <strong>Google Analytics</strong> pour compter les visites et voir quelles pages sont lues. Sans votre accord, le script n'est pas chargé et aucun cookie n'est déposé.</p>
+        <p><strong>Base légale :</strong> votre consentement (art. 82 de la loi Informatique et Libertés).</p>
+        <p><strong>Cookies :</strong> <code>_ga</code> et <code>_ga_*</code>, conservés 13 mois au plus. Google LLC peut traiter ces données aux États-Unis, dans le cadre du Data Privacy Framework.</p>
+        <p><strong>Votre choix :</strong> il est gardé six mois sur cet appareil, puis la question vous est reposée. Vous pouvez le changer à tout moment :</p>
+        <p><button class="legal-cookie-btn" type="button" data-cookie-settings>Gérer les cookies</button></p>
+    </section>
+
+    <section>
+        <h2>Autres données techniques</h2>
+        <p>Le thème choisi (clair ou sombre) et votre choix sur les cookies sont gardés dans votre navigateur (stockage local). Ils ne quittent pas votre appareil.</p>
+        <p>Le serveur tient un journal technique des visites (adresse IP, page demandée, date) pour la sécurité du site. Ces journaux ne servent à rien d'autre.</p>
+        <p>Les polices du site sont hébergées sur le site lui-même : votre navigateur ne contacte pas de service tiers pour les afficher.</p>
+    </section>
+
+    <section>
+        <h2>Vos droits</h2>
+        <p>Vous pouvez demander l'accès à vos données, leur rectification, leur effacement, leur portabilité, ou vous opposer à leur traitement, en écrivant à <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>. Réponse sous un mois.</p>
+        <p>Si la réponse ne vous satisfait pas, vous pouvez saisir la <a href="https://www.cnil.fr/fr/plaintes" rel="noopener">CNIL</a>.</p>
+    </section>
+</div>
+{% endblock %}

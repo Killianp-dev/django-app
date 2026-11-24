@@ -17,6 +17,44 @@ def sign_rendered_at(timestamp=None):
     return signing.dumps(timestamp, salt=RENDERED_AT_SALT)
 
 
+def spam_reason(data):
+    """
+    Motif de rejet silencieux d'un envoi, ou None si l'envoi peut être traité.
+
+    Ne journalise rien et ne lève pas d'erreur de validation : le visiteur
+    (ou le robot) doit voir la page de succès habituelle.
+    Vérifie le piège « website », l'heure d'affichage signée (ni trop tôt,
+    ni trop tard) et le nombre de liens dans le message.
+    """
+    website = (data.get('website') or '').strip()
+    if website:
+        return 'honeypot'
+
+    token = (data.get('rendered_at') or '').strip()
+    if not token:
+        return 'signature_absente'
+    try:
+        rendered_at = signing.loads(token, salt=RENDERED_AT_SALT, max_age=MAX_SUBMIT_SECONDS)
+    except signing.SignatureExpired:
+        return 'delai_depasse'
+    except signing.BadSignature:
+        return 'signature_invalide'
+
+    try:
+        elapsed = time.time() - float(rendered_at)
+    except (TypeError, ValueError):
+        return 'signature_invalide'
+    if elapsed < MIN_SUBMIT_SECONDS:
+        return 'trop_rapide'
+    if elapsed > MAX_SUBMIT_SECONDS:
+        return 'delai_depasse'
+
+    message = data.get('message') or ''
+    if len(_LINK_RE.findall(message)) > 1:
+        return 'liens_multiples'
+    return None
+
+
 class ContactForm(forms.Form):
     """
     Formulaire de contact simple avec nom, email, sujet et message.
@@ -26,14 +64,15 @@ class ContactForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Entrez votre nom'
+            'autocomplete': 'name',
         })
     )
     email = forms.EmailField(
         label='Votre email',
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Entrez votre email'
+            'autocomplete': 'email',
+            'placeholder': 'nom@exemple.fr',
         })
     )
     subject = forms.CharField(
@@ -42,15 +81,16 @@ class ContactForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Sujet (optionnel)'
+            'placeholder': 'Facultatif',
         })
     )
     message = forms.CharField(
         label='Message',
+        max_length=5000,
         widget=forms.Textarea(attrs={
             'class': 'form-control',
-            'rows': 20,
-            'placeholder': 'Votre message'
+            'rows': 8,
+            'placeholder': 'Votre métier, votre ville, et comment vos clients vous cherchent.',
         })
     )
     # Piège à robots : laissé vide par un visiteur, souvent rempli par un bot.
@@ -74,43 +114,8 @@ class ContactForm(forms.Form):
             self.fields['rendered_at'].initial = sign_rendered_at()
 
     def rejection_reason(self):
-        """
-        Motif de rejet silencieux, ou None si l'envoi peut être traité.
-
-        Ne journalise rien et ne lève pas d'erreur de validation : le visiteur
-        (ou le robot) doit voir la page de succès habituelle.
-        """
-        website = (self.data.get('website') or '').strip()
-        if website:
-            return 'honeypot'
-
-        token = (self.data.get('rendered_at') or '').strip()
-        if not token:
-            return 'signature_absente'
-        try:
-            rendered_at = signing.loads(
-                token,
-                salt=RENDERED_AT_SALT,
-                max_age=MAX_SUBMIT_SECONDS,
-            )
-        except signing.SignatureExpired:
-            return 'delai_depasse'
-        except signing.BadSignature:
-            return 'signature_invalide'
-
-        try:
-            elapsed = time.time() - float(rendered_at)
-        except (TypeError, ValueError):
-            return 'signature_invalide'
-        if elapsed < MIN_SUBMIT_SECONDS:
-            return 'trop_rapide'
-        if elapsed > MAX_SUBMIT_SECONDS:
-            return 'delai_depasse'
-
-        message = self.data.get('message') or ''
-        if len(_LINK_RE.findall(message)) > 1:
-            return 'liens_multiples'
-        return None
+        """Motif de rejet silencieux, ou None : voir spam_reason()."""
+        return spam_reason(self.data)
 
     def clean_name(self):
         name = self.cleaned_data.get('name')

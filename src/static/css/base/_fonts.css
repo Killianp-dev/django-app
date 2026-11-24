@@ -1,0 +1,56 @@
+/* ==================================================
+   POLICES — servies par le site, sans appel à un service tiers
+   Sous-ensemble latin (contient œ, ’, €). Licence : static/fonts/LICENCE.md
+   ================================================= */
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../../fonts/InstrumentSans-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../../fonts/InstrumentSans-italic-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/InstrumentSerif-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../fonts/InstrumentSerif-italic-latin.woff2") format("woff2");
+}
+
+/* Polices de repli calées sur les métriques d'Instrument : pendant le chargement,
+   le texte occupe déjà la même place, rien ne bouge au remplacement (CLS). */
+@font-face {
+  font-family: "Instrument Serif Fallback";
+  src: local("Times New Roman"), local("Liberation Serif"), local("Tinos"), local("Georgia");
+  size-adjust: 83%;        /* largeur mesurée : Instrument Serif / Times = 0,830 */
+  ascent-override: 119.3%; /* 0,99 em / 0,83 */
+  descent-override: 37.3%; /* 0,31 em / 0,83 */
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Instrument Sans Fallback";
+  src: local("Arial"), local("Liberation Sans"), local("Arimo"), local("Helvetica");
+  size-adjust: 101.8%;     /* largeur mesurée : Instrument Sans / Arial = 1,018 */
+  ascent-override: 95.3%;  /* 0,97 em / 1,018 */
+  descent-override: 24.6%; /* 0,25 em / 1,018 */
+  line-gap-override: 0%;
+}

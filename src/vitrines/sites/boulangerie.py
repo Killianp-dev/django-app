@@ -22,9 +22,9 @@ BOULANGERIE = _site(
     nature="une boulangerie fictive",
     adresse="27 rue Cler",
     code_postal="75007",
-    telephone="01 45 51 12 12",
-    telephone_lien="0145511212",
-    email="contact@maison-caron-demo.fr",
+    telephone="01 99 00 51 12",
+    telephone_lien="0199005112",
+    email="contact@maison-caron.example",
     horaires="Mardi au samedi, 7h–19h30. Dimanche, 7h–13h. Fermé le lundi.",
     titre="Maison Caron — Boulangerie à Paris",
     description="Boulangerie fictive à Paris. Pains au levain, viennoiseries pur beurre, pâtisserie et gâteaux sur commande. Démonstration de site vitrine.",
@@ -56,7 +56,7 @@ BOULANGERIE = _site(
     reperes=[
         _ns(label="Adresse", value="27 rue Cler", href=""),
         _ns(label="Ouvert", value="Du mardi au dimanche", href=""),
-        _ns(label="Téléphone", value="01 45 51 12 12", href="tel:0145511212"),
+        _ns(label="Téléphone", value="01 99 00 51 12", href="tel:0199005112"),
         _ns(label="Commandes", value="48 h avant", href=""),
     ],
     engagements=[
@@ -72,7 +72,7 @@ BOULANGERIE = _site(
     contact_aside=_ns(
         titre="Appeler la boutique",
         texte="Pour une commande, appelez plutôt entre 14h et 17h : le fournil est plus calme.",
-        liens=[_ns(label="01 45 51 12 12", href="tel:0145511212")],
+        liens=[_ns(label="01 99 00 51 12", href="tel:0199005112")],
         lignes=["27 rue Cler, 75007 Paris", "Métro École Militaire"],
     ),
     labels=_ns(
@@ -118,7 +118,7 @@ BOULANGERIE = _site(
         signature_title="Ce qui sort du four, et quand",
     ),
     mail_tag="boulangerie",
-    photos=_ns(hero="vitrine/photos/boulangerie/hero-comptoir.jpg", about="vitrine/photos/boulangerie/maison.jpg"),
+    photos=_ns(hero="vitrine/photos/boulangerie/hero-levain.jpg", hero_w=1000, hero_h=1250, about="vitrine/photos/boulangerie/maison.jpg"),
     schema_type="Bakery",
     horaires_semaine=[
         _jour("Lundi", "Lun"),
@@ -169,7 +169,7 @@ BOULANGERIE = _site(
             "pains", "Pains", "Levain, tradition, spéciaux.",
             "Plusieurs fournées dans la matinée. Le levain pousse seize heures, la tradition est façonnée à la main, et le pain de seigle sort le mercredi et le samedi.",
             ["Baguette de tradition Label Rouge", "Pain au levain naturel", "Complet, seigle et graines", "Pains spéciaux selon le jour"],
-            "vitrine/photos/boulangerie/pains-levain.jpg",
+            "vitrine/photos/boulangerie/realisations/vitrine-pains.jpg",
             prix="1,30 à 6,80 €", duree="dès 7h",
             suite="Le pain au levain se garde quatre à cinq jours dans un torchon. On le coupe en boutique si vous le souhaitez.",
         ),

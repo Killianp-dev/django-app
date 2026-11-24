@@ -105,6 +105,8 @@ Guide pas à pas : [DEPLOY.md](DEPLOY.md) (Gunicorn, systemd, Nginx, Let’s Enc
 
 Minimum : `DEBUG=False`, secrets uniquement dans `.env`, `collectstatic`, HTTPS, et un utilisateur PostgreSQL dédié.
 
+Les fichiers statiques sont servis sous des noms hachés (`ManifestStaticFilesStorage`) : avec `DEBUG=False`, `collectstatic` est obligatoire avant de démarrer, sinon les pages renvoient une erreur 500. En développement (`DEBUG=True`), rien à faire.
+
 ## Licence
 
 Tous droits réservés © 2026 Killian P. (Neuralab).

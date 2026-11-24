@@ -5,7 +5,7 @@
 (function () {
   var el = document.querySelector('[data-demo-cta]');
   if (!el) return;
-  var banner = document.querySelector('.vitrine-demo-banner');
+  var banner = document.querySelector('.demo-banner');
   var actionbar = document.querySelector('.vitrine-actionbar');
   var KEY = 'demo-cta-replie';
 

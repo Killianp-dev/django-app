@@ -85,7 +85,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'config.middleware.SecurityHeadersMiddleware',
 ]
+
+# CSP : d'abord en « Report-Only » (rien n'est bloqué, les écarts s'affichent dans la
+# console). Après quelques jours sans écart, passer à False pour l'appliquer.
+CSP_REPORT_ONLY = env.bool('CSP_REPORT_ONLY', default=True)
 
 # Rechargement automatique : uniquement en développement.
 if DEBUG:
@@ -189,6 +194,17 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+# Noms de fichiers hachés à collectstatic (main.3f2a9c.css) : chaque modification change
+# l'adresse, les fichiers peuvent donc être mis en cache un an (« immutable », côté Nginx).
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"},
+}
+if 'test' in sys.argv:
+    # Pas de collectstatic avant les tests : pas de manifeste à lire.
+    STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

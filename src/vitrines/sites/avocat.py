@@ -12,9 +12,9 @@ AVOCAT = _site(
     nature="un cabinet d'avocats fictif",
     adresse="12 boulevard Malesherbes",
     code_postal="75008",
-    telephone="01 42 65 12 34",
-    telephone_lien="0142651234",
-    email="contact@aubert-clerc-demo.fr",
+    telephone="01 99 00 12 34",
+    telephone_lien="0199001234",
+    email="contact@aubert-clerc.example",
     horaires="Du lundi au vendredi, 9h–18h, sur rendez-vous.",
     titre="Aubert & Clerc — Avocats à Paris",
     description="Cabinet d'avocats fictif à Paris. Droit de la famille, du travail, immobilier, des affaires et pénal. Honoraires annoncés par écrit. Démonstration de site vitrine.",
@@ -49,7 +49,7 @@ AVOCAT = _site(
     reperes=[
         _ns(label="Barreau", value="Paris", href=""),
         _ns(label="Rendez-vous", value="Sous 48 h", href=""),
-        _ns(label="Téléphone", value="01 42 65 12 34", href="tel:0142651234"),
+        _ns(label="Téléphone", value="01 99 00 12 34", href="tel:0199001234"),
         _ns(label="Honoraires", value="Fixés par écrit", href=""),
     ],
     engagements=[
@@ -65,7 +65,7 @@ AVOCAT = _site(
     contact_aside=_ns(
         titre="Joindre le cabinet",
         texte="Le secrétariat répond de 9h à 18h. En cas de garde à vue, appelez directement : une ligne est tenue le soir et le week-end.",
-        liens=[_ns(label="01 42 65 12 34", href="tel:0142651234")],
+        liens=[_ns(label="01 99 00 12 34", href="tel:0199001234")],
         lignes=["12 boulevard Malesherbes, 75008 Paris", "Métro Madeleine"],
     ),
     labels=_ns(

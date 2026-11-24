@@ -19,7 +19,7 @@
                 {% csrf_token %}
                 {% if form.non_field_errors %}<div class="formulaire__erreurs" role="alert">{{ form.non_field_errors }}</div>{% endif %}
                 {% for field in form %}
-                    {% if field.name == 'website' %}
+                    {% if field.name == 'website' or field.is_hidden %}
                         {{ field }}
                     {% elif field.name == 'consent' %}
                         <div class="formulaire__case">

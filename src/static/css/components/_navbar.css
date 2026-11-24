@@ -1112,3 +1112,37 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
     transition: none !important;
   }
 }
+
+/* ---------- Bascule de thème ----------
+   La nouvelle teinte s'étend en cercle depuis le bouton. L'en-tête rejoint
+   la page le temps de la bascule pour s'éclairer avec elle. */
+html.theme-vt .navbar {
+  view-transition-name: none;
+}
+
+html.theme-vt::view-transition-old(root) {
+  animation: none;
+}
+
+html.theme-vt::view-transition-new(root) {
+  animation: themeReveal 0.7s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes themeReveal {
+  from {
+    clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 0));
+  }
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 100%) var(--vt-y, 0));
+  }
+}
+
+/* Au doigt : boutons de thème et de menu à 44 px (cible tactile recommandée). */
+@media (pointer: coarse) {
+  .theme-toggle,
+  .hamburger {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+}

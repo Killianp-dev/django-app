@@ -8,8 +8,8 @@
     {% endif %}
     <div class="vitrine-container pro-hero__inner">
         <div class="pro-hero__content">
-            <span class="pro-hero__eyebrow">{{ site.eyebrow }}</span>
-            <h1 class="pro-hero__title" id="hero-title">{{ site.hero_title|default:site.nom }}</h1>
+            {# Le métier et la ville font partie du titre (h1) : c'est ce que tape le client. #}
+            <h1 class="pro-hero__title" id="hero-title"><span class="pro-hero__eyebrow">{{ site.eyebrow }}</span> <span class="pro-hero__nom">{{ site.hero_title|default:site.nom }}</span></h1>
             <p class="pro-hero__lead">{{ site.accroche }}</p>
             <div class="pro-hero__actions">
                 <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">{{ site.labels.nav_cta }}</a>
@@ -29,7 +29,7 @@
         {% if site.hero_variant != 'full' %}
         <div class="pro-hero__visual">
             <div class="pro-hero__media">
-                <img src="{% static site.photos.hero %}" alt="{{ site.nom }}" width="1800" height="1200" fetchpriority="high">
+                <img src="{% static site.photos.hero %}" alt="{{ site.nom }}" width="{{ site.photos.hero_w|default:1800 }}" height="{{ site.photos.hero_h|default:1200 }}" fetchpriority="high">
             </div>
             {% include 'vitrine/sites/boulangerie/partials/pro/hero_card.html' %}
         </div>

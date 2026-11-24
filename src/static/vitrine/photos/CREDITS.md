@@ -14,7 +14,7 @@ escalier-pierre yU6jgWSF0lI, mur-brique MXPWld5uysw, allee-pierre 7iDFxq7iGzg,
 pierre-taille lIfTHqLv8XM, maison-livree uZdM4vtKAlo
 
 ## Boulangerie (`boulangerie/`)
-hero-comptoir 07bBNmiV7ag · maison EMrQRZ95r2g · viennoiseries-croissants sqkXyyj4WdE ·
+hero-levain (= pains-levain, recompressée) · maison EMrQRZ95r2g · viennoiseries-croissants sqkXyyj4WdE ·
 patisserie-tartes 1WmlAiYgnoI · snacking-sandwich ALdqE24vvFo · pains-levain (photo d'origine du projet) ·
 realisations : vitrine-patisseries pVY9k8pzTzM, faconnage 4mEC6PZZaM0, croissants-plaque ikCfEh8ZR94,
 brioche lT2pft3tawE, vitrine-pains R3iAcQxylmE, petit-dejeuner Ns2aJ5OXKds,

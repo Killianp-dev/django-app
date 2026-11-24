@@ -11,10 +11,6 @@
   overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
 }
 
-/* Bandeau de démonstration (vitrine/partials/demo_banner.html) */
-.vitrine-demo-banner { background: var(--graphite); color: var(--sur-sombre-doux); font-size: var(--t-sm); padding: 0.55rem var(--gouttiere); text-align: center; }
-.vitrine-demo-banner__text { margin: 0 auto; max-width: none; }
-.vitrine-demo-banner__link { color: #fff; font-weight: 600; white-space: nowrap; }
 
 /* Barre d'action mobile (vitrine/partials/mobile_actions.html) */
 .vitrine-actionbar { display: none; }

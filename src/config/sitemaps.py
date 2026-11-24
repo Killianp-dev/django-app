@@ -44,6 +44,7 @@ class StaticSitemap(Sitemap):
         "contact_form:contact": 0.6,
         "blog:notes": 0.3,
         "cgv": 0.2,
+        "confidentialite": 0.1,
         "mentions_legales": 0.1,
     }
 

@@ -1,14 +1,25 @@
-{% load static %}
-
-<!doctype html>
+{% load static %}<!doctype html>
 <html lang="fr" data-theme="dark">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#131315">
 <!-- Google Analytics : chargé uniquement après « Accepter » dans le bandeau cookies
-     (ou à la visite suivante si le visiteur avait déjà accepté). Rien n'est déposé avant. -->
+     (ou à la visite suivante si le visiteur avait déjà accepté). Rien n'est déposé avant.
+     Le choix vaut six mois (recommandation CNIL), puis le bandeau revient. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  window.CONSENT_MAX_AGE = 1000 * 60 * 60 * 24 * 182;
+  window.consentChoice = function () {
+    try {
+      var choice = localStorage.getItem('cookie-consent');
+      var date = parseInt(localStorage.getItem('cookie-consent-date'), 10);
+      if (!choice || !date || Date.now() - date > window.CONSENT_MAX_AGE) return null;
+      return choice;
+    } catch (e) { return null; }
+  };
   window.loadAnalytics = function () {
     if (window.analyticsLoaded) return;
     window.analyticsLoaded = true;
@@ -19,14 +30,8 @@
     gtag('js', new Date());
     gtag('config', 'G-8JDMEJJK4S');
   };
-  try {
-    if (localStorage.getItem('cookie-consent') === 'accepted') window.loadAnalytics();
-  } catch (e) {}
+  if (window.consentChoice() === 'accepted') window.loadAnalytics();
 </script>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#131315">
     <title>{% block title %}{% endblock %}</title>
     {% block extra_head %}{% endblock %}
     <script>
@@ -35,6 +40,7 @@
         var theme = 'dark';
         try { if (localStorage.getItem('theme') === 'light') theme = 'light'; } catch (e) {}
         document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f5f2ed');
       })();
       /* Animations Motion (js/anim.js) : seulement si le visiteur les accepte. Filet de
          sécurité : si le script n'a pas démarré au bout de 2,5 s, on rend tout visible. */
@@ -45,14 +51,10 @@
         setTimeout(function () { if (!window.__animStarted) root.classList.remove('anim'); }, 2500);
       })();
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap">
-    </noscript>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}?v=20261123-filet">
+    {# Polices servies par le site (aucun appel à Google) : les deux plus visibles en préchargement. #}
+    <link rel="preload" href="{% static 'fonts/InstrumentSerif-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{% static 'fonts/InstrumentSans-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+    {% include "partials/styles.html" %}
     <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20261123" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20261123">
     <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20261123">
@@ -123,11 +125,10 @@
     </div>
 </header>
 
-{% block pull_cord %}{% endblock %}
-
 <!-- Contenu principal -->
-<div id="main-content" tabindex="-1"></div>
+<main id="main-content" tabindex="-1">
 {% block content %}{% endblock %}
+</main>
 
 
 <!-- Footer -->
@@ -162,20 +163,22 @@
                 <li><a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a></li>
                 <li><a href="https://github.com/Killianp-dev" target="_blank" rel="noopener">GitHub</a></li>
                 <li><a href="{% url 'mentions_legales' %}">Mentions légales</a></li>
+                <li><a href="{% url 'confidentialite' %}">Confidentialité</a></li>
                 <li><a href="{% url 'cgv' %}">CGV</a></li>
+                <li><button class="footer__cookies" type="button" data-cookie-settings>Gérer les cookies</button></li>
             </ul>
         </div>
     </div>
     <div class="footer__bottom">
-        <p>&copy; 2026 killianp-dev — Tous droits réservés</p>
+        <p>&copy; 2026 killianp.dev, par Neuralab. Tous droits réservés.</p>
         <p><a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a></p>
     </div>
 </footer>
 
-<div id="cookieModal" class="cookie-bar" role="dialog" aria-labelledby="cookieBarTitle">
+<div id="cookieModal" class="cookie-bar" role="region" aria-labelledby="cookieBarTitle">
     <div class="cookie-bar__text">
         <p id="cookieBarTitle" class="cookie-bar__title">Cookies de mesure d'audience</p>
-        <p>Ce site dépose des cookies Google Analytics pour compter les visites et voir quelles pages sont consultées. Ils ne servent pas à afficher de publicité. Accepter active cette mesure ; refuser la laisse désactivée. Le choix est enregistré sur cet appareil.</p>
+        <p>Ce site dépose des cookies Google Analytics pour compter les visites et voir quelles pages sont consultées. Ils ne servent pas à afficher de publicité. Accepter active cette mesure ; refuser la laisse désactivée. Votre choix est gardé six mois sur cet appareil. <a href="{% url 'confidentialite' %}">En savoir plus</a></p>
     </div>
     <div class="cookie-bar__actions">
         <button id="declineCookies" class="cookie-bar__button" type="button">Refuser</button>
@@ -202,9 +205,9 @@
   }]
 }
 </script>
-<script defer src="{% static 'vendor/motion/motion.min.js' %}?v=12.43.0"></script>
-<script defer src="{% static 'js/anim.js' %}?v=20261121-motion"></script>
-<script defer src="{% static 'js/app.js' %}?v=20261123-menu2"></script>
+<script defer src="{% static 'vendor/motion/motion.min.js' %}"></script>
+<script defer src="{% static 'js/anim.js' %}"></script>
+<script defer src="{% static 'js/app.js' %}"></script>
 </body>
 
 </html>

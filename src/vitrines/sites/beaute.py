@@ -16,9 +16,9 @@ BEAUTE = _site(
     nature="un institut de beauté fictif",
     adresse="18 rue de Charonne",
     code_postal="75011",
-    telephone="01 43 38 30 30",
-    telephone_lien="0143383030",
-    email="contact@maison-iris-demo.fr",
+    telephone="01 99 00 30 30",
+    telephone_lien="0199003030",
+    email="contact@maison-iris.example",
     horaires="Mardi au vendredi, 10h–19h, nocturne le jeudi jusqu'à 21h. Samedi, 9h–17h.",
     titre="Maison Iris — Institut de beauté à Paris",
     description="Institut de beauté fictif à Paris. Soins du visage, massages, regard, mains et pieds. Prise de rendez-vous, cartes cadeaux. Démonstration de site vitrine.",
@@ -50,7 +50,7 @@ BEAUTE = _site(
     reperes=[
         _ns(label="Adresse", value="18 rue de Charonne", href=""),
         _ns(label="Nocturne", value="Jeudi jusqu'à 21h", href=""),
-        _ns(label="Téléphone", value="01 43 38 30 30", href="tel:0143383030"),
+        _ns(label="Téléphone", value="01 99 00 30 30", href="tel:0199003030"),
         _ns(label="Cartes cadeaux", value="Valables un an", href=""),
     ],
     engagements=[
@@ -66,7 +66,7 @@ BEAUTE = _site(
     contact_aside=_ns(
         titre="Appeler l'institut",
         texte="Entre deux soins, la ligne est parfois occupée : laissez un message, on vous rappelle dans l'heure.",
-        liens=[_ns(label="01 43 38 30 30", href="tel:0143383030")],
+        liens=[_ns(label="01 99 00 30 30", href="tel:0199003030")],
         lignes=["18 rue de Charonne, 75011 Paris", "Au fond de la cour, interphone « Iris »"],
     ),
     labels=_ns(

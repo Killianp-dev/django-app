@@ -1,0 +1,28 @@
+{% load static %}{% comment %}
+Feuilles du site, dans l'ordre de la cascade. Des <link> séparés plutôt qu'un main.css à @import :
+le navigateur les découvre et les télécharge toutes ensemble (HTTP/2), sans attendre un premier fichier.
+Les noms sont hachés à collectstatic (ManifestStaticFilesStorage) : pas de ?v= à tenir à jour.
+{% endcomment %}
+<link rel="stylesheet" href="{% static 'css/base/_fonts.css' %}">
+<link rel="stylesheet" href="{% static 'css/base/_variables.css' %}">
+<link rel="stylesheet" href="{% static 'css/base/_reset.css' %}">
+<link rel="stylesheet" href="{% static 'css/base/_global.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/_navbar.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/_buttons.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/_cards.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/_footer.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/_forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/cookie-modal.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/_hero.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/_asymetric.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/_blog.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/_blog-integration.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/_offer.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/_pricing.css' %}">
+<link rel="stylesheet" href="{% static 'css/sections/_about.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/_article.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/_success.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/_metier.css' %}">
+<link rel="stylesheet" href="{% static 'css/utilities/_animations.css' %}">
+<link rel="stylesheet" href="{% static 'css/utilities/_lights.css' %}">
+<link rel="stylesheet" href="{% static 'css/utilities/_responsive.css' %}">

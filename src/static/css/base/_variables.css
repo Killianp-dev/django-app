@@ -9,7 +9,7 @@
   --color-surface: #fffdf9;
   --color-ink: #1c1a1b;
   --color-ink-soft: #46403f;
-  --color-ink-muted: #7a726f;
+  --color-ink-muted: #655e5b; /* 5,7:1 sur le fond, 5,1:1 sur le fond alternatif (WCAG AA) */
 
   --color-accent: #7a2c3a;
   --color-accent-hover: #632230;
@@ -29,7 +29,7 @@
   --brand-chip-b: #7a2c3a;
   --brand-chip-fg: #fff7f8;
 
-  --color-secondary: #7a726f;
+  --color-secondary: #655e5b;
   --color-secondary-hover: #46403f;
   --color-danger: #c2413b;
   --color-danger-hover: #9f2e28;
@@ -49,8 +49,8 @@
   color-scheme: light;
 
   /* Typo */
-  --font-sans: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-serif: "Instrument Serif", "Times New Roman", Georgia, serif;
+  --font-sans: "Instrument Sans", "Instrument Sans Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Serif", "Instrument Serif Fallback", "Times New Roman", Georgia, serif;
 
   /* Ombres */
   --shadow-sm: 0 1px 2px rgba(20, 24, 31, 0.05);

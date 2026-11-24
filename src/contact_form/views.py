@@ -21,6 +21,30 @@ def spam_rejection_reason(form):
     return reason
 
 
+def handle_contact(form):
+    """Enregistre le message, puis le transmet par e-mail.
+
+    Le message est d'abord en base : si le serveur d'e-mail ne répond pas, rien
+    n'est perdu, l'erreur est journalisée et le visiteur voit la page de succès."""
+    name = form.cleaned_data['name']
+    email = form.cleaned_data['email']
+    subject = form.cleaned_data.get('subject') or "Nouveau message de contact"
+    message = form.cleaned_data['message']
+
+    Contact.objects.create(name=name, email=email, subject=subject, message=message)
+
+    try:
+        send_mail(
+            subject=f"[Contact] {subject}",
+            message=f"De : {name} <{email}>\n\n{message}",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=["contact@killianp-dev.fr"],
+            fail_silently=False,
+        )
+    except Exception:
+        logger.exception("Message de contact enregistré, mais e-mail non envoyé")
+
+
 class ContactFormView(FormView):
     template_name = "contact_form/contact_form.html"
     form_class = ContactForm
@@ -35,29 +59,7 @@ class ContactFormView(FormView):
         return self.form_invalid(form)
 
     def form_valid(self, form):
-        # On récupère les données validées
-        name = form.cleaned_data['name']
-        email = form.cleaned_data['email']
-        subject = form.cleaned_data.get('subject') or "Nouveau message de contact"
-        message = form.cleaned_data['message']
-
-        # Enregistrement dans la base de données
-        Contact.objects.create(
-            name=name,
-            email=email,
-            subject=subject,
-            message=message
-        )
-
-        # Envoi d'email
-        send_mail(
-            subject=f"[Contact] {subject}",
-            message=f"De : {name} <{email}>\n\n{message}",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=["contact@killianp-dev.fr"],
-            fail_silently=False,
-        )
-
+        handle_contact(form)
         return super().form_valid(form)
 
 

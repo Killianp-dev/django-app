@@ -167,11 +167,57 @@ class SeoTests(TestCase):
                 self.assertEqual(liens, ["/demo-macon/", "/demo-boucherie/", "/demo-boulangerie/",
                                          "/demo-coiffeur/", "/demo-institut/", "/demo-avocat/"])
 
-    def test_tirette_sur_l_accueil_et_le_blog(self):
-        post = BlogPost.objects.create(title="Article tirette", published=True)
-        avec = [reverse("index"), reverse("blog:home"), reverse("blog:notes"), post.get_absolute_url()]
-        sans = [reverse("mentions_legales"), reverse("cgv")]
-        for url in avec + sans:
+    def test_plus_de_tirette(self):
+        # La tirette de thème a été retirée : seul le bouton de l'en-tête bascule le thème.
+        post = BlogPost.objects.create(title="Article sans tirette", published=True)
+        for url in [reverse("index"), reverse("blog:home"), post.get_absolute_url(), reverse("cgv")]:
             with self.subTest(url=url):
                 html = self.client.get(url).content.decode()
-                self.assertEqual("data-pull-cord" in html, url in avec)
+                self.assertNotIn("data-pull-cord", html)
+                self.assertIn('class="theme-toggle"', html)
+
+
+class AuditCorrectionsTests(TestCase):
+    """Corrections de l'audit du 24/11/2026 sur le portfolio."""
+
+    def test_page_404_du_site(self):
+        reponse = self.client.get("/page-qui-n-existe-pas/")
+        self.assertEqual(reponse.status_code, 404)
+        self.assertTemplateUsed(reponse, "404.html")
+        html = reponse.content.decode()
+        self.assertIn('<html lang="fr"', html)
+        self.assertIn('<meta name="robots" content="noindex">', html)
+        self.assertIn("/demo-avocat/", html)
+
+    def test_page_confidentialite_et_gestion_des_cookies(self):
+        html = self.client.get(reverse("confidentialite")).content.decode()
+        self.assertIn("Google Analytics", html)
+        self.assertIn("data-cookie-settings", html)
+        accueil = self.client.get(reverse("index")).content.decode()
+        self.assertIn(f'href="{reverse("confidentialite")}"', accueil)
+        self.assertIn('class="footer__cookies"', accueil)
+
+    def test_un_seul_main_et_lien_d_evitement(self):
+        for url in [reverse("index"), reverse("blog:home"), reverse("mentions_legales"), reverse("contact_form:contact")]:
+            with self.subTest(url=url):
+                html = self.client.get(url).content.decode()
+                self.assertEqual(html.count("<main"), 1)
+                self.assertIn('<main id="main-content"', html)
+
+    def test_en_tetes_de_securite(self):
+        reponse = self.client.get(reverse("index"))
+        self.assertIn("default-src 'self'", reponse.headers["Content-Security-Policy-Report-Only"])
+        self.assertIn("camera=()", reponse.headers["Permissions-Policy"])
+
+    def test_polices_servies_par_le_site(self):
+        html = self.client.get(reverse("index")).content.decode()
+        self.assertNotIn("fonts.googleapis.com", html)
+        self.assertIn("fonts/InstrumentSerif-latin.woff2", html)
+        self.assertNotIn("css/main.css", html)
+
+    def test_contact_enregistre_meme_si_l_email_echoue(self):
+        from unittest import mock
+        with mock.patch("contact_form.views.send_mail", side_effect=OSError("SMTP indisponible")):
+            reponse = self.client.post(reverse("contact_form:contact"), contact_payload())
+        self.assertRedirects(reponse, reverse("contact_form:success"))
+        self.assertEqual(Contact.objects.count(), 1)

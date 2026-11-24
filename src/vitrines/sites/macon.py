@@ -30,9 +30,9 @@ MACON = _site(
     nature="une entreprise de maçonnerie fictive",
     adresse="31 rue Saint-Maur",
     code_postal="75011",
-    telephone="01 43 55 45 45",
-    telephone_lien="0143554545",
-    email="contact@bertrand-maconnerie-demo.fr",
+    telephone="01 99 00 45 45",
+    telephone_lien="0199004545",
+    email="contact@bertrand-maconnerie.example",
     horaires="Lundi au vendredi, 7h30–17h30. Devis sur rendez-vous.",
     titre="Bertrand Maçonnerie — Maçon à Paris",
     description="Entreprise de maçonnerie fictive à Paris. Gros œuvre, rénovation, extension, extérieurs. Devis détaillé après visite. Démonstration de site vitrine.",
@@ -63,7 +63,7 @@ MACON = _site(
     reperes=[
         _ns(label="Zone", value="Paris et petite couronne", href=""),
         _ns(label="Devis", value="Sous 72 h après visite", href=""),
-        _ns(label="Téléphone", value="01 43 55 45 45", href="tel:0143554545"),
+        _ns(label="Téléphone", value="01 99 00 45 45", href="tel:0199004545"),
         _ns(label="Garantie", value="Décennale incluse", href=""),
     ],
     engagements=[
@@ -79,7 +79,7 @@ MACON = _site(
     contact_aside=_ns(
         titre="Appeler l'entreprise",
         texte="Julien rappelle dans la journée, souvent en fin de chantier, vers 17h30.",
-        liens=[_ns(label="01 43 55 45 45", href="tel:0143554545")],
+        liens=[_ns(label="01 99 00 45 45", href="tel:0199004545")],
         lignes=["31 rue Saint-Maur, 75011 Paris", "Visites du lundi au vendredi"],
     ),
     labels=_ns(

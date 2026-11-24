@@ -1,6 +1,8 @@
 """Formulaire de contact. Le message part par email, il n'est pas enregistré."""
 from django import forms
 
+from contact_form.forms import sign_rendered_at, spam_reason
+
 
 class ContactForm(forms.Form):
     website = forms.CharField(
@@ -52,12 +54,17 @@ class ContactForm(forms.Form):
             "placeholder": "Quelques lignes suffisent.",
         }),
     )
+    # Heure d'affichage signée : un robot qui poste trop vite (ou sans avoir
+    # affiché la page) est écarté en silence (contact_form.forms.spam_reason).
+    rendered_at = forms.CharField(required=False, widget=forms.HiddenInput())
     consent = forms.BooleanField(
         label="J'accepte que ce message soit utilisé uniquement pour me recontacter.",
     )
 
     def __init__(self, *args, site=None, **kwargs):
         super().__init__(*args, **kwargs)
+        if not self.is_bound:
+            self.fields["rendered_at"].initial = sign_rendered_at()
         self.fields["offre"].label = site.labels.offre
         self.fields["offre"].choices = [("", site.labels.offre_placeholder)] + [
             (item.nom, item.nom) for item in site.offres
@@ -71,3 +78,7 @@ class ContactForm(forms.Form):
         if website:
             raise forms.ValidationError("Le formulaire n'a pas pu être envoyé.")
         return website
+
+    def rejection_reason(self):
+        """Motif de rejet silencieux (robot), ou None."""
+        return spam_reason(self.data)

@@ -1,22 +1,21 @@
 {% load static %}{% comment %}
 Rappel « votre site, c'est possible » : bandeau de fin de page + pastille flottante.
-Commun aux six démos, volontairement neutre (styles isolés dans vitrine/css/demo_cta.css, préfixe .demo-cta)
-pour ne dépendre du design d'aucune démo. Les deux renvoient au formulaire de l'accueil, sujet pré-rempli. La pastille prend le relais du bandeau
+Commun aux six démos, aux couleurs du portfolio (styles isolés dans vitrine/css/demo_cta.css, chargés par
+demo_banner.html) pour ne dépendre du design d'aucune démo. Les deux renvoient au formulaire de l'accueil, sujet pré-rempli. La pastille prend le relais du bandeau
 « Démonstration » dès qu'il sort de l'écran, et garde toujours un retour à l'accueil (le rond « K »),
 même réduite.
-{% endcomment %}<link rel="stylesheet" href="{% static 'vitrine/css/demo_cta.css' %}?v=2">
+{% endcomment %}
 <section class="demo-cta" aria-labelledby="demo-cta-titre">
     <div class="demo-cta__inner">
         <div class="demo-cta__texte">
-            <p class="demo-cta__eyebrow">Site de démonstration</p>
             <h2 class="demo-cta__titre" id="demo-cta-titre">Un site comme celui-ci pour votre activité&nbsp;?</h2>
             <p class="demo-cta__desc">{{ site.nom }} n'existe pas : c'est un exemple de ce que je peux construire pour vous, sur mesure, rapide et pensé pour être trouvé sur Google. Je réponds personnellement.</p>
         </div>
-        <a class="demo-cta__btn" href="/?sujet=Un%20site%20comme%20la%20d%C3%A9mo%20{{ site.nom|urlencode }}#form">Me contacter <span aria-hidden="true">→</span></a>
+        <a class="demo-cta__btn" href="/?sujet=Un%20site%20comme%20la%20d%C3%A9mo%20{{ site.nom|urlencode }}#form">Parler de mon site</a>
     </div>
 </section>
 <div class="demo-cta-flottant" data-demo-cta hidden>
-    <a class="demo-cta-flottant__retour" href="/" aria-label="Retour à killianp-dev.fr" title="Retour à killianp-dev.fr">
+    <a class="demo-cta-flottant__retour" href="/" aria-label="Retour au portfolio killianp.dev" title="Retour au portfolio killianp.dev">
         <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.1">
                 <path d="M11.4 8.8v14.4M11.4 16.1 21.6 9.3M11.4 16.1 21.6 22.9"/>
@@ -25,10 +24,10 @@ même réduite.
         </svg>
     </a>
     <a class="demo-cta-flottant__lien" href="/?sujet=Un%20site%20comme%20la%20d%C3%A9mo%20{{ site.nom|urlencode }}#form">
-        <span class="demo-cta-flottant__texte">Ce site vous plaît&nbsp;? <strong>Faire le mien <span aria-hidden="true">→</span></strong></span>
+        <span class="demo-cta-flottant__texte">Ce site vous plaît&nbsp;? <strong>Faire le mien</strong></span>
     </a>
     <button class="demo-cta-flottant__fermer" type="button" aria-label="Réduire ce rappel" data-demo-cta-fermer>
         <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 4 8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
 </div>
-<script src="{% static 'vitrine/js/demo_cta.js' %}?v=2" defer></script>
+<script src="{% static 'vitrine/js/demo_cta.js' %}" defer></script>

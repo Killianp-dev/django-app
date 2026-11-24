@@ -138,6 +138,18 @@
     color: var(--color-accent);
 }
 
+/* L'étiquette est dans le h1 : elle garde son allure (police du texte, petite taille). */
+.pro-hero__title > .pro-hero__eyebrow {
+    display: table;
+    font-family: var(--font-body);
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.pro-hero__nom {
+    display: block;
+}
+
 .pro-hero__title {
     font-size: clamp(2.8rem, 6.5vw, 5.4rem);
     margin-bottom: var(--space-md);

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Page introuvable · killianp.dev{% endblock %}
+{% block extra_head %}
+{% include "partials/seo.html" with title="Page introuvable · killianp.dev" noindex=True %}
+{% endblock %}
+{% block content %}
+<section class="erreur" aria-labelledby="erreur-titre">
+    <p class="erreur__code">Erreur 404</p>
+    <h1 class="erreur__titre" id="erreur-titre">Cette adresse ne mène à aucune page.</h1>
+    <p class="erreur__texte">Le lien est peut-être ancien, ou l'adresse a été mal recopiée. Les démos et le formulaire de contact sont toujours là.</p>
+    <div class="erreur__actions">
+        <a class="hero-btn" href="{% url 'index' %}">Retour à l'accueil</a>
+        <a class="hero-btn erreur__secondaire" href="{% url 'index' %}#form">Me contacter</a>
+    </div>
+    <h2 class="erreur__sous-titre">Les démos par métier</h2>
+    <ul class="erreur__demos">
+        {% for projet in DEMOS_NAV %}
+        <li><a href="{{ projet.url }}"><span class="erreur__icone">{% include "partials/trade_icon.html" with nom=projet.namespace %}</span><span><strong>{{ projet.metier }}</strong>{{ projet.nom }}</span></a></li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

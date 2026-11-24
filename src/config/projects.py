@@ -32,8 +32,11 @@ def _projet(namespace, metier, titre, nom, accroche, points, alt):
         points=points,
         alt=alt,
         # Page d'accueil de la démo, en 1400 x 933 : pour le hero et la section Exemples.
+        # Variantes WebP en 480 et 800 px de large pour les petits écrans (srcset).
         apercu=f"vitrine/photos/{namespace}/apercu.jpg",
         apercu_webp=f"vitrine/photos/{namespace}/apercu.webp",
+        apercu_480=f"vitrine/photos/{namespace}/apercu-480.webp",
+        apercu_800=f"vitrine/photos/{namespace}/apercu-800.webp",
         apercu_v=empreinte(f"vitrine/photos/{namespace}/apercu.jpg"),
         apercu_webp_v=empreinte(f"vitrine/photos/{namespace}/apercu.webp"),
     )

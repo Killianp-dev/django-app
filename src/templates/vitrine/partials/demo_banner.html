@@ -1,8 +1,19 @@
-<aside class="vitrine-demo-banner" role="region" aria-label="Site de démonstration">
-    <div class="vitrine-demo-banner__content">
-        <p class="vitrine-demo-banner__text">
-            <strong>Démonstration</strong> — {{ site.nom }} est un exemple fictif de site vitrine.
-            <a href="/" class="vitrine-demo-banner__link">Retour à killianp-dev.fr</a>
-        </p>
+{% load static %}{% comment %}
+Cadre commun aux six démos, aux couleurs du portfolio (graphite et or champagne) : le visiteur
+sait qu'il est dans la vitrine de killianp.dev, quelle que soit l'identité de la démo.
+Styles dans vitrine/css/demo_cta.css (bandeau, rappel de fin de page et pastille flottante).
+{% endcomment %}<link rel="stylesheet" href="{% static 'vitrine/css/demo_cta.css' %}">
+<aside class="demo-banner" aria-label="Site de démonstration">
+    <div class="demo-banner__inner">
+        <a class="demo-banner__marque" href="/" aria-label="killianp.dev, retour au portfolio">
+            <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.1">
+                    <path d="M11.4 8.8v14.4M11.4 16.1 21.6 9.3M11.4 16.1 21.6 22.9"/>
+                </g>
+                <circle cx="25.4" cy="23" r="1.65" fill="currentColor"/>
+            </svg>
+        </a>
+        <p class="demo-banner__texte">Démo réalisée par <strong>killianp.dev</strong><span class="demo-banner__detail"> : {{ site.nom }} est un commerce fictif</span></p>
+        <a class="demo-banner__retour" href="/#exemples">Toutes les démos</a>
     </div>
 </aside>

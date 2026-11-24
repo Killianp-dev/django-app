@@ -86,6 +86,7 @@ urlpatterns = [
     path('robots.txt', robots_txt),
     path('mentions-legales/', TemplateView.as_view(template_name="mentions_legales.html"), name='mentions_legales'),
     path('cgv/', TemplateView.as_view(template_name="cgv.html"), name='cgv'),
+    path('confidentialite/', TemplateView.as_view(template_name="confidentialite.html"), name='confidentialite'),
     path('creation-site-internet/<slug:slug>/', MetierView.as_view(), name='metier'),
     path('a-propos/', about_redirect, name='about'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

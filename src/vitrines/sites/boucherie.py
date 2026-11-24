@@ -21,9 +21,9 @@ BOUCHERIE = _site(
     nature="une boucherie fictive",
     adresse="54 rue de Lévis",
     code_postal="75017",
-    telephone="01 42 27 61 61",
-    telephone_lien="0142276161",
-    email="contact@boucherie-morel-demo.fr",
+    telephone="01 99 00 61 61",
+    telephone_lien="0199006161",
+    email="contact@boucherie-morel.example",
     horaires="Mardi au samedi, 8h–13h et 15h30–19h30. Dimanche, 8h–12h30.",
     titre="Boucherie Morel — Boucher à Paris 17e",
     description="Boucherie artisanale fictive à Paris. Bœuf maturé, viandes d'éleveurs nommés, charcuterie maison, commandes pour les fêtes. Démonstration de site vitrine.",
@@ -55,7 +55,7 @@ BOUCHERIE = _site(
     reperes=[
         _ns(label="Adresse", value="54 rue de Lévis", href=""),
         _ns(label="Ouvert", value="Du mardi au dimanche", href=""),
-        _ns(label="Téléphone", value="01 42 27 61 61", href="tel:0142276161"),
+        _ns(label="Téléphone", value="01 99 00 61 61", href="tel:0199006161"),
         _ns(label="Commandes", value="Avant jeudi midi", href=""),
     ],
     engagements=[
@@ -71,7 +71,7 @@ BOUCHERIE = _site(
     contact_aside=_ns(
         titre="Appeler la boucherie",
         texte="Pour une commande, appelez entre 15h30 et 17h : c'est le moment le plus calme.",
-        liens=[_ns(label="01 42 27 61 61", href="tel:0142276161")],
+        liens=[_ns(label="01 99 00 61 61", href="tel:0199006161")],
         lignes=["54 rue de Lévis, 75017 Paris", "Métro Villiers"],
     ),
     labels=_ns(

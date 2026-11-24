@@ -8,8 +8,8 @@
     {% endif %}
     <div class="vitrine-container pro-hero__inner">
         <div class="pro-hero__content">
-            <span class="pro-hero__eyebrow">{{ site.eyebrow }}</span>
-            <h1 class="pro-hero__title" id="hero-title">{{ site.hero_title|default:site.nom }}</h1>
+            {# Le métier et la ville font partie du titre (h1) : c'est ce que tape le client. #}
+            <h1 class="pro-hero__title" id="hero-title"><span class="pro-hero__eyebrow">{{ site.eyebrow }}</span> <span class="pro-hero__nom">{{ site.hero_title|default:site.nom }}</span></h1>
             <p class="pro-hero__lead">{{ site.accroche }}</p>
             <div class="pro-hero__actions">
                 <a href="{% site_url 'contact' %}" class="vitrine-btn vitrine-btn--primary vitrine-btn--lg">{{ site.labels.nav_cta }}</a>

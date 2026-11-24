@@ -39,3 +39,14 @@
     background-color: var(--color-accent);
     color: var(--color-on-accent);
 }
+
+/* Étiquette placée dans le h1 du hero : elle garde son allure. */
+h1 > .vitrine-eyebrow {
+    display: table;
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.salon-hero__nom {
+    display: block;
+}
