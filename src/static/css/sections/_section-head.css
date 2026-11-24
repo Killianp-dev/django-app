@@ -314,8 +314,8 @@ html[data-theme="dark"] .trade-select__input:focus-visible {
   align-items: flex-end;
   justify-content: space-between;
   gap: 1.25rem 3rem;
+  /* Pas de filet sous l'en-tête : le blog enchaîne directement sur ses cartes. */
   padding-bottom: 1.8rem;
-  border-bottom: 1px solid var(--color-border);
 }
 
 .section-head--row p {
