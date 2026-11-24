@@ -65,11 +65,6 @@
 
     <figure class="showcase" id="exemples-carrousel" data-hero-preview aria-label="Aperçu des démonstrations : un site par métier">
         <div class="showcase__window" data-hero-window>
-            <div class="showcase__bar">
-                <span class="showcase__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="showcase__url" aria-hidden="true">killianp-dev.fr<span data-preview-url>{{ projets.0.url }}</span></span>
-                <span class="showcase__label" data-preview-label>{{ projets.0.titre }}</span>
-            </div>
             <a class="showcase__screen" href="{{ projets.0.url }}" data-preview-link aria-label="Ouvrir la démo : {{ projets.0.titre }}">
                 {% for projet in projets %}
                 {% if forloop.first %}
@@ -96,7 +91,6 @@
                     <button type="button" class="showcase__pager-dot{% if forloop.first %} is-active{% endif %}" data-preview-index="{{ forloop.counter0 }}" aria-label="Afficher : {{ projet.titre }}"{% if forloop.first %} aria-current="true"{% endif %}></button>
                     {% endfor %}
                 </span>
-                <span class="showcase__ok">en ligne</span>
             </div>
         </div>
         {% comment %}Légende de la démo affichée : son accroche et ses liens (la démo, la page métier).

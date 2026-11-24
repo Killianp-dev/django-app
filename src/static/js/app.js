@@ -630,8 +630,6 @@
 
     const shots = Array.from(preview.querySelectorAll('.showcase__shot'));
     const dots = Array.from(preview.querySelectorAll('[data-preview-index]'));
-    const url = preview.querySelector('[data-preview-url]');
-    const label = preview.querySelector('[data-preview-label]');
     const link = preview.querySelector('[data-preview-link]');
     const win = preview.querySelector('[data-hero-window]');
     const pauseButton = preview.querySelector('[data-preview-pause]');
@@ -678,8 +676,6 @@
       });
       // La légende (accroche et liens) suit la démo affichée.
       infos.forEach((el, i) => el.classList.toggle('is-active', i === current));
-      if (url) url.textContent = shot.dataset.url;
-      if (label) label.textContent = shot.dataset.label;
       if (link) {
         link.href = shot.dataset.url;
         link.setAttribute('aria-label', 'Ouvrir la démo : ' + shot.dataset.label);

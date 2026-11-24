@@ -66,60 +66,6 @@ html[data-theme="dark"] .showcase {
   transition: none;
 }
 
-.showcase__bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.7rem 1rem;
-  background: var(--code-bar);
-  border-bottom: 1px solid var(--code-border);
-}
-
-.showcase__dots {
-  display: inline-flex;
-  flex: none;
-  gap: 0.4rem;
-}
-
-.showcase__dots i {
-  width: 0.62rem;
-  height: 0.62rem;
-  border-radius: 50%;
-  background: var(--code-ln);
-  opacity: 0.55;
-}
-
-/* Barre d'adresse : le chemin change avec la démo affichée */
-.showcase__url {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  padding: 0.32rem 0.8rem;
-  border-radius: var(--radius-full);
-  background: var(--code-bg);
-  border: 1px solid var(--code-border);
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.01em;
-  color: var(--code-doc);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.showcase__url span {
-  color: var(--sc-fg-soft);
-}
-
-.showcase__label {
-  flex: none;
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--sc-accent);
-}
-
 /* Écran : les captures se succèdent en fondu */
 .showcase__screen {
   position: relative;
@@ -167,16 +113,26 @@ html[data-theme="dark"] .showcase {
   outline-offset: -4px;
 }
 
+/* Pause et points fondus sur le bas de la photo : un dégradé sombre les rend lisibles sur
+   toutes les captures (claires ou sombres), sans barre séparée. */
 .showcase__status {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
-  padding: 0.6rem 1rem;
-  background: var(--code-bar);
-  border-top: 1px solid var(--code-border);
+  padding: 1.9rem 1rem 0.55rem;
+  background: linear-gradient(180deg, transparent, rgba(12, 12, 14, 0.62));
+  pointer-events: none;
   font-size: 0.7rem;
   letter-spacing: 0.04em;
-  color: var(--code-doc);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.showcase__status > * {
+  pointer-events: auto;
 }
 
 /* Bouton pause et points de navigation : zones de clic de 24 px au moins (WCAG 2.5.8),
@@ -192,17 +148,17 @@ html[data-theme="dark"] .showcase {
   border: 0;
   border-radius: 50%;
   background: none;
-  color: var(--code-doc);
+  color: rgba(255, 255, 255, 0.82);
   cursor: pointer;
   transition: color 0.2s ease;
 }
 
 .showcase__pause:hover {
-  color: var(--sc-fg);
+  color: #fff;
 }
 
 .showcase__pause:focus-visible {
-  outline: 2px solid var(--sc-accent);
+  outline: 2px solid #e2c896;
   outline-offset: 1px;
 }
 
@@ -249,13 +205,13 @@ html[data-theme="dark"] .showcase {
 }
 
 .showcase__pager-dot::before {
-  background: var(--code-ln);
-  opacity: 0.55;
+  background: #fff;
+  opacity: 0.4;
   transition: opacity 0.3s ease;
 }
 
 .showcase__pager-dot:hover::before {
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .showcase__pager-dot.is-active {
@@ -268,7 +224,7 @@ html[data-theme="dark"] .showcase {
 
 /* Le point actif se remplit pendant que la démo est affichée */
 .showcase__pager-dot::after {
-  background: var(--sc-accent);
+  background: #e2c896;
   transform: scaleX(0);
   transform-origin: left;
 }
@@ -286,27 +242,9 @@ html[data-theme="dark"] .showcase {
 }
 
 .showcase__pager-dot:focus-visible {
-  outline: 2px solid var(--sc-accent);
+  outline: 2px solid #e2c896;
   outline-offset: -2px;
   border-radius: var(--radius-full);
-}
-
-.showcase__ok {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: var(--code-ok);
-  font-weight: 600;
-}
-
-.showcase__ok::before {
-  content: "";
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 10px currentColor;
 }
 
 /* ---------- Responsive ---------- */
@@ -322,20 +260,9 @@ html[data-theme="dark"] .showcase {
     border-radius: var(--radius-md);
   }
 
-  .showcase__bar {
-    gap: 0.6rem;
-    padding: 0.55rem 0.75rem;
-  }
-
   .showcase__status {
     gap: 0.6rem;
-    padding: 0.5rem 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .showcase__label {
-    display: none;
+    padding: 1.6rem 0.75rem 0.45rem;
   }
 }
 
