@@ -1203,3 +1203,74 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
     --nav-fg-muted: var(--hero-nav-muted);
   }
 }
+
+/* ---------- Actions de la barre, au diapason des liens (ordinateur) ----------
+   Le bouton de thème et « Me contacter » étaient des objets pleins (tuile reflétée, pilule
+   noire ou crème à pastille dorée) qui tranchaient avec les liens légers. Ils prennent
+   la même matière : le thème est une simple icône, « Me contacter » une pilule à contour
+   fin, même police et même couleur que les liens, qui se remplit au survol. */
+@media (min-width: 769px) {
+  .navbar .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: none;
+    box-shadow: none;
+    color: var(--nav-fg-muted);
+  }
+
+  .navbar .theme-toggle:hover {
+    background: var(--nav-hover);
+    box-shadow: none;
+    color: var(--nav-fg);
+  }
+
+  .navbar .navbar-cta {
+    gap: 0.5rem;
+    height: 42px;
+    padding: 0 1.25rem;
+    background: none;
+    color: var(--nav-fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--nav-fg) 38%, transparent);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .navbar .navbar-cta:hover {
+    transform: none;
+    background: var(--nav-fg);
+    color: var(--nav-cta-fg-inv, var(--color-bg));
+    box-shadow: inset 0 0 0 1px var(--nav-fg);
+  }
+
+  .navbar .navbar-cta__icon {
+    width: auto;
+    height: auto;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+  }
+
+  .navbar .navbar-cta__icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  /* Sur le hero : même geste, en clair ; au survol, remplissage crème. */
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .navbar-actions {
+    --nav-cta-fg-inv: #17181b;
+  }
+
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .theme-toggle {
+    background: none;
+    box-shadow: none;
+  }
+
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .theme-toggle:hover {
+    background: var(--hero-nav-hover);
+    color: var(--hero-nav-fg);
+  }
+}

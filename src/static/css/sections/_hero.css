@@ -62,6 +62,16 @@
   text-wrap: balance;
 }
 
+/* Une ligne sous le titre : ce que je fais, sans promettre de classement. */
+.hero__lead {
+  max-width: 30rem;
+  margin: clamp(1.1rem, 2vw, 1.5rem) 0 0;
+  color: var(--hero-fg-soft);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
 /* Un seul bouton, en pilule laiton : il se détache du dégradé sans rien d'autre autour. */
 .hero .hero__cta {
   margin-top: clamp(1.8rem, 3vw, 2.4rem);
@@ -377,7 +387,8 @@
 }
 
 .hero__title { animation-delay: 0.05s; }
-.hero__cta { animation-delay: 0.2s; }
+.hero__lead { animation-delay: 0.14s; }
+.hero__cta { animation-delay: 0.22s; }
 .hero__art { animation-delay: 0.3s; animation-duration: 1s; }
 
 /* ---------- Responsive ---------- */

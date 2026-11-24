@@ -175,6 +175,15 @@ class SeoTests(TestCase):
         libelles = re.findall(r'class="nav-links__label">([^<]+)<', menu)
         self.assertEqual(libelles, ["Accueil", "Exemples", "Blog", "À propos", "Formule"])
 
+    def test_accroche_du_hero(self):
+        html = self.client.get(reverse("index")).content.decode()
+        titre = re.search(r'<h1 class="hero__title"[^>]*>(.*?)</h1>', html).group(1)
+        self.assertEqual(titre.replace("&nbsp;", " "), "Vos clients appellent le premier qu'ils trouvent.")
+        # Une ligne dit ce que fait l'agence, sans promettre de classement.
+        self.assertIn('class="hero__lead"', html)
+        self.assertIn("référencement et site", html)
+        self.assertNotIn("première place", html)
+
     def test_pas_de_commentaire_de_gabarit_affiche(self):
         # Un {# … #} sur plusieurs lignes n'est pas un commentaire pour Django : il s'afficherait.
         BlogPost.objects.create(title="Article", published=True, category=BlogPost.COMMERCE)
