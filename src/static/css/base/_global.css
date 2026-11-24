@@ -87,26 +87,37 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin: 1.5rem 0 2.5rem;
+  max-width: var(--content-max);
+  margin: 1.5rem auto 2.5rem;
+  padding: 0 var(--page-gutter);
   scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
+  --divider-line: color-mix(in srgb, var(--color-accent) 85%, transparent);
 }
 
+/* Un filet de chaque côté de l'icône : net contre elle, il s'estompe vers les bords.
+   En bordure (border-image) et non en fond de 1 px : une bordure est calée sur les pixels
+   de l'écran, un fond de 1 px à une position fractionnaire s'étale sur deux rangées pâles
+   et disparaît presque (zoom du navigateur, écrans à densité non entière). */
 .section-divider::before,
 .section-divider::after {
   content: "";
-  height: 1px;
-  background: linear-gradient(to var(--direction, right), transparent, var(--color-border-strong), transparent);
-  flex-grow: 1;
+  flex: 1 1 0;
+  height: 0;
+  border-top: 1px solid transparent;
 }
 
 .section-divider::before {
-  --direction: right;
   margin-right: 16px;
+  border-image: linear-gradient(to right, transparent, var(--divider-line)) 1;
 }
 
 .section-divider::after {
-  --direction: left;
   margin-left: 16px;
+  border-image: linear-gradient(to left, transparent, var(--divider-line)) 1;
+}
+
+html[data-theme="dark"] .section-divider {
+  --divider-line: color-mix(in srgb, var(--color-accent-bright) 70%, transparent);
 }
 
 .section-divider .divider-icon {
