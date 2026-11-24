@@ -26,7 +26,8 @@ def handle_contact(form):
 
     Le message est d'abord en base : si le serveur d'e-mail ne répond pas, rien
     n'est perdu, l'erreur est journalisée et le visiteur voit la page de succès."""
-    name = form.cleaned_data['name']
+    # Le modèle garde un seul champ « nom » : prénom et nom y sont réunis (pas de migration).
+    name = f"{form.cleaned_data['first_name']} {form.cleaned_data['name']}".strip()
     email = form.cleaned_data['email']
     subject = form.cleaned_data.get('subject') or "Nouveau message de contact"
     message = form.cleaned_data['message']

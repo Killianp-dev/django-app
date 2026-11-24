@@ -59,12 +59,22 @@ class ContactForm(forms.Form):
     """
     Formulaire de contact simple avec nom, email, sujet et message.
     """
+    first_name = forms.CharField(
+        label='Votre prénom',
+        max_length=60,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'autocomplete': 'given-name',
+            'placeholder': 'Prénom',
+        })
+    )
     name = forms.CharField(
         label='Votre nom',
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'autocomplete': 'name',
+            'autocomplete': 'family-name',
+            'placeholder': 'Nom',
         })
     )
     email = forms.EmailField(
@@ -81,7 +91,7 @@ class ContactForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Facultatif',
+            'placeholder': 'Référencement, création de site, conseil SEO',
         })
     )
     message = forms.CharField(
@@ -90,7 +100,7 @@ class ContactForm(forms.Form):
         widget=forms.Textarea(attrs={
             'class': 'form-control',
             'rows': 8,
-            'placeholder': 'Votre métier, votre ville, et comment vos clients vous cherchent.',
+            'placeholder': "Votre métier, votre ville. Ce que vos clients trouvent aujourd'hui quand ils vous cherchent sur Google, et ce que vous aimeriez qu'ils voient.",
         })
     )
     # Piège à robots : laissé vide par un visiteur, souvent rempli par un bot.
@@ -116,6 +126,12 @@ class ContactForm(forms.Form):
     def rejection_reason(self):
         """Motif de rejet silencieux, ou None : voir spam_reason()."""
         return spam_reason(self.data)
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if any(char.isdigit() for char in first_name):
+            raise forms.ValidationError("Le prénom ne doit pas contenir de chiffres.")
+        return first_name
 
     def clean_name(self):
         name = self.cleaned_data.get('name')

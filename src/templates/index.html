@@ -351,6 +351,10 @@ déjà répété dans la bande juste au-dessus : chaque séparateur a sa propre 
             </span>
             {{ form.non_field_errors }}
             <div>
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}{{ form.first_name.errors }}
+            </div>
+            <div>
                 {{ form.name.label_tag }}
                 {{ form.name }}{{ form.name.errors }}
             </div>

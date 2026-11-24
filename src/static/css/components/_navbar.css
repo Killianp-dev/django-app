@@ -1055,27 +1055,26 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
 }
 
 /* ---------- Bascule de thème ----------
-   La nouvelle teinte s'étend en cercle depuis le bouton. L'en-tête rejoint
-   la page le temps de la bascule pour s'éclairer avec elle. */
+   La nouvelle teinte apparaît en fondu progressif sur toute la page : l'ancienne reste
+   en dessous, opaque, pendant que la nouvelle monte de 0 à 100 %. L'en-tête rejoint la
+   page le temps de la bascule pour changer avec elle. */
 html.theme-vt .navbar {
   view-transition-name: none;
 }
 
 html.theme-vt::view-transition-old(root) {
   animation: none;
+  mix-blend-mode: normal;
 }
 
 html.theme-vt::view-transition-new(root) {
-  animation: themeReveal 0.7s cubic-bezier(0.32, 0.72, 0, 1) both;
+  mix-blend-mode: normal;
+  animation: themeFade 0.9s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
-@keyframes themeReveal {
-  from {
-    clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 0));
-  }
-  to {
-    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 100%) var(--vt-y, 0));
-  }
+@keyframes themeFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Au doigt : boutons de thème et de menu à 44 px (cible tactile recommandée). */
@@ -1210,7 +1209,7 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
    la même matière : le thème est une simple icône, « Me contacter » une pilule à contour
    fin, même police et même couleur que les liens, qui se remplit au survol. */
 @media (min-width: 769px) {
-  .navbar .theme-toggle {
+  html .navbar .theme-toggle {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -1219,13 +1218,13 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
     color: var(--nav-fg-muted);
   }
 
-  .navbar .theme-toggle:hover {
+  html .navbar .theme-toggle:hover {
     background: var(--nav-hover);
     box-shadow: none;
     color: var(--nav-fg);
   }
 
-  .navbar .navbar-cta {
+  html .navbar .navbar-cta {
     gap: 0.5rem;
     height: 42px;
     padding: 0 1.25rem;
@@ -1239,14 +1238,14 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .navbar .navbar-cta:hover {
+  html .navbar .navbar-cta:hover {
     transform: none;
     background: var(--nav-fg);
     color: var(--nav-cta-fg-inv, var(--color-bg));
     box-shadow: inset 0 0 0 1px var(--nav-fg);
   }
 
-  .navbar .navbar-cta__icon {
+  html .navbar .navbar-cta__icon {
     width: auto;
     height: auto;
     background: none;
@@ -1254,7 +1253,7 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
     color: inherit;
   }
 
-  .navbar .navbar-cta__icon svg {
+  html .navbar .navbar-cta__icon svg {
     width: 15px;
     height: 15px;
   }

@@ -11,7 +11,8 @@ from .models import Contact
 def contact_payload(**overrides):
     """Envoi humain : honeypot vide, formulaire affiché depuis 30 secondes."""
     data = {
-        "name": "Jean",
+        "first_name": "Jean",
+        "name": "Dupont",
         "email": "jean@example.com",
         "subject": "Question",
         "message": "Un message suffisamment long.",
@@ -26,7 +27,8 @@ class ContactFormValidationTests(TestCase):
     def test_name_rejects_digits(self):
         form = ContactForm(
             data={
-                "name": "Jean2",
+                "first_name": "Jean",
+                "name": "Dupont2",
                 "email": "jean@example.com",
                 "message": "Un message suffisamment long.",
             }
@@ -37,7 +39,8 @@ class ContactFormValidationTests(TestCase):
     def test_message_must_be_at_least_10_characters(self):
         form = ContactForm(
             data={
-                "name": "Jean",
+                "first_name": "Jean",
+                "name": "Dupont",
                 "email": "jean@example.com",
                 "message": "court",
             }
@@ -48,7 +51,8 @@ class ContactFormValidationTests(TestCase):
     def test_valid_form(self):
         form = ContactForm(
             data={
-                "name": "Jean",
+                "first_name": "Jean",
+                "name": "Dupont",
                 "email": "jean@example.com",
                 "subject": "Question",
                 "message": "Un message suffisamment long.",
@@ -77,7 +81,7 @@ class ContactViewTests(TestCase):
         self.assertRedirects(response, reverse("contact_form:success"))
         self.assertEqual(Contact.objects.count(), 1)
         contact = Contact.objects.get()
-        self.assertEqual(contact.name, "Jean")
+        self.assertEqual(contact.name, "Jean Dupont")
         self.assertEqual(contact.email, "jean@example.com")
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("[Contact] Question", mail.outbox[0].subject)
@@ -90,6 +94,20 @@ class ContactViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Contact.objects.count(), 0)
         self.assertEqual(len(mail.outbox), 0)
+
+    def test_prenom_obligatoire_et_sans_chiffres(self):
+        for valeur, motif in (("", "vide"), ("Jean3", "chiffre")):
+            with self.subTest(motif=motif):
+                response = self.client.post(
+                    reverse("contact_form:contact"), contact_payload(first_name=valeur))
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(Contact.objects.count(), 0)
+
+    def test_formulaire_prenom_puis_nom(self):
+        html = self.client.get(reverse("contact_form:contact")).content.decode()
+        self.assertLess(html.index('name="first_name"'), html.index('name="name"'))
+        self.assertIn("Votre prénom", html)
+        self.assertIn("Votre nom", html)
 
     def test_default_subject_when_empty(self):
         self.client.post(

@@ -596,21 +596,11 @@
         return;
       }
 
-      // Le cercle part du centre du bouton et couvre le coin le plus éloigné.
-      const rect = origin.getBoundingClientRect();
-      const x = rect.left + rect.width / 2;
-      const y = rect.top + rect.height / 2;
-      const r = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
-      root.style.setProperty('--vt-x', `${x}px`);
-      root.style.setProperty('--vt-y', `${y}px`);
-      root.style.setProperty('--vt-r', `${Math.ceil(r)}px`);
+      // Fondu progressif sur toute la page (CSS : themeFade).
       root.classList.add('theme-vt');
 
       const transition = document.startViewTransition(() => applyTheme(theme));
-      transition.finished.finally(() => {
-        root.classList.remove('theme-vt');
-        ['--vt-x', '--vt-y', '--vt-r'].forEach((prop) => root.style.removeProperty(prop));
-      });
+      transition.finished.finally(() => root.classList.remove('theme-vt'));
     }
 
     syncButton(currentTheme());
@@ -946,6 +936,7 @@
     if (!form) return;
 
     const fields = {
+      firstName: form.querySelector('[name="first_name"]'),
       name: form.querySelector('[name="name"]'),
       email: form.querySelector('[name="email"]'),
       subject: form.querySelector('[name="subject"]'),
@@ -961,16 +952,25 @@
       remove(key, area = localStorage) { try { area.removeItem(key); } catch (e) {} }
     };
 
-    // --- Sujet pré-rempli (lien « Demander un devis », métier choisi, ?sujet=) ---
-    let autoSubject = '';
+    // --- Sujet suggéré (lien « Demander un devis », métier choisi, ?sujet=) ---
+    // Une suggestion en placeholder (texte grisé), jamais écrite dans le champ : elle disparaît
+    // dès qu'on écrit. Si le champ reste vide, elle est envoyée avec le message (au moment de
+    // l'envoi seulement), pour que le métier et la demande ne se perdent pas.
+    const defaultPlaceholder = fields.subject ? fields.subject.placeholder : '';
+    let suggestedSubject = '';
     function prefillSubject(base) {
-      if (!fields.subject) return;
-      if (fields.subject.value && fields.subject.value !== autoSubject) return; // saisi à la main
+      if (!fields.subject || fields.subject.value) return; // saisi à la main
       const trade = storage.get('contact-trade', sessionStorage);
       const parts = [base || 'Référencement', trade].filter(Boolean);
-      autoSubject = parts.length > 1 || base ? parts.join(' — ') : '';
-      if (autoSubject) fields.subject.value = autoSubject;
+      suggestedSubject = parts.length > 1 || base ? parts.join(' — ') : '';
+      fields.subject.placeholder = suggestedSubject || defaultPlaceholder;
     }
+
+    form.addEventListener('submit', () => {
+      if (fields.subject && suggestedSubject && !fields.subject.value.trim()) {
+        fields.subject.value = suggestedSubject;
+      }
+    });
 
     document.addEventListener('click', (event) => {
       const link = event.target.closest('a[href$="#form"]');
@@ -981,12 +981,13 @@
 
     const param = new URLSearchParams(window.location.search).get('sujet');
     if (param && fields.subject && !fields.subject.value) {
-      fields.subject.value = param.slice(0, 200);
+      suggestedSubject = param.slice(0, 200);
+      fields.subject.placeholder = suggestedSubject;
     }
 
     // --- Brouillon ---
     const hasServerErrors = Boolean(form.querySelector('.errorlist'));
-    const draftKeys = ['name', 'email', 'subject', 'message'];
+    const draftKeys = ['firstName', 'name', 'email', 'subject', 'message'];
     let note = null;
 
     function saveDraft() {
@@ -1018,9 +1019,10 @@
           note.innerHTML = '<span>Votre brouillon a été retrouvé.</span><button type="button">Effacer</button>';
           note.querySelector('button').addEventListener('click', () => {
             draftKeys.forEach((key) => { if (fields[key]) fields[key].value = ''; });
-            autoSubject = '';
+            suggestedSubject = '';
+            if (fields.subject) fields.subject.placeholder = defaultPlaceholder;
             clearDraft();
-            fields.name.focus();
+            (fields.firstName || fields.name).focus();
           });
           button.before(note);
         }
