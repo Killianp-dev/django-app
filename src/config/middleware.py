@@ -14,6 +14,8 @@ CSP = "; ".join([
     f"img-src 'self' data: {_GA}",
     "font-src 'self'",
     f"connect-src 'self' {_GA}",
+    # Vidéos YouTube intégrées dans les articles (mode sans cookie).
+    "frame-src https://www.youtube-nocookie.com",
     "frame-ancestors 'self'",
     "base-uri 'self'",
     "form-action 'self'",

@@ -207,6 +207,7 @@ class AuditCorrectionsTests(TestCase):
     def test_en_tetes_de_securite(self):
         reponse = self.client.get(reverse("index"))
         self.assertIn("default-src 'self'", reponse.headers["Content-Security-Policy-Report-Only"])
+        self.assertIn("frame-src https://www.youtube-nocookie.com", reponse.headers["Content-Security-Policy-Report-Only"])
         self.assertIn("camera=()", reponse.headers["Permissions-Policy"])
 
     def test_polices_servies_par_le_site(self):
