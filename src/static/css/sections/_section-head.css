@@ -1,0 +1,126 @@
+/* ==================================================
+   EN-TÊTES DE SECTION
+   Pas un gabarit unique répété partout : chaque section a sa composition.
+     --split    titre à gauche, texte à droite, filet dessous (Exemples)
+     --stacked  titre seul, la suite parle d'elle-même (Déroulement)
+     --centered titre et texte centrés (Formule)
+     --row      titre et texte à gauche, lien à droite (Blog)
+   Pas d'étiquette en capitales au-dessus, pas de mot en italique doré.
+   ================================================= */
+
+.section-head {
+  margin: 0 0 3.25rem;
+  text-align: left;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.012em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.section-head p {
+  max-width: 30rem;
+  margin: 0;
+  font-size: 1.04rem;
+  line-height: 1.65;
+  color: var(--color-ink-muted);
+}
+
+.section-head--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 1rem 4rem;
+  align-items: end;
+  padding-bottom: 2.1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-head--split p {
+  justify-self: end;
+}
+
+.section-head--stacked h2 {
+  max-width: 17ch;
+}
+
+.section-head--centered {
+  text-align: center;
+}
+
+.section-head--centered h2 {
+  max-width: 18ch;
+  margin-inline: auto;
+}
+
+.section-head--centered p {
+  margin: 1.1rem auto 0;
+}
+
+.section-head--row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 3rem;
+  padding-bottom: 1.8rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-head--row p {
+  margin-top: 0.9rem;
+}
+
+.section-head__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.35em;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+
+.section-head__link:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+html[data-theme="dark"] .section-head__link:hover {
+  color: var(--color-accent-bright);
+}
+
+.section-head__link:focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+@media (max-width: 900px) {
+  .section-head {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-head--split {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 1.6rem;
+  }
+
+  .section-head--split p {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .section-head h2 {
+    font-size: 2rem;
+  }
+}

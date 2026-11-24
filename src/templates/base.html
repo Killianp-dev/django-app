@@ -35,12 +35,16 @@
     <title>{% block title %}{% endblock %}</title>
     {% block extra_head %}{% endblock %}
     <script>
-      /* Thème sombre par défaut ; le clair seulement s'il a été choisi via le bouton. */
+      /* Thème : celui choisi avec le bouton s'il y en a un, sinon celui du système
+         (sombre si le système n'exprime pas de préférence). app.js suit ensuite les
+         changements du système tant que le visiteur n'a rien choisi. */
       (function () {
-        var theme = 'dark';
-        try { if (localStorage.getItem('theme') === 'light') theme = 'light'; } catch (e) {}
+        var stored = null;
+        try { stored = localStorage.getItem('theme'); } catch (e) {}
+        var systemLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+        var theme = stored === 'light' || stored === 'dark' ? stored : (systemLight ? 'light' : 'dark');
         document.documentElement.setAttribute('data-theme', theme);
-        if (theme === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f5f2ed');
+        if (theme === 'light') document.querySelector('meta[name="theme-color"]').setAttribute('content', '#e8e6e1');
       })();
       /* Animations Motion (js/anim.js) : seulement si le visiteur les accepte. Filet de
          sécurité : si le script n'a pas démarré au bout de 2,5 s, on rend tout visible. */
@@ -72,7 +76,7 @@
     <a class="skip-link" href="#main-content">Aller au contenu</a>
     <div class="navbar__inner">
         <div class="logo">
-            <a href="{% url 'index' %}" aria-label="killianp.dev par Neuralab — accueil">
+            <a href="{% url 'index' %}" aria-label="killianp-dev par Neuralab — accueil">
                 <span class="logo-mark" aria-hidden="true">
                     <svg viewBox="0 0 32 32" focusable="false">
                         <defs>
@@ -90,7 +94,7 @@
                     </svg>
                 </span>
                 <span class="logo-text">
-                    <span class="logo-name">killianp<span class="logo-dot">.dev</span></span>
+                    <span class="logo-name">killianp-<span class="logo-dot">dev</span></span>
                     <span class="logo-tagline"><span class="logo-tagline__by">par</span><span class="logo-tagline__brand">Neuralab</span></span>
                 </span>
             </a>
@@ -135,7 +139,7 @@
 <footer class="footer">
     <div class="footer__inner">
         <div>
-            <p class="footer__brand">killianp.dev</p>
+            <p class="footer__brand">killianp-dev</p>
             <p class="footer__tagline">Agence de conseil et d'expertise informatique, spécialisée dans le référencement SEO, pour les commerces de proximité, les artisans et les professions libérales.</p>
         </div>
         <div class="footer__col">
@@ -170,7 +174,7 @@
         </div>
     </div>
     <div class="footer__bottom">
-        <p>&copy; 2026 killianp.dev, par Neuralab. Tous droits réservés.</p>
+        <p>&copy; 2026 killianp-dev, par Neuralab. Tous droits réservés.</p>
         <p><a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a></p>
     </div>
 </footer>

@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{% if rubrique == "technique" %}Notes techniques · Blog killianp.dev{% else %}Conseils pour être trouvé sur Google · killianp.dev{% endif %}{% endblock %}
+{% block title %}{% if rubrique == "technique" %}Notes techniques · Blog killianp-dev{% else %}Conseils pour être trouvé sur Google · killianp-dev{% endif %}{% endblock %}
 {% block body_class %}blog-page{% endblock %}
 
 {% block extra_head %}
 {% if rubrique == "technique" %}
-{% include "partials/seo.html" with title="Notes techniques · Blog killianp.dev" description="Notes techniques : Python, données et ce qui se passe sous le capot d'un site web." %}
+{% include "partials/seo.html" with title="Notes techniques · Blog killianp-dev" description="Notes techniques : Python, données et ce qui se passe sous le capot d'un site web." %}
 {% else %}
-{% include "partials/seo.html" with title="Conseils pour être trouvé sur Google · killianp.dev" description="Boulangerie, salon de coiffure, artisan, cabinet d'avocats : ce que le site de votre commerce doit montrer pour être trouvé sur Google, avec un exemple concret pour chaque métier." %}
+{% include "partials/seo.html" with title="Conseils pour être trouvé sur Google · killianp-dev" description="Boulangerie, salon de coiffure, artisan, cabinet d'avocats : ce que le site de votre commerce doit montrer pour être trouvé sur Google, avec un exemple concret pour chaque métier." %}
 {% endif %}
-<link rel="alternate" type="application/rss+xml" title="Blog — killianp.dev" href="{% url 'blog:feed' %}">
+<link rel="alternate" type="application/rss+xml" title="Blog — killianp-dev" href="{% url 'blog:feed' %}">
 {% endblock %}
 
 {% block content %}
@@ -31,16 +31,10 @@
         <p class="section-eyebrow">Blog</p>
         {% if rubrique == "technique" %}
         <h1 id="blog-index-title">Notes techniques</h1>
-        <p class="projects__intro">
-            <span class="projects__intro-lead">Ce qui se passe <em>sous le capot</em>.</span>
-            <span class="projects__intro-text">Python, données et coulisses d'un site. Écrit au fil des projets.</span>
-        </p>
+        <p>Python, données et coulisses d'un site : ce qui se passe sous le capot, écrit au fil des projets.</p>
         {% else %}
         <h1 id="blog-index-title">Être trouvé sur Google</h1>
-        <p class="projects__intro">
-            <span class="projects__intro-lead">Ce que vos clients <em>cherchent</em>.</span>
-            <span class="projects__intro-text">Pour chaque métier, ce que le site doit montrer pour être trouvé, avec un exemple concret.</span>
-        </p>
+        <p>Ce que vos clients cherchent, et ce que le site de chaque métier doit montrer pour être trouvé, avec un exemple concret.</p>
         {% endif %}
     </header>
 

@@ -141,7 +141,7 @@
   font-size: clamp(2rem, 3.2vw, 2.8rem);
   font-weight: 400;
   line-height: 1.08;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.012em;
   margin-bottom: 1rem;
   color: var(--color-ink);
   font-family: var(--font-serif);

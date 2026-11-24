@@ -62,7 +62,7 @@ html:has(body.article-page) {
   font-family: var(--font-serif);
   font-size: clamp(2.15rem, 5.4vw, 3.35rem);
   font-weight: 400;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.012em;
   line-height: 1.12;
   color: var(--color-ink);
   margin: 0 0 1.15rem;
@@ -355,8 +355,7 @@ html:has(body.article-page) {
   margin: 0;
   font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-ink-muted);
 }
 
@@ -465,8 +464,7 @@ html:has(body.article-page) {
 .post-nav-direction {
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-accent);
 }
 

@@ -8,7 +8,7 @@ Balises de référencement communes. Paramètres :
 {% if description %}<meta name="description" content="{{ description }}">{% endif %}
 {% if noindex %}<meta name="robots" content="noindex">
 {% else %}<link rel="canonical" href="{{ SITE_URL }}{{ request.path }}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}">
-{% endif %}<meta property="og:site_name" content="killianp.dev">
+{% endif %}<meta property="og:site_name" content="killianp-dev">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:type" content="{{ type|default:'website' }}">
 <meta property="og:title" content="{{ title }}">

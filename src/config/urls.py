@@ -58,6 +58,9 @@ def robots_txt(request):
         "Disallow: /blog/create/",
         "Disallow: /blog/edit/",
         "Disallow: /blog/delete/",
+        # Photos de Killian : affichées sur le site, mais pas dans Google Images
+        # (méthode recommandée par Google pour exclure une image : robots.txt).
+        "Disallow: /static/ressources/portrait/",
         # Les démos restent lisibles : chacune porte « noindex, follow » (commerces fictifs).
         f"Sitemap: {settings.SITE_URL}/sitemap.xml"
     ]

@@ -34,13 +34,6 @@
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.4s var(--ease-out), border-color 0.3s ease, box-shadow 0.4s var(--ease-out);
-}
-
-.pricing-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-accent);
-  box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
 .pricing-card--featured {
@@ -57,12 +50,20 @@
   right: 1.6rem;
   padding: 0.35rem 0.75rem;
   border-radius: var(--radius-full);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   color: var(--color-accent);
   background: var(--color-accent-soft);
+}
+
+/* Offre temporaire : pastille pleine, elle doit se voir. */
+.pricing-card__badge--promo {
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+}
+
+html[data-theme="dark"] .pricing-card__badge--promo {
+  color: var(--color-on-accent);
 }
 
 html[data-theme="dark"] .pricing-card__badge {
@@ -77,12 +78,11 @@ html[data-theme="dark"] .pricing-card__badge {
 
 .pricing-card__label {
   margin: 0 0 1.1rem;
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-muted);
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-ink);
 }
 
 .pricing-card__price {
@@ -97,8 +97,24 @@ html[data-theme="dark"] .pricing-card__badge {
   font-family: var(--font-serif);
   font-size: clamp(3.2rem, 7vw, 4.2rem);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
+  font-variant-numeric: lining-nums;
   color: var(--color-ink);
+}
+
+.pricing-card__from {
+  flex-basis: 100%;
+  font-size: 0.92rem;
+  color: var(--color-ink-muted);
+}
+
+.pricing-card__was {
+  font-size: 0.95rem;
+  color: var(--color-ink-muted);
+}
+
+.pricing-card__was s {
+  text-decoration-thickness: 1px;
 }
 
 /* Variante sans montant : une formule en serif, un peu plus petite qu'un prix */
@@ -198,8 +214,7 @@ html[data-theme="dark"] .pricing-card__list li::after {
 .pricing-plan__when {
   font-size: 0.74rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-ink-muted);
 }
 
@@ -314,13 +329,11 @@ html[data-theme="dark"] .pricing__fine a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pricing-card,
   .pricing-plan__cta,
   .pricing-plan__cta svg {
     transition: none;
   }
 
-  .pricing-card:hover,
   .pricing-plan__cta:hover,
   .pricing-plan__cta:hover svg {
     transform: none;

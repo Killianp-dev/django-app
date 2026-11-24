@@ -101,8 +101,7 @@ html[data-theme="dark"] .icon-success .check {
   margin: 0 0 0.9rem;
   font-size: 0.76rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   color: var(--color-accent);
 }
 
@@ -125,7 +124,7 @@ html[data-theme="dark"] .success-card__eyebrow {
   font-size: clamp(2.2rem, 5vw, 2.9rem);
   font-weight: 400;
   line-height: 1.08;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.012em;
   color: var(--color-ink);
   text-wrap: balance;
 }

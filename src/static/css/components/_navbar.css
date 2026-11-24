@@ -11,11 +11,11 @@
   --nav-line: rgba(20, 24, 31, 0.09);
   --nav-track: rgba(20, 24, 31, 0.035);
   --nav-hover: rgba(20, 24, 31, 0.055);
-  --nav-thumb: #ffffff;
+  --nav-thumb: #f9f8f5;
   --nav-thumb-shadow: 0 1px 2px rgba(20, 24, 31, 0.08), 0 0 0 1px rgba(20, 24, 31, 0.06);
-  --nav-panel: #fffdf9;
+  --nav-panel: #f4f3ef;
   --nav-panel-shadow: 0 24px 48px -12px rgba(20, 24, 31, 0.18), 0 0 0 1px rgba(20, 24, 31, 0.06);
-  --nav-scrim: rgba(243, 240, 233, 0.6);
+  --nav-scrim: rgba(232, 230, 225, 0.6);
   --nav-cta-bg: var(--color-ink);
   --nav-cta-fg: #f7f4ee;
   --nav-status: #1f9d6b;
@@ -705,10 +705,9 @@ html[data-theme="dark"] .navbar-cta {
     margin: 0;
     padding: 0.65rem 0.85rem 0.4rem;
     color: var(--nav-fg-muted);
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
   }
 
   .nav-links {
@@ -917,8 +916,7 @@ html[data-theme="dark"] .navbar-cta {
   color: var(--nav-fg-muted);
   font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
 .nav-demos__list {
@@ -1144,5 +1142,51 @@ html.theme-vt::view-transition-new(root) {
     width: 44px;
     height: 44px;
     border-radius: 12px;
+  }
+}
+
+/* « Exemples » ouvre un sous-menu : un petit losange le signale. Au survol (ou au
+   clavier), il pivote d'un demi-tour en descendant et se remplit d'or : la carte
+   des démos s'ouvre juste en dessous. Ordinateur seulement (en mobile, un chevron). */
+.nav-links__losange {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .nav-links__losange {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-left: 0.5rem;
+    border: 1px solid currentColor;
+    border-radius: 1px;
+    vertical-align: 0.14em;
+    opacity: 0.6;
+    transform: rotate(45deg);
+    transition:
+      transform 0.45s var(--nav-ease),
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .nav-links__demos:hover .nav-links__losange,
+  .nav-links__demos:focus-within .nav-links__losange {
+    opacity: 1;
+    border-color: var(--color-accent-bright);
+    background: var(--color-accent-bright);
+    transform: translateY(2px) rotate(225deg);
+  }
+
+  html:not([data-theme="dark"]) .nav-links__demos:hover .nav-links__losange,
+  html:not([data-theme="dark"]) .nav-links__demos:focus-within .nav-links__losange {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-links__losange {
+    transition: none;
   }
 }

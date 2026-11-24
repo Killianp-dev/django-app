@@ -53,13 +53,27 @@ class StaticPageTests(TestCase):
         self.assertContains(response, "Conditions générales de vente")
         self.assertContains(response, "Killian&nbsp;P.")
 
-    def test_no_agency_price_on_site(self):
+    def test_prix_a_partir_de_sur_l_accueil_pas_dans_les_cgv(self):
+        # Prix « à partir de » réglés dans config/tarifs.py ; le prix exact reste dans le devis.
+        from config.tarifs import tarifs
+        t = tarifs()
         home = self.client.get(reverse("index")).content.decode()
-        self.assertNotIn("€", home)
-        self.assertContains(self.client.get(reverse("index")), 'id="formule"')
+        self.assertIn('id="formule"', home)
+        self.assertIn(f"{t.creation_affiche}&nbsp;€", home)
+        self.assertIn(f"{t.abonnement}&nbsp;€", home)
         cgv = self.client.get(reverse("cgv")).content.decode()
-        for montant in ("300 €", "150 €", "190 €", "40 € par mois", "780 €"):
+        for montant in ("300 €", "500 €", "40 € par mois"):
             self.assertNotIn(montant, cgv)
+
+    def test_offre_temporaire_s_arrete_seule(self):
+        from datetime import timedelta
+        from config.tarifs import PROMO, tarifs
+        if PROMO is None:
+            self.skipTest("Pas d'offre en cours")
+        self.assertEqual(tarifs(PROMO.fin).creation_affiche, PROMO.prix)
+        apres = tarifs(PROMO.fin + timedelta(days=1))
+        self.assertIsNone(apres.promo)
+        self.assertEqual(apres.creation_affiche, apres.creation)
 
     def test_legal_pages_never_show_full_name(self):
         for name in ("cgv", "mentions_legales"):
@@ -93,8 +107,8 @@ class SeoTests(TestCase):
     def test_page_metier_boulangerie(self):
         response = self.client.get("/creation-site-internet/boulangerie/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<title>Référencement et site internet pour boulangerie · killianp.dev</title>", html=False)
-        self.assertContains(response, "Référencement et site internet <em>pour boulangerie</em>")
+        self.assertContains(response, "<title>Référencement et site internet pour boulangerie · killianp-dev</title>", html=False)
+        self.assertContains(response, 'Référencement et site internet <span class="metier-hero__pour">pour boulangerie</span>')
         self.assertContains(response, '<link rel="canonical" href="https://www.killianp-dev.fr/creation-site-internet/boulangerie/">')
         self.assertContains(response, '"@type": "FAQPage"')
         self.assertContains(response, '"@type": "Service"')
@@ -222,3 +236,30 @@ class AuditCorrectionsTests(TestCase):
             reponse = self.client.post(reverse("contact_form:contact"), contact_payload())
         self.assertRedirects(reponse, reverse("contact_form:success"))
         self.assertEqual(Contact.objects.count(), 1)
+
+
+class RetoursDu24NovembreTests(TestCase):
+    """Retours du 24/11/2026 : photo, marque, menu, prix."""
+
+    def test_photo_reelle_exclue_de_google_images(self):
+        robots = self.client.get("/robots.txt").content.decode()
+        self.assertIn("Disallow: /static/ressources/portrait/", robots)
+        accueil = self.client.get(reverse("index")).content.decode()
+        self.assertIn("ressources/portrait/killian", accueil)
+        self.assertNotIn("killian-aplat", accueil)
+        # La photo n'est ni l'image de partage ni celle des données structurées.
+        self.assertNotIn("portrait/", accueil.split("</head>")[0])
+
+    def test_marque_killianp_dev(self):
+        accueil = self.client.get(reverse("index")).content.decode()
+        self.assertNotIn("killianp.dev", accueil)
+        self.assertIn('<span class="logo-name">killianp-<span class="logo-dot">dev</span></span>', accueil)
+
+    def test_losange_du_sous_menu_exemples(self):
+        html = self.client.get(reverse("blog:home")).content.decode()
+        self.assertIn('class="nav-links__losange" aria-hidden="true"', html)
+
+    def test_pas_de_mot_en_italique_dans_les_titres(self):
+        accueil = self.client.get(reverse("index")).content.decode()
+        self.assertNotRegex(accueil, r"<h[12][^>]*>[^<]*<em>")
+        self.assertNotIn("projects__intro-lead", accueil)

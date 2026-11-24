@@ -82,7 +82,9 @@
       navList.style.setProperty('--thumb-o', '0');
       return;
     }
-    const x = `${active.offsetLeft}px`;
+    // Position mesurée par rapport à la liste : offsetLeft serait relatif au <li>
+    // d'« Exemples » (positionné pour son sous-menu), la pastille irait sous « Accueil ».
+    const x = `${active.getBoundingClientRect().left - navList.getBoundingClientRect().left - navList.clientLeft}px`;
     const w = `${active.offsetWidth}px`;
     const motion = window.siteMotion;
     const shown = navList.style.getPropertyValue('--thumb-o') === '1';
@@ -309,7 +311,7 @@
     if (prefersReducedMotion() || !('IntersectionObserver' in window)) return;
 
     const blocks = document.querySelectorAll(
-      '.projects__header, .project, .offer-step, .pricing-card, .pricing-plan, .about__panel, .about__aside'
+      '.project, .offer-step'
     );
     if (!blocks.length) return;
 
@@ -635,7 +637,7 @@
         button.setAttribute('aria-pressed', String(isDark));
         button.setAttribute('aria-label', isDark ? 'Activer le thème clair' : 'Activer le thème sombre');
       }
-      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#131315' : '#f5f2ed');
+      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#131315' : '#e8e6e1');
     }
 
     function applyTheme(theme) {
@@ -674,6 +676,16 @@
     syncButton(currentTheme());
 
     if (button) button.addEventListener('click', () => toggleTheme(button));
+
+    // Sans choix enregistré, le site suit le thème du système, même en cours de visite.
+    const systemLight = window.matchMedia('(prefers-color-scheme: light)');
+    const followSystem = () => {
+      let stored = null;
+      try { stored = localStorage.getItem('theme'); } catch (e) {}
+      if (stored === 'light' || stored === 'dark') return;
+      applyTheme(systemLight.matches ? 'light' : 'dark');
+    };
+    if (systemLight.addEventListener) systemLight.addEventListener('change', followSystem);
   }
 
   // ===== Hero : aperçu des démos =====

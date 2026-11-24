@@ -8,7 +8,7 @@ from .models import BlogPost
 
 
 class LatestPostsFeed(Feed):
-    title = "Blog — killianp.dev"
+    title = "Blog — killianp-dev"
     link = reverse_lazy("blog:home")
     description = "Conseils pour le site internet de votre commerce, et notes techniques."
 

@@ -119,7 +119,7 @@ class ContactSpamTests(TestCase):
     def test_normal_submit_accepted(self):
         response = self.client.post(
             reverse("contact_form:contact"),
-            contact_payload(message="Bonjour, un seul lien https://killianp.dev merci."),
+            contact_payload(message="Bonjour, un seul lien https://killianp-dev merci."),
         )
         self.assertRedirects(response, reverse("contact_form:success"))
         self.assertEqual(Contact.objects.count(), 1)

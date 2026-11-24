@@ -18,5 +18,5 @@ Recadrées en 4:5 et optimisées pour le web.
 | realisations/carre-lisse.jpg | https://unsplash.com/photos/rlsl-exipt8 |
 | realisations/brushing.jpg | https://unsplash.com/photos/MmDO1-ezCE4 |
 
-apercu.jpg : capture de la page d'accueil de la démo, utilisée sur killianp.dev.
+apercu.jpg : capture de la page d'accueil de la démo, utilisée sur killianp-dev.
 couleur.jpg, soin.jpg, barbe.jpg : photos d'origine du projet, conservées.

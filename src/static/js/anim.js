@@ -141,11 +141,12 @@
   }
 
   // ===== Apparition des blocs au défilement =====
-  // Mêmes blocs qu'avant (app.js) ; ceux déjà à l'écran au chargement ne sont jamais
-  // cachés. Ils arrivent par trois en cascade, avec un ressort doux.
+  // Seulement les démos et les trois étapes du déroulement (une suite qui se lit dans
+  // l'ordre) : le reste de la page ne s'anime pas. Ceux déjà à l'écran au chargement
+  // ne sont jamais cachés. Ils arrivent par trois en cascade, avec un ressort doux.
   function scrollReveals() {
     const blocks = Array.from(document.querySelectorAll(
-      '.projects__header, .project, .offer-step, .pricing-card, .pricing-plan, .about__panel, .about__aside'
+      '.project, .offer-step'
     )).filter((el) => !inViewport(el));
     if (!blocks.length) return;
 
@@ -184,31 +185,11 @@
     }, { margin: '0px 0px -8% 0px' });
   }
 
-  // ===== Ressorts au survol et au clic =====
-  // Soulèvement au survol (pointeur fin) et léger enfoncement au clic, par les
-  // propriétés « translate » / « scale » (variables --m-lift, --m-s) : elles
-  // s'ajoutent aux « transform » des survols CSS sans les remplacer. Les classes
-  // ne restent posées que pendant le mouvement (translate crée un contexte d'empilement).
+  // ===== Ressort au clic =====
+  // Léger enfoncement au clic, par la propriété « scale » (variable --m-s) : elle
+  // s'ajoute aux « transform » des survols CSS sans les remplacer. La classe ne reste
+  // posée que pendant le mouvement (scale crée un contexte d'empilement).
   const current = (el, prop, fallback) => el.style.getPropertyValue(prop).trim() || fallback;
-
-  function springHover(el, lift) {
-    if (!finePointer) return;
-    el.classList.add('has-lift');
-    let inside = false;
-    const to = (value) => {
-      el.classList.add('m-lift');
-      return animate(el, { '--m-lift': [current(el, '--m-lift', '0px'), value] }, SPRING);
-    };
-    el.addEventListener('pointerenter', () => { inside = true; to(`${lift}px`); });
-    el.addEventListener('pointerleave', () => {
-      inside = false;
-      to('0px').then(() => {
-        if (inside) return;
-        clear(el, '--m-lift');
-        el.classList.remove('m-lift');
-      });
-    });
-  }
 
   function springPress(el) {
     let pressed = false;
@@ -232,7 +213,6 @@
   }
 
   function initSprings() {
-    document.querySelectorAll('.pricing-card').forEach((card) => springHover(card, -6));
     document.querySelectorAll('.hero__trade, .hero-btn, .navbar-cta, .pricing-plan__cta, .project__link').forEach(springPress);
   }
 

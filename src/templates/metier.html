@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Référencement et site internet {{ metier.pour }} · killianp.dev{% endblock %}
+{% block title %}Référencement et site internet {{ metier.pour }} · killianp-dev{% endblock %}
 {% block body_class %}metier-page{% endblock %}
 
 {% block extra_head %}
-{% with titre="Référencement et site internet "|add:metier.pour|add:" · killianp.dev" %}
+{% with titre="Référencement et site internet "|add:metier.pour|add:" · killianp-dev" %}
 {% include "partials/seo.html" with title=titre description=metier.description %}
 {% endwith %}
 {{ jsonld }}
@@ -23,7 +23,7 @@
                 </ol>
             </nav>
             <p class="section-eyebrow">Référencement et site internet</p>
-            <h1 class="metier-hero__title" id="metier-title">Référencement et site internet <em>{{ metier.pour }}</em></h1>
+            <h1 class="metier-hero__title" id="metier-title">Référencement et site internet <span class="metier-hero__pour">{{ metier.pour }}</span></h1>
             <p class="metier-hero__lead">{{ metier.accroche }}</p>
             <div class="metier-hero__actions">
                 <a class="hero-btn" href="{% url 'contact_form:contact' %}?sujet={{ sujet|urlencode }}">Demander un devis</a>
@@ -37,7 +37,7 @@
         <a class="project__media metier-hero__media" href="{{ metier.demo_url }}" aria-label="Ouvrir la démo : {{ metier.demo_nom }}, {{ metier.nom|lower }} fictive">
             <span class="project__bar" aria-hidden="true">
                 <span class="project__dots"><i></i><i></i><i></i></span>
-                <span class="project__url">killianp.dev{{ metier.demo_url }}</span>
+                <span class="project__url">killianp-dev{{ metier.demo_url }}</span>
             </span>
             <span class="project__shot">
                 <img src="{% static metier.apercu %}?v={{ metier.apercu_v }}" alt="Page d'accueil de {{ metier.demo_nom }}, exemple de site {{ metier.pour }}" width="1400" height="933" fetchpriority="high" decoding="async">
@@ -46,18 +46,13 @@
     </section>
 
     <section class="metier-section" aria-labelledby="besoins-title">
-        <header class="projects__header">
-            <p class="section-eyebrow">Ce que le site montre</p>
+        <header class="section-head section-head--split">
             <h2 id="besoins-title">Un site {{ metier.pour }}, pensé pour vos clients</h2>
-            <p class="projects__intro">
-                <span class="projects__intro-lead">L'essentiel, <em>en quelques secondes</em>.</span>
-                <span class="projects__intro-text">Des pages construites autour de ce que vos clients cherchent, à partir d'un modèle de votre métier.</span>
-            </p>
+            <p>L'essentiel se voit en quelques secondes : des pages construites autour de ce que vos clients cherchent, à partir d'un modèle de votre métier.</p>
         </header>
         <ol class="metier-besoins">
             {% for titre, texte in metier.besoins %}
             <li class="metier-besoin">
-                <span class="metier-besoin__index">{{ forloop.counter|stringformat:"02d" }}</span>
                 <h3 class="metier-besoin__title">{{ titre }}</h3>
                 <p class="metier-besoin__text">{{ texte }}</p>
             </li>
@@ -84,13 +79,8 @@
     </section>
 
     <section class="metier-section" aria-labelledby="deroulement-title">
-        <header class="projects__header">
-            <p class="section-eyebrow">Déroulement</p>
-            <h2 id="deroulement-title">Comment se passe l'accompagnement</h2>
-            <p class="projects__intro">
-                <span class="projects__intro-lead"><em>Trois</em> étapes, rien de plus.</span>
-                <span class="projects__intro-text">Du premier message au site en ligne, en trois semaines environ.</span>
-            </p>
+        <header class="section-head section-head--stacked">
+            <h2 id="deroulement-title">Du premier message au site en ligne, en trois semaines environ</h2>
         </header>
         {% include "partials/deroulement.html" %}
     </section>
@@ -100,7 +90,7 @@
             <div>
                 <p class="section-eyebrow">Formule</p>
                 <h2 class="metier-formule__title" id="formule-title">Une mise en œuvre technique, puis un abonnement tout compris</h2>
-                <p>Une mise en œuvre pensée pour le référencement, puis le suivi du référencement, l'hébergement, le nom de domaine à votre nom, une adresse e-mail professionnelle et la maintenance : tout est compris. Le tarif est fixé dans un devis, après un premier échange.</p>
+                <p>La création du site, pensée pour le référencement, à partir de {{ TARIFS.creation_affiche }}&nbsp;€{% if TARIFS.promo %} (offre {{ TARIFS.promo.nom }} jusqu'au {{ TARIFS.promo.fin|date:"j F" }}, au lieu de {{ TARIFS.creation }}&nbsp;€){% endif %}. Puis un abonnement à partir de {{ TARIFS.abonnement }}&nbsp;€ par mois : suivi du référencement, 1&nbsp;h de modifications par mois, hébergement, sécurité, nom de domaine à votre nom et adresse e-mail professionnelle. Le prix exact est fixé dans un devis.</p>
             </div>
             <div class="metier-formule__actions">
                 <a class="hero-btn" href="{% url 'contact_form:contact' %}?sujet={{ sujet|urlencode }}">Demander un devis</a>
@@ -110,8 +100,7 @@
     </section>
 
     <section class="metier-section" aria-labelledby="faq-title">
-        <header class="projects__header">
-            <p class="section-eyebrow">Questions fréquentes</p>
+        <header class="section-head section-head--stacked">
             <h2 id="faq-title">Vos questions sur le site {{ metier.pour }}</h2>
         </header>
         <div class="metier-faq">

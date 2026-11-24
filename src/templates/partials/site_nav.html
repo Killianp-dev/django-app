@@ -9,7 +9,7 @@ Navigation principale, partagée par base.html et index.html.
         <ul class="nav-links">
             <li><a href="{% if on_home %}#hero{% else %}{{ index_url }}{% endif %}"><span class="nav-links__index" aria-hidden="true">01</span><span class="nav-links__label">Accueil</span></a></li>
             <li class="nav-links__demos" data-nav-demos>
-                <a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__index" aria-hidden="true">02</span><span class="nav-links__label">Exemples</span></a>
+                <a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__index" aria-hidden="true">02</span><span class="nav-links__label">Exemples</span><span class="nav-links__losange" aria-hidden="true"></span></a>
                 {% comment %}Ordinateur : s'ouvre au survol d'« Exemples » et au clavier (focus dans l'élément) ; un clic mène à la section.
                 Mobile : pas de survol, un appui sur « Exemples » déplie la liste (app.js, initNavDemos).{% endcomment %}
                 <div class="nav-demos" id="nav-demos">

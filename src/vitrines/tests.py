@@ -123,7 +123,7 @@ class RetourAccueilTests(TestCase):
                     html = self.client.get(prefix + page).content.decode()
                     self.assertRegex(html, r'class="demo-banner__marque" href="/"')
                     self.assertIn('class="demo-banner__retour" href="/#exemples"', html)
-                    self.assertIn("Démo réalisée par <strong>killianp.dev</strong>", html)
+                    self.assertIn("Démo réalisée par <strong>killianp-dev</strong>", html)
                     self.assertRegex(html, r'class="demo-cta-flottant__retour" href="/"')
                     self.assertIn("vitrine/js/demo_cta.js", html)
 
@@ -209,7 +209,9 @@ class PortfolioTests(TestCase):
         for prefix in PREFIXES.values():
             with self.subTest(prefix=prefix):
                 self.assertIn(f'href="{prefix}"', html)
-        self.assertIn("<small>/ 06</small>", html)
+        # Les démos ne forment pas une suite : pas de numérotation « 01 / 06 ».
+        self.assertEqual(html.count('class="project"'), 6)
+        self.assertNotIn("project__index", html)
 
     def test_accueil_presente_l_agence(self):
         html = self.client.get("/").content.decode()
