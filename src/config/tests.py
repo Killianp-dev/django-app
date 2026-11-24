@@ -175,6 +175,13 @@ class SeoTests(TestCase):
         libelles = re.findall(r'class="nav-links__label">([^<]+)<', menu)
         self.assertEqual(libelles, ["Accueil", "Exemples", "Blog", "À propos", "Formule"])
 
+    def test_pas_de_commentaire_de_gabarit_affiche(self):
+        # Un {# … #} sur plusieurs lignes n'est pas un commentaire pour Django : il s'afficherait.
+        BlogPost.objects.create(title="Article", published=True, category=BlogPost.COMMERCE)
+        html = self.client.get(reverse("index")).content.decode()
+        self.assertNotIn("{#", html)
+        self.assertNotIn("#}", html)
+
     def test_ordre_de_la_section_exemples(self):
         exemples = self.client.get(reverse("index")).context["exemples"]
         ordre = [projet.namespace for projet in exemples]

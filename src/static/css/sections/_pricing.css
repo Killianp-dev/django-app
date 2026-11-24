@@ -27,6 +27,7 @@
 
 .pricing-card {
   position: relative;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   padding: 2.1rem 1.9rem 2rem;
@@ -66,6 +67,21 @@ html[data-theme="dark"] .pricing-card__badge--promo {
 
 html[data-theme="dark"] .pricing-card__badge {
   color: var(--color-accent-bright);
+}
+
+/* Carte étroite (mobile, colonnes serrées) : la pastille (~290 px) passerait sur le titre (~190 px).
+   Elle revient dans le flux, au-dessus de lui, à la largeur de son texte. */
+@container (max-width: 520px) {
+  .pricing-card__badge {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 1.1rem;
+    font-size: 0.76rem;
+    line-height: 1.35;
+    /* Sur deux lignes, une pilule ronde devient un ovale : coins plus doux. */
+    border-radius: 0.85rem;
+    text-wrap: balance;
+  }
 }
 
 .pricing-card__head {

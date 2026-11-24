@@ -233,10 +233,10 @@ html[data-theme="dark"] .logo-dot {
   color: var(--color-accent-bright);
 }
 
+/* Le nom commercial seul, en capitales espacées, sous killianp-dev. */
 .logo-tagline {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
   font-family: var(--font-sans);
   font-size: 0.6rem;
   font-weight: 600;
@@ -245,31 +245,7 @@ html[data-theme="dark"] .logo-dot {
   color: var(--nav-fg-muted);
 }
 
-.logo-tagline::before {
-  content: "";
-  width: 0.9rem;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
-  transition: width 0.45s var(--nav-ease);
-}
-
-.logo a:hover .logo-tagline::before {
-  width: 1.4rem;
-}
-
-/* Nom commercial : « par » en italique, puis Neuralab en capitales espacées,
-   traversé au survol par un reflet de la couleur d'accent. */
-.logo-tagline__by {
-  margin-right: -0.1rem;
-  font-family: var(--font-serif);
-  font-size: 0.82rem;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-  text-transform: none;
-}
-
+/* Neuralab, traversé au survol par un reflet de la couleur d'accent. */
 .logo-tagline__brand {
   --brand-shine: var(--color-accent);
   background: linear-gradient(100deg, var(--nav-fg-muted) 0 35%, var(--brand-shine) 50%, var(--nav-fg-muted) 65% 100%);
@@ -880,7 +856,6 @@ html[data-theme="dark"] .navbar-cta {
   .logo-mark,
   .logo-mark__arm,
   .logo-mark__dot,
-  .logo-tagline::before,
   .logo-tagline__brand,
   .theme-toggle,
   .hamburger,

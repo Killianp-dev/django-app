@@ -12,13 +12,23 @@
   scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
 }
 
+/* Ordinateur : la photo à gauche sur toute la hauteur, le titre puis le texte à droite.
+   Mobile (760 px) : le titre, la photo, puis le texte. */
 .about__layout {
   display: grid;
   grid-template-columns: minmax(260px, 360px) minmax(0, 1fr);
-  gap: 2rem 4.5rem;
+  grid-template-areas:
+    "aside title"
+    "aside body";
+  grid-template-rows: auto 1fr;
+  gap: 0 4.5rem;
   align-items: start;
   text-align: left;
 }
+
+.about__statement { grid-area: title; }
+.about__aside { grid-area: aside; }
+.about__body { grid-area: body; }
 
 /* ---------- Colonne portrait ---------- */
 
@@ -339,7 +349,7 @@ html[data-theme="dark"] .about__panel li::before {
 
 @media (max-width: 960px) {
   .about__layout {
-    gap: 2rem 3rem;
+    column-gap: 3rem;
   }
 
   .about__panels {
@@ -350,6 +360,16 @@ html[data-theme="dark"] .about__panel li::before {
 @media (max-width: 760px) {
   .about__layout {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "title"
+      "aside"
+      "body";
+    grid-template-rows: none;
+    row-gap: 2rem;
+  }
+
+  .about__statement {
+    margin-bottom: 0;
   }
 
   .about__aside {
@@ -371,8 +391,15 @@ html[data-theme="dark"] .about__panel li::before {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Photo et vignettes centrées sous le titre. */
   .about__portrait {
+    width: 100%;
     max-width: 300px;
+    margin-inline: auto;
+  }
+
+  .about__stack {
+    justify-content: center;
   }
 
   .about__panel {

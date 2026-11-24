@@ -86,7 +86,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  /* Pas d'overflow: hidden : il rognait la lueur de l'icône (lights.css), surtout sur mobile. */
   max-width: var(--content-max);
   margin: 1.5rem auto 2.5rem;
   padding: 0 var(--page-gutter);

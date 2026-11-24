@@ -30,8 +30,8 @@ Décorative (le conteneur porte aria-hidden) ; couleurs fixes, le hero est sombr
         </symbol>
     </defs>
 
-    <!-- Ombre au sol -->
-    <ellipse cx="250" cy="430" rx="230" ry="26" fill="url(#art-ground)"/>
+    <!-- Ombre au sol : se resserre quand le commerce flotte (_hero.css) -->
+    <ellipse class="hero-art__ground" cx="250" cy="430" rx="230" ry="26" fill="url(#art-ground)"/>
 
     <!-- Bâtiment : toit, flanc, façade -->
     <g class="hero-art__shop">
@@ -81,10 +81,12 @@ Décorative (le conteneur porte aria-hidden) ; couleurs fixes, le hero est sombr
 
     <!-- Épingle de carte -->
     <g class="hero-art__pin">
-        <ellipse cx="118" cy="132" rx="16" ry="5" fill="#0c0c0e" opacity="0.28"/>
-        <path d="M118 128c-14-17-22-27-22-39a22 22 0 0 1 44 0c0 12-8 22-22 39Z" fill="#d9bd84"/>
-        <path d="M118 128c-14-17-22-27-22-39a22 22 0 0 1 22-22Z" fill="#b8955a"/>
-        <circle cx="118" cy="89" r="8" fill="#17181b"/>
+        <ellipse class="hero-art__pin-shadow" cx="118" cy="132" rx="16" ry="5" fill="#0c0c0e" opacity="0.28"/>
+        <g class="hero-art__pin-body">
+            <path d="M118 128c-14-17-22-27-22-39a22 22 0 0 1 44 0c0 12-8 22-22 39Z" fill="#d9bd84"/>
+            <path d="M118 128c-14-17-22-27-22-39a22 22 0 0 1 22-22Z" fill="#b8955a"/>
+            <circle cx="118" cy="89" r="8" fill="#17181b"/>
+        </g>
     </g>
 
     <!-- Fiche du commerce dans les résultats de recherche -->
