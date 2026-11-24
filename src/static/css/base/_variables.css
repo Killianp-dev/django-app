@@ -84,7 +84,7 @@
   --transition-normal: all 0.35s var(--ease-out);
 
   /* Hauteurs des elements fixes */
-  --navbar-height: 72px;
+  --navbar-height: 84px;
   --footer-height: 60px;
 
   /* Layout */

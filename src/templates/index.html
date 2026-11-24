@@ -129,12 +129,15 @@
     </div>
 </section>
 
-{% comment %}Séparateur entre les Exemples et le Déroulement : un parcours en étapes (pas un losange,
-déjà répété dans la bande juste au-dessus). Chaque séparateur a sa propre icône.{% endcomment %}
+{% comment %}Séparateur entre les Exemples et le Déroulement : une étoile en astérisque, six branches
+arrondies qui s'affinent vers le centre (trois barres identiques tournées de 60°). Pas un losange,
+déjà répété dans la bande juste au-dessus : chaque séparateur a sa propre icône.{% endcomment %}
 <div class="section-divider" aria-hidden="true">
     <div class="divider-icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false">
-            <path d="M23 8c0 1.1-.9 2-2 2-.18 0-.35-.02-.51-.07l-3.56 3.55c.05.16.07.34.07.52 0 1.1-.9 2-2 2s-2-.9-2-2c0-.18.02-.36.07-.52l-2.55-2.55c-.16.05-.34.07-.52.07s-.36-.02-.52-.07l-4.55 4.56c.05.16.07.33.07.51 0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2c.18 0 .35.02.51.07l4.56-4.55C8.02 9.36 8 9.18 8 9c0-1.1.9-2 2-2s2 .9 2 2c0 .18-.02.36-.07.52l2.55 2.55c.16-.05.34-.07.52-.07s.36.02.52.07l3.55-3.56C19.02 8.35 19 8.18 19 8c0-1.1.9-2 2-2s2 .9 2 2z"></path>
+            <path d="M9.9 3.6a2.1 2.1 0 0 1 4.2 0L13.05 12l1.05 8.4a2.1 2.1 0 0 1-4.2 0L10.95 12Z"></path>
+            <path d="M9.9 3.6a2.1 2.1 0 0 1 4.2 0L13.05 12l1.05 8.4a2.1 2.1 0 0 1-4.2 0L10.95 12Z" transform="rotate(60 12 12)"></path>
+            <path d="M9.9 3.6a2.1 2.1 0 0 1 4.2 0L13.05 12l1.05 8.4a2.1 2.1 0 0 1-4.2 0L10.95 12Z" transform="rotate(120 12 12)"></path>
         </svg>
     </div>
 </div>
@@ -190,16 +193,6 @@ déjà répété dans la bande juste au-dessus). Chaque séparateur a sa propre 
                     <span>Conseil informatique, formé au Cnam</span>
                 </figcaption>
             </figure>
-            {# Icônes inspirées de Lucide (licence ISC). Lueur, aimant et apparition : initStackChips() dans app.js. #}
-            <ul class="about__stack" aria-label="Technologies et domaines" data-stack>
-                <li class="about__chip" style="--i: 0"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span>Référencement SEO</li>
-                <li class="about__chip" style="--i: 1"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg></span>Python</li>
-                <li class="about__chip" style="--i: 2"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span>Django</li>
-                <li class="about__chip" style="--i: 3"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>HTML / CSS</li>
-                <li class="about__chip" style="--i: 4"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5a2 2 0 0 0 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></svg></span>JavaScript</li>
-                <li class="about__chip" style="--i: 5"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg></span>Java</li>
-                <li class="about__chip" style="--i: 6"><span class="about__chip-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z"/><path d="m9 12 2 2 4-4"/></svg></span>Cybersécurité</li>
-            </ul>
         </aside>
         <div class="about__body">
             <p class="about__lead">Avec killianp-dev, je fais du conseil et de l'expertise informatique, avec une spécialité : le référencement naturel (SEO). Je regarde comment vos clients vous cherchent, je choisis les solutions adaptées et je les mets en œuvre, à commencer par un site rapide, bien structuré, qui donne envie de vous contacter.</p>

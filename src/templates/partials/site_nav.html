@@ -1,15 +1,16 @@
 {% comment %}
 Navigation principale, partagée par base.html et index.html.
 `on_home` : liens d'ancre relatifs (#section) pour le défilement doux sur la page d'accueil.
+Liens aérés, sans numérotation (ce n'est pas une suite) ; la section affichée est soulignée
+d'un filet laiton (ordinateur : il glisse d'un lien à l'autre, app.js moveNavThumb).
 {% endcomment %}
 {% url 'index' as index_url %}
 <nav class="nav-menu" id="site-nav" aria-label="Navigation principale">
     <div class="nav-menu__panel">
-        <p class="nav-menu__kicker" aria-hidden="true">Menu</p>
         <ul class="nav-links">
-            <li><a href="{% if on_home %}#hero{% else %}{{ index_url }}{% endif %}"><span class="nav-links__index" aria-hidden="true">01</span><span class="nav-links__label">Accueil</span></a></li>
+            <li><a href="{% if on_home %}#hero{% else %}{{ index_url }}{% endif %}"><span class="nav-links__label">Accueil</span></a></li>
             <li class="nav-links__demos" data-nav-demos>
-                <a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__index" aria-hidden="true">02</span><span class="nav-links__label">Exemples</span><span class="nav-links__losange" aria-hidden="true"></span></a>
+                <a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__label">Exemples</span><svg class="nav-links__chevron" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 4.75 6 7.75l3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                 {% comment %}Ordinateur : s'ouvre au survol d'« Exemples » et au clavier (focus dans l'élément) ; un clic mène à la section.
                 Mobile : pas de survol, un appui sur « Exemples » déplie la liste (app.js, initNavDemos).{% endcomment %}
                 <div class="nav-demos" id="nav-demos">
@@ -28,9 +29,9 @@ Navigation principale, partagée par base.html et index.html.
                     </div>
                 </div>
             </li>
-            <li><a href="{% if on_home %}#blog{% else %}{% url 'blog:home' %}{% endif %}"{% if request.resolver_match.namespace == 'blog' %} class="active" aria-current="page"{% endif %}><span class="nav-links__index" aria-hidden="true">03</span><span class="nav-links__label">Blog</span></a></li>
-            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#a-propos"><span class="nav-links__index" aria-hidden="true">04</span><span class="nav-links__label">À propos</span></a></li>
-            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#formule"><span class="nav-links__index" aria-hidden="true">05</span><span class="nav-links__label">Formule</span></a></li>
+            <li><a href="{% if on_home %}#blog{% else %}{% url 'blog:home' %}{% endif %}"{% if request.resolver_match.namespace == 'blog' %} class="active" aria-current="page"{% endif %}><span class="nav-links__label">Blog</span></a></li>
+            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#a-propos"><span class="nav-links__label">À propos</span></a></li>
+            <li><a href="{% if not on_home %}{{ index_url }}{% endif %}#formule"><span class="nav-links__label">Formule</span></a></li>
         </ul>
         <div class="nav-menu__footer">
             <p class="nav-menu__status"><span class="status-dot" aria-hidden="true"></span>Disponible pour de nouveaux projets</p>

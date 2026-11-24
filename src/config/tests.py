@@ -276,9 +276,16 @@ class RetoursDu24NovembreTests(TestCase):
         self.assertNotIn("killianp.dev", accueil)
         self.assertIn('<span class="logo-name">killianp-<span class="logo-dot">dev</span></span>', accueil)
 
-    def test_losange_du_sous_menu_exemples(self):
+    def test_chevron_du_sous_menu_exemples(self):
         html = self.client.get(reverse("blog:home")).content.decode()
-        self.assertIn('class="nav-links__losange" aria-hidden="true"', html)
+        self.assertIn('class="nav-links__chevron"', html)
+        self.assertNotIn("nav-links__losange", html)
+
+    def test_menu_sans_numerotation(self):
+        # Les liens du menu ne forment pas une suite : pas de « 01 … 05 », pas d'étiquette « Menu ».
+        html = self.client.get(reverse("index")).content.decode()
+        self.assertNotIn("nav-links__index", html)
+        self.assertNotIn("nav-menu__kicker", html)
 
     def test_pas_de_mot_en_italique_dans_les_titres(self):
         accueil = self.client.get(reverse("index")).content.decode()

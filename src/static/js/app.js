@@ -80,10 +80,13 @@
       navList.style.setProperty('--thumb-o', '0');
       return;
     }
-    // Position mesurée par rapport à la liste : offsetLeft serait relatif au <li>
-    // d'« Exemples » (positionné pour son sous-menu), la pastille irait sous « Accueil ».
-    const x = `${active.getBoundingClientRect().left - navList.getBoundingClientRect().left - navList.clientLeft}px`;
-    const w = `${active.offsetWidth}px`;
+    // Le filet couvre le mot seul (pas le chevron d'« Exemples »). Position mesurée par
+    // rapport à la liste : offsetLeft serait relatif au <li> d'« Exemples » (positionné
+    // pour son sous-menu), le filet irait sous « Accueil ».
+    const word = active.querySelector('.nav-links__label') || active;
+    const box = word.getBoundingClientRect();
+    const x = `${box.left - navList.getBoundingClientRect().left - navList.clientLeft}px`;
+    const w = `${box.width}px`;
     const motion = window.siteMotion;
     const shown = navList.style.getPropertyValue('--thumb-o') === '1';
     if (motion && !instant && shown) {
@@ -471,67 +474,6 @@
         surface.style.setProperty('--glow-x', `${event.clientX - rect.left}px`);
         surface.style.setProperty('--glow-y', `${event.clientY - rect.top}px`);
       }, { passive: true });
-    });
-  }
-
-  // ===== À propos : vignettes de la stack =====
-  // Apparition en cascade à l'arrivée à l'écran ; à la souris, une lueur suit le curseur
-  // sur les contours de toutes les vignettes et celle survolée se laisse un peu attirer.
-  function initStackChips() {
-    const stack = document.querySelector('[data-stack]');
-    if (!stack) return;
-    const chips = Array.from(stack.querySelectorAll('.about__chip'));
-    const motion = !prefersReducedMotion();
-
-    if (motion && 'IntersectionObserver' in window) {
-      const rect = stack.getBoundingClientRect();
-      if (rect.top > window.innerHeight || rect.bottom < 0) {
-        stack.classList.add('is-armed');
-        const observer = new IntersectionObserver((records) => {
-          if (!records.some((record) => record.isIntersecting)) return;
-          observer.disconnect();
-          stack.classList.add('is-in');
-          window.setTimeout(() => stack.classList.remove('is-armed', 'is-in'), 1400);
-        }, { rootMargin: '0px 0px -8% 0px' });
-        observer.observe(stack);
-      }
-    }
-
-    if (!hasFinePointer()) return;
-
-    let frame = 0;
-    let pointer = null;
-
-    const paint = () => {
-      frame = 0;
-      if (!pointer) return;
-      chips.forEach((chip) => {
-        const box = chip.getBoundingClientRect();
-        const x = pointer.x - box.left;
-        const y = pointer.y - box.top;
-        chip.style.setProperty('--mx', `${x}px`);
-        chip.style.setProperty('--my', `${y}px`);
-        if (!motion) return;
-        const inside = x >= 0 && y >= 0 && x <= box.width && y <= box.height;
-        chip.style.setProperty('--tx', inside ? `${((x / box.width) - 0.5) * 4}px` : '0px');
-        chip.style.setProperty('--ty', inside ? `${((y / box.height) - 0.5) * 3 - 1}px` : '0px');
-      });
-    };
-
-    const area = stack.closest('.about__aside') || stack;
-    area.addEventListener('pointermove', (event) => {
-      pointer = { x: event.clientX, y: event.clientY };
-      stack.classList.add('is-lit');
-      if (!frame) frame = window.requestAnimationFrame(paint);
-    }, { passive: true });
-
-    area.addEventListener('pointerleave', () => {
-      pointer = null;
-      stack.classList.remove('is-lit');
-      chips.forEach((chip) => {
-        chip.style.setProperty('--tx', '0px');
-        chip.style.setProperty('--ty', '0px');
-      });
     });
   }
 
@@ -1249,7 +1191,6 @@
     initReadingProgress();
     initArticleCopyBlocks();
     initSurfaceGlow();
-    initStackChips();
     initCookieModal();
     initScrollbarTint();
   }

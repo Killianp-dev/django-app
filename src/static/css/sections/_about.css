@@ -79,120 +79,6 @@
   color: rgba(255, 255, 255, 0.82);
 }
 
-.about__stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 1.1rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* Vignettes : icône dans un rond teinté, comme les pastilles « Votre métier » du hero. */
-.about__chip {
-  --chip-accent: var(--color-accent);
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.24rem 0.78rem 0.24rem 0.26rem;
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-full);
-  background:
-    linear-gradient(180deg, var(--color-surface), color-mix(in srgb, var(--color-surface) 94%, var(--chip-accent)));
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 6px 14px -12px rgba(20, 24, 31, 0.45);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  line-height: 1.2;
-  color: var(--color-ink-soft);
-  translate: var(--tx, 0px) var(--ty, 0px);
-  transition:
-    translate 0.45s var(--ease-out),
-    color 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.35s ease;
-}
-
-html[data-theme="dark"] .about__chip {
-  --chip-accent: var(--color-accent-bright);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 8px 18px -14px rgba(0, 0, 0, 0.8);
-}
-
-.about__chip-badge {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 1.42rem;
-  height: 1.42rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--chip-accent) 13%, transparent);
-  color: var(--chip-accent);
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.45s var(--ease-out);
-}
-
-.about__chip-badge svg {
-  width: 0.8rem;
-  height: 0.8rem;
-}
-
-/* Contour éclairé : un filet de 1 px révélé par un dégradé qui suit le curseur. */
-.about__chip::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  padding: 1px;
-  border-radius: inherit;
-  background: radial-gradient(90px circle at var(--mx, 50%) var(--my, 50%), var(--chip-accent), transparent 72%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.about__stack.is-lit .about__chip::before {
-  opacity: 1;
-}
-
-.about__chip:hover {
-  color: var(--color-ink);
-  border-color: color-mix(in srgb, var(--chip-accent) 35%, var(--color-border-strong));
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset, 0 10px 22px -14px rgba(var(--accent-rgb), 0.6);
-}
-
-.about__chip:hover .about__chip-badge {
-  background: var(--chip-accent);
-  color: var(--color-surface);
-  transform: rotate(-8deg) scale(1.06);
-}
-
-/* Apparition en cascade, armée par le JS seulement si la liste est hors de l'écran. */
-.about__stack.is-armed .about__chip {
-  opacity: 0;
-  transform: translateY(8px) scale(0.96);
-}
-
-.about__stack.is-in .about__chip {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity 0.5s ease calc(0.2s + var(--i, 0) * 0.07s),
-    transform 0.7s var(--ease-out) calc(0.2s + var(--i, 0) * 0.07s);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .about__chip,
-  .about__chip-badge {
-    transition: none;
-  }
-
-  .about__chip:hover .about__chip-badge {
-    transform: none;
-  }
-}
-
 /* ---------- Parallax de la photo ----------
    La photo glisse plus lentement que la page dans son cadre : la seule animation
    liée au défilement du site. Pilotée par le défilement de la section entière (la
@@ -372,36 +258,19 @@ html[data-theme="dark"] .about__panel li::before {
     margin-bottom: 0;
   }
 
+  /* La photo, centrée sous le titre. */
   .about__aside {
     position: static;
-    display: grid;
-    grid-template-columns: minmax(140px, 190px) minmax(0, 1fr);
-    gap: 1.25rem;
-    align-items: end;
   }
 
-  .about__stack {
-    margin: 0;
-    align-content: flex-end;
-  }
-}
-
-@media (max-width: 520px) {
-  .about__aside {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  /* Photo et vignettes centrées sous le titre. */
   .about__portrait {
     width: 100%;
     max-width: 300px;
     margin-inline: auto;
   }
+}
 
-  .about__stack {
-    justify-content: center;
-  }
-
+@media (max-width: 520px) {
   .about__panel {
     padding: 1.35rem 1.2rem 1.15rem;
   }

@@ -36,24 +36,6 @@
     return rect.top < window.innerHeight && rect.bottom > 0;
   };
 
-  // ===== Icônes qui se dessinent =====
-  // Chaque tracé (path, cercle, rectangle…) part de zéro et se dessine ; l'icône
-  // retrouve ensuite son rendu normal.
-  function drawIcon(svg, { delay = 0, duration = 0.7 } = {}) {
-    if (!svg) return;
-    const shapes = svg.querySelectorAll('path, circle, rect, line, polyline, polygon, ellipse');
-    shapes.forEach((shape, i) => {
-      shape.setAttribute('pathLength', '1');
-      shape.style.strokeDasharray = '1 1';
-      shape.style.strokeDashoffset = '1';
-      animate(shape, { strokeDashoffset: [1, 0] }, { duration, ease: EASE, delay: delay + i * 0.06 })
-        .then(() => {
-          clear(shape, 'stroke-dasharray', 'stroke-dashoffset');
-          shape.removeAttribute('pathLength');
-        });
-    });
-  }
-
   // ===== Hero : entrée en séquence =====
   // Le titre, puis le bouton ; l'illustration se pose en parallèle.
   function heroEntrance() {
@@ -130,18 +112,6 @@
     }, { margin: '0px 0px -10% 0px' });
   }
 
-  // ===== À propos : icônes des vignettes =====
-  // Les vignettes gardent leur cascade CSS (app.js, initStackChips) ; leurs icônes se dessinent en même temps.
-  function stackIcons() {
-    const stack = document.querySelector('[data-stack]');
-    if (!stack || inViewport(stack)) return;
-    inView(stack, () => {
-      stack.querySelectorAll('.about__chip').forEach((chip, i) => {
-        drawIcon(chip.querySelector('.about__chip-badge svg'), { delay: 0.3 + i * 0.07, duration: 0.6 });
-      });
-    }, { margin: '0px 0px -8% 0px' });
-  }
-
   // ===== Ressort au clic =====
   // Léger enfoncement au clic, par la propriété « scale » (variable --m-s) : elle
   // s'ajoute aux « transform » des survols CSS sans les remplacer. La classe ne reste
@@ -175,6 +145,5 @@
 
   heroEntrance();
   scrollReveals();
-  stackIcons();
   initSprings();
 })();

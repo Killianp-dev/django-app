@@ -64,7 +64,7 @@ html {
 }
 
 .navbar.scrolled {
-  height: 60px;
+  height: 64px;
 }
 
 .navbar.scrolled .navbar__glass,
@@ -275,51 +275,61 @@ html[data-theme="dark"] .logo-tagline__brand {
   display: contents;
 }
 
-.nav-menu__kicker,
-.nav-menu__footer,
-.nav-links__index {
+.nav-menu__footer {
   display: none;
 }
 
+/* Liens dans la police du texte (le serif tranchait avec le reste de la barre), plus grands
+   et espacés, sans rail ni fond. La section affichée est soulignée d'un filet laiton de la
+   largeur du mot. */
 .nav-links {
+  --nav-rule: var(--color-accent);
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: clamp(1.5rem, 3vw, 3rem);
   margin: 0;
-  padding: 4px;
+  padding: 0;
   list-style: none;
-  border-radius: var(--radius-full);
-  background: var(--nav-track);
-  box-shadow: inset 0 0 0 1px var(--nav-line);
+}
+
+html[data-theme="dark"] .nav-links {
+  --nav-rule: var(--color-accent-bright);
 }
 
 .nav-links > li > a {
   position: relative;
-  display: block;
-  padding: 0.42rem 0.95rem;
-  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 0;
   color: var(--nav-fg-muted);
-  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.3;
+  letter-spacing: 0.005em;
   text-decoration: none;
   white-space: nowrap;
-  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-.nav-links > li > a:hover {
-  color: var(--nav-fg);
-  background: var(--nav-hover);
+.nav-links__label {
+  display: inline-block;
+  padding-bottom: 0.3rem;
+  margin-bottom: -0.3rem;
 }
 
+.nav-links > li > a:hover,
 .nav-links > li > a.active {
   color: var(--nav-fg);
-  background: var(--nav-thumb);
-  box-shadow: var(--nav-thumb-shadow);
 }
 
-/* Pastille glissante : posée par le JS (.has-thumb), elle se déplace sous le lien
-   actif au lieu de sauter d'un lien à l'autre. Ordinateur seulement. */
+/* Sans JS : le filet est posé sous le mot actif, sans glisser. */
+.nav-links > li > a.active .nav-links__label {
+  background: linear-gradient(var(--nav-rule), var(--nav-rule)) left bottom / 100% 2px no-repeat;
+}
+
+/* Filet glissant : posé par le JS (.has-thumb), à la position et à la largeur du mot
+   actif (app.js, moveNavThumb) ; il glisse d'un lien à l'autre. Ordinateur seulement. */
 @media (min-width: 769px) {
   .nav-links.has-thumb {
     position: relative;
@@ -328,13 +338,13 @@ html[data-theme="dark"] .logo-tagline__brand {
   .nav-links.has-thumb::before {
     content: "";
     position: absolute;
-    top: 4px;
-    bottom: 4px;
+    /* Même place que le filet sans JS : 0,3 rem sous le mot (0,55 de marge du lien - 0,3). */
+    bottom: 0.25rem;
     left: 0;
     width: var(--thumb-w, 0);
-    border-radius: var(--radius-full);
-    background: var(--nav-thumb);
-    box-shadow: var(--nav-thumb-shadow);
+    height: 2px;
+    border-radius: 1px;
+    background: var(--nav-rule);
     opacity: var(--thumb-o, 0);
     transform: translateX(var(--thumb-x, 0));
     transition: transform 0.45s var(--nav-ease), width 0.45s var(--nav-ease), opacity 0.25s ease;
@@ -350,13 +360,8 @@ html[data-theme="dark"] .logo-tagline__brand {
     transition: opacity 0.25s ease;
   }
 
-  .nav-links.has-thumb > li > a {
-    z-index: 1;
-  }
-
-  .nav-links.has-thumb > li > a.active {
-    background: transparent;
-    box-shadow: none;
+  .nav-links.has-thumb > li > a.active .nav-links__label {
+    background: none;
   }
 }
 
@@ -588,14 +593,23 @@ html[data-theme="dark"] .navbar-cta {
   outline-offset: 2px;
 }
 
+.nav-links > li > a:focus-visible {
+  border-radius: 4px;
+  outline-offset: 4px;
+}
+
 /* ---------- Écrans intermédiaires ---------- */
 @media (max-width: 1024px) and (min-width: 769px) {
   .navbar__inner {
     gap: 1rem;
   }
 
+  .nav-links {
+    gap: 1.25rem;
+  }
+
   .nav-links > li > a {
-    padding: 0.42rem 0.8rem;
+    font-size: 0.94rem;
   }
 }
 
@@ -676,24 +690,11 @@ html[data-theme="dark"] .navbar-cta {
     opacity: 1;
   }
 
-  .nav-menu__kicker {
-    display: block;
-    margin: 0;
-    padding: 0.65rem 0.85rem 0.4rem;
-    color: var(--nav-fg-muted);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-  }
-
   .nav-links {
     flex-direction: column;
     align-items: stretch;
-    gap: 2px;
-    padding: 0;
-    background: none;
-    box-shadow: none;
-    border-radius: 0;
+    gap: 0;
+    padding: 0.35rem 0 0.15rem;
   }
 
   .nav-links > li {
@@ -713,56 +714,20 @@ html[data-theme="dark"] .navbar-cta {
   .nav-menu.is-open .nav-links > li:nth-child(4) { transition-delay: 145ms; }
   .nav-menu.is-open .nav-links > li:nth-child(5) { transition-delay: 180ms; }
 
+  /* Grandes lignes aérées, sans numéro ni flèche : le filet laiton (fixe) marque la section. */
   .nav-links > li > a {
-    display: grid;
-    grid-template-columns: 2rem 1fr auto;
-    align-items: center;
-    min-height: 52px;
+    justify-content: space-between;
+    min-height: 56px;
     padding: 0 0.85rem;
     border-radius: 12px;
-    color: var(--nav-fg);
-    font-size: 1.05rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.2;
   }
 
-  .nav-links > li > a::after {
-    content: "";
-    width: 7px;
-    height: 7px;
-    border-top: 1.6px solid currentColor;
-    border-right: 1.6px solid currentColor;
-    transform: rotate(45deg);
-    opacity: 0.35;
-    transition: opacity 0.2s ease, transform 0.3s var(--nav-ease);
-  }
-
-  .nav-links > li > a:hover::after,
-  .nav-links > li > a.active::after {
-    opacity: 0.8;
-    transform: translateX(2px) rotate(45deg);
-  }
-
-  .nav-links > li > a.active {
+  .nav-links > li > a:hover {
     background: var(--nav-hover);
-    box-shadow: none;
   }
 
-  .nav-links__index {
-    display: block;
-    color: var(--nav-fg-muted);
-    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-    font-size: 0.72rem;
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .nav-links > li > a.active .nav-links__index {
-    color: var(--color-accent);
-  }
-
-  html[data-theme="dark"] .nav-links > li > a.active .nav-links__index {
-    color: var(--color-accent-bright);
-  }
 
   .nav-menu__footer {
     display: grid;
@@ -885,13 +850,14 @@ html[data-theme="dark"] .navbar-cta {
    Mobile : liste dépliée par un appui sur « Exemples », dont le chevron pivote.
    ================================================= */
 
+/* Le titre de la carte, en casse normale (pas une petite étiquette). */
 .nav-demos__kicker {
   margin: 0;
-  padding: 0.55rem 0.7rem 0.35rem;
+  padding: 0.6rem 0.8rem 0.5rem;
   color: var(--nav-fg-muted);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .nav-demos__list {
@@ -903,8 +869,8 @@ html[data-theme="dark"] .navbar-cta {
 .nav-demos__link {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.5rem 0.7rem 0.5rem 0.5rem;
+  gap: 0.8rem;
+  padding: 0.6rem 0.8rem 0.6rem 0.6rem;
   border-radius: 12px;
   color: var(--nav-fg);
   text-decoration: none;
@@ -925,9 +891,9 @@ html[data-theme="dark"] .navbar-cta {
   flex: none;
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
   background: var(--nav-track);
   box-shadow: inset 0 0 0 1px var(--nav-line);
   color: var(--nav-fg-muted);
@@ -950,17 +916,19 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
 
 .nav-demos__text {
   display: grid;
+  gap: 0.1rem;
   line-height: 1.25;
 }
 
 .nav-demos__metier {
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 500;
+  line-height: 1.25;
 }
 
 .nav-demos__nom {
   color: var(--nav-fg-muted);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
 }
 
 @media (min-width: 769px) {
@@ -970,19 +938,26 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
 
   .nav-demos {
     position: absolute;
-    top: calc(100% + 12px);
+    top: calc(100% + 10px);
     left: 50%;
     z-index: 3;
-    width: 27rem;
-    padding: 6px;
-    border-radius: 18px;
-    background: var(--nav-panel);
+    width: 32rem;
+    padding: 10px;
+    border-radius: 20px;
+    /* Même teinte que la barre posée (--navbar-bg-scrolled, rendue opaque : le texte de la
+       page ne doit pas se lire au travers). Sur le hero, elle passe en graphite sombre
+       comme la barre transparente (bloc « barre posée sur le hero », plus bas). */
+    background: #f4f3ef;
     box-shadow: var(--nav-panel-shadow);
     opacity: 0;
     visibility: hidden;
     transform: translate(-50%, 6px);
     /* À la sortie, un court répit : passer en diagonale vers la carte ne la ferme pas. */
     transition: opacity 0.2s ease 0.12s, transform 0.3s var(--nav-ease) 0.12s, visibility 0s linear 0.32s;
+  }
+
+  html[data-theme="dark"] .nav-demos {
+    background: #0e0e10;
   }
 
   /* Pont invisible entre « Exemples » et la carte, pour que le survol ne se perde pas. */
@@ -1003,7 +978,7 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
   .nav-demos__list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2px;
+    gap: 4px;
   }
 
   /* Sur ordinateur, « Exemples » mène déjà à la section. */
@@ -1015,13 +990,6 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
 @media (max-width: 768px) {
   .nav-menu {
     overscroll-behavior: contain;
-  }
-
-  /* Ouvert : le chevron de la ligne pointe vers le bas. */
-  .nav-links__demos.is-open > a::after,
-  .nav-links__demos.is-open > a:hover::after {
-    opacity: 0.8;
-    transform: translateY(-2px) rotate(135deg);
   }
 
   .nav-links__demos.is-open > a {
@@ -1052,9 +1020,9 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
     display: none;
   }
 
-  /* Alignées sur le libellé « Exemples » (après la colonne des numéros). */
+  /* Légèrement en retrait sous « Exemples ». */
   .nav-demos__list {
-    padding: 2px 0 6px 2.35rem;
+    padding: 2px 0 8px 0.6rem;
   }
 
   .nav-demos__link {
@@ -1120,48 +1088,39 @@ html.theme-vt::view-transition-new(root) {
   }
 }
 
-/* « Exemples » ouvre un sous-menu : un petit losange le signale. Au survol (ou au
-   clavier), il pivote d'un demi-tour en descendant et se remplit d'or : la carte
-   des démos s'ouvre juste en dessous. Ordinateur seulement (en mobile, un chevron). */
-.nav-links__losange {
-  display: none;
+/* « Exemples » ouvre un sous-menu : un chevron fin le signale. Quand la carte des démos
+   s'ouvre (survol ou clavier sur ordinateur, appui sur mobile), il se retourne : une
+   bascule en 3D autour de l'axe horizontal, avec un léger rebond, et passe au laiton. */
+.nav-links__chevron {
+  flex: none;
+  width: 0.7em;
+  height: 0.7em;
+  margin-left: 0.35em;
+  opacity: 0.55;
+  transform: perspective(40px) rotateX(0deg);
+  transition:
+    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.nav-links__demos.is-open .nav-links__chevron {
+  opacity: 1;
+  color: var(--nav-rule);
+  transform: perspective(40px) rotateX(180deg);
 }
 
 @media (min-width: 769px) {
-  .nav-links__losange {
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    margin-left: 0.5rem;
-    border: 1px solid currentColor;
-    border-radius: 1px;
-    vertical-align: 0.14em;
-    opacity: 0.6;
-    transform: rotate(45deg);
-    transition:
-      transform 0.45s var(--nav-ease),
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      opacity 0.2s ease;
-  }
-
-  .nav-links__demos:hover .nav-links__losange,
-  .nav-links__demos:focus-within .nav-links__losange {
+  .nav-links__demos:hover .nav-links__chevron,
+  .nav-links__demos:focus-within .nav-links__chevron {
     opacity: 1;
-    border-color: var(--color-accent-bright);
-    background: var(--color-accent-bright);
-    transform: translateY(2px) rotate(225deg);
-  }
-
-  html:not([data-theme="dark"]) .nav-links__demos:hover .nav-links__losange,
-  html:not([data-theme="dark"]) .nav-links__demos:focus-within .nav-links__losange {
-    border-color: var(--color-accent);
-    background: var(--color-accent);
+    color: var(--nav-rule);
+    transform: perspective(40px) rotateX(180deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-links__losange {
+  .nav-links__chevron {
     transition: none;
   }
 }
@@ -1216,21 +1175,31 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
 }
 
 @media (min-width: 769px) {
+  /* Liens clairs et filet laiton clair sur le dégradé. */
   html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links {
-    background: var(--hero-nav-track);
-    box-shadow: inset 0 0 0 1px var(--hero-nav-line);
+    --nav-rule: #e2c896;
+  }
+
+  /* La carte des démos, ouverte sur le hero : verre sombre et texte clair, comme la barre
+     transparente au-dessus (un panneau clair tranchait sur le dégradé). */
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-demos {
+    --nav-fg: var(--hero-nav-fg);
+    --nav-fg-muted: rgba(244, 241, 234, 0.62);
+    --nav-track: rgba(255, 255, 255, 0.06);
+    --nav-line: rgba(255, 255, 255, 0.12);
+    --nav-hover: rgba(255, 255, 255, 0.08);
+    color: var(--hero-nav-fg);
+    background: #18181b;
+    box-shadow: 0 24px 56px -12px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-demos__link:hover .nav-demos__icon {
+    color: #e2c896;
+    box-shadow: inset 0 0 0 1px rgba(226, 200, 150, 0.4);
   }
 
   html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links > li > a {
     --nav-fg: var(--hero-nav-fg);
     --nav-fg-muted: var(--hero-nav-muted);
-    --nav-hover: var(--hero-nav-hover);
-    --nav-thumb: rgba(255, 255, 255, 0.14);
-    --nav-thumb-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-  }
-
-  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links.has-thumb::before {
-    background: rgba(255, 255, 255, 0.14);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   }
 }
