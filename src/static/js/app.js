@@ -888,36 +888,24 @@
     start();
   }
 
-  // ===== Exemples : bande qui défile en vague =====
-  // Les mots sont découpés en <span> et la ligne est doublée (copie masquée aux lecteurs
-  // d'écran) : la piste glisse d'une demi-longueur en boucle, sans raccord. Chaque mot
-  // monte et descend avec un retard tiré de sa position : une vague qui parcourt la ligne.
-  // Sa longueur d'onde divise exactement la largeur de la ligne, pour que la copie
-  // ondule en phase avec l'original. Rien sans JS ni avec moins d'animations.
+  // ===== Exemples : bande qui défile =====
+  // La ligne est doublée (copie masquée aux lecteurs d'écran) : la piste glisse d'une
+  // demi-longueur en boucle, en ligne droite, sans raccord (CSS, ribbonScroll). Chaque
+  // élément porte son losange, pour que l'écart soit le même au raccord.
+  // Arrêt au survol (CSS), hors de l'écran et onglet caché ; rien sans JS ni avec moins d'animations.
   function initRibbon() {
     const ribbon = document.querySelector('[data-ribbon]');
     if (!ribbon || prefersReducedMotion()) return;
     const line = ribbon.querySelector('.ribbon__line');
     if (!line) return;
 
-    const SPEED = 55;          // px par seconde
-    const WAVELENGTH = 520;    // px, approximative (ajustée pour diviser la ligne)
-    const PERIOD = 4.8;        // s, une ondulation complète
+    const SPEED = 55; // px par seconde
 
     line.querySelectorAll('li').forEach((item) => {
-      const words = item.textContent.trim().split(/\s+/);
-      item.textContent = '';
       const gem = document.createElement('span');
       gem.className = 'ribbon__gem';
       gem.setAttribute('aria-hidden', 'true');
-      item.appendChild(gem);
-      words.forEach((word, i) => {
-        if (i) item.appendChild(document.createTextNode(' '));
-        const span = document.createElement('span');
-        span.className = 'ribbon__word';
-        span.textContent = word;
-        item.appendChild(span);
-      });
+      item.prepend(gem);
     });
 
     const track = document.createElement('div');
@@ -929,17 +917,9 @@
     let copy = null;
     function layout() {
       if (copy) copy.remove();
+      copy = null;
       const width = line.getBoundingClientRect().width;
       if (!width) return;
-      const waves = Math.max(1, Math.round(width / WAVELENGTH));
-      const wavelength = width / waves;
-      const origin = line.getBoundingClientRect().left;
-      line.querySelectorAll('.ribbon__word, .ribbon__gem').forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        const x = rect.left + rect.width / 2 - origin;
-        el.style.setProperty('--wave-delay', (-(x / wavelength) * PERIOD).toFixed(3) + 's');
-      });
-      ribbon.style.setProperty('--wave-period', PERIOD + 's');
       ribbon.style.setProperty('--ribbon-duration', (width / SPEED).toFixed(1) + 's');
       copy = line.cloneNode(true);
       copy.removeAttribute('aria-label');
@@ -958,14 +938,13 @@
       resizeTimer = window.setTimeout(layout, 200);
     });
 
-    // Hors de l'écran ou onglet caché : la bande s'arrête.
     let visible = true;
-    const syncIdle = () => ribbon.classList.toggle('is-idle', document.hidden || !visible);
-    document.addEventListener('visibilitychange', syncIdle);
+    const sync = () => ribbon.classList.toggle('is-idle', document.hidden || !visible);
+    document.addEventListener('visibilitychange', sync);
     if ('IntersectionObserver' in window) {
       new IntersectionObserver((entries) => {
         visible = entries[0].isIntersecting;
-        syncIdle();
+        sync();
       }).observe(ribbon);
     }
   }

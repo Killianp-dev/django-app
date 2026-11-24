@@ -445,8 +445,8 @@ html[data-theme="dark"] .showcase {
    BANDE SOUS LE CARROUSEL
    Une ligne en grand serif, pleine largeur : ce que toutes les démos ont
    en commun, avec des losanges laiton entre les éléments.
-   Avec JS (app.js, initRibbon) elle défile seule, en boucle, et ses mots
-   ondulent en vague ; sinon elle reste immobile, centrée sur plusieurs lignes.
+   Avec JS (app.js, initRibbon) elle défile seule, en boucle, en ligne droite ;
+   sinon elle reste immobile, centrée sur plusieurs lignes.
    ================================================= */
 
 .ribbon {
@@ -491,7 +491,7 @@ html[data-theme="dark"] .showcase {
   margin: 0 0.6em;
   border-radius: 0.03em;
   background: var(--color-accent);
-  /* « rotate » seul : « translate » reste libre pour la vague. Léger relèvement optique. */
+  /* Léger relèvement optique. */
   rotate: 45deg;
   position: relative;
   top: -0.05em;
@@ -505,8 +505,7 @@ html[data-theme="dark"] .ribbon__gem {
 /* ---------- En défilement (classe posée par app.js) ---------- */
 
 .ribbon.is-marquee {
-  /* Marge en hauteur pour la vague ; bords fondus dans le fond de la page. */
-  padding-block: 0.35em;
+  /* Bords fondus dans le fond de la page. */
   -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
@@ -523,33 +522,14 @@ html[data-theme="dark"] .ribbon__gem {
   padding: 0;
 }
 
-/* En bloc et non en flex : un flex avalerait les espaces entre les mots découpés. */
-.ribbon.is-marquee .ribbon__line li {
-  display: block;
-}
-
 /* Chaque élément porte son losange (posé par le JS) : la boucle se raccorde sans trou. */
 .ribbon.is-marquee .ribbon__line li::before {
   content: none;
 }
 
-.ribbon.is-marquee .ribbon__gem {
-  vertical-align: middle;
-}
-
-.ribbon__word,
-.ribbon__gem {
-  display: inline-block;
-  animation: ribbonWave var(--wave-period, 4.8s) ease-in-out var(--wave-delay, 0s) infinite;
-}
-
-/* Au survol, hors de l'écran ou onglet caché : tout s'arrête. */
+/* Au survol, hors de l'écran ou onglet caché : elle s'arrête. */
 .ribbon.is-marquee:hover .ribbon__track,
-.ribbon.is-marquee:hover .ribbon__word,
-.ribbon.is-marquee:hover .ribbon__gem,
-.ribbon.is-idle .ribbon__track,
-.ribbon.is-idle .ribbon__word,
-.ribbon.is-idle .ribbon__gem {
+.ribbon.is-idle .ribbon__track {
   animation-play-state: paused;
 }
 
@@ -558,15 +538,8 @@ html[data-theme="dark"] .ribbon__gem {
   to { transform: translateX(-50%); }
 }
 
-@keyframes ribbonWave {
-  0%, 100% { translate: 0 -0.11em; }
-  50% { translate: 0 0.11em; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .ribbon__track,
-  .ribbon__word,
-  .ribbon__gem {
+  .ribbon__track {
     animation: none;
   }
 }

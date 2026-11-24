@@ -115,7 +115,7 @@
     </figure>
 
     {% comment %}Bande sous le carrousel : ce que les six démos ont toutes (vérifié démo par démo).
-    Avec JS, elle défile toute seule en boucle et ses mots ondulent en vague (app.js, initRibbon) ;
+    Avec JS, elle défile toute seule en boucle, en ligne droite (app.js, initRibbon) ;
     sans JS ou avec moins d'animations, elle reste immobile, sur plusieurs lignes, centrée.{% endcomment %}
     <div class="ribbon" data-ribbon>
         <ul class="ribbon__line" aria-label="Ce que chaque démo comprend">
@@ -145,14 +145,32 @@
     {% include "partials/deroulement.html" %}
 </section>
 
+{% if latest_posts %}
+<section class="projects blog-section" id="blog" aria-labelledby="blog-title">
+    <header class="section-head section-head--row">
+        <div>
+            <h2 id="blog-title">Conseils pour être trouvé sur Google</h2>
+            <p>Pour chaque métier, ce que le site doit montrer, avec un exemple concret.</p>
+        </div>
+        <a class="section-head__link" href="{% url 'blog:home' %}">Tous les articles</a>
+    </header>
+    <div class="blog-grid">
+        {% for post in latest_posts %}
+        {% include "blog/partials/post_card.html" with heading="h3" %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
 <section class="about" id="a-propos" aria-labelledby="about-title">
     <div class="about__layout">
         <aside class="about__aside">
             <figure class="about__portrait">
-                {# Portrait illustré (dessin en aplats). #}
+                {% comment %}Vraie photo, sous /static/ressources/portrait/ : interdit dans robots.txt (hors de
+                Google Images), jamais en image de partage ni dans les données structurées.{% endcomment %}
                 <picture>
-                    <source srcset="{% static 'ressources/killian-aplat.webp' %}" type="image/webp">
-                    <img class="about__portrait-shot" src="{% static 'ressources/killian-aplat.jpg' %}" alt="Portrait illustré de Killian P., fondateur de killianp-dev" width="864" height="1152" loading="lazy" decoding="async">
+                    <source srcset="{% static 'ressources/portrait/killian-600.webp' %}" type="image/webp">
+                    <img class="about__portrait-shot" src="{% static 'ressources/portrait/killian.jpg' %}" alt="Portrait de Killian P., fondateur de killianp-dev" width="600" height="800" loading="lazy" decoding="async">
                 </picture>
                 <figcaption>
                     <strong>Killian P.</strong>
@@ -281,22 +299,6 @@
     </p>
 </section>
 
-{% if latest_posts %}
-<section class="projects blog-section" id="blog" aria-labelledby="blog-title">
-    <header class="section-head section-head--row">
-        <div>
-            <h2 id="blog-title">Conseils pour être trouvé sur Google</h2>
-            <p>Pour chaque métier, ce que le site doit montrer, avec un exemple concret.</p>
-        </div>
-        <a class="section-head__link" href="{% url 'blog:home' %}">Tous les articles</a>
-    </header>
-    <div class="blog-grid">
-        {% for post in latest_posts %}
-        {% include "blog/partials/post_card.html" with heading="h3" %}
-        {% endfor %}
-    </div>
-</section>
-{% endif %}
 
 <!-- Séparateur horizontal avec une icône différente -->
 <div class="section-divider" id="form">

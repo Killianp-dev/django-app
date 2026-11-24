@@ -163,11 +163,17 @@ class SeoTests(TestCase):
         self.assertNotIn(conseil, notes)
 
     def test_ordre_des_sections_de_l_accueil(self):
-        # Exemples, séparateur, Déroulement, puis À propos entre Déroulement et Formule.
+        # Exemples, séparateur, Déroulement, Blog, À propos, Formule ; le menu suit le même ordre
+        # (initActiveNavigation allume le dernier lien, dans l'ordre du menu, dont la section est passée).
+        BlogPost.objects.create(title="Article", published=True, category=BlogPost.COMMERCE)
         html = self.client.get(reverse("index")).content.decode()
-        positions = [html.index(marque) for marque in (
-            'id="exemples"', 'class="section-divider"', 'id="deroulement"', 'id="a-propos"', 'id="formule"')]
+        sections = ['id="exemples"', 'class="section-divider"', 'id="deroulement"', 'id="blog"',
+                    'id="a-propos"', 'id="formule"']
+        positions = [html.index(marque) for marque in sections]
         self.assertEqual(positions, sorted(positions))
+        menu = html[html.index('class="nav-links'):html.index('class="nav-menu__footer"')]
+        libelles = re.findall(r'class="nav-links__label">([^<]+)<', menu)
+        self.assertEqual(libelles, ["Accueil", "Exemples", "Blog", "À propos", "Formule"])
 
     def test_ordre_de_la_section_exemples(self):
         exemples = self.client.get(reverse("index")).context["exemples"]
@@ -252,9 +258,9 @@ class RetoursDu24NovembreTests(TestCase):
         robots = self.client.get("/robots.txt").content.decode()
         self.assertIn("Disallow: /static/ressources/portrait/", robots)
         accueil = self.client.get(reverse("index")).content.decode()
-        # À propos montre le portrait illustré (retour du 24/11 : « remets la photo dessin »).
-        self.assertIn("ressources/killian-aplat", accueil)
-        self.assertNotIn("ressources/portrait/killian.jpg", accueil)
+        # À propos montre la vraie photo, servie depuis le dossier interdit aux robots.
+        self.assertIn("ressources/portrait/killian.jpg", accueil)
+        self.assertNotIn("killian-aplat", accueil)
         # La photo n'est ni l'image de partage ni celle des données structurées.
         self.assertNotIn("portrait/", accueil.split("</head>")[0])
 
