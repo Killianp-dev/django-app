@@ -174,9 +174,7 @@ html[data-theme="dark"] .metier-besoin__index {
   padding: 2.4rem 2.5rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(ellipse 80% 90% at 0% 0%, rgba(var(--accent-bright-rgb), 0.1), transparent 70%),
-    var(--color-bg-alt);
+  background: var(--color-bg-alt);
 }
 
 .metier-trouve .section-eyebrow,

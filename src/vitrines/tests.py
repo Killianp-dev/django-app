@@ -209,9 +209,11 @@ class PortfolioTests(TestCase):
         for prefix in PREFIXES.values():
             with self.subTest(prefix=prefix):
                 self.assertIn(f'href="{prefix}"', html)
-        # Les démos ne forment pas une suite : pas de numérotation « 01 / 06 ».
-        self.assertEqual(html.count('class="project"'), 6)
-        self.assertNotIn("project__index", html)
+        # Plus de liste sous le carrousel (elle remontrait les mêmes démos) : une légende par démo,
+        # avec son lien et sa page métier, dans le carrousel.
+        self.assertNotIn('class="projects__list"', html)
+        self.assertEqual(html.count('data-preview-info'), 6)
+        self.assertEqual(html.count('class="showcase__info is-active"'), 1)
 
     def test_accueil_presente_l_agence(self):
         html = self.client.get("/").content.decode()

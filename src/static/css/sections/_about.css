@@ -10,10 +10,6 @@
   margin: 0 auto;
   padding: var(--section-space) var(--page-gutter);
   scroll-margin-top: calc(var(--navbar-height) + 0.75rem);
-  /* Bande pleine largeur sans débordement horizontal */
-  background: var(--color-bg-alt);
-  box-shadow: 0 0 0 100vmax var(--color-bg-alt);
-  clip-path: inset(0 -100vmax);
 }
 
 .about__layout {
@@ -207,7 +203,7 @@ html[data-theme="dark"] .about__chip {
 }
 
 /* Course courte et zoom léger : juste de quoi couvrir le déplacement (2 × 2,5 % < 6 %),
-   la tête garde son air au-dessus (la photo a du recul, ressources/portrait/). */
+   la tête garde son air au-dessus. */
 @keyframes aboutPortraitDrift {
   from { transform: translateY(-2.5%) scale(1.06); }
   to { transform: translateY(2.5%) scale(1.06); }

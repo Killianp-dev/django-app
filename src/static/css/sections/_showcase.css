@@ -1,0 +1,572 @@
+/* ==================================================
+   EXEMPLES : CARROUSEL DES DÉMOS
+   Ouvre la section Exemples, entre l'en-tête et la liste :
+   une fenêtre de navigateur où les démos défilent en fondu,
+   avec l'adresse, le métier, une pause et des points.
+   ================================================= */
+
+.showcase {
+  --sc-fg: var(--color-ink);
+  --sc-fg-soft: var(--color-ink-soft);
+  --sc-accent: var(--color-accent);
+  --code-bg: #f4f3ef;
+  --code-bar: #e7e4de;
+  --code-border: rgba(20, 24, 31, 0.1);
+  --code-ln: #aeb2ba;
+  --code-doc: #6f7076;
+  --code-shadow: 0 30px 70px rgba(20, 24, 31, 0.14), 0 2px 6px rgba(20, 24, 31, 0.06);
+  --code-ok: #2f7d57;
+
+  position: relative;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto clamp(3rem, 6vw, 4.5rem);
+}
+
+html[data-theme="dark"] .showcase {
+  --sc-accent: var(--color-accent-bright);
+  --code-bg: #0f0f11;
+  --code-bar: #17171a;
+  --code-border: rgba(255, 255, 255, 0.08);
+  --code-ln: #55545a;
+  --code-doc: #8e8a83;
+  --code-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(var(--accent-glow-rgb), 0.05), 0 0 60px rgba(var(--accent-rgb), 0.07);
+  --code-ok: #8fd6ae;
+}
+
+.showcase__window {
+  /* Au repos, droite : centrée dans la section, elle ne penche que vers le pointeur. */
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid var(--code-border);
+  border-radius: var(--radius-lg);
+  background: var(--code-bg);
+  box-shadow: var(--code-shadow);
+  transform: perspective(1400px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
+  transform-origin: 50% 50%;
+  transition: transform 0.6s var(--ease-out);
+}
+
+/* Sans JS (ou au clavier) la fenêtre se redresse ; avec la souris, le JS l'incline vers le pointeur. */
+.showcase:hover .showcase__window,
+.showcase:focus-within .showcase__window {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+}
+
+.showcase__window.is-tilting {
+  transition: transform 0.18s ease-out;
+}
+
+/* Inclinaison pilotée en ressort par Motion (js/anim.js + app.js) : pas de transition CSS en plus. */
+.showcase__window.is-sprung {
+  transition: none;
+}
+
+.showcase__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.7rem 1rem;
+  background: var(--code-bar);
+  border-bottom: 1px solid var(--code-border);
+}
+
+.showcase__dots {
+  display: inline-flex;
+  flex: none;
+  gap: 0.4rem;
+}
+
+.showcase__dots i {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: var(--code-ln);
+  opacity: 0.55;
+}
+
+/* Barre d'adresse : le chemin change avec la démo affichée */
+.showcase__url {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.32rem 0.8rem;
+  border-radius: var(--radius-full);
+  background: var(--code-bg);
+  border: 1px solid var(--code-border);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+  color: var(--code-doc);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.showcase__url span {
+  color: var(--sc-fg-soft);
+}
+
+.showcase__label {
+  flex: none;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sc-accent);
+}
+
+/* Écran : les captures se succèdent en fondu */
+.showcase__screen {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--code-bar);
+}
+
+/* Reflet doux qui suit le pointeur */
+.showcase__screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--glare-x, 30%) var(--glare-y, 0%), rgba(255, 255, 255, 0.16), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.showcase__window.is-tilting .showcase__screen::after {
+  opacity: 1;
+}
+
+.showcase__shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+  filter: blur(6px);
+  transition: opacity 0.9s var(--ease-out), filter 0.9s var(--ease-out);
+}
+
+.showcase__shot.is-active {
+  opacity: 1;
+  filter: none;
+}
+
+.showcase__screen:focus-visible {
+  outline: 2px solid var(--sc-accent);
+  outline-offset: -4px;
+}
+
+.showcase__status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--code-bar);
+  border-top: 1px solid var(--code-border);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--code-doc);
+}
+
+/* Bouton pause et points de navigation : zones de clic de 24 px au moins (WCAG 2.5.8),
+   le point visible est dessiné par ::before, son remplissage par ::after. */
+.showcase__pause {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-left: -6px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--code-doc);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.showcase__pause:hover {
+  color: var(--sc-fg);
+}
+
+.showcase__pause:focus-visible {
+  outline: 2px solid var(--sc-accent);
+  outline-offset: 1px;
+}
+
+.showcase__pause-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.showcase__pause-icon--play,
+.showcase.is-paused .showcase__pause-icon--pause {
+  display: none;
+}
+
+.showcase.is-paused .showcase__pause-icon--play {
+  display: block;
+}
+
+.showcase__pager {
+  display: inline-flex;
+  align-items: center;
+}
+
+.showcase__pager-dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: width 0.45s var(--ease-out);
+}
+
+.showcase__pager-dot::before,
+.showcase__pager-dot::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 0.45rem;
+  margin-top: -0.225rem;
+  border-radius: var(--radius-full);
+}
+
+.showcase__pager-dot::before {
+  background: var(--code-ln);
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+}
+
+.showcase__pager-dot:hover::before {
+  opacity: 0.9;
+}
+
+.showcase__pager-dot.is-active {
+  width: calc(1.6rem + 16px);
+}
+
+.showcase__pager-dot.is-active::before {
+  opacity: 1;
+}
+
+/* Le point actif se remplit pendant que la démo est affichée */
+.showcase__pager-dot::after {
+  background: var(--sc-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.showcase__pager-dot.is-active::after {
+  transform: none;
+}
+
+.showcase.is-autoplay .showcase__pager-dot.is-active::after {
+  animation: showcaseProgress var(--showcase-delay, 4500ms) linear both;
+}
+
+@keyframes showcaseProgress {
+  from { transform: scaleX(0); }
+}
+
+.showcase__pager-dot:focus-visible {
+  outline: 2px solid var(--sc-accent);
+  outline-offset: -2px;
+  border-radius: var(--radius-full);
+}
+
+.showcase__ok {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--code-ok);
+  font-weight: 600;
+}
+
+.showcase__ok::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 880px) {
+  .showcase__window {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .showcase__window {
+    border-radius: var(--radius-md);
+  }
+
+  .showcase__bar {
+    gap: 0.6rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .showcase__status {
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase__label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase__window,
+  .showcase__shot,
+  .showcase__pager-dot {
+    transition: none;
+  }
+
+  .showcase__window {
+    transform: none;
+  }
+
+  .showcase.is-autoplay .showcase__pager-dot.is-active::after {
+    animation: none;
+  }
+}
+
+/* ==================================================
+   LÉGENDE DU CARROUSEL
+   L'accroche de la démo affichée et ses deux liens. Toutes les légendes
+   sont empilées dans la même cellule : la hauteur ne saute pas quand
+   la démo change ; seule l'active est visible (app.js la suit).
+   ================================================= */
+
+.showcase__caption {
+  display: grid;
+  margin-top: clamp(1.4rem, 3vw, 2rem);
+  text-align: center;
+}
+
+.showcase__info {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 6px;
+  transition: opacity 0.5s var(--ease-out), translate 0.5s var(--ease-out), visibility 0s linear 0.5s;
+}
+
+.showcase__info.is-active {
+  opacity: 1;
+  visibility: visible;
+  translate: 0 0;
+  transition-delay: 0s;
+}
+
+.showcase__excerpt {
+  max-width: 36rem;
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+.showcase__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem 1.6rem;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.showcase__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.showcase__link svg {
+  color: var(--sc-accent);
+  transition: translate 0.3s var(--ease-out);
+}
+
+.showcase__link:hover svg {
+  translate: 2px -2px;
+}
+
+.showcase__more {
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--sc-accent) 55%, transparent);
+  text-underline-offset: 0.25em;
+}
+
+.showcase__more:hover {
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase__info {
+    translate: none;
+    transition: none;
+  }
+}
+
+/* ==================================================
+   BANDE SOUS LE CARROUSEL
+   Une ligne en grand serif, pleine largeur : ce que toutes les démos ont
+   en commun, avec des losanges laiton entre les éléments.
+   Avec JS (app.js, initRibbon) elle défile seule, en boucle, et ses mots
+   ondulent en vague ; sinon elle reste immobile, centrée sur plusieurs lignes.
+   ================================================= */
+
+.ribbon {
+  /* Pleine largeur depuis la colonne de la section ; le débordement est coupé ici,
+     pas sur la page (100vw compte la barre de défilement). */
+  position: relative;
+  width: 100vw;
+  margin: 0 calc(50% - 50vw);
+  overflow: clip;
+}
+
+.ribbon__line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4em 0;
+  margin: 0;
+  padding: 0 var(--page-gutter);
+  list-style: none;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4.6vw, 4.2rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.012em;
+  color: var(--color-ink);
+}
+
+.ribbon__line li {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* Losange laiton entre deux éléments (le même que celui du menu « Exemples »). */
+.ribbon__line li + li::before,
+.ribbon__gem {
+  content: "";
+  flex: none;
+  width: 0.2em;
+  height: 0.2em;
+  margin: 0 0.6em;
+  border-radius: 0.03em;
+  background: var(--color-accent);
+  /* « rotate » seul : « translate » reste libre pour la vague. Léger relèvement optique. */
+  rotate: 45deg;
+  position: relative;
+  top: -0.05em;
+}
+
+html[data-theme="dark"] .ribbon__line li + li::before,
+html[data-theme="dark"] .ribbon__gem {
+  background: var(--color-accent-bright);
+}
+
+/* ---------- En défilement (classe posée par app.js) ---------- */
+
+.ribbon.is-marquee {
+  /* Marge en hauteur pour la vague ; bords fondus dans le fond de la page. */
+  padding-block: 0.35em;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.ribbon__track {
+  display: flex;
+  width: max-content;
+  animation: ribbonScroll var(--ribbon-duration, 60s) linear infinite;
+}
+
+.ribbon.is-marquee .ribbon__line {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+/* En bloc et non en flex : un flex avalerait les espaces entre les mots découpés. */
+.ribbon.is-marquee .ribbon__line li {
+  display: block;
+}
+
+/* Chaque élément porte son losange (posé par le JS) : la boucle se raccorde sans trou. */
+.ribbon.is-marquee .ribbon__line li::before {
+  content: none;
+}
+
+.ribbon.is-marquee .ribbon__gem {
+  vertical-align: middle;
+}
+
+.ribbon__word,
+.ribbon__gem {
+  display: inline-block;
+  animation: ribbonWave var(--wave-period, 4.8s) ease-in-out var(--wave-delay, 0s) infinite;
+}
+
+/* Au survol, hors de l'écran ou onglet caché : tout s'arrête. */
+.ribbon.is-marquee:hover .ribbon__track,
+.ribbon.is-marquee:hover .ribbon__word,
+.ribbon.is-marquee:hover .ribbon__gem,
+.ribbon.is-idle .ribbon__track,
+.ribbon.is-idle .ribbon__word,
+.ribbon.is-idle .ribbon__gem {
+  animation-play-state: paused;
+}
+
+@keyframes ribbonScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes ribbonWave {
+  0%, 100% { translate: 0 -0.11em; }
+  50% { translate: 0 0.11em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon__track,
+  .ribbon__word,
+  .ribbon__gem {
+    animation: none;
+  }
+}

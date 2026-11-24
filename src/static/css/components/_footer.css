@@ -1,49 +1,64 @@
 /* ==================================================
    PIED DE PAGE
-   Tokens propres au thème : papier en clair, encre en sombre.
+   Même dégradé graphite → laiton que le hero, dans les deux thèmes,
+   et en haut la même vague animée, retournée, de la couleur de la page.
    ================================================= */
 
 .footer {
-  --footer-bg: var(--color-bg-alt);
-  --footer-fg: var(--color-ink-soft);
-  --footer-strong: var(--color-ink);
-  --footer-heading: var(--color-accent);
-  --footer-link-hover: var(--color-accent);
-  --footer-line: var(--color-border);
+  --footer-fg: rgba(244, 241, 234, 0.76);
+  --footer-strong: #f4f1ea;
+  --footer-heading: #e2c896;
+  --footer-link-hover: #e2c896;
+  --footer-line: rgba(255, 255, 255, 0.14);
+  --footer-wave-h: clamp(56px, 8vw, 120px);
 
-  background: var(--footer-bg);
+  background:
+    radial-gradient(55% 70% at 85% 70%, rgba(243, 217, 162, 0.18), transparent 70%),
+    linear-gradient(118deg, #17181b 0%, #1f1e1d 28%, #3a3022 52%, #6b5124 76%, #9a7634 100%);
   color: var(--footer-fg);
   text-align: left;
-  padding: 3.25rem 2rem 1.5rem;
+  padding: calc(var(--footer-wave-h) + 2.75rem) 2rem 1.5rem;
   margin-top: auto;
   width: 100%;
   position: relative;
   z-index: 10;
-  border-top: 1px solid var(--footer-line);
+  overflow: hidden;
 }
 
-html[data-theme="dark"] .footer {
-  --footer-bg: var(--color-chrome);
-  --footer-fg: rgba(247, 244, 238, 0.78);
-  --footer-strong: #f7f4ee;
-  --footer-heading: var(--color-accent-bright);
-  --footer-link-hover: var(--color-accent-bright);
-  --footer-line: rgba(255, 255, 255, 0.08);
-}
-
-/* Quadrillage du hero, centré en haut et estompé vers le bas. */
-.footer::after {
-  content: "";
+/* La vague du hero, retournée : la couleur de la page descend en ondulant sur le dégradé. */
+.footer__waves {
   position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-  background-size: var(--grid-size) var(--grid-size);
-  background-position: center top;
-  -webkit-mask-image: radial-gradient(ellipse 60% 100% at 50% 0%, #000 0%, transparent 85%);
-  mask-image: radial-gradient(ellipse 60% 100% at 50% 0%, #000 0%, transparent 85%);
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: var(--footer-wave-h);
+  overflow: hidden;
+  transform: scaleY(-1);
   pointer-events: none;
+}
+
+.footer__wave {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 4800px;
+  max-width: none; /* _reset.css borne les svg à 100 % */
+  height: 100%;
+  fill: var(--color-bg);
+  animation: footerWave 10s linear infinite;
+  will-change: transform;
+}
+
+@keyframes footerWave {
+  from { transform: translateX(-1600px); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__wave {
+    animation: none;
+  }
 }
 
 .footer__inner,
@@ -161,7 +176,7 @@ html[data-theme="dark"] .footer {
 
 @media (max-width: 768px) {
   .footer {
-    padding: 2.5rem var(--page-gutter) 1.25rem;
+    padding: calc(var(--footer-wave-h) + 2rem) var(--page-gutter) 1.25rem;
     text-align: center;
   }
 

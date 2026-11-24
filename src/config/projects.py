@@ -89,8 +89,8 @@ def projets():
     return PROJETS
 
 
-# Ordre de la section Exemples, choisi démo par démo. L'avocat, qui ouvre le hero, la termine :
-# une même démo n'apparaît pas deux fois de suite (hero puis Exemples).
+# Ordre des démos dans le sous-menu « Exemples », choisi démo par démo (l'avocat, qui ouvre
+# le carrousel, ferme la liste).
 ORDRE_EXEMPLES = ["macon", "boucherie", "boulangerie", "coiffeur", "beaute", "avocat"]
 
 

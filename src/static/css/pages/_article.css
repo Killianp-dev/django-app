@@ -827,9 +827,7 @@ html[data-theme="dark"] .article-body .article-copy-block__btn.is-copied {
   padding: 1.6rem 1.7rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  background:
-    radial-gradient(ellipse 80% 100% at 0% 0%, rgba(var(--accent-bright-rgb), 0.1), transparent 70%),
-    var(--color-bg-alt);
+  background: var(--color-bg-alt);
 }
 
 .article-metier .section-eyebrow {

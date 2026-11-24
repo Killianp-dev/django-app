@@ -65,11 +65,6 @@
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-<div class="site-lights" aria-hidden="true">
-    <div class="site-lights__orb site-lights__orb--a"></div>
-    <div class="site-lights__orb site-lights__orb--b"></div>
-    <div class="site-lights__orb site-lights__orb--c"></div>
-</div>
 <!-- Barre de navigation -->
 <header class="navbar">
     <div class="navbar__glass" aria-hidden="true"></div>
@@ -136,7 +131,12 @@
 
 
 <!-- Footer -->
-<footer class="footer">
+{% comment %}Même dégradé et même vague animée que le hero, retournée : la page s'ouvre sur le pied de page.
+   data-scrollbar-* : couleurs de la barre de défilement sur le pied de page (app.js).{% endcomment %}
+<footer class="footer" data-scrollbar-track="#7a5c27" data-scrollbar-thumb="#e3c992">
+    <div class="footer__waves" aria-hidden="true">
+        <svg class="footer__wave" viewBox="0 0 4800 160" preserveAspectRatio="none" focusable="false"><path d="M0 80C266.667 22 533.333 22 800 80S1333.33 138 1600 80C1866.67 22 2133.33 22 2400 80S2933.33 138 3200 80C3466.67 22 3733.33 22 4000 80S4533.33 138 4800 80V160H0Z"/></svg>
+    </div>
     <div class="footer__inner">
         <div>
             <p class="footer__brand">killianp-dev</p>

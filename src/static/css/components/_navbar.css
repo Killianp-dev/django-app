@@ -1190,3 +1190,72 @@ html.theme-vt::view-transition-new(root) {
     transition: none;
   }
 }
+
+/* ---------- Accueil : barre posée sur le hero ----------
+   Le hero est un dégradé sombre dans les deux thèmes : tant qu'on ne défile pas,
+   la barre est transparente et son texte clair. Les jetons sont changés sur la
+   marque, les liens de premier niveau et les actions seulement : la carte des
+   démos et le menu mobile, qui s'ouvrent sur leur propre fond, gardent les leurs. */
+html:not(.nav-open) .home-page .navbar:not(.scrolled) {
+  --hero-nav-fg: #f4f1ea;
+  --hero-nav-muted: rgba(244, 241, 234, 0.74);
+  --hero-nav-line: rgba(255, 255, 255, 0.14);
+  --hero-nav-track: rgba(255, 255, 255, 0.06);
+  --hero-nav-hover: rgba(255, 255, 255, 0.1);
+}
+
+html:not(.nav-open) .home-page .navbar:not(.scrolled) .navbar__glass {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.logo, .navbar-actions) {
+  --nav-fg: var(--hero-nav-fg);
+  --nav-fg-muted: var(--hero-nav-muted);
+  --nav-line: var(--hero-nav-line);
+  --nav-track: var(--hero-nav-track);
+  --nav-hover: var(--hero-nav-hover);
+  --nav-cta-bg: #f3efe6;
+  --nav-cta-fg: #131315;
+  --cta-ring: rgba(20, 24, 31, 0.06);
+}
+
+html:not(.nav-open) .home-page .navbar:not(.scrolled) .logo-dot {
+  color: #e2c896;
+}
+
+html:not(.nav-open) .home-page .navbar:not(.scrolled) .logo-tagline__brand {
+  --brand-shine: #e2c896;
+}
+
+html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hamburger) {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 60%),
+    var(--nav-track);
+  box-shadow: inset 0 0 0 1px var(--nav-line);
+}
+
+html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hamburger):hover {
+  color: #e2c896;
+}
+
+@media (min-width: 769px) {
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links {
+    background: var(--hero-nav-track);
+    box-shadow: inset 0 0 0 1px var(--hero-nav-line);
+  }
+
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links > li > a {
+    --nav-fg: var(--hero-nav-fg);
+    --nav-fg-muted: var(--hero-nav-muted);
+    --nav-hover: var(--hero-nav-hover);
+    --nav-thumb: rgba(255, 255, 255, 0.14);
+    --nav-thumb-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+
+  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links.has-thumb::before {
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+}

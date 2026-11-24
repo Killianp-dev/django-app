@@ -38,9 +38,7 @@
 
 .pricing-card--featured {
   border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
-  background:
-    radial-gradient(120% 80% at 100% 0%, var(--color-accent-soft), transparent 60%),
-    var(--color-surface);
+  background: var(--color-surface);
   box-shadow: var(--shadow-md);
 }
 

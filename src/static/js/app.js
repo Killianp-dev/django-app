@@ -10,8 +10,6 @@
   const navLinks = document.querySelectorAll('.nav-links > li > a');
   const navbar = document.querySelector('.navbar');
 
-  // Aperçu du hero, piloté aussi par les pastilles « Votre métier »
-  let heroPreview = null;
 
   // Utils
   const utils = {
@@ -688,7 +686,7 @@
     if (systemLight.addEventListener) systemLight.addEventListener('change', followSystem);
   }
 
-  // ===== Hero : aperçu des démos =====
+  // ===== Exemples : carrousel des démos =====
   // Les captures défilent en fondu ; l'adresse, le métier et le lien suivent.
   // Pause au survol, au focus, quand l'onglet est caché et par le bouton pause
   // (WCAG 2.2.2) ; pas de défilement automatique si l'utilisateur demande moins
@@ -698,13 +696,14 @@
     const preview = document.querySelector('[data-hero-preview]');
     if (!preview) return;
 
-    const shots = Array.from(preview.querySelectorAll('.hero__shot'));
+    const shots = Array.from(preview.querySelectorAll('.showcase__shot'));
     const dots = Array.from(preview.querySelectorAll('[data-preview-index]'));
     const url = preview.querySelector('[data-preview-url]');
     const label = preview.querySelector('[data-preview-label]');
     const link = preview.querySelector('[data-preview-link]');
     const win = preview.querySelector('[data-hero-window]');
     const pauseButton = preview.querySelector('[data-preview-pause]');
+    const infos = Array.from(preview.querySelectorAll('[data-preview-info]'));
     if (shots.length < 2) return;
 
     const DELAY = 4500;
@@ -724,7 +723,7 @@
       delete shot.dataset.srcset;
     }
 
-    preview.style.setProperty('--hero-delay', DELAY + 'ms');
+    preview.style.setProperty('--showcase-delay', DELAY + 'ms');
 
     // Relance une animation CSS liée à une classe (retire, force le reflow, remet).
     function replay(element, className) {
@@ -745,13 +744,16 @@
         if (i === current) el.setAttribute('aria-current', 'true');
         else el.removeAttribute('aria-current');
       });
+      // La légende (accroche et liens) suit la démo affichée.
+      infos.forEach((el, i) => el.classList.toggle('is-active', i === current));
       if (url) url.textContent = shot.dataset.url;
       if (label) label.textContent = shot.dataset.label;
       if (link) {
         link.href = shot.dataset.url;
         link.setAttribute('aria-label', 'Ouvrir la démo : ' + shot.dataset.label);
       }
-      preview.dispatchEvent(new CustomEvent('herodemo', { detail: { index: current } }));
+      // Le menu « Votre métier » (initTradeSelect) suit la démo affichée.
+      preview.dispatchEvent(new CustomEvent('showcase:change', { detail: { index: current } }));
     }
 
     function stop() {
@@ -868,7 +870,7 @@
           return;
         }
         // Retour à l'inclinaison de repos (celle du CSS) en ressort, puis le CSS reprend la main.
-        tiltTo('1.5deg', '-3deg', { ...TILT_SPRING, stiffness: 120, damping: 16 }).then(() => {
+        tiltTo('0deg', '0deg', { ...TILT_SPRING, stiffness: 120, damping: 16 }).then(() => {
           if (win.classList.contains('is-tilting')) return;
           win.classList.remove('is-sprung');
           ['--tilt-x', '--tilt-y'].forEach((name) => win.style.removeProperty(name));
@@ -876,65 +878,143 @@
       });
     }
 
-    heroPreview = {
-      element: preview,
-      // Affiche une démo choisie par le visiteur et arrête le défilement automatique.
-      pin(index) {
-        pinned = true;
-        stop();
-        show(index);
-      }
-    };
+    // Une démo choisie dans le menu « Votre métier » : affichée, et le défilement s'arrête.
+    preview.addEventListener('showcase:pin', (event) => {
+      pinned = true;
+      stop();
+      show(event.detail.index);
+    });
 
     start();
   }
 
-  // ===== Hero : pastilles « Votre métier » =====
-  // Sans JS, ce sont des liens vers les démos. Avec le JS, un clic affiche la démo
-  // dans l'aperçu, adapte le bouton principal et retient le métier pour le formulaire.
-  function initTradePicker() {
-    const picker = document.querySelector('[data-trade-picker]');
-    const cta = document.querySelector('[data-trade-cta-target]');
-    if (!picker || !cta) return;
+  // ===== Exemples : bande qui défile en vague =====
+  // Les mots sont découpés en <span> et la ligne est doublée (copie masquée aux lecteurs
+  // d'écran) : la piste glisse d'une demi-longueur en boucle, sans raccord. Chaque mot
+  // monte et descend avec un retard tiré de sa position : une vague qui parcourt la ligne.
+  // Sa longueur d'onde divise exactement la largeur de la ligne, pour que la copie
+  // ondule en phase avec l'original. Rien sans JS ni avec moins d'animations.
+  function initRibbon() {
+    const ribbon = document.querySelector('[data-ribbon]');
+    if (!ribbon || prefersReducedMotion()) return;
+    const line = ribbon.querySelector('.ribbon__line');
+    if (!line) return;
 
-    const chips = Array.from(picker.querySelectorAll('.hero__trade'));
-    let engaged = false;
+    const SPEED = 55;          // px par seconde
+    const WAVELENGTH = 520;    // px, approximative (ajustée pour diviser la ligne)
+    const PERIOD = 4.8;        // s, une ondulation complète
 
-    function select(chip) {
-      chips.forEach((el) => {
-        const on = el === chip;
-        el.classList.toggle('is-selected', on);
-        if (on) el.setAttribute('aria-current', 'true');
-        else el.removeAttribute('aria-current');
-      });
-      cta.textContent = chip.dataset.tradeCta;
-      cta.setAttribute('href', chip.getAttribute('href'));
-      try {
-        if (chip.dataset.trade === 'autre') sessionStorage.removeItem('contact-trade');
-        else sessionStorage.setItem('contact-trade', chip.dataset.trade);
-      } catch (e) {}
-    }
-
-    chips.forEach((chip) => {
-      chip.addEventListener('click', (event) => {
-        const index = chip.dataset.tradeIndex;
-        engaged = true;
-        select(chip);
-        if (index === undefined) return; // « Autre » : on suit le lien vers le formulaire
-        event.preventDefault();
-        if (heroPreview) heroPreview.pin(Number(index));
+    line.querySelectorAll('li').forEach((item) => {
+      const words = item.textContent.trim().split(/\s+/);
+      item.textContent = '';
+      const gem = document.createElement('span');
+      gem.className = 'ribbon__gem';
+      gem.setAttribute('aria-hidden', 'true');
+      item.appendChild(gem);
+      words.forEach((word, i) => {
+        if (i) item.appendChild(document.createTextNode(' '));
+        const span = document.createElement('span');
+        span.className = 'ribbon__word';
+        span.textContent = word;
+        item.appendChild(span);
       });
     });
 
-    // La pastille de la démo affichée s'allume quand l'aperçu défile ; si le visiteur
-    // a déjà choisi un métier, la sélection suit aussi les points de l'aperçu.
-    if (heroPreview) {
-      heroPreview.element.addEventListener('herodemo', (event) => {
-        const chip = chips.find((el) => Number(el.dataset.tradeIndex) === event.detail.index);
-        chips.forEach((el) => el.classList.toggle('is-showing', el === chip));
-        if (engaged && chip) select(chip);
+    const track = document.createElement('div');
+    track.className = 'ribbon__track';
+    line.parentNode.insertBefore(track, line);
+    track.appendChild(line);
+    ribbon.classList.add('is-marquee');
+
+    let copy = null;
+    function layout() {
+      if (copy) copy.remove();
+      const width = line.getBoundingClientRect().width;
+      if (!width) return;
+      const waves = Math.max(1, Math.round(width / WAVELENGTH));
+      const wavelength = width / waves;
+      const origin = line.getBoundingClientRect().left;
+      line.querySelectorAll('.ribbon__word, .ribbon__gem').forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const x = rect.left + rect.width / 2 - origin;
+        el.style.setProperty('--wave-delay', (-(x / wavelength) * PERIOD).toFixed(3) + 's');
       });
+      ribbon.style.setProperty('--wave-period', PERIOD + 's');
+      ribbon.style.setProperty('--ribbon-duration', (width / SPEED).toFixed(1) + 's');
+      copy = line.cloneNode(true);
+      copy.removeAttribute('aria-label');
+      copy.setAttribute('aria-hidden', 'true');
+      track.appendChild(copy);
     }
+
+    layout();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+    let resizeTimer = 0;
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(layout, 200);
+    });
+
+    // Hors de l'écran ou onglet caché : la bande s'arrête.
+    let visible = true;
+    const syncIdle = () => ribbon.classList.toggle('is-idle', document.hidden || !visible);
+    document.addEventListener('visibilitychange', syncIdle);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        visible = entries[0].isIntersecting;
+        syncIdle();
+      }).observe(ribbon);
+    }
+  }
+
+  // ===== Exemples : menu « Votre métier » =====
+  // Un menu déroulant natif (clavier, lecteurs d'écran, roue du téléphone) qui affiche la démo
+  // du métier choisi dans le carrousel et retient le métier pour le sujet du formulaire.
+  // « Autre métier » mène au formulaire.
+  function initTradeSelect() {
+    const box = document.querySelector('[data-trade-select]');
+    const preview = document.querySelector('[data-hero-preview]');
+    if (!box || !preview) return;
+    const select = box.querySelector('select');
+    if (!select) return;
+    box.hidden = false;
+
+    const remember = (trade) => {
+      try {
+        if (trade) sessionStorage.setItem('contact-trade', trade);
+        else sessionStorage.removeItem('contact-trade');
+      } catch (e) {}
+    };
+
+    let current = select.value;
+    preview.addEventListener('showcase:change', (event) => {
+      current = String(event.detail.index);
+      select.value = current;
+    });
+
+    select.addEventListener('change', () => {
+      if (select.value === 'autre') {
+        remember('');
+        select.value = current;
+        const form = document.getElementById('form');
+        if (form) {
+          history.pushState(null, '', '#form');
+          form.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+        }
+        return;
+      }
+      const option = select.selectedOptions[0];
+      remember(option ? option.dataset.trade : '');
+      preview.dispatchEvent(new CustomEvent('showcase:pin', { detail: { index: Number(select.value) } }));
+      // Sur un petit écran, le carrousel peut être sous le pli : on l'amène à l'écran.
+      const rect = preview.getBoundingClientRect();
+      if (rect.top > window.innerHeight * 0.6) {
+        preview.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'center' });
+      }
+    });
   }
 
   // ===== Formulaire de contact =====
@@ -1111,6 +1191,68 @@
     });
   }
 
+  // ===== Barre de défilement teintée =====
+  // Elle prend la couleur de la zone affichée au bord droit de l'écran, à mi-hauteur :
+  // le premier fond opaque trouvé en remontant depuis l'élément qui s'y trouve, ou les
+  // couleurs données par data-scrollbar-track / -thumb (le hero, en dégradé). Le curseur
+  // est ce fond assombri (fond clair) ou éclairci (fond sombre). Le fondu est en CSS.
+  function initScrollbarTint() {
+    const root = document.documentElement;
+    if (!window.CSS || !CSS.supports('color', 'color-mix(in srgb, red, blue)')) return;
+
+    const parse = (value) => {
+      const m = value && value.match(/rgba?\(([^)]+)\)/);
+      if (!m) return null;
+      const [r, g, b, a = 1] = m[1].split(/[ ,/]+/).filter(Boolean).map(Number);
+      return { r, g, b, a };
+    };
+    const luminance = ({ r, g, b }) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+
+    function surfaceAt() {
+      const x = root.clientWidth - 2;
+      const y = Math.round(window.innerHeight / 2);
+      let el = document.elementFromPoint(x, y);
+      while (el && el !== root) {
+        if (el.dataset && el.dataset.scrollbarTrack) {
+          return { track: el.dataset.scrollbarTrack, thumb: el.dataset.scrollbarThumb };
+        }
+        const bg = parse(getComputedStyle(el).backgroundColor);
+        if (bg && bg.a > 0.85) {
+          const track = `rgb(${bg.r}, ${bg.g}, ${bg.b})`;
+          const towards = luminance(bg) > 0.5 ? '#17181b' : '#f4f1ea';
+          return { track, thumb: `color-mix(in srgb, ${track} 60%, ${towards})` };
+        }
+        el = el.parentElement;
+      }
+      return null;
+    }
+
+    let last = '';
+    let frame = 0;
+    function update() {
+      frame = 0;
+      const surface = surfaceAt();
+      const key = surface ? surface.track + surface.thumb : '';
+      if (key === last) return;
+      last = key;
+      if (surface) {
+        root.style.setProperty('--sb-track', surface.track);
+        root.style.setProperty('--sb-thumb', surface.thumb);
+      } else {
+        root.style.removeProperty('--sb-track');
+        root.style.removeProperty('--sb-thumb');
+      }
+    }
+    const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    // Changement de thème : les fonds changent sans défilement.
+    new MutationObserver(() => { last = ''; schedule(); })
+      .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    update();
+  }
+
   // ===== Initialisation =====
   function init() {
     initThemeToggle();
@@ -1121,7 +1263,8 @@
     initActiveNavigation();
     initScrollReveal();
     initHeroPreview();
-    initTradePicker();
+    initTradeSelect();
+    initRibbon();
     initContactForm();
     initCopyLink();
     initReadingProgress();
@@ -1129,6 +1272,7 @@
     initSurfaceGlow();
     initStackChips();
     initCookieModal();
+    initScrollbarTint();
   }
 
   if (document.readyState === 'loading') {

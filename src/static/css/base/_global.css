@@ -425,3 +425,47 @@ html[data-theme="dark"] .erreur__icone {
   width: 1rem;
   height: 1rem;
 }
+
+/* ==================================================
+   BARRE DE DÉFILEMENT
+   Elle prend la couleur de la zone affichée au bord droit de l'écran
+   (app.js, initScrollbarTint : --sb-track = le fond, --sb-thumb = ce fond
+   assombri ou éclairci). Les deux couleurs sont déclarées en <color> pour
+   passer de l'une à l'autre en fondu.
+   ================================================= */
+@property --sb-track { syntax: "<color>"; inherits: true; initial-value: #e8e6e1; }
+@property --sb-thumb { syntax: "<color>"; inherits: true; initial-value: #a29f98; }
+
+html {
+  --sb-track: var(--color-bg);
+  --sb-thumb: color-mix(in srgb, var(--color-bg) 62%, var(--color-ink));
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
+  transition: --sb-track 0.45s ease, --sb-thumb 0.45s ease;
+}
+
+/* Safari (pas de scrollbar-color) : mêmes couleurs par les pseudo-éléments WebKit. */
+@supports not (scrollbar-color: auto) {
+  html::-webkit-scrollbar {
+    width: 12px;
+    background: var(--sb-track);
+  }
+
+  html::-webkit-scrollbar-thumb {
+    border: 3px solid var(--sb-track);
+    border-radius: 999px;
+    background: var(--sb-thumb);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    transition: none;
+  }
+}
+
+/* Les bandes pleine largeur (100vw, qui compte la barre de défilement) ne font pas
+   déborder la page. « clip » et non « hidden » : pas de conteneur de défilement,
+   les éléments collants (position: sticky) continuent de fonctionner. */
+#main-content {
+  overflow-x: clip;
+}

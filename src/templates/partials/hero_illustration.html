@@ -1,0 +1,128 @@
+{% comment %}
+Illustration du hero de l'accueil : une devanture de commerce, et au-dessus la fiche
+qu'un client voit quand il le cherche (barre de recherche, nom, avis, « ouvert »).
+Décorative (le conteneur porte aria-hidden) ; couleurs fixes, le hero est sombre dans les deux thèmes.
+{% endcomment %}
+<svg class="hero-art" viewBox="0 0 560 480" xmlns="http://www.w3.org/2000/svg" focusable="false">
+    <defs>
+        <linearGradient id="art-front" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f1efea"/>
+            <stop offset="1" stop-color="#dcd8cf"/>
+        </linearGradient>
+        <linearGradient id="art-side" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#b9b2a4"/>
+            <stop offset="1" stop-color="#948c7d"/>
+        </linearGradient>
+        <linearGradient id="art-glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3a3b40"/>
+            <stop offset="1" stop-color="#1d1e22"/>
+        </linearGradient>
+        <linearGradient id="art-glow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f3d9a2" stop-opacity="0.55"/>
+            <stop offset="1" stop-color="#f3d9a2" stop-opacity="0"/>
+        </linearGradient>
+        <radialGradient id="art-ground" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#0c0c0e" stop-opacity="0.45"/>
+            <stop offset="1" stop-color="#0c0c0e" stop-opacity="0"/>
+        </radialGradient>
+        <symbol id="art-star" viewBox="0 0 12 12">
+            <path d="M6 .6l1.62 3.3 3.64.53-2.63 2.57.62 3.62L6 8.9 2.75 10.62l.62-3.62L.74 4.43l3.64-.53Z"/>
+        </symbol>
+    </defs>
+
+    <!-- Ombre au sol -->
+    <ellipse cx="250" cy="430" rx="230" ry="26" fill="url(#art-ground)"/>
+
+    <!-- Bâtiment : toit, flanc, façade -->
+    <g class="hero-art__shop">
+        <path d="M78 176 150 140h262l-72 36Z" fill="#f7f5f1"/>
+        <path d="M340 176 412 140v236l-72 40Z" fill="url(#art-side)"/>
+        <rect x="78" y="176" width="262" height="240" fill="url(#art-front)"/>
+        <!-- Corniche -->
+        <rect x="70" y="168" width="278" height="12" rx="3" fill="#c9c3b6"/>
+        <path d="M348 168 420 133v11l-72 36Z" fill="#a69e8f"/>
+
+        <!-- Enseigne -->
+        <rect x="132" y="192" width="154" height="20" rx="10" fill="#17181b"/>
+        <rect x="156" y="199" width="64" height="6" rx="3" fill="#d9bd84"/>
+        <rect x="228" y="199" width="34" height="6" rx="3" fill="#8e8a83"/>
+
+        <!-- Store rayé, festonné -->
+        <g class="hero-art__awning">
+            <path d="M84 222h250l-8 30H92Z" fill="#f4f3ef"/>
+            <path d="M84 222H115.25L121.25 252H92Z M146.5 222H177.75L179.75 252H150.5Z M209 222H240.25L238.25 252H209Z M271.5 222H302.75L296.75 252H267.5Z" fill="#b8955a"/>
+            <path d="M92 252c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0c0 10 18.00 10 18.00 0Z" fill="#b8955a"/>
+            <path d="M334 222 384 197v20l-58 35Z" fill="#8a6a2e"/>
+        </g>
+
+        <!-- Vitrine -->
+        <rect x="98" y="282" width="138" height="112" rx="6" fill="url(#art-glass)"/>
+        <rect x="98" y="282" width="138" height="112" rx="6" fill="url(#art-glow)"/>
+        <path d="M110 382 170 290h20l-60 92Z" fill="#ffffff" opacity="0.07"/>
+        <rect x="112" y="356" width="40" height="22" rx="4" fill="#d9bd84" opacity="0.85"/>
+        <rect x="158" y="362" width="28" height="16" rx="4" fill="#b8955a" opacity="0.8"/>
+        <rect x="192" y="352" width="30" height="26" rx="4" fill="#e8e6e1" opacity="0.7"/>
+        <rect x="98" y="392" width="138" height="6" rx="2" fill="#c9c3b6"/>
+
+        <!-- Porte -->
+        <rect x="256" y="278" width="66" height="138" rx="6" fill="#17181b"/>
+        <rect x="264" y="288" width="50" height="62" rx="4" fill="url(#art-glass)"/>
+        <rect x="264" y="288" width="50" height="62" rx="4" fill="url(#art-glow)"/>
+        <circle cx="306" cy="366" r="3.2" fill="#d9bd84"/>
+        <!-- Pancarte « ouvert » -->
+        <rect x="272" y="304" width="34" height="14" rx="7" fill="#f4f3ef"/>
+        <circle cx="281" cy="311" r="3" fill="#2f9e6a"/>
+        <rect x="287" y="309" width="13" height="4" rx="2" fill="#5b5c60"/>
+
+        <!-- Lanterne -->
+        <rect x="241" y="286" width="8" height="14" rx="3" fill="#d9bd84"/>
+        <rect x="243.5" y="274" width="3" height="12" fill="#5b5c60"/>
+    </g>
+
+    <!-- Épingle de carte -->
+    <g class="hero-art__pin">
+        <ellipse cx="118" cy="132" rx="16" ry="5" fill="#0c0c0e" opacity="0.28"/>
+        <path d="M118 128c-14-17-22-27-22-39a22 22 0 0 1 44 0c0 12-8 22-22 39Z" fill="#d9bd84"/>
+        <path d="M118 128c-14-17-22-27-22-39a22 22 0 0 1 22-22Z" fill="#b8955a"/>
+        <circle cx="118" cy="89" r="8" fill="#17181b"/>
+    </g>
+
+    <!-- Fiche du commerce dans les résultats de recherche -->
+    <g class="hero-art__card">
+        <rect x="282" y="30" width="250" height="196" rx="18" fill="#f8f7f4"/>
+        <rect x="282.5" y="30.5" width="249" height="195" rx="17.5" fill="none" stroke="#ffffff" opacity="0.6"/>
+
+        <!-- Barre de recherche -->
+        <rect x="300" y="48" width="214" height="30" rx="15" fill="#ebe8e2"/>
+        <circle cx="318" cy="62" r="6" fill="none" stroke="#735621" stroke-width="2"/>
+        <path d="m322.5 66.5 4.5 4.5" stroke="#735621" stroke-width="2" stroke-linecap="round"/>
+        <rect x="334" y="59" width="86" height="6" rx="3" fill="#8e8a83"/>
+        <rect x="425" y="59" width="40" height="6" rx="3" fill="#c3beb3"/>
+
+        <!-- Résultat -->
+        <circle cx="314" cy="104" r="12" fill="#17181b"/>
+        <path d="M308 103.5 314 98.5l6 5V110h-12Z" fill="#d9bd84"/>
+        <rect x="312.2" y="105" width="3.6" height="5" fill="#17181b"/>
+        <rect x="334" y="96" width="112" height="8" rx="4" fill="#17181b"/>
+        <rect x="334" y="110" width="74" height="5" rx="2.5" fill="#a9a294"/>
+
+        <g fill="#b8955a">
+            <use href="#art-star" x="300" y="130" width="13" height="13"/>
+            <use href="#art-star" x="315" y="130" width="13" height="13"/>
+            <use href="#art-star" x="330" y="130" width="13" height="13"/>
+            <use href="#art-star" x="345" y="130" width="13" height="13"/>
+            <use href="#art-star" x="360" y="130" width="13" height="13"/>
+        </g>
+        <rect x="381" y="133" width="30" height="6" rx="3" fill="#a9a294"/>
+
+        <rect x="300" y="154" width="196" height="5" rx="2.5" fill="#d3cfc6"/>
+        <rect x="300" y="166" width="150" height="5" rx="2.5" fill="#d3cfc6"/>
+
+        <!-- Ouvert + itinéraire -->
+        <rect x="300" y="186" width="74" height="24" rx="12" fill="#e3f1e9"/>
+        <circle cx="314" cy="198" r="4" fill="#2f9e6a"/>
+        <rect x="323" y="195" width="40" height="6" rx="3" fill="#2f7d57"/>
+        <rect x="382" y="186" width="86" height="24" rx="12" fill="#17181b"/>
+        <rect x="396" y="195" width="58" height="6" rx="3" fill="#d9bd84"/>
+    </g>
+</svg>

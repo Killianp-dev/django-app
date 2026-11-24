@@ -30,17 +30,13 @@
 
 /* Entrée du hero : Motion la pilote, l'animation CSS se retire. */
 .anim .hero__overlay > *,
-.anim .hero__preview {
+.anim .hero__art {
   animation: none;
 }
 
-/* En attendant le script : les éléments du hero restent invisibles (le titre, presque).
-   L'aperçu, lui, reste visible : sa première capture est peinte dès le chargement et
-   compte comme LCP (sinon c'est la capture suivante, 4,5 s plus tard, qui serait relevée). */
-.anim .hero:not(.is-entered) :is(
-  .hero__eyebrow, .hero__subtitle, .hero__trades-label, .hero__trades-list > li,
-  .hero__actions, .hero__facts, .hero__facts li
-) {
+/* En attendant le script : le bouton et l'illustration restent invisibles, le titre presque
+   (il reste l'élément LCP). */
+.anim .hero:not(.is-entered) :is(.hero__cta, .hero__art) {
   opacity: 0;
 }
 

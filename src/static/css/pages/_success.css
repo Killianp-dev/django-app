@@ -31,13 +31,11 @@
 }
 
 .success-card::before {
-  background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(var(--accent-bright-rgb), 0.16), transparent 75%);
+  background: none;
 }
 
 .success-card::after {
-  background-image:
-    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-image: none;
   background-size: var(--grid-size) var(--grid-size);
   background-position: center -1px;
   -webkit-mask-image: radial-gradient(ellipse 55% 100% at 50% 0%, #000 0%, transparent 85%);

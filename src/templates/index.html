@@ -14,132 +14,145 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero" id="hero" aria-labelledby="hero-title">
-    <div class="hero__bg" aria-hidden="true">
-        <span class="hero__halo hero__halo--a"></span>
-    </div>
-
+{# data-scrollbar-* : couleurs de la barre de défilement sur le hero (le laiton du bord droit du dégradé). #}
+<section class="hero" id="hero" aria-labelledby="hero-title" data-scrollbar-track="#7a5c27" data-scrollbar-thumb="#e3c992">
     <div class="hero__inner">
         <div class="hero__overlay">
-            <p class="hero__eyebrow"><span class="hero__eyebrow-text"><span>Référencement SEO</span><span class="hero__eyebrow-sep" aria-hidden="true"> · </span><span>mise en œuvre technique</span></span></p>
             <h1 class="hero__title" id="hero-title">Que vos clients vous trouvent sur Google, quand ils vous cherchent.</h1>
-            <p class="hero__subtitle">
-                Je suis Killian. Je conseille les commerces de proximité sur leur référencement
-                et leurs outils, puis je mets en œuvre les solutions. Vous voyez un exemple de votre métier avant d'en parler.
-            </p>
-            <div class="hero__trades" data-trade-picker>
-                <p class="hero__trades-label" id="trades-label">Voir l'exemple de votre métier</p>
-                <ul class="hero__trades-list" aria-labelledby="trades-label">
-                    {% for projet in projets %}
-                    <li><a class="hero__trade{% if forloop.first %} is-showing{% endif %}" href="{{ projet.url }}" data-trade-index="{{ forloop.counter0 }}" data-trade="{{ projet.titre }}" data-trade-cta="Voir la démo {{ projet.metier|lower }}"><span class="hero__trade-badge">{% include "partials/trade_icon.html" with nom=projet.namespace %}</span>{{ projet.metier }}</a></li>
-                    {% endfor %}
-                    <li><a class="hero__trade hero__trade--autre" href="#form" data-trade="autre" data-trade-cta="Parlez-moi de votre métier"><span class="hero__trade-badge">{% include "partials/trade_icon.html" with nom="autre" %}</span>Autre métier<svg class="hero__trade-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
-                </ul>
-            </div>
-            <div class="hero__actions">
-                <a href="#exemples" class="hero-btn" data-trade-cta-target>Voir les exemples</a>
-                <a href="#form" class="hero-btn">Me contacter</a>
-            </div>
-            <ul class="hero__facts">
-                <li><strong>{{ projets|length }}</strong><span>démos par métier</span></li>
-                <li><strong>~3</strong><span>semaines pour être en ligne</span></li>
-                <li><strong>1</strong><span>interlocuteur</span></li>
-            </ul>
+            <a href="#exemples" class="hero-btn hero__cta">Voir les exemples</a>
         </div>
 
-        <figure class="hero__preview" data-hero-preview aria-label="Aperçu des démonstrations : un site par métier">
-            <div class="hero__window" data-hero-window>
-                <div class="hero__window-bar">
-                    <span class="hero__window-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                    <span class="hero__window-url" aria-hidden="true">killianp-dev.fr<span data-preview-url>{{ projets.0.url }}</span></span>
-                    <span class="hero__window-label" data-preview-label>{{ projets.0.titre }}</span>
-                </div>
-                <a class="hero__screen" href="{{ projets.0.url }}" data-preview-link aria-label="Ouvrir la démo : {{ projets.0.titre }}">
-                    {# Sur mobile, la capture n'est qu'un fond très flouté : « 40vw » fait choisir la version 480 px. #}
-                    {% for projet in projets %}
-                    {% if forloop.first %}
-                    <img class="hero__shot is-active" src="{% static projet.apercu %}?v={{ projet.apercu_v }}"
-                         srcset="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }} 480w, {% static projet.apercu_800 %}?v={{ projet.apercu_webp_v }} 800w, {% static projet.apercu_webp %}?v={{ projet.apercu_webp_v }} 1400w"
-                         sizes="(max-width: 768px) 40vw, 580px" alt="" width="1400" height="933" decoding="async" fetchpriority="high"
-                         data-url="{{ projet.url }}" data-label="{{ projet.titre }}" data-index="{{ forloop.counter0 }}">
-                    {% else %}
-                    <img class="hero__shot" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" width="1400" height="933" decoding="async"
-                         data-src="{% static projet.apercu %}?v={{ projet.apercu_v }}"
-                         data-srcset="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }} 480w, {% static projet.apercu_800 %}?v={{ projet.apercu_webp_v }} 800w, {% static projet.apercu_webp %}?v={{ projet.apercu_webp_v }} 1400w"
-                         sizes="(max-width: 768px) 40vw, 580px"
-                         data-url="{{ projet.url }}" data-label="{{ projet.titre }}" data-index="{{ forloop.counter0 }}">
-                    {% endif %}
-                    {% endfor %}
-                </a>
-                <div class="hero__window-status">
-                    <button type="button" class="hero__pause" data-preview-pause aria-pressed="false" aria-label="Mettre en pause le défilement des démos">
-                        <svg class="hero__pause-icon hero__pause-icon--pause" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5.5 3.5v9M10.5 3.5v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                        <svg class="hero__pause-icon hero__pause-icon--play" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5.5 3.6v8.8L12 8Z" fill="currentColor"/></svg>
-                    </button>
-                    <span class="hero__pager" role="group" aria-label="Choisir une démo">
-                        {% for projet in projets %}
-                        <button type="button" class="hero__pager-dot{% if forloop.first %} is-active{% endif %}" data-preview-index="{{ forloop.counter0 }}" aria-label="Afficher : {{ projet.titre }}"{% if forloop.first %} aria-current="true"{% endif %}></button>
-                        {% endfor %}
-                    </span>
-                    <span class="hero__window-ok">en ligne</span>
-                </div>
-            </div>
-
-        </figure>
+        <div class="hero__art" aria-hidden="true">
+            {% include "partials/hero_illustration.html" %}
+        </div>
     </div>
 
+    {% comment %}Vague : une seule ondulation, couleur du fond de la page, qui ouvre sur la section
+       Exemples. Le tracé répète trois fois la même période (1600 px) et glisse d'une période en
+       boucle, sans raccord visible.{% endcomment %}
+    <div class="hero__waves" aria-hidden="true">
+        <svg class="hero__wave" viewBox="0 0 4800 160" preserveAspectRatio="none" focusable="false"><path d="M0 80C266.667 22 533.333 22 800 80S1333.33 138 1600 80C1866.67 22 2133.33 22 2400 80S2933.33 138 3200 80C3466.67 22 3733.33 22 4000 80S4533.33 138 4800 80V160H0Z"/></svg>
+    </div>
 </section>
 
 <section class="projects" id="exemples" aria-labelledby="projects-title">
     <header class="section-head section-head--split">
         <h2 id="projects-title">Six métiers, six sites pensés pour être trouvés</h2>
-        <p>Des commerces fictifs, des sites complets, structurés pour Google. Ouvrez-les comme le ferait un client : c'est ce que vos clients verront.</p>
+        <div class="section-head__aside">
+            <p>Des commerces fictifs, des sites complets, structurés pour Google. Ouvrez-les comme le ferait un client : c'est ce que vos clients verront.</p>
+            {% comment %}Choix du métier : affiche sa démo dans le carrousel juste en dessous (app.js,
+            initTradeSelect). Sans JS, il reste caché : les points du carrousel et la liste suffisent.{% endcomment %}
+            <div class="trade-select" data-trade-select hidden>
+                <label class="trade-select__label" for="trade-select">Voir l'exemple de votre métier</label>
+                <span class="trade-select__field">
+                    {% comment %}Liste habillée là où « appearance: base-select » existe (Chrome, Edge) : bouton,
+                    icônes et séparateur. Ailleurs, le navigateur ignore ces balises et garde la liste native,
+                    avec le texte seul.{% endcomment %}
+                    <select class="trade-select__input" id="trade-select" aria-controls="exemples-carrousel">
+                        <button class="trade-select__button"><selectedcontent></selectedcontent></button>
+                        {% for projet in projets %}
+                        <option value="{{ forloop.counter0 }}" data-trade="{{ projet.titre }}"{% if forloop.first %} selected{% endif %}><span class="trade-select__icon">{% include "partials/trade_icon.html" with nom=projet.namespace %}</span><span class="trade-select__text">{{ projet.metier }}</span></option>
+                        {% endfor %}
+                        <hr class="trade-select__sep">
+                        <option value="autre"><span class="trade-select__icon trade-select__icon--autre">{% include "partials/trade_icon.html" with nom="autre" %}</span><span class="trade-select__text">Autre métier : écrivez-moi</span></option>
+                    </select>
+                    <svg class="trade-select__chevron" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+            </div>
+        </div>
     </header>
 
-    <div class="projects__list">
-        {% for projet in exemples %}
-        <article class="project">
-            <a class="project__visual" href="{{ projet.url }}" aria-label="Ouvrir la démo : {{ projet.titre }}">
-                <span class="project__frame">
-                    <picture>
-                        <source srcset="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }} 480w, {% static projet.apercu_800 %}?v={{ projet.apercu_webp_v }} 800w, {% static projet.apercu_webp %}?v={{ projet.apercu_webp_v }} 1400w" sizes="(max-width: 880px) 100vw, 620px" type="image/webp">
-                        <img src="{% static projet.apercu %}?v={{ projet.apercu_v }}" alt="{{ projet.alt }}" width="1400" height="933" loading="lazy" decoding="async">
-                    </picture>
-                </span>
-                <span class="project__feature"><i aria-hidden="true"></i>{{ projet.nom }}</span>
-            </a>
-            <div class="project__body">
-                <h3 class="project__title">{{ projet.titre }}</h3>
-                <p class="project__excerpt">{{ projet.accroche }}</p>
-                <ul class="project__points">
-                    {% for point in projet.points %}<li>{{ point }}</li>{% endfor %}
-                </ul>
-                <div class="project__actions">
-                    <a class="project__link" href="{{ projet.url }}">
-                        Voir la démo
-                        <svg class="project__link-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M7 17L17 7"></path>
-                            <path d="M8 7h9v9"></path>
-                        </svg>
-                    </a>
-                    {% if projet.page_metier %}
-                    <a class="project__more" href="{{ projet.page_metier.url }}">Site et référencement {{ projet.page_metier.pour }}</a>
-                    {% endif %}
-                </div>
+    <figure class="showcase" id="exemples-carrousel" data-hero-preview aria-label="Aperçu des démonstrations : un site par métier">
+        <div class="showcase__window" data-hero-window>
+            <div class="showcase__bar">
+                <span class="showcase__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="showcase__url" aria-hidden="true">killianp-dev.fr<span data-preview-url>{{ projets.0.url }}</span></span>
+                <span class="showcase__label" data-preview-label>{{ projets.0.titre }}</span>
             </div>
-        </article>
-        {% endfor %}
+            <a class="showcase__screen" href="{{ projets.0.url }}" data-preview-link aria-label="Ouvrir la démo : {{ projets.0.titre }}">
+                {% for projet in projets %}
+                {% if forloop.first %}
+                <img class="showcase__shot is-active" src="{% static projet.apercu %}?v={{ projet.apercu_v }}"
+                     srcset="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }} 480w, {% static projet.apercu_800 %}?v={{ projet.apercu_webp_v }} 800w, {% static projet.apercu_webp %}?v={{ projet.apercu_webp_v }} 1400w"
+                     sizes="(max-width: 880px) 100vw, 820px" alt="" width="1400" height="933" loading="lazy" decoding="async"
+                     data-url="{{ projet.url }}" data-label="{{ projet.titre }}" data-index="{{ forloop.counter0 }}">
+                {% else %}
+                <img class="showcase__shot" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="" width="1400" height="933" decoding="async"
+                     data-src="{% static projet.apercu %}?v={{ projet.apercu_v }}"
+                     data-srcset="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }} 480w, {% static projet.apercu_800 %}?v={{ projet.apercu_webp_v }} 800w, {% static projet.apercu_webp %}?v={{ projet.apercu_webp_v }} 1400w"
+                     sizes="(max-width: 880px) 100vw, 820px"
+                     data-url="{{ projet.url }}" data-label="{{ projet.titre }}" data-index="{{ forloop.counter0 }}">
+                {% endif %}
+                {% endfor %}
+            </a>
+            <div class="showcase__status">
+                <button type="button" class="showcase__pause" data-preview-pause aria-pressed="false" aria-label="Mettre en pause le défilement des démos">
+                    <svg class="showcase__pause-icon showcase__pause-icon--pause" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5.5 3.5v9M10.5 3.5v9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    <svg class="showcase__pause-icon showcase__pause-icon--play" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M5.5 3.6v8.8L12 8Z" fill="currentColor"/></svg>
+                </button>
+                <span class="showcase__pager" role="group" aria-label="Choisir une démo">
+                    {% for projet in projets %}
+                    <button type="button" class="showcase__pager-dot{% if forloop.first %} is-active{% endif %}" data-preview-index="{{ forloop.counter0 }}" aria-label="Afficher : {{ projet.titre }}"{% if forloop.first %} aria-current="true"{% endif %}></button>
+                    {% endfor %}
+                </span>
+                <span class="showcase__ok">en ligne</span>
+            </div>
+        </div>
+        {% comment %}Légende de la démo affichée : son accroche et ses liens (la démo, la page métier).
+        Toutes sont dans la page, empilées au même endroit (hauteur stable) ; seule l'active est
+        visible, app.js (initHeroPreview) la suit. Sans JS, la première.{% endcomment %}
+        <figcaption class="showcase__caption">
+            {% for projet in projets %}
+            <div class="showcase__info{% if forloop.first %} is-active{% endif %}" data-preview-info>
+                <p class="showcase__excerpt">{{ projet.accroche }}</p>
+                <p class="showcase__links">
+                    <a class="showcase__link" href="{{ projet.url }}" aria-label="Voir la démo : {{ projet.titre }}">Voir la démo<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
+                    {% if projet.page_metier %}<a class="showcase__more" href="{{ projet.page_metier.url }}">Site et référencement {{ projet.page_metier.pour }}</a>{% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </figcaption>
+    </figure>
+
+    {% comment %}Bande sous le carrousel : ce que les six démos ont toutes (vérifié démo par démo).
+    Avec JS, elle défile toute seule en boucle et ses mots ondulent en vague (app.js, initRibbon) ;
+    sans JS ou avec moins d'animations, elle reste immobile, sur plusieurs lignes, centrée.{% endcomment %}
+    <div class="ribbon" data-ribbon>
+        <ul class="ribbon__line" aria-label="Ce que chaque démo comprend">
+            <li>Une page par prestation</li>
+            <li>Tarifs affichés</li>
+            <li>Ouvert ou fermé, en direct</li>
+            <li>Horaires et adresse lisibles par Google</li>
+            <li>Un bouton pour appeler</li>
+            <li>Un formulaire de contact</li>
+        </ul>
     </div>
+</section>
+
+{# Séparateur entre les Exemples et le Déroulement : losange laiton, comme ceux de la bande. #}
+<div class="section-divider" aria-hidden="true">
+    <div class="divider-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false">
+            <path d="M12 3.5 20.5 12 12 20.5 3.5 12Z"></path>
+        </svg>
+    </div>
+</div>
+
+<section class="offer" id="deroulement" aria-labelledby="offer-title">
+    <header class="section-head section-head--stacked">
+        <h2 id="offer-title">Du premier message au site en ligne, en trois temps</h2>
+    </header>
+    {% include "partials/deroulement.html" %}
 </section>
 
 <section class="about" id="a-propos" aria-labelledby="about-title">
     <div class="about__layout">
         <aside class="about__aside">
             <figure class="about__portrait">
-                {# Photo exclue de Google Images : /static/ressources/portrait/ est interdit dans robots.txt. #}
+                {# Portrait illustré (dessin en aplats). #}
                 <picture>
-                    <source srcset="{% static 'ressources/portrait/killian-600.webp' %} 600w, {% static 'ressources/portrait/killian-900.webp' %} 900w" sizes="(max-width: 880px) 80vw, 360px" type="image/webp">
-                    <img class="about__portrait-shot" src="{% static 'ressources/portrait/killian.jpg' %}" alt="Killian P., fondateur de killianp-dev" width="900" height="1200" loading="lazy" decoding="async">
+                    <source srcset="{% static 'ressources/killian-aplat.webp' %}" type="image/webp">
+                    <img class="about__portrait-shot" src="{% static 'ressources/killian-aplat.jpg' %}" alt="Portrait illustré de Killian P., fondateur de killianp-dev" width="864" height="1152" loading="lazy" decoding="async">
                 </picture>
                 <figcaption>
                     <strong>Killian P.</strong>
@@ -183,13 +196,6 @@
             <p class="about__signature">Killian P.</p>
         </div>
     </div>
-</section>
-
-<section class="offer" id="deroulement" aria-labelledby="offer-title">
-    <header class="section-head section-head--stacked">
-        <h2 id="offer-title">Du premier message au site en ligne, en trois temps</h2>
-    </header>
-    {% include "partials/deroulement.html" %}
 </section>
 
 <section class="pricing" id="formule" aria-labelledby="pricing-title">

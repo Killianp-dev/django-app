@@ -1,101 +1,32 @@
 /* ==================================================
    SECTION HERO
-   Hero typographique + extrait de code.
-   Tout passe par les variables de thème : le même
-   balisage sert le thème sombre et le thème clair.
+   Dégradé graphite → laiton plein écran, titre à gauche,
+   un seul bouton, illustration à droite, vague en bas qui
+   ouvre sur les Exemples. Le hero reste sombre dans les
+   deux thèmes : seule la vague suit le fond de la page.
    ================================================= */
 
 .hero {
-  /* Texte */
-  --hero-fg: var(--color-ink);
-  --hero-fg-soft: var(--color-ink-soft);
-  --hero-muted: var(--color-ink-muted);
-  --hero-accent: var(--color-accent);
-  --hero-rule: var(--color-border-strong);
-
-  /* Fond */
-  --hero-grid: rgba(20, 24, 31, 0.055);
-  --hero-halo: rgba(var(--accent-bright-rgb), 0.16);
-  --hero-halo-2: rgba(201, 168, 112, 0.18);
-
-  /* Fenêtre de navigateur */
-  --code-bg: #f4f3ef;
-  --code-bar: #e7e4de;
-  --code-border: rgba(20, 24, 31, 0.1);
-  --code-ln: #aeb2ba;
-  --code-doc: #8a8f9a;
-  --code-shadow: 0 30px 70px rgba(20, 24, 31, 0.14), 0 2px 6px rgba(20, 24, 31, 0.06);
-  --code-ok: #2f7d57;
-
-  --hero-gap: clamp(2.5rem, 5vw, 5rem);
+  --hero-fg: #f4f1ea;
+  --hero-fg-soft: rgba(244, 241, 234, 0.78);
+  --hero-muted: rgba(244, 241, 234, 0.62);
+  --hero-accent: #e2c896;
+  --hero-rule: rgba(255, 255, 255, 0.16);
+  --hero-wave-h: clamp(72px, 10vw, 150px);
 
   margin-top: calc(var(--navbar-height) * -1);
-  margin-bottom: 0;
   position: relative;
   isolation: isolate;
   width: 100%;
-  /* Au moins la hauteur de l'écran, mais jamais rogné : le hero grandit si son contenu l'exige.
-     Plafonné aux trois quarts de la largeur : sur un écran très haut (téléphone en
-     « version ordinateur », écran vertical), il ne laisse pas de grands vides autour du contenu. */
-  min-height: max(680px, min(100vh, 75vw));
-  min-height: max(680px, min(100svh, 75vw));
+  min-height: max(620px, min(92svh, 860px));
   display: flex;
   align-items: center;
   overflow: hidden;
   color: var(--hero-fg);
-}
-
-html[data-theme="dark"] .hero {
-  --hero-accent: var(--color-accent-bright);
-  --hero-rule: rgba(255, 255, 255, 0.14);
-  --hero-grid: rgba(255, 255, 255, 0.045);
-  --hero-halo: rgba(var(--accent-rgb), 0.16);
-  --hero-halo-2: rgba(120, 130, 160, 0.08);
-
-  --code-bg: #0f0f11;
-  --code-bar: #17171a;
-  --code-border: rgba(255, 255, 255, 0.08);
-  --code-ln: #55545a;
-  --code-doc: #75737a;
-  --code-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(var(--accent-glow-rgb), 0.05), 0 0 60px rgba(var(--accent-rgb), 0.07);
-  --code-ok: #8fd6ae;
-}
-
-/* ---------- Fond ---------- */
-
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.hero__halo {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-}
-
-.hero__halo--a {
-  width: min(52vw, 640px);
-  height: min(52vw, 640px);
-  top: 50%;
-  right: -4%;
-  transform: translateY(-50%);
-  background: radial-gradient(circle, var(--hero-halo) 0%, transparent 68%);
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  height: 1px;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, var(--hero-rule), transparent);
+  background:
+    radial-gradient(55% 65% at 82% 38%, rgba(243, 217, 162, 0.22), transparent 70%),
+    radial-gradient(40% 50% at 8% 90%, rgba(154, 118, 52, 0.18), transparent 70%),
+    linear-gradient(118deg, #17181b 0%, #1f1e1d 28%, #3a3022 52%, #6b5124 76%, #9a7634 100%);
 }
 
 /* ---------- Mise en page ---------- */
@@ -106,73 +37,118 @@ html[data-theme="dark"] .hero {
   width: 100%;
   max-width: calc(var(--content-max) + var(--page-gutter) * 2);
   margin: 0 auto;
-  padding: calc(var(--navbar-height) + 1.5rem) var(--page-gutter) 4.75rem;
+  padding: calc(var(--navbar-height) + 2rem) var(--page-gutter) calc(var(--hero-wave-h) + 2.5rem);
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: var(--hero-gap);
+  gap: clamp(2rem, 5vw, 5rem);
 }
 
 .hero__overlay {
-  position: relative;
   min-width: 0;
-  text-align: left;
+  max-width: 34rem;
 }
 
-/* ---------- Texte ---------- */
-
-.hero__eyebrow {
-  /* Une ligne de signature, pas une étiquette : casse normale, petite, couleur
-     atténuée du texte, précédée d'un filet très fin teinté de l'accent. */
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin: 0 0 1.4rem;
-  font-family: var(--font-sans);
-  font-size: 0.84rem;
-  font-weight: 450;
-  letter-spacing: 0.01em;
-  color: var(--color-ink-muted);
-}
-
-.hero__eyebrow::before {
-  content: "";
-  flex: none;
-  width: 1.75rem;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.7), rgba(var(--accent-rgb), 0.15));
-}
-
-html[data-theme="dark"] .hero__eyebrow::before {
-  background: linear-gradient(90deg, rgba(var(--accent-bright-rgb), 0.75), rgba(var(--accent-bright-rgb), 0.15));
-}
+/* ---------- Titre et bouton ---------- */
 
 .hero__title {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 4.9vw, 4.2rem);
+  font-size: clamp(2.8rem, 5.4vw, 4.9rem);
   font-weight: 400;
-  letter-spacing: -0.012em;
-  line-height: 1.04;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
   color: var(--hero-fg);
   text-wrap: balance;
 }
 
-/* Pas de mot en italique ni en couleur : la phrase entière, d'un seul tenant. */
-
-.hero__subtitle {
-  max-width: 33rem;
-  margin: 1.6rem 0 0;
-  font-size: clamp(1.02rem, 1.7vw, 1.2rem);
-  font-weight: 400;
-  line-height: 1.65;
-  color: var(--hero-fg-soft);
+/* Un seul bouton, en pilule laiton : il se détache du dégradé sans rien d'autre autour. */
+.hero .hero__cta {
+  margin-top: clamp(1.8rem, 3vw, 2.4rem);
+  padding: 1rem 2.1rem;
+  background: linear-gradient(100deg, #ead3a2 0%, #c9a465 100%);
+  color: #17181b;
+  border: 0;
+  box-shadow: 0 16px 32px -14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), filter 0.25s ease;
 }
 
-.hero__subtitle strong {
-  font-weight: 600;
-  color: var(--hero-fg);
+.hero .hero__cta:hover {
+  background: linear-gradient(100deg, #ead3a2 0%, #c9a465 100%);
+  color: #17181b;
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  box-shadow: 0 22px 40px -16px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
+
+.hero .hero__cta:focus-visible {
+  outline: 2px solid #f4f1ea;
+  outline-offset: 3px;
+}
+
+/* ---------- Illustration ---------- */
+
+.hero__art {
+  min-width: 0;
+  justify-self: end;
+  width: 100%;
+  max-width: 540px;
+}
+
+.hero-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.hero-art__card {
+  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.35));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: heroFloat 7s ease-in-out 1.2s infinite;
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ---------- Vague ---------- */
+
+.hero__waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  z-index: 1;
+  height: var(--hero-wave-h);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Trois périodes de 1600 px : un glissement d'une période ramène exactement au départ. */
+.hero__wave {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: block;
+  width: 4800px;
+  max-width: none; /* _reset.css borne les svg à 100 % */
+  height: 100%;
+  fill: var(--color-bg);
+  animation: heroWave 8s linear infinite;
+  will-change: transform;
+}
+
+@keyframes heroWave {
+  from { transform: translateX(0); }
+  to { transform: translateX(-1600px); }
+}
+
+/* ---------- Pastilles métiers ----------
+   Plus dans le hero : gardées pour les liens « D'autres métiers » des pages métier
+   (templates/metier.html) et l'icône des pages d'erreur (_global.css). */
 
 /* Pastilles « Votre métier » : de vrais liens vers les démos ; avec le JS,
    elles pilotent l'aperçu et le bouton principal sans quitter la page. */
@@ -333,365 +309,9 @@ html[data-theme="dark"] .hero__eyebrow::before {
   }
 }
 
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-}
-
-/* Bouton secondaire : contour encre, lisible dans les deux thèmes */
-.hero .hero-btn:nth-child(2) {
-  background: transparent;
-  color: var(--hero-fg);
-  border-color: var(--hero-rule);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: none;
-}
-
-.hero .hero-btn:nth-child(2):hover {
-  background: var(--color-accent-soft);
-  border-color: var(--hero-accent);
-  color: var(--hero-fg);
-  box-shadow: none;
-}
-
-.hero .hero-btn:focus-visible {
-  outline: 2px solid var(--hero-accent);
-  outline-offset: 3px;
-}
-
-/* Repères chiffrés */
-.hero__facts {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  justify-content: start;
-  gap: 0;
-  margin: 2.25rem 0 0;
-  padding: 0;
-  list-style: none;
-  max-width: 34rem;
-  border-top: 1px solid var(--hero-rule);
-}
-
-.hero__facts li {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding: 1.1rem 1.7rem 0 0;
-  margin-right: 1.7rem;
-  border-right: 1px solid var(--hero-rule);
-}
-
-.hero__facts li:last-child {
-  margin-right: 0;
-  padding-right: 0;
-  border-right: 0;
-}
-
-.hero__facts strong {
-  font-family: var(--font-serif);
-  font-size: 1.7rem;
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: var(--hero-fg);
-}
-
-.hero__facts li > span {
-  font-size: 0.8rem;
-  line-height: 1.35;
-  color: var(--hero-muted);
-}
-
-/* ---------- Aperçu des démos (fenêtre de navigateur) ---------- */
-
-.hero__preview {
-  position: relative;
-  min-width: 0;
-  margin: 0;
-  justify-self: end;
-  width: 100%;
-  max-width: 580px;
-}
-
-.hero__window {
-  --tilt-x: 1.5deg;
-  --tilt-y: -3deg;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  border: 1px solid var(--code-border);
-  border-radius: var(--radius-lg);
-  background: var(--code-bg);
-  box-shadow: var(--code-shadow);
-  transform: perspective(1400px) rotateY(var(--tilt-y)) rotateX(var(--tilt-x));
-  transform-origin: 30% 50%;
-  transition: transform 0.6s var(--ease-out);
-}
-
-/* Sans JS (ou au clavier) la fenêtre se redresse ; avec la souris, le JS l'incline vers le pointeur. */
-.hero__preview:hover .hero__window,
-.hero__preview:focus-within .hero__window {
-  --tilt-x: 0deg;
-  --tilt-y: 0deg;
-}
-
-.hero__window.is-tilting {
-  transition: transform 0.18s ease-out;
-}
-
-/* Inclinaison pilotée en ressort par Motion (js/anim.js + app.js) : pas de transition CSS en plus. */
-.hero__window.is-sprung {
-  transition: none;
-}
-
-.hero__window-bar {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 0.7rem 1rem;
-  background: var(--code-bar);
-  border-bottom: 1px solid var(--code-border);
-}
-
-.hero__window-dots {
-  display: inline-flex;
-  flex: none;
-  gap: 0.4rem;
-}
-
-.hero__window-dots i {
-  width: 0.62rem;
-  height: 0.62rem;
-  border-radius: 50%;
-  background: var(--code-ln);
-  opacity: 0.55;
-}
-
-/* Barre d'adresse : le chemin change avec la démo affichée */
-.hero__window-url {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  padding: 0.32rem 0.8rem;
-  border-radius: var(--radius-full);
-  background: var(--code-bg);
-  border: 1px solid var(--code-border);
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.01em;
-  color: var(--code-doc);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.hero__window-url span {
-  color: var(--hero-fg-soft);
-}
-
-.hero__window-label {
-  flex: none;
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--hero-accent);
-}
-
-/* Écran : les captures se succèdent en fondu */
-.hero__screen {
-  position: relative;
-  display: block;
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  background: var(--code-bar);
-}
-
-/* Reflet doux qui suit le pointeur */
-.hero__screen::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(circle at var(--glare-x, 30%) var(--glare-y, 0%), rgba(255, 255, 255, 0.16), transparent 55%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.hero__window.is-tilting .hero__screen::after {
-  opacity: 1;
-}
-
-.hero__shot {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  opacity: 0;
-  filter: blur(6px);
-  transition: opacity 0.9s var(--ease-out), filter 0.9s var(--ease-out);
-}
-
-.hero__shot.is-active {
-  opacity: 1;
-  filter: none;
-}
-
-.hero__screen:focus-visible {
-  outline: 2px solid var(--hero-accent);
-  outline-offset: -4px;
-}
-
-.hero__window-status {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.6rem 1rem;
-  background: var(--code-bar);
-  border-top: 1px solid var(--code-border);
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-  color: var(--code-doc);
-}
-
-/* Bouton pause et points de navigation : zones de clic de 24 px au moins (WCAG 2.5.8),
-   le point visible est dessiné par ::before, son remplissage par ::after. */
-.hero__pause {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 24px;
-  height: 24px;
-  margin-left: -6px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: none;
-  color: var(--code-doc);
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.hero__pause:hover {
-  color: var(--hero-fg);
-}
-
-.hero__pause:focus-visible {
-  outline: 2px solid var(--hero-accent);
-  outline-offset: 1px;
-}
-
-.hero__pause-icon {
-  width: 14px;
-  height: 14px;
-}
-
-.hero__pause-icon--play,
-.hero__preview.is-paused .hero__pause-icon--pause {
-  display: none;
-}
-
-.hero__preview.is-paused .hero__pause-icon--play {
-  display: block;
-}
-
-.hero__pager {
-  display: inline-flex;
-  align-items: center;
-}
-
-.hero__pager-dot {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  transition: width 0.45s var(--ease-out);
-}
-
-.hero__pager-dot::before,
-.hero__pager-dot::after {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  top: 50%;
-  height: 0.45rem;
-  margin-top: -0.225rem;
-  border-radius: var(--radius-full);
-}
-
-.hero__pager-dot::before {
-  background: var(--code-ln);
-  opacity: 0.55;
-  transition: opacity 0.3s ease;
-}
-
-.hero__pager-dot:hover::before {
-  opacity: 0.9;
-}
-
-.hero__pager-dot.is-active {
-  width: calc(1.6rem + 16px);
-}
-
-.hero__pager-dot.is-active::before {
-  opacity: 1;
-}
-
-/* Le point actif se remplit pendant que la démo est affichée */
-.hero__pager-dot::after {
-  background: var(--hero-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-}
-
-.hero__pager-dot.is-active::after {
-  transform: none;
-}
-
-.hero__preview.is-autoplay .hero__pager-dot.is-active::after {
-  animation: heroProgress var(--hero-delay, 4500ms) linear both;
-}
-
-@keyframes heroProgress {
-  from { transform: scaleX(0); }
-}
-
-.hero__pager-dot:focus-visible {
-  outline: 2px solid var(--hero-accent);
-  outline-offset: -2px;
-  border-radius: var(--radius-full);
-}
-
-.hero__window-ok {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  color: var(--code-ok);
-  font-weight: 600;
-}
-
-.hero__window-ok::before {
-  content: "";
-  width: 0.42rem;
-  height: 0.42rem;
-  border-radius: 50%;
-  background: currentColor;
-  box-shadow: 0 0 10px currentColor;
-}
-
 /* ---------- Apparition ----------
-   En CSS seul : le texte s'affiche dès le premier rendu, sans attendre de script. */
+   En CSS seul : le titre s'affiche dès le premier rendu, sans attendre de script.
+   Motion (js/anim.js) reprend la main quand il est chargé. */
 
 @keyframes heroRise {
   from {
@@ -704,345 +324,65 @@ html[data-theme="dark"] .hero__eyebrow::before {
   }
 }
 
-.hero__overlay > * {
-  animation: heroRise 0.7s var(--ease-out) both;
+.hero__overlay > *,
+.hero__art {
+  animation: heroRise 0.8s var(--ease-out) both;
 }
 
-/* L'aperçu glisse sans fondu : sa capture compte comme LCP dès le premier rendu. */
-.hero__preview {
-  animation: heroSlide 0.9s var(--ease-out) both;
-}
-
-@keyframes heroSlide {
-  from { transform: translateY(14px); }
-}
-
-.hero__eyebrow { animation-delay: 0.04s; }
-.hero__title { animation-delay: 0.1s; }
-.hero__subtitle { animation-delay: 0.2s; }
-.hero__trades { animation-delay: 0.27s; }
-.hero__actions { animation-delay: 0.34s; }
-.hero__facts { animation-delay: 0.44s; }
-.hero__preview { animation-duration: 0.9s; animation-delay: 0.22s; }
+.hero__title { animation-delay: 0.05s; }
+.hero__cta { animation-delay: 0.2s; }
+.hero__art { animation-delay: 0.3s; animation-duration: 1s; }
 
 /* ---------- Responsive ---------- */
 
-@media (max-width: 1024px) {
-  .hero__inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-  }
-
-}
-
 @media (max-width: 880px) {
   .hero {
-    height: auto;
     min-height: 0;
-    max-height: none;
     align-items: flex-start;
   }
 
+  /* Une seule composition : titre, bouton, puis l'illustration qui descend jusqu'à la vague. */
   .hero__inner {
     grid-template-columns: minmax(0, 1fr);
-    gap: 3rem;
-    padding-top: calc(var(--navbar-height) + 2.4rem);
-    padding-bottom: 3.5rem;
+    gap: 2.5rem;
+    padding-top: calc(var(--navbar-height) + 2.75rem);
+    padding-bottom: calc(var(--hero-wave-h) * 0.4);
   }
 
-  .hero__preview {
-    justify-self: stretch;
-    max-width: 580px;
-    margin-bottom: 0;
-  }
-
-  .hero__window {
-    transform: none;
-  }
-
-  .hero__halo--a {
-    top: auto;
-    bottom: 0;
-    right: -20%;
-    transform: none;
-    width: 90vw;
-    height: 90vw;
-  }
-}
-
-@media (max-width: 768px) {
-  /* Mobile : sur deux lignes, sans le point médian, pour rester à gauche de la
-     tirette qui pend juste en dessous ; le filet s'aligne sur la première ligne. */
-  .hero__eyebrow {
-    align-items: flex-start;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
-    font-size: 0.78rem;
-    line-height: 1.45;
-  }
-
-  .hero__eyebrow::before {
-    width: 1.25rem;
-    margin-top: 0.72em;
-  }
-
-  .hero__eyebrow-text > span:not(.hero__eyebrow-sep) {
-    display: block;
-  }
-
-  .hero__eyebrow-sep {
-    display: none;
-  }
-
-  .hero__title {
-    font-size: clamp(2.35rem, 10vw, 3.2rem);
-    letter-spacing: 0;
-  }
-
-  .hero__subtitle {
-    margin-top: 1.25rem;
-    font-size: 1.02rem;
-  }
-
-  .hero__actions {
-    margin-top: 1.6rem;
-    gap: 0.55rem;
-  }
-
-  .hero__actions .hero-btn {
-    padding: 0.78rem 1.35rem;
-    font-size: 0.92rem;
-  }
-
-  .hero__facts {
-    margin-top: 1.5rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .hero__facts li {
-    padding: 0.95rem 0.8rem 0 0;
-    margin-right: 0.8rem;
-  }
-
-  .hero__facts strong {
-    font-size: 1.4rem;
-  }
-
-  .hero__facts li > span {
-    font-size: 0.74rem;
-  }
-
-  /* ---------- Mobile : le carrousel passe en fond ----------
-     Le bloc texte s'efface de la mise en page (display: contents) : ses enfants
-     deviennent les lignes de la grille du hero. L'aperçu se pose sur les lignes
-     « métiers → chiffres », bord à bord, derrière elles. Seuls restent les captures
-     en fondu, un voile pour la lecture et les points de navigation, sous les chiffres. */
-  .hero__inner {
-    gap: 0;
-    padding-bottom: 4.25rem;
-  }
-
-  .hero__overlay {
-    display: contents;
-  }
-
-  .hero__overlay > * {
-    grid-column: 1;
-    position: relative;
-    z-index: 1;
-  }
-
-  .hero__eyebrow { grid-row: 1; }
-  .hero__title { grid-row: 2; }
-  .hero__subtitle { grid-row: 3; }
-  .hero__trades { grid-row: 4; }
-  .hero__actions { grid-row: 5; }
-  .hero__facts { grid-row: 6; }
-
-  .hero__trades {
-    margin-top: 1.6rem;
-  }
-
-  /* Sur mobile, l'aperçu n'est qu'un fond : la pastille de la démo qu'il montre
-     n'est pas mise en avant (elle passerait pour un métier présélectionné). */
-  .hero__trade.is-showing:not(.is-selected) {
-    color: var(--hero-fg-soft);
-    border-color: var(--hero-rule);
-  }
-
-  .hero__trade.is-showing:not(.is-selected) .hero__trade-badge {
-    background: color-mix(in srgb, var(--hero-accent) 13%, transparent);
-    color: var(--hero-accent);
-  }
-
-  .hero__preview {
-    grid-column: 1;
-    grid-row: 4 / 7;
-    align-self: stretch;
-    justify-self: stretch;
-    z-index: 0;
-    width: auto;
-    max-width: none;
-    /* Bord à bord, et jusqu'au bas du hero */
-    margin: 0 calc(var(--page-gutter) * -1) -4.25rem;
-    pointer-events: none;
-  }
-
-  .hero__window-bar,
-  .hero__window-ok {
-    display: none;
-  }
-
-  .hero__window {
-    position: absolute;
-    inset: 0;
-    border: 0;
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
-    transform: none;
-  }
-
-  .hero__screen {
-    position: absolute;
-    inset: 0;
-    aspect-ratio: auto;
-    background: transparent;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 72%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 72%, transparent 100%);
-  }
-
-  .hero__shot {
-    object-position: center top;
-    filter: blur(18px) saturate(0.8);
-  }
-
-  .hero__shot.is-active {
-    filter: blur(10px) saturate(0.8);
-  }
-
-  /* Voile : fondu avec le fond en haut et en bas, assez dense au milieu pour
-     que pastilles, boutons et chiffres restent nets sur la capture. */
-  .hero__screen::after {
-    opacity: 1;
-    background: color-mix(in srgb, var(--color-bg) 72%, transparent);
-  }
-
-  /* En clair, les captures (souvent sombres) virent au gris sous le voile : plus couvrant. */
-  html:not([data-theme="dark"]) .hero__screen::after {
-    background: color-mix(in srgb, var(--color-bg) 84%, transparent);
-  }
-
-  /* Points de navigation : sous les chiffres, centrés, seuls cliquables */
-  .hero__window-status {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 1.35rem;
-    justify-content: center;
-    padding: 0;
-    background: none;
-    border: 0;
-  }
-
-  .hero__pager,
-  .hero__pause {
-    pointer-events: auto;
-  }
-
-  .hero__pager-dot::before {
-    background: var(--hero-muted);
-  }
-
-  .hero__pause {
-    color: var(--hero-muted);
-  }
-
-  /* Sur la capture, les pastilles et le bouton secondaire prennent un fond flouté */
-  .hero__trade,
-  .hero .hero-btn:nth-child(2) {
-    background: color-mix(in srgb, var(--color-bg) 72%, transparent);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-  }
-
-  .hero__trade--autre {
-    background: color-mix(in srgb, var(--color-bg) 55%, transparent);
-  }
-
-  .hero__trade.is-selected {
-    background: var(--color-accent-soft);
+  .hero__art {
+    justify-self: center;
+    max-width: 460px;
   }
 }
 
 @media (max-width: 480px) {
-  .hero__window-label {
-    display: none;
-  }
-}
-
-@media (max-width: 400px) {
-  /* Petits téléphones : espacements resserrés pour garder les chiffres dans le premier écran. */
-  .hero__inner {
-    padding-top: calc(var(--navbar-height) + 1.6rem);
-  }
-
-  .hero__eyebrow {
-    margin-bottom: 0.75rem;
-  }
-
   .hero__title {
-    font-size: 2.2rem;
+    font-size: clamp(2.35rem, 10.5vw, 2.9rem);
+    letter-spacing: 0;
   }
 
-  .hero__subtitle {
-    margin-top: 1rem;
-    font-size: 0.97rem;
+  .hero .hero__cta {
+    padding: 0.9rem 1.7rem;
   }
 
-  .hero__trades {
-    margin-top: 1.2rem;
-  }
-
-  .hero__actions {
-    margin-top: 1.2rem;
-  }
-
-  .hero__facts {
-    margin-top: 1.1rem;
-  }
-}
-
-@media (max-height: 760px) and (min-width: 881px) {
   .hero__inner {
-    padding-bottom: 4rem;
-  }
-
-  .hero__title {
-    font-size: clamp(2.4rem, 4.6vw, 3.9rem);
-  }
-
-  .hero__facts {
-    margin-top: 2rem;
+    gap: 2rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero__overlay > *,
-  .hero__preview {
+  .hero__art,
+  .hero-art__card,
+  .hero__wave {
     animation: none;
   }
 
-  .hero__window,
-  .hero__shot,
-  .hero__pager-dot {
+  .hero .hero__cta {
     transition: none;
   }
 
-  .hero__window {
+  .hero .hero__cta:hover {
     transform: none;
-  }
-
-  .hero__preview.is-autoplay .hero__pager-dot.is-active::after {
-    animation: none;
   }
 }

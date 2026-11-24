@@ -2,47 +2,8 @@
    EFFETS LUMINEUX
    ================================================= */
 
-.site-lights {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.site-lights__orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.85;
-}
-
-.site-lights__orb--a {
-  width: min(46vw, 520px);
-  height: min(46vw, 520px);
-  top: 8%;
-  left: -8%;
-  background: radial-gradient(circle, var(--glow-orb-a) 0%, transparent 68%);
-}
-
-.site-lights__orb--b {
-  width: min(42vw, 460px);
-  height: min(42vw, 460px);
-  top: 48%;
-  right: -10%;
-  background: radial-gradient(circle, var(--glow-orb-b) 0%, transparent 70%);
-}
-
-.site-lights__orb--c {
-  width: min(36vw, 380px);
-  height: min(36vw, 380px);
-  bottom: -6%;
-  left: 28%;
-  background: radial-gradient(circle, var(--glow-orb-c) 0%, transparent 72%);
-}
-
-
-
+/* Plus de lueurs fixes derrière la page (retour du 24/11 : un fond d'une seule couleur ;
+   les dégradés restent dans le hero et le pied de page). */
 
 /* Boutons */
 .hero-btn::before,
@@ -139,24 +100,7 @@ html[data-theme="dark"] .has-surface-glow::after {
   box-shadow: var(--shadow-sm), 0 0 28px var(--glow-accent-strong);
 }
 
-.footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 12%;
-  right: 12%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-accent-bright), transparent);
-  box-shadow: 0 0 22px var(--glow-accent-strong);
-  opacity: 0.35;
-  pointer-events: none;
-}
-
-html[data-theme="dark"] .footer::before {
-  opacity: 0.65;
-}
-
-html[data-theme="dark"] .footer a:hover {
+.footer a:hover {
   text-shadow: 0 0 16px rgba(var(--accent-glow-rgb), 0.45);
 }
 
@@ -165,12 +109,6 @@ html[data-theme="dark"] .footer a:hover {
 .form-group textarea:focus,
 .form-group select:focus {
   box-shadow: 0 0 0 3px var(--focus-ring), 0 0 22px var(--glow-accent);
-}
-
-@media (max-width: 768px) {
-  .site-lights__orb {
-    filter: blur(64px);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

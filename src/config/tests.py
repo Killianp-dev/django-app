@@ -162,13 +162,20 @@ class SeoTests(TestCase):
         self.assertIn(note, notes)
         self.assertNotIn(conseil, notes)
 
+    def test_ordre_des_sections_de_l_accueil(self):
+        # Exemples, séparateur, Déroulement, puis À propos entre Déroulement et Formule.
+        html = self.client.get(reverse("index")).content.decode()
+        positions = [html.index(marque) for marque in (
+            'id="exemples"', 'class="section-divider"', 'id="deroulement"', 'id="a-propos"', 'id="formule"')]
+        self.assertEqual(positions, sorted(positions))
+
     def test_ordre_de_la_section_exemples(self):
         exemples = self.client.get(reverse("index")).context["exemples"]
         ordre = [projet.namespace for projet in exemples]
         self.assertEqual(ordre[0], "macon")
         self.assertEqual(ordre[2], "boulangerie")
         self.assertEqual(ordre[4], "beaute")
-        self.assertEqual(ordre[-1], "avocat")          # l'avocat ouvre le hero : il ferme les Exemples
+        self.assertEqual(ordre[-1], "avocat")          # l'avocat ouvre le carrousel : il ferme le sous-menu
         self.assertEqual(sorted(ordre), sorted(p.namespace for p in exemples))
 
     def test_sous_menu_exemples_liste_les_demos(self):
@@ -245,8 +252,9 @@ class RetoursDu24NovembreTests(TestCase):
         robots = self.client.get("/robots.txt").content.decode()
         self.assertIn("Disallow: /static/ressources/portrait/", robots)
         accueil = self.client.get(reverse("index")).content.decode()
-        self.assertIn("ressources/portrait/killian", accueil)
-        self.assertNotIn("killian-aplat", accueil)
+        # À propos montre le portrait illustré (retour du 24/11 : « remets la photo dessin »).
+        self.assertIn("ressources/killian-aplat", accueil)
+        self.assertNotIn("ressources/portrait/killian.jpg", accueil)
         # La photo n'est ni l'image de partage ni celle des données structurées.
         self.assertNotIn("portrait/", accueil.split("</head>")[0])
 
