@@ -206,9 +206,11 @@ html[data-theme="dark"] .about__chip {
   }
 }
 
+/* Course courte et zoom léger : juste de quoi couvrir le déplacement (2 × 2,5 % < 6 %),
+   la tête garde son air au-dessus (la photo a du recul, ressources/portrait/). */
 @keyframes aboutPortraitDrift {
-  from { transform: translateY(-6%) scale(1.14); }
-  to { transform: translateY(6%) scale(1.14); }
+  from { transform: translateY(-2.5%) scale(1.06); }
+  to { transform: translateY(2.5%) scale(1.06); }
 }
 
 /* ---------- Texte ---------- */
