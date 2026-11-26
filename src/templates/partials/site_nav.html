@@ -1,4 +1,4 @@
-{% comment %}
+{% load static %}{% comment %}
 Navigation principale, partagée par base.html et index.html.
 `on_home` : liens d'ancre relatifs (#section) pour le défilement doux sur la page d'accueil.
 Liens aérés, sans numérotation (ce n'est pas une suite) ; la section affichée est soulignée
@@ -15,17 +15,29 @@ d'un filet laiton (ordinateur : il glisse d'un lien à l'autre, app.js moveNavTh
                 Mobile : pas de survol, un appui sur « Exemples » déplie la liste (app.js, initNavDemos).{% endcomment %}
                 <div class="nav-demos" id="nav-demos">
                     <div class="nav-demos__inner">
-                        <p class="nav-demos__kicker" aria-hidden="true">Une démo par métier</p>
                         <ul class="nav-demos__list" aria-label="Démos par métier">
                             {% for projet in DEMOS_NAV %}
-                            <li><a class="nav-demos__link" href="{{ projet.url }}">
-                                <span class="nav-demos__icon">{% include "partials/trade_icon.html" with nom=projet.namespace %}</span>
-                                <span class="nav-demos__text"><span class="nav-demos__metier">{{ projet.metier }}</span><span class="nav-demos__nom">{{ projet.nom }}</span></span>
+                            <li><a class="nav-demos__link" href="{{ projet.url }}" data-demo="{{ projet.namespace }}"{% if forloop.first %} data-active{% endif %}>
+                                <span class="nav-demos__metier">{{ projet.metier }}</span>
+                                <span class="nav-demos__nom">{{ projet.nom }}</span>
                             </a></li>
                             {% endfor %}
                             {# Mobile seulement : « Exemples » y déplie la liste au lieu de mener à la section. #}
-                            <li class="nav-demos__all"><a class="nav-demos__link nav-demos__link--all" href="{% if not on_home %}{{ index_url }}{% endif %}#exemples">Tous les exemples <span aria-hidden="true">→</span></a></li>
+                            <li class="nav-demos__all"><a class="nav-demos__link nav-demos__link--all" href="{% if not on_home %}{{ index_url }}{% endif %}#exemples">Tous les exemples</a></li>
                         </ul>
+                        {% comment %}Ordinateur : aperçu de la démo survolée (app.js, initNavDemos). Décoratif :
+                        le lien de gauche porte déjà le métier et le nom.{% endcomment %}
+                        <div class="nav-demos__preview" aria-hidden="true">
+                            {% for projet in DEMOS_NAV %}
+                            <figure class="nav-demos__shot{% if forloop.first %} is-shown{% endif %}" data-demo="{{ projet.namespace }}">
+                                <span class="nav-demos__frame"><img src="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }}" alt="" width="480" height="320" loading="lazy" decoding="async"></span>
+                                <figcaption>
+                                    <span class="nav-demos__shot-nom">{{ projet.nom }}</span>
+                                    <span class="nav-demos__shot-texte">{{ projet.accroche }}</span>
+                                </figcaption>
+                            </figure>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </li>

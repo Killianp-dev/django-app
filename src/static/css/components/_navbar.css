@@ -303,7 +303,7 @@ html[data-theme="dark"] .nav-links {
   padding: 0.55rem 0;
   color: var(--nav-fg-muted);
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: 0.005em;
@@ -609,7 +609,7 @@ html[data-theme="dark"] .navbar-cta {
   }
 
   .nav-links > li > a {
-    font-size: 0.94rem;
+    font-size: 1rem;
   }
 }
 
@@ -846,19 +846,11 @@ html[data-theme="dark"] .navbar-cta {
 
 /* ==================================================
    SOUS-MENU « EXEMPLES » : une démo par métier
-   Ordinateur : carte qui s'ouvre au survol (ou au clavier) sous la navigation.
-   Mobile : liste dépliée par un appui sur « Exemples », dont le chevron pivote.
+   Ordinateur : panneau en deux parties, ouvert au survol (ou au clavier) sous la
+   navigation. À gauche les métiers, en texte seul ; à droite l'aperçu de la démo
+   survolée (app.js, initNavDemos), avec son nom et son accroche.
+   Mobile : simple liste dépliée par un appui sur « Exemples ».
    ================================================= */
-
-/* Le titre de la carte, en casse normale (pas une petite étiquette). */
-.nav-demos__kicker {
-  margin: 0;
-  padding: 0.6rem 0.8rem 0.5rem;
-  color: var(--nav-fg-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  line-height: 1.3;
-}
 
 .nav-demos__list {
   margin: 0;
@@ -867,68 +859,35 @@ html[data-theme="dark"] .navbar-cta {
 }
 
 .nav-demos__link {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 0.6rem 0.8rem 0.6rem 0.6rem;
-  border-radius: 12px;
-  color: var(--nav-fg);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--nav-fg-muted);
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.nav-demos__link:hover,
-.nav-demos__link:focus-visible {
-  background: var(--nav-hover);
+  transition: color 0.25s ease;
 }
 
 .nav-demos__link:focus-visible {
   outline: 2px solid var(--color-accent-bright);
-  outline-offset: -2px;
-}
-
-.nav-demos__icon {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 11px;
-  background: var(--nav-track);
-  box-shadow: inset 0 0 0 1px var(--nav-line);
-  color: var(--nav-fg-muted);
-  transition: color 0.2s ease, box-shadow 0.25s ease;
-}
-
-.nav-demos__icon svg {
-  width: 16px;
-  height: 16px;
-}
-
-.nav-demos__link:hover .nav-demos__icon {
-  color: var(--color-accent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-accent) 35%, transparent);
-}
-
-html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
-  color: var(--color-accent-bright);
-}
-
-.nav-demos__text {
-  display: grid;
-  gap: 0.1rem;
-  line-height: 1.25;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .nav-demos__metier {
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   font-weight: 500;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .nav-demos__nom {
-  color: var(--nav-fg-muted);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.nav-demos__preview {
+  display: none;
 }
 
 @media (min-width: 769px) {
@@ -938,15 +897,13 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
 
   .nav-demos {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 12px);
     left: 50%;
     z-index: 3;
-    width: 32rem;
-    padding: 10px;
-    border-radius: 20px;
-    /* Même teinte que la barre posée (--navbar-bg-scrolled, rendue opaque : le texte de la
-       page ne doit pas se lire au travers). Sur le hero, elle passe en graphite sombre
-       comme la barre transparente (bloc « barre posée sur le hero », plus bas). */
+    width: 35rem;
+    border-radius: 16px;
+    /* Même teinte que la barre posée, rendue opaque : le texte de la page ne doit pas se
+       lire au travers. Sur le hero, en thème sombre, elle passe en graphite (plus bas). */
     background: #f4f3ef;
     box-shadow: var(--nav-panel-shadow);
     opacity: 0;
@@ -956,15 +913,24 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
     transition: opacity 0.2s ease 0.12s, transform 0.3s var(--nav-ease) 0.12s, visibility 0s linear 0.32s;
   }
 
+  /* Le filet suit la carte, pas la barre : laiton foncé sur la carte claire. */
+  .nav-links .nav-demos {
+    --nav-rule: var(--color-accent);
+  }
+
   html[data-theme="dark"] .nav-demos {
     background: #0e0e10;
+  }
+
+  html[data-theme="dark"] .nav-links .nav-demos {
+    --nav-rule: var(--color-accent-bright);
   }
 
   /* Pont invisible entre « Exemples » et la carte, pour que le survol ne se perde pas. */
   .nav-demos::before {
     content: "";
     position: absolute;
-    inset: -14px 0 100%;
+    inset: -16px 0 100%;
   }
 
   .nav-links__demos:hover .nav-demos,
@@ -975,15 +941,108 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
     transition: opacity 0.2s ease, transform 0.35s var(--nav-ease), visibility 0s linear 0s;
   }
 
-  .nav-demos__list {
+  .nav-demos__inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
+    grid-template-columns: 12rem 1fr;
+    gap: 1.75rem;
+    padding: 1.6rem 1.6rem 1.6rem 1.9rem;
   }
 
-  /* Sur ordinateur, « Exemples » mène déjà à la section. */
+  .nav-demos__list {
+    display: grid;
+    align-content: center;
+    gap: 0.2rem;
+  }
+
+  /* Sur ordinateur, seul le métier : le nom est sous l'aperçu. */
+  .nav-demos__nom,
   .nav-demos__all {
     display: none;
+  }
+
+  .nav-demos__link {
+    padding: 0.42rem 0 0.42rem 1.1rem;
+  }
+
+  /* Filet laiton court devant le métier affiché, qui s'allonge depuis la gauche. */
+  .nav-demos__link::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0.6rem;
+    height: 1.5px;
+    border-radius: 1px;
+    background: var(--nav-rule);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.3s var(--nav-ease);
+  }
+
+  .nav-demos__link:hover,
+  .nav-demos__link[data-active] {
+    color: var(--nav-fg);
+  }
+
+  .nav-demos__link[data-active]::before {
+    transform: scaleX(1);
+  }
+
+  /* Aperçus superposés : celui de la démo affichée apparaît en fondu. */
+  .nav-demos__preview {
+    display: grid;
+  }
+
+  .nav-demos__shot {
+    grid-area: 1 / 1;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-demos__shot.is-shown {
+    opacity: 1;
+  }
+
+  .nav-demos__frame {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    border-radius: 10px;
+    background: var(--nav-line);
+    box-shadow: 0 0 0 1px var(--nav-line);
+  }
+
+  .nav-demos__frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transform: scale(1.03);
+    transition: transform 0.6s var(--nav-ease);
+  }
+
+  .nav-demos__shot.is-shown .nav-demos__frame img {
+    transform: scale(1);
+  }
+
+  .nav-demos__shot figcaption {
+    display: grid;
+    gap: 0.25rem;
+    padding-top: 0.9rem;
+  }
+
+  .nav-demos__shot-nom {
+    color: var(--nav-fg);
+    font-size: 0.92rem;
+    font-weight: 500;
+  }
+
+  .nav-demos__shot-texte {
+    color: var(--nav-fg-muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
   }
 }
 
@@ -1016,40 +1075,30 @@ html[data-theme="dark"] .nav-demos__link:hover .nav-demos__icon {
     overflow: hidden;
   }
 
-  .nav-demos__kicker {
-    display: none;
-  }
-
   /* Légèrement en retrait sous « Exemples ». */
   .nav-demos__list {
-    padding: 2px 0 8px 0.6rem;
+    padding: 2px 0 10px 1rem;
   }
 
   .nav-demos__link {
-    padding: 0.4rem 0.6rem 0.4rem 0.4rem;
-  }
-
-  .nav-demos__icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
+    min-height: 44px;
+    align-items: center;
+    padding: 0 0.6rem;
+    color: var(--nav-fg);
   }
 
   .nav-demos__link--all {
-    min-height: 40px;
-    padding-left: 0.6rem;
     color: var(--nav-fg-muted);
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 500;
-  }
-
-  .nav-demos__link--all span {
-    margin-left: 0.35rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-demos {
+  .nav-demos,
+  .nav-demos__shot,
+  .nav-demos__frame img,
+  .nav-demos__link::before {
     transition: none !important;
   }
 }
@@ -1092,13 +1141,13 @@ html.theme-vt::view-transition-new(root) {
    bascule en 3D autour de l'axe horizontal, avec un léger rebond, et passe au laiton. */
 .nav-links__chevron {
   flex: none;
-  width: 0.7em;
-  height: 0.7em;
-  margin-left: 0.35em;
-  opacity: 0.55;
-  transform: perspective(40px) rotateX(0deg);
+  width: 1em;
+  height: 1em;
+  margin-left: 0.3em;
+  opacity: 0.6;
+  transform: rotate(0deg);
   transition:
-    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.5s cubic-bezier(0.34, 1.3, 0.64, 1),
     color 0.2s ease,
     opacity 0.2s ease;
 }
@@ -1106,7 +1155,7 @@ html.theme-vt::view-transition-new(root) {
 .nav-links__demos.is-open .nav-links__chevron {
   opacity: 1;
   color: var(--nav-rule);
-  transform: perspective(40px) rotateX(180deg);
+  transform: rotate(180deg);
 }
 
 @media (min-width: 769px) {
@@ -1114,7 +1163,7 @@ html.theme-vt::view-transition-new(root) {
   .nav-links__demos:focus-within .nav-links__chevron {
     opacity: 1;
     color: var(--nav-rule);
-    transform: perspective(40px) rotateX(180deg);
+    transform: rotate(180deg);
   }
 }
 
@@ -1191,11 +1240,6 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
     color: var(--hero-nav-fg);
     background: #18181b;
     box-shadow: 0 24px 56px -12px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-  }
-
-  html[data-theme="dark"]:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-demos__link:hover .nav-demos__icon {
-    color: #e2c896;
-    box-shadow: inset 0 0 0 1px rgba(226, 200, 150, 0.4);
   }
 
   html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links > li > a {

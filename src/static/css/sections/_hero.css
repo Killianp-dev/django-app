@@ -29,6 +29,21 @@
     linear-gradient(118deg, #17181b 0%, #1f1e1d 28%, #3a3022 52%, #6b5124 76%, #9a7634 100%);
 }
 
+/* Thème sombre : un voile noir éteint le dégradé, sous le texte, l'illustration et la vague. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .hero::before {
+  opacity: 0.38;
+}
+
 /* ---------- Mise en page ---------- */
 
 .hero__inner {

@@ -211,6 +211,20 @@
     syncRole();
     mobileNavQuery.addEventListener('change', syncRole);
 
+    // Ordinateur : le métier survolé (ou atteint au clavier) affiche l'aperçu de sa démo.
+    const demoLinks = list.querySelectorAll('.nav-demos__link[data-demo]');
+    const shots = list.querySelectorAll('.nav-demos__shot');
+    const showDemo = (demoLink) => {
+      demoLinks.forEach((l) => {
+        l.toggleAttribute('data-active', l === demoLink);
+      });
+      shots.forEach((shot) => shot.classList.toggle('is-shown', shot.dataset.demo === demoLink.dataset.demo));
+    };
+    demoLinks.forEach((demoLink) => {
+      demoLink.addEventListener('pointerenter', () => showDemo(demoLink));
+      demoLink.addEventListener('focus', () => showDemo(demoLink));
+    });
+
     link.addEventListener('click', (event) => {
       if (!isMobileNav()) return;
       event.preventDefault();
