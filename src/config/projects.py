@@ -39,7 +39,27 @@ def _projet(namespace, metier, titre, nom, accroche, points, alt):
         apercu_800=f"vitrine/photos/{namespace}/apercu-800.webp",
         apercu_v=empreinte(f"vitrine/photos/{namespace}/apercu.jpg"),
         apercu_webp_v=empreinte(f"vitrine/photos/{namespace}/apercu.webp"),
+        diapos=diapos_menu(namespace),
     )
+
+
+# Diaporama du sous-menu « Exemples » : quelques photos de chaque démo, en vignettes WebP
+# 480 x 320 recadrées (vitrine/photos/<namespace>/menu/), après la capture de la page.
+# Pour en ajouter : recadrer la photo en 480 x 320 (WebP, qualité ~75) dans ce dossier.
+DIAPOS_MENU = {
+    "macon": ["hero-parpaing", "extension-elevation", "exterieur-terrasse", "entreprise"],
+    "boucherie": ["hero", "boeuf-mature", "charcuterie", "maison"],
+    "boulangerie": ["hero-levain", "viennoiseries-croissants", "maison", "patisserie-tartes"],
+    "coiffeur": ["hero", "coupe-ciseaux", "couleur", "salon"],
+    "beaute": ["hero", "corps", "mains", "institut"],
+    "avocat": ["hero-bibliotheque-1600", "penal", "affaires-reunion", "famille-enfant"],
+}
+
+
+def diapos_menu(namespace):
+    """Chemins statiques des photos du diaporama du sous-menu, avec leur empreinte."""
+    chemins = [f"vitrine/photos/{namespace}/menu/{nom}.webp" for nom in DIAPOS_MENU.get(namespace, [])]
+    return [SimpleNamespace(chemin=c, v=empreinte(c)) for c in chemins]
 
 
 PROJETS = [

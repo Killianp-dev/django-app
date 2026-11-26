@@ -210,6 +210,19 @@ class SeoTests(TestCase):
                 self.assertEqual(liens, ["/demo-macon/", "/demo-boucherie/", "/demo-boulangerie/",
                                          "/demo-coiffeur/", "/demo-institut/", "/demo-avocat/"])
 
+    def test_diaporama_du_sous_menu_exemples(self):
+        # Chaque démo a ses photos en vignettes, présentes sur le disque et chargées à la demande.
+        from django.conf import settings
+        from config.projects import DIAPOS_MENU
+        html = self.client.get(reverse("index")).content.decode()
+        for namespace, photos in DIAPOS_MENU.items():
+            with self.subTest(demo=namespace):
+                self.assertGreaterEqual(len(photos), 2)
+                for nom in photos:
+                    chemin = f"vitrine/photos/{namespace}/menu/{nom}.webp"
+                    self.assertTrue((settings.BASE_DIR / "static" / chemin).is_file(), chemin)
+                    self.assertIn(f'data-src="/static/{chemin}?v=', html)
+
     def test_plus_de_tirette(self):
         # La tirette de thème a été retirée : seul le bouton de l'en-tête bascule le thème.
         post = BlogPost.objects.create(title="Article sans tirette", published=True)

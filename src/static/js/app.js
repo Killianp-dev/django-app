@@ -214,15 +214,76 @@
     // Ordinateur : le métier survolé (ou atteint au clavier) affiche l'aperçu de sa démo.
     const demoLinks = list.querySelectorAll('.nav-demos__link[data-demo]');
     const shots = list.querySelectorAll('.nav-demos__shot');
+    // Diaporama de la démo affichée : la capture de la page, puis ses photos, en fondu.
+    // Il ne tourne que menu ouvert, sur ordinateur, et repart de la capture à chaque métier.
+    // Les photos d'un métier ne sont chargées qu'à son premier affichage (data-src → src).
+    const SLIDE_DELAY = 2800;
+    let slideTimer = null;
+    let menuOpen = false;
+    const shownShot = () => list.querySelector('.nav-demos__shot.is-shown');
+    const stopSlides = () => {
+      window.clearInterval(slideTimer);
+      slideTimer = null;
+    };
+    const playSlides = () => {
+      stopSlides();
+      const shot = shownShot();
+      if (!shot || !menuOpen || isMobileNav() || prefersReducedMotion()) return;
+      const slides = Array.from(shot.querySelectorAll('.nav-demos__slide'));
+      slides.forEach((img) => {
+        if (!img.dataset.src) return;
+        img.src = img.dataset.src;
+        delete img.dataset.src;
+      });
+      if (slides.length < 2) return;
+      let index = slides.findIndex((img) => img.classList.contains('is-on'));
+      slideTimer = window.setInterval(() => {
+        const next = slides[(index + 1) % slides.length];
+        // Photo pas encore arrivée : on attend le tour suivant plutôt que de montrer un trou.
+        if (!next.complete || !next.naturalWidth) return;
+        slides[index].classList.remove('is-on');
+        next.classList.add('is-on');
+        index = slides.indexOf(next);
+      }, SLIDE_DELAY);
+    };
+    const rewind = (shot) => {
+      shot.querySelectorAll('.nav-demos__slide').forEach((img, i) => img.classList.toggle('is-on', i === 0));
+    };
+
     const showDemo = (demoLink) => {
+      if (demoLink.hasAttribute('data-active') && slideTimer) return;
       demoLinks.forEach((l) => {
         l.toggleAttribute('data-active', l === demoLink);
       });
-      shots.forEach((shot) => shot.classList.toggle('is-shown', shot.dataset.demo === demoLink.dataset.demo));
+      shots.forEach((shot) => {
+        const shown = shot.dataset.demo === demoLink.dataset.demo;
+        shot.classList.toggle('is-shown', shown);
+        if (shown) rewind(shot);
+      });
+      playSlides();
     };
     demoLinks.forEach((demoLink) => {
       demoLink.addEventListener('pointerenter', () => showDemo(demoLink));
       demoLink.addEventListener('focus', () => showDemo(demoLink));
+    });
+
+    // Menu ouvert = « Exemples » survolé ou focus dans l'élément (comme le CSS qui l'affiche).
+    const setMenuOpen = (open) => {
+      if (open === menuOpen) return;
+      menuOpen = open;
+      if (open) {
+        const shot = shownShot();
+        if (shot) rewind(shot);
+        playSlides();
+      } else {
+        stopSlides();
+      }
+    };
+    item.addEventListener('pointerenter', (event) => { if (event.pointerType === 'mouse') setMenuOpen(true); });
+    item.addEventListener('pointerleave', () => { if (!item.contains(document.activeElement)) setMenuOpen(false); });
+    item.addEventListener('focusin', () => setMenuOpen(true));
+    item.addEventListener('focusout', (event) => {
+      if (!item.contains(event.relatedTarget) && !item.matches(':hover')) setMenuOpen(false);
     });
 
     link.addEventListener('click', (event) => {

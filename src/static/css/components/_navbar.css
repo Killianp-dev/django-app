@@ -1003,7 +1003,7 @@ html[data-theme="dark"] .navbar-cta {
   }
 
   .nav-demos__frame {
-    display: block;
+    display: grid;
     overflow: hidden;
     aspect-ratio: 3 / 2;
     border-radius: 10px;
@@ -1011,18 +1011,26 @@ html[data-theme="dark"] .navbar-cta {
     box-shadow: 0 0 0 1px var(--nav-line);
   }
 
-  .nav-demos__frame img {
+  /* Diapositives superposées : la photo affichée apparaît en fondu par-dessus la précédente
+     et avance très lentement (léger zoom), le temps qu'elle reste à l'écran. */
+  .nav-demos__slide {
+    grid-area: 1 / 1;
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: top center;
-    transform: scale(1.03);
-    transition: transform 0.6s var(--nav-ease);
+    opacity: 0;
+    transform: scale(1.06);
+    /* Celle qui sort reste pleine jusqu'à ce que la suivante l'ait recouverte. */
+    transition: opacity 0s linear 0.9s, transform 0s linear 0.9s;
   }
 
-  .nav-demos__shot.is-shown .nav-demos__frame img {
+  .nav-demos__slide.is-on {
+    z-index: 1;
+    opacity: 1;
     transform: scale(1);
+    transition: opacity 0.9s ease, transform 3.6s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   .nav-demos__shot figcaption {
@@ -1095,7 +1103,8 @@ html[data-theme="dark"] .navbar-cta {
 @media (prefers-reduced-motion: reduce) {
   .nav-demos,
   .nav-demos__shot,
-  .nav-demos__frame img,
+  .nav-demos__slide,
+  .nav-demos__slide.is-on,
   .nav-demos__link::before {
     transition: none !important;
   }

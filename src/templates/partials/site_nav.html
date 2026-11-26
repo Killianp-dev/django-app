@@ -30,7 +30,13 @@ d'un filet laiton (ordinateur : il glisse d'un lien à l'autre, app.js moveNavTh
                         <div class="nav-demos__preview" aria-hidden="true">
                             {% for projet in DEMOS_NAV %}
                             <figure class="nav-demos__shot{% if forloop.first %} is-shown{% endif %}" data-demo="{{ projet.namespace }}">
-                                <span class="nav-demos__frame"><img src="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }}" alt="" width="480" height="320" loading="lazy" decoding="async"></span>
+                                {% comment %}Diaporama : la capture de la page, puis les photos de la démo, en fondu
+                                (app.js, initNavDemos). Les photos ne se chargent qu'au premier survol du métier.{% endcomment %}
+                                <span class="nav-demos__frame">
+                                    <img class="nav-demos__slide is-on" src="{% static projet.apercu_480 %}?v={{ projet.apercu_webp_v }}" alt="" width="480" height="320" loading="lazy" decoding="async">
+                                    {% for diapo in projet.diapos %}<img class="nav-demos__slide" data-src="{% static diapo.chemin %}?v={{ diapo.v }}" alt="" width="480" height="320" decoding="async">
+                                    {% endfor %}
+                                </span>
                                 <figcaption>
                                     <span class="nav-demos__shot-nom">{{ projet.nom }}</span>
                                     <span class="nav-demos__shot-texte">{{ projet.accroche }}</span>
