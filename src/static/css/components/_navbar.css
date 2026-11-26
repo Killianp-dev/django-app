@@ -64,6 +64,7 @@ html {
 }
 
 .navbar.scrolled {
+  --nav-bar-h: 64px;
   height: 64px;
 }
 
@@ -898,15 +899,15 @@ html[data-theme="dark"] .navbar-cta {
 
   .nav-demos {
     position: absolute;
-    top: calc(100% + 12px);
+    /* Sous la barre, pas sous le mot : « Exemples » est centré dans la barre, la carte part
+       donc de la moitié de sa hauteur sous ce centre, plus un petit écart. */
+    top: calc(50% + var(--nav-bar-h, var(--navbar-height)) / 2 + 5px);
     left: 50%;
     z-index: 3;
     width: 35rem;
     border-radius: 16px;
-    /* Même teinte, même transparence et même flou que la barre pleine. */
-    background: var(--navbar-bg-scrolled);
-    -webkit-backdrop-filter: saturate(160%) blur(16px);
-    backdrop-filter: saturate(160%) blur(16px);
+    /* Même teinte que la barre pleine, mais opaque : rien de la page ne se lit au travers. */
+    background: #f4f3ef;
     box-shadow: var(--nav-panel-shadow);
     opacity: 0;
     visibility: hidden;
@@ -920,6 +921,10 @@ html[data-theme="dark"] .navbar-cta {
     --nav-rule: var(--color-accent);
   }
 
+  html[data-theme="dark"] .nav-demos {
+    background: #0a0a0c;
+  }
+
   html[data-theme="dark"] .nav-links .nav-demos {
     --nav-rule: var(--color-accent-bright);
   }
@@ -928,7 +933,7 @@ html[data-theme="dark"] .navbar-cta {
   .nav-demos::before {
     content: "";
     position: absolute;
-    inset: -16px 0 100%;
+    inset: calc(5px - var(--nav-bar-h, var(--navbar-height)) / 2) 0 100%;
   }
 
   .nav-links__demos:hover .nav-demos,
