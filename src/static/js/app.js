@@ -654,7 +654,6 @@
     let current = 0;
     let timer = null;
     let hovered = false;
-    let pinned = false;
     let paused = false;
     let visible = true;
 
@@ -706,7 +705,7 @@
 
     function start() {
       stop();
-      if (pinned || paused || prefersReducedMotion() || hovered || document.hidden || !visible) return;
+      if (paused || prefersReducedMotion() || hovered || document.hidden || !visible) return;
       load(current + 1);
       timer = window.setInterval(() => show(current + 1), DELAY);
       // Le remplissage du point actif repart de zéro, calé sur le minuteur.
@@ -820,11 +819,11 @@
       });
     }
 
-    // Une démo choisie dans le menu « Votre métier » : affichée, et le défilement s'arrête.
+    // Une démo choisie dans le menu « Votre métier » : affichée, et le carrousel se met en
+    // pause (le bouton passe sur « lecture » : on peut reprendre le défilement).
     preview.addEventListener('showcase:pin', (event) => {
-      pinned = true;
-      stop();
       show(event.detail.index);
+      setPaused(true);
     });
 
     start();

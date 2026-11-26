@@ -25,6 +25,20 @@
   overflow: hidden;
 }
 
+/* Thème sombre : le même voile noir que sur le hero, sous la vague et le contenu. */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .footer::before {
+  opacity: 0.38;
+}
+
 /* La vague du hero, retournée : la couleur de la page descend en ondulant sur le dégradé. */
 .footer__waves {
   position: absolute;
