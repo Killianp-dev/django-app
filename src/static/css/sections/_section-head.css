@@ -292,7 +292,7 @@ html[data-theme="dark"] .trade-select__input:focus-visible {
 }
 
 .section-head--stacked h2 {
-  max-width: 17ch;
+  max-width: 30ch;
 }
 
 .section-head--centered {

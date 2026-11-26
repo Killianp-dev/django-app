@@ -298,6 +298,9 @@ html[data-theme="dark"] .blog-section__link {
 .author-card__photo {
   width: 72px;
   height: 72px;
+  /* <picture> est en display: contents : l'image est l'élément de la grille. Sans ceci, le
+     max-width: 100% global se calcule sur une colonne « auto » (0 px) et écrase la photo. */
+  max-width: none;
   border-radius: 50%;
   object-fit: cover;
   object-position: center 20%;

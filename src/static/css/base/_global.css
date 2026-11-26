@@ -279,6 +279,12 @@ picture {
   display: contents;
 }
 
+/* Les <source> n'affichent jamais rien : sans ceci, dans une grille ou un flex dont <picture>
+   est l'enfant, chacun devient une case vide et décale l'image (carte « Écrit par »). */
+picture > source {
+  display: none;
+}
+
 
 /* Page Confidentialité : bouton qui rouvre le bandeau des cookies */
 .legal-cookie-btn {
