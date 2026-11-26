@@ -367,6 +367,13 @@
     const sync = () => navbar.classList.toggle('scrolled', window.scrollY > 24);
     sync();
     window.addEventListener('scroll', sync, { passive: true });
+
+    // Ordinateur, à la souris : au survol, la barre prend sa teinte pleine (celle de la barre
+    // posée), même sur le hero où elle est transparente. `is-solid` annule les jetons du hero.
+    navbar.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse' && !isMobileNav()) navbar.classList.add('is-solid');
+    });
+    navbar.addEventListener('pointerleave', () => navbar.classList.remove('is-solid'));
   }
 
   // ===== Widgets "Copier" collés dans le HTML des articles =====

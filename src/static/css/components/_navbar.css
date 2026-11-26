@@ -68,6 +68,7 @@ html {
 }
 
 .navbar.scrolled .navbar__glass,
+.navbar.is-solid .navbar__glass,
 html.nav-open .navbar__glass {
   background: var(--navbar-bg-scrolled);
   border-bottom-color: var(--nav-line);
@@ -902,9 +903,10 @@ html[data-theme="dark"] .navbar-cta {
     z-index: 3;
     width: 35rem;
     border-radius: 16px;
-    /* Même teinte que la barre posée, rendue opaque : le texte de la page ne doit pas se
-       lire au travers. Sur le hero, en thème sombre, elle passe en graphite (plus bas). */
-    background: #f4f3ef;
+    /* Même teinte, même transparence et même flou que la barre pleine. */
+    background: var(--navbar-bg-scrolled);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
+    backdrop-filter: saturate(160%) blur(16px);
     box-shadow: var(--nav-panel-shadow);
     opacity: 0;
     visibility: hidden;
@@ -916,10 +918,6 @@ html[data-theme="dark"] .navbar-cta {
   /* Le filet suit la carte, pas la barre : laiton foncé sur la carte claire. */
   .nav-links .nav-demos {
     --nav-rule: var(--color-accent);
-  }
-
-  html[data-theme="dark"] .nav-demos {
-    background: #0e0e10;
   }
 
   html[data-theme="dark"] .nav-links .nav-demos {
@@ -1178,7 +1176,7 @@ html.theme-vt::view-transition-new(root) {
    la barre est transparente et son texte clair. Les jetons sont changés sur la
    marque, les liens de premier niveau et les actions seulement : la carte des
    démos et le menu mobile, qui s'ouvrent sur leur propre fond, gardent les leurs. */
-html:not(.nav-open) .home-page .navbar:not(.scrolled) {
+html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) {
   --hero-nav-fg: #f4f1ea;
   --hero-nav-muted: rgba(244, 241, 234, 0.74);
   --hero-nav-line: rgba(255, 255, 255, 0.14);
@@ -1186,13 +1184,13 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) {
   --hero-nav-hover: rgba(255, 255, 255, 0.1);
 }
 
-html:not(.nav-open) .home-page .navbar:not(.scrolled) .navbar__glass {
+html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .navbar__glass {
   background: transparent;
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
 
-html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.logo, .navbar-actions) {
+html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) :is(.logo, .navbar-actions) {
   --nav-fg: var(--hero-nav-fg);
   --nav-fg-muted: var(--hero-nav-muted);
   --nav-line: var(--hero-nav-line);
@@ -1203,35 +1201,35 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.logo, .navbar-actions
   --cta-ring: rgba(20, 24, 31, 0.06);
 }
 
-html:not(.nav-open) .home-page .navbar:not(.scrolled) .logo-dot {
+html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .logo-dot {
   color: #e2c896;
 }
 
-html:not(.nav-open) .home-page .navbar:not(.scrolled) .logo-tagline__brand {
+html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .logo-tagline__brand {
   --brand-shine: #e2c896;
 }
 
-html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hamburger) {
+html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) :is(.theme-toggle, .hamburger) {
   background:
     linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 60%),
     var(--nav-track);
   box-shadow: inset 0 0 0 1px var(--nav-line);
 }
 
-html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hamburger):hover {
+html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) :is(.theme-toggle, .hamburger):hover {
   color: #e2c896;
 }
 
 @media (min-width: 769px) {
   /* Liens clairs et filet laiton clair sur le dégradé. */
-  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links {
+  html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .nav-links {
     --nav-rule: #e2c896;
   }
 
   /* La carte des démos, ouverte sur le hero, en thème sombre seulement : graphite et texte
      clair, comme la barre transparente au-dessus. En thème clair, elle garde la teinte claire
      du site (pierre), comme une fois la barre posée. */
-  html[data-theme="dark"]:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-demos {
+  html[data-theme="dark"]:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .nav-demos {
     --nav-fg: var(--hero-nav-fg);
     --nav-fg-muted: rgba(244, 241, 234, 0.62);
     --nav-track: rgba(255, 255, 255, 0.06);
@@ -1242,7 +1240,7 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
     box-shadow: 0 24px 56px -12px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 
-  html:not(.nav-open) .home-page .navbar:not(.scrolled) .nav-links > li > a {
+  html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .nav-links > li > a {
     --nav-fg: var(--hero-nav-fg);
     --nav-fg-muted: var(--hero-nav-muted);
   }
@@ -1304,16 +1302,16 @@ html:not(.nav-open) .home-page .navbar:not(.scrolled) :is(.theme-toggle, .hambur
   }
 
   /* Sur le hero : même geste, en clair ; au survol, remplissage crème. */
-  html:not(.nav-open) .home-page .navbar:not(.scrolled) .navbar-actions {
+  html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .navbar-actions {
     --nav-cta-fg-inv: #17181b;
   }
 
-  html:not(.nav-open) .home-page .navbar:not(.scrolled) .theme-toggle {
+  html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .theme-toggle {
     background: none;
     box-shadow: none;
   }
 
-  html:not(.nav-open) .home-page .navbar:not(.scrolled) .theme-toggle:hover {
+  html:not(.nav-open) .home-page .navbar:not(.scrolled):not(.is-solid) .theme-toggle:hover {
     background: var(--hero-nav-hover);
     color: var(--hero-nav-fg);
   }
