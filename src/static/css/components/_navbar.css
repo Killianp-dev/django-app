@@ -1156,8 +1156,9 @@ html.theme-vt::view-transition-new(root) {
    bascule en 3D autour de l'axe horizontal, avec un léger rebond, et passe au laiton. */
 .nav-links__chevron {
   flex: none;
-  width: var(--nav-icon);
-  height: var(--nav-icon);
+  /* Un cran sous les autres symboles : un chevron plein cadre paraît toujours plus lourd. */
+  width: 14px;
+  height: 14px;
   margin-left: 0.3em;
   opacity: 0.6;
   transform: rotate(0deg);

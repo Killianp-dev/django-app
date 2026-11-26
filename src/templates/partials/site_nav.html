@@ -10,7 +10,7 @@ d'un filet laiton (ordinateur : il glisse d'un lien à l'autre, app.js moveNavTh
         <ul class="nav-links">
             <li><a href="{% if on_home %}#hero{% else %}{{ index_url }}{% endif %}"><span class="nav-links__label">Accueil</span></a></li>
             <li class="nav-links__demos" data-nav-demos>
-                <a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__label">Exemples</span><svg class="nav-links__chevron" viewBox="1.5 1.5 9 9" aria-hidden="true" focusable="false"><path d="M3 4.75 6 7.75l3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <a href="{% if not on_home %}{{ index_url }}{% endif %}#exemples"><span class="nav-links__label">Exemples</span><svg class="nav-links__chevron" viewBox="1.5 1.5 9 9" aria-hidden="true" focusable="false"><path d="M3 4.75 6 7.75l3-3" fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                 {% comment %}Ordinateur : s'ouvre au survol d'« Exemples » et au clavier (focus dans l'élément) ; un clic mène à la section.
                 Mobile : pas de survol, un appui sur « Exemples » déplie la liste (app.js, initNavDemos).{% endcomment %}
                 <div class="nav-demos" id="nav-demos">
