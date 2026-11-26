@@ -93,13 +93,12 @@
                 </span>
             </div>
         </div>
-        {% comment %}Légende de la démo affichée : son accroche et ses liens (la démo, la page métier).
+        {% comment %}Légende de la démo affichée : ses liens (la démo, la page métier).
         Toutes sont dans la page, empilées au même endroit (hauteur stable) ; seule l'active est
         visible, app.js (initHeroPreview) la suit. Sans JS, la première.{% endcomment %}
         <figcaption class="showcase__caption">
             {% for projet in projets %}
             <div class="showcase__info{% if forloop.first %} is-active{% endif %}" data-preview-info>
-                <p class="showcase__excerpt">{{ projet.accroche }}</p>
                 <p class="showcase__links">
                     <a class="showcase__link" href="{{ projet.url }}" aria-label="Voir la démo : {{ projet.titre }}">Voir la démo<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
                     {% if projet.page_metier %}<a class="showcase__more" href="{{ projet.page_metier.url }}">Site et référencement {{ projet.page_metier.pour }}</a>{% endif %}
@@ -148,7 +147,7 @@ déjà répété dans la bande juste au-dessus : chaque séparateur a sa propre 
 <section class="projects blog-section" id="blog" aria-labelledby="blog-title">
     <header class="section-head section-head--row">
         <div>
-            <h2 id="blog-title">Conseils pour être trouvé sur Google</h2>
+            <h2 id="blog-title">Des conseils pour que vos clients vous trouvent</h2>
             <p>Pour chaque métier, ce que le site doit montrer, avec un exemple concret.</p>
         </div>
         <a class="section-head__link" href="{% url 'blog:home' %}">Tous les articles</a>
@@ -228,15 +227,15 @@ propre icône : astérisque, personne, étiquette, enveloppe).{% endcomment %}
 
 <section class="pricing" id="formule" aria-labelledby="pricing-title">
     <header class="section-head section-head--centered">
-        <h2 id="pricing-title">Une création, puis un abonnement</h2>
-        <p>Le prix exact est fixé dans un devis, après un audit de votre référencement. Ensuite, un abonnement fait vivre le site.</p>
+        <h2 id="pricing-title">Une mise en œuvre, puis un abonnement</h2>
+        <p>Le prix exact est fixé dans un devis, après un audit de votre référencement. Ensuite, un abonnement fait vivre le site ; en option, un pack travaille votre visibilité locale.</p>
     </header>
 
     <div class="pricing__grid">
         <article class="pricing-card" aria-labelledby="pricing-creation">
             {% if TARIFS.promo %}<span class="pricing-card__badge pricing-card__badge--promo">Offre {{ TARIFS.promo.nom }} jusqu'au {{ TARIFS.promo.fin|date:"j F" }}</span>{% endif %}
             <div class="pricing-card__head">
-                <h3 class="pricing-card__label" id="pricing-creation">Création du site</h3>
+                <h3 class="pricing-card__label" id="pricing-creation">Mise en œuvre solution&nbsp;: site vitrine</h3>
                 <p class="pricing-card__price">
                     <span class="pricing-card__from">à partir de</span>
                     <span class="pricing-card__amount">{{ TARIFS.creation_affiche }}&nbsp;€</span>
@@ -273,6 +272,34 @@ propre icône : astérisque, personne, étiquette, enveloppe).{% endcomment %}
                 <li>Vos contenus, votre domaine et le code récupérables à tout moment</li>
             </ul>
         </article>
+
+        {% comment %}Option : le pack visibilité locale (CGV, art. 4 bis). Pas de prix affiché : il est fixé
+        dans le devis. Aucune position promise (CGV, art. 10).{% endcomment %}
+        <article class="pricing-card pricing-card--option" aria-labelledby="pricing-visibilite">
+            <div class="pricing-card__head">
+                <span class="pricing-card__badge">Option</span>
+                <h3 class="pricing-card__label" id="pricing-visibilite">Pack visibilité locale</h3>
+                <p class="pricing-card__price">
+                    <span class="pricing-card__from">En complément du site</span>
+                    <span class="pricing-card__amount pricing-card__amount--text">Sur devis</span>
+                </p>
+                <p class="pricing-card__note">Pour préparer votre site aux recherches faites près de chez vous. C'est un travail de moyens : aucune position sur Google n'est garantie.</p>
+                <a class="pricing-plan__cta pricing-card__cta" href="#form" data-contact-subject="Pack visibilité locale">
+                    Demander le pack
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+            <div class="pricing-card__body">
+                <ul class="pricing-card__list">
+                    <li>Audit et choix des mots-clés : votre métier, votre commune ou votre secteur</li>
+                    <li>2 à 4 pages dédiées aux communes voisines, choisies avec vous</li>
+                    <li>Site optimisé : titres, structure, vitesse sur mobile, données structurées</li>
+                    <li>Fiche Google Business Profile reliée au site, catégories optimisées, lien pour récolter des avis</li>
+                    <li>Google Search Console configurée, pages soumises pour indexation</li>
+                </ul>
+                <p class="pricing-card__extra"><strong>Suivi mensuel en option :</strong> une à deux actualités par mois sur votre fiche Google et un rapport d'une page (appels, clics vers le site, évolution des positions).</p>
+            </div>
+        </article>
     </div>
 
     <div class="pricing-plan">
@@ -280,12 +307,12 @@ propre icône : astérisque, personne, étiquette, enveloppe).{% endcomment %}
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">À la signature</span>
                 <strong class="pricing-plan__amount">Acompte</strong>
-                <span class="pricing-plan__what">Une partie de la création</span>
+                <span class="pricing-plan__what">Une partie de la mise en œuvre</span>
             </li>
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">À la mise en ligne</span>
                 <strong class="pricing-plan__amount">Solde</strong>
-                <span class="pricing-plan__what">Le reste de la création et le premier mois</span>
+                <span class="pricing-plan__what">Le reste de la mise en œuvre et le premier mois</span>
             </li>
             <li class="pricing-plan__step">
                 <span class="pricing-plan__when">Chaque mois ensuite</span>

@@ -1,6 +1,6 @@
 /* ==================================================
    SECTION TARIFS
-   Deux cartes (création, abonnement), puis l'échéancier.
+   Deux cartes (création, abonnement), l'option référencement, puis l'échéancier.
    ================================================= */
 
 .pricing {
@@ -190,6 +190,65 @@ html[data-theme="dark"] .pricing-card__badge {
 
 html[data-theme="dark"] .pricing-card__list li::after {
   background: var(--color-accent-bright);
+}
+
+/* ---------- Option : pack visibilité locale ----------
+   Pleine largeur sous les deux cartes : le titre et l'appel à l'action à gauche, le contenu
+   à droite. Le badge « Option » reste dans le flux, au-dessus du titre. */
+
+.pricing-card--option {
+  grid-column: 1 / -1;
+}
+
+.pricing-card--option .pricing-card__badge {
+  position: static;
+  align-self: flex-start;
+  display: inline-block;
+  margin-bottom: 1.1rem;
+}
+
+.pricing-card--option .pricing-card__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.pricing-card--option .pricing-card__note {
+  margin-bottom: 1.4rem;
+}
+
+.pricing-card--option .pricing-card__cta {
+  margin-top: auto;
+}
+
+.pricing-card__extra {
+  margin: 1.5rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+.pricing-card__extra strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+@media (min-width: 800px) {
+  .pricing-card--option {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    column-gap: 2.5rem;
+  }
+
+  .pricing-card--option .pricing-card__head {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-right: 2.5rem;
+    border-bottom: 0;
+    border-right: 1px solid var(--color-border);
+  }
 }
 
 /* ---------- Échéancier ---------- */

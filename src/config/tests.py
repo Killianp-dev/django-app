@@ -65,6 +65,16 @@ class StaticPageTests(TestCase):
         for montant in ("300 €", "500 €", "40 € par mois"):
             self.assertNotIn(montant, cgv)
 
+    def test_offre_referencement_sur_l_accueil_sans_prix_ni_promo(self):
+        # Le pack visibilité locale (CGV, art. 4 bis) est présenté sur devis, sans montant ;
+        # plus d'offre temporaire ni de prix barré.
+        home = self.client.get(reverse("index")).content.decode()
+        self.assertIn('id="pricing-visibilite"', home)
+        self.assertIn("Pack visibilité locale", home)
+        self.assertIn("aucune position sur Google n'est garantie", home)
+        self.assertNotIn("Black Friday", home)
+        self.assertNotIn("<s>", home)
+
     def test_offre_temporaire_s_arrete_seule(self):
         from datetime import timedelta
         from config.tarifs import PROMO, tarifs

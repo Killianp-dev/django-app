@@ -90,7 +90,7 @@
             <div>
                 <p class="section-eyebrow">Formule</p>
                 <h2 class="metier-formule__title" id="formule-title">Une mise en œuvre technique, puis un abonnement tout compris</h2>
-                <p>La création du site, pensée pour le référencement, à partir de {{ TARIFS.creation_affiche }}&nbsp;€{% if TARIFS.promo %} (offre {{ TARIFS.promo.nom }} jusqu'au {{ TARIFS.promo.fin|date:"j F" }}, au lieu de {{ TARIFS.creation }}&nbsp;€){% endif %}. Puis un abonnement à partir de {{ TARIFS.abonnement }}&nbsp;€ par mois : suivi du référencement, 1&nbsp;h de modifications par mois, hébergement, sécurité, nom de domaine à votre nom et adresse e-mail professionnelle. Le prix exact est fixé dans un devis.</p>
+                <p>La mise en œuvre de la solution : site vitrine, pensée pour le référencement, à partir de {{ TARIFS.creation_affiche }}&nbsp;€{% if TARIFS.promo %} (offre {{ TARIFS.promo.nom }} jusqu'au {{ TARIFS.promo.fin|date:"j F" }}, au lieu de {{ TARIFS.creation }}&nbsp;€){% endif %}. Puis un abonnement à partir de {{ TARIFS.abonnement }}&nbsp;€ par mois : suivi du référencement, 1&nbsp;h de modifications par mois, hébergement, sécurité, nom de domaine à votre nom et adresse e-mail professionnelle. Le prix exact est fixé dans un devis.</p>
             </div>
             <div class="metier-formule__actions">
                 <a class="hero-btn" href="{% url 'contact_form:contact' %}?sujet={{ sujet|urlencode }}">Demander un devis</a>

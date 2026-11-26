@@ -20,6 +20,9 @@
   --nav-cta-fg: #f7f4ee;
   --nav-status: #1f9d6b;
   --nav-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Une seule taille pour tous les textes de la barre, une seule pour ses symboles. */
+  --nav-font-size: 1.1rem;
+  --nav-icon: 18px;
 }
 
 html[data-theme="dark"] .navbar {
@@ -214,7 +217,7 @@ html[data-theme="dark"] .logo-mark {
 
 .logo-name {
   font-family: var(--font-sans);
-  font-size: 1.04rem;
+  font-size: var(--nav-font-size);
   font-weight: 600;
   letter-spacing: -0.015em;
   text-transform: lowercase;
@@ -305,7 +308,7 @@ html[data-theme="dark"] .nav-links {
   padding: 0.55rem 0;
   color: var(--nav-fg-muted);
   font-family: var(--font-sans);
-  font-size: 1.1rem;
+  font-size: var(--nav-font-size);
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: 0.005em;
@@ -438,8 +441,8 @@ html[data-theme="dark"] .hamburger.is-open {
 
 .theme-toggle__icon {
   grid-area: 1 / 1;
-  width: 18px;
-  height: 18px;
+  width: var(--nav-icon);
+  height: var(--nav-icon);
   transition: opacity 0.3s ease, transform 0.45s var(--nav-ease);
 }
 
@@ -480,7 +483,7 @@ html[data-theme="dark"] .theme-toggle:hover .theme-toggle__icon--sun {
     linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 55%),
     var(--nav-cta-bg);
   color: var(--nav-cta-fg);
-  font-size: 0.875rem;
+  font-size: var(--nav-font-size);
   font-weight: 600;
   letter-spacing: -0.005em;
   text-decoration: none;
@@ -526,8 +529,8 @@ html[data-theme="dark"] .navbar-cta {
 
 /* La flèche sort par la droite et revient par la gauche. */
 .navbar-cta__icon svg {
-  width: 14px;
-  height: 14px;
+  width: var(--nav-icon);
+  height: var(--nav-icon);
 }
 
 .navbar-cta:hover .navbar-cta__icon svg {
@@ -1153,8 +1156,8 @@ html.theme-vt::view-transition-new(root) {
    bascule en 3D autour de l'axe horizontal, avec un léger rebond, et passe au laiton. */
 .nav-links__chevron {
   flex: none;
-  width: 1em;
-  height: 1em;
+  width: var(--nav-icon);
+  height: var(--nav-icon);
   margin-left: 0.3em;
   opacity: 0.6;
   transform: rotate(0deg);
