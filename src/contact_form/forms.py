@@ -100,7 +100,7 @@ class ContactForm(forms.Form):
         widget=forms.Textarea(attrs={
             'class': 'form-control',
             'rows': 8,
-            'placeholder': "Votre métier, votre ville. Ce que vos clients trouvent aujourd'hui quand ils vous cherchent sur Google, et ce que vous aimeriez qu'ils voient.",
+            'placeholder': "Votre message...",
         })
     )
     # Piège à robots : laissé vide par un visiteur, souvent rempli par un bot.
