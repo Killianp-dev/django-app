@@ -1,16 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="killianp.dev">
-  <defs>
-    <linearGradient id="arm" x1="12" y1="16" x2="23" y2="23.5" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f3e2bd"/>
-      <stop offset="1" stop-color="#c9a870"/>
-    </linearGradient>
-  </defs>
-  <rect width="32" height="32" rx="8" fill="#131315"/>
-  <rect x="0.55" y="0.55" width="30.9" height="30.9" rx="7.45" fill="none" stroke="rgba(226,200,150,0.22)" stroke-width="0.7"/>
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.1">
-    <path d="M11.4 8.8v14.4" stroke="#f1ece3"/>
-    <path d="M11.4 16.1 21.6 9.3" stroke="#f1ece3"/>
-    <path d="M11.4 16.1 21.6 22.9" stroke="url(#arm)"/>
-  </g>
-  <circle cx="25.4" cy="23" r="1.65" fill="#e2c896"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="8" fill="#131315"/><rect x="0.55" y="0.55" width="30.9" height="30.9" rx="7.45" fill="none" stroke="rgba(226,200,150,0.22)" stroke-width="0.7"/><g transform="scale(1) translate(0.000 0.000)"><defs><linearGradient id="fg" x1="10.651" y1="15.6" x2="21.6" y2="22.9" gradientUnits="userSpaceOnUse"><stop offset="0.0000" stop-color="#F1ECE3"/><stop offset="0.0625" stop-color="#EEE7DB"/><stop offset="0.1250" stop-color="#EAE1D0"/><stop offset="0.1875" stop-color="#E6DAC5"/><stop offset="0.2500" stop-color="#E3D3BA"/><stop offset="0.3125" stop-color="#DFCDAF"/><stop offset="0.3750" stop-color="#DBC7A5"/><stop offset="0.4375" stop-color="#D8C19B"/><stop offset="0.5000" stop-color="#D5BC92"/><stop offset="0.5625" stop-color="#D2B88B"/><stop offset="0.6250" stop-color="#D0B484"/><stop offset="0.6875" stop-color="#CEB07E"/><stop offset="0.7500" stop-color="#CCAD79"/><stop offset="0.8125" stop-color="#CBAB75"/><stop offset="0.8750" stop-color="#CAA972"/><stop offset="0.9375" stop-color="#C9A871"/><stop offset="1.0000" stop-color="#C9A870"/></linearGradient></defs><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.1"><path d="M11.4 16.1 21.6 9.3" stroke="#F1ECE3"/><path d="M11.4 8.8v14.4" stroke="#F1ECE3"/><path d="M11.9 16.433 21.6 22.9" stroke="url(#fg)"/></g><circle cx="25.4" cy="23" r="1.65" fill="#E2C896"/></g></svg>

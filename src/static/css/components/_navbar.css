@@ -176,7 +176,8 @@ html[data-theme="dark"] .logo-mark {
   stroke: var(--logo-ink);
 }
 
-.logo-mark__stop-a { stop-color: var(--logo-arm-a); }
+.logo-mark__stop-a { stop-color: var(--logo-ink); }
+.logo-mark__stop-m { stop-color: color-mix(in srgb, var(--logo-arm-b) 80%, var(--logo-ink)); }
 .logo-mark__stop-b { stop-color: var(--logo-arm-b); }
 
 .logo-mark__arm {

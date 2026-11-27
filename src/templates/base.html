@@ -59,9 +59,9 @@
     <link rel="preload" href="{% static 'fonts/InstrumentSerif-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{% static 'fonts/InstrumentSans-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
     {% include "partials/styles.html" %}
-    <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20261123" type="image/svg+xml">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20261123">
-    <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20261123">
+    <link rel="icon" href="{% static 'ressources/favicon.svg' %}?v=20261127" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'ressources/killianp-fav.png' %}?v=20261127">
+    <link rel="apple-touch-icon" href="{% static 'ressources/apple-touch-icon.png' %}?v=20261127">
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
@@ -75,15 +75,16 @@
                 <span class="logo-mark" aria-hidden="true">
                     <svg viewBox="0 0 32 32" focusable="false">
                         <defs>
-                            <linearGradient id="logoArm" x1="12" y1="16" x2="23" y2="23.5" gradientUnits="userSpaceOnUse">
+                            <linearGradient id="logoArm" x1="10.651" y1="15.6" x2="21.6" y2="22.9" gradientUnits="userSpaceOnUse">
                                 <stop offset="0" class="logo-mark__stop-a"/>
+                                <stop offset="0.7" class="logo-mark__stop-m"/>
                                 <stop offset="1" class="logo-mark__stop-b"/>
                             </linearGradient>
                         </defs>
                         <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.1">
                             <path class="logo-mark__stroke" d="M11.4 8.8v14.4"/>
                             <path class="logo-mark__stroke" d="M11.4 16.1 21.6 9.3"/>
-                            <path class="logo-mark__arm" d="M11.4 16.1 21.6 22.9" stroke="url(#logoArm)"/>
+                            <path class="logo-mark__arm" d="M11.9 16.433 21.6 22.9" stroke="url(#logoArm)"/>
                         </g>
                         <circle class="logo-mark__dot" cx="25.4" cy="23" r="1.65"/>
                     </svg>
