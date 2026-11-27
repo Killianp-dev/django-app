@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Conditions générales de vente · killianp-dev{% endblock %}
+{% block extra_head %}
+{% include "partials/seo.html" with title="Conditions générales de vente · killianp-dev" description="Conditions générales de vente de killianp-dev, réservées aux professionnels : conseil informatique, référencement SEO, mise en œuvre technique, abonnement, engagement et résiliation." %}
+{% endblock %}
+{% block content %}
+<div class="mentions-legales">
+    <p class="mentions-legales__kicker">Conseil, référencement et sites — clients professionnels</p>
+    <h1>Conditions générales de vente</h1>
+    <p class="mentions-legales__meta">Version du 26 novembre 2026</p>
+
+    <section>
+        <h2>Prestataire</h2>
+        <p><strong>Killian&nbsp;P.</strong>, entrepreneur individuel (EI), nom commercial <strong>Neuralab</strong> (killianp-dev.fr).</p>
+        <p>SIRET 133 065 177 00015. Siège : chez IDOMYOU, 8 bis rue Abel, 75012 Paris.</p>
+        <p>Contact : <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>. TVA non applicable, art. 293 B du CGI.</p>
+    </section>
+
+    <section>
+        <h2>1. Objet et clients</h2>
+        <p>Les présentes conditions s’appliquent aux prestations de conseil et d’expertise informatique de Neuralab, notamment en référencement naturel (SEO), et à la mise en œuvre des solutions retenues : en particulier la mise en œuvre technique d’un site internet et l’abonnement mensuel qui l’accompagne.</p>
+        <p>L’offre est réservée aux professionnels agissant pour les besoins de leur activité.</p>
+        <p>Le devis signé et les présentes conditions générales de vente (CGV) forment le contrat. En cas de conditions particulières, le devis prévaut.</p>
+    </section>
+
+    <section>
+        <h2>2. Conseil et référencement</h2>
+        <p>La mission commence par un échange sur l’activité du client, sa clientèle et la façon dont elle le recherche en ligne. Neuralab en tire des recommandations sur les solutions techniques adaptées et sur le référencement.</p>
+        <p>Lors d’une mise en œuvre technique, le référencement fait partie de la conception du site : structure des pages, rapidité, balises et données lues par les moteurs de recherche, et textes organisés à partir des recherches des clients. Neuralab conseille aussi le client sur la cohérence entre son site et sa fiche d’établissement Google, dont il reste seul titulaire et gestionnaire.</p>
+        <p>Un audit, un accompagnement ou toute autre prestation de conseil commandée séparément fait l’objet d’un devis qui en précise le contenu, la durée et les livrables.</p>
+        <p>Si la mission le nécessite, le client peut donner à Neuralab un accès à ses outils (Google Search Console, fiche d’établissement, mesure d’audience). Ces accès servent uniquement à la mission et peuvent être retirés à tout moment.</p>
+    </section>
+
+    <section>
+        <h2>3. Mise en œuvre technique</h2>
+        <p>Lorsque la mise en œuvre porte sur un site internet, celui-ci comprend 4 pages, réalisées à partir d’un modèle par métier, ainsi que les pages de mentions légales et de confidentialité, sauf si le devis prévoit autre chose. Les pages supplémentaires sont facturées hors forfait, sur devis.</p>
+        <ul>
+            <li>Le client fournit ses contenus sous 15 jours.</li>
+            <li>La mise en ligne intervient sous 15 jours ouvrés environ.</li>
+            <li>Le client dispose de 8 jours pour valider le site.</li>
+            <li>2 tours de corrections sont inclus avant la mise en ligne. Les travaux supplémentaires font l’objet d’un devis.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>4. Abonnement mensuel</h2>
+        <p>Après la mise en ligne, un abonnement mensuel tout compris couvre :</p>
+        <ul>
+            <li>l’hébergement du site ;</li>
+            <li>le nom de domaine, enregistré au nom du client ;</li>
+            <li>une adresse e-mail professionnelle ;</li>
+            <li>le suivi du référencement, la maintenance et les petites retouches, dans la limite d’1 heure par mois, non reportable.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>4 bis. Option : pack visibilité locale</h2>
+        <p>En complément du site, le client peut commander, par un devis distinct ou une ligne du devis, un « pack visibilité locale » destiné à préparer le référencement du site sur les recherches locales. Le prix du pack et celui de son suivi mensuel sont fixés dans le devis. Le pack comprend :</p>
+        <ul>
+            <li>l’audit et le choix des mots-clés correspondant aux recherches des clients (métier et commune ou secteur) ;</li>
+            <li>la création de 2 à 4 pages locales dédiées aux communes voisines retenues avec le client ;</li>
+            <li>l’optimisation technique du site : balises titres, structure des titres, vitesse sur mobile et données structurées (LocalBusiness, schema.org) ;</li>
+            <li>la liaison du site avec la fiche Google Business Profile, l’optimisation de ses catégories et la création d’un lien de collecte d’avis ;</li>
+            <li>la configuration de Google Search Console et la soumission des pages pour indexation.</li>
+        </ul>
+        <p>Un suivi mensuel optionnel, facturé en supplément de l’abonnement, comprend la publication d’une à deux actualités par mois sur la fiche Google Business Profile et l’envoi d’un rapport d’activité analytics sur le trafic du site (visites, pages vues, provenance) ainsi que d’un point Google Search Console (requêtes, clics, évolution des positions).</p>
+        <p>Le pack est payable à la commande, selon le devis ; le suivi mensuel est prélevé avec l’abonnement, selon les modalités du devis. Le pack est une prestation de moyens : l’article 10 s’applique, aucune position, aucun volume de visites et aucun chiffre d’affaires ne sont garantis. Il exige l’accès du client à sa fiche Google Business Profile (article 2).</p>
+    </section>
+
+    <section>
+        <h2>5. Prix et échéancier</h2>
+        <p>Les prix des prestations de conseil, de la mise en œuvre technique et de l’abonnement sont fixés dans le devis. Pour une mise en œuvre technique, l’échéancier est le suivant :</p>
+        <ul>
+            <li><strong>À la signature du devis :</strong> un acompte sur la mise en œuvre technique (lien «&nbsp;Mise en œuvre solution&nbsp;: site vitrine&nbsp;»).</li>
+            <li><strong>À la mise en ligne :</strong> le solde de la mise en œuvre et le premier mois d’abonnement.</li>
+            <li><strong>Ensuite :</strong> l’abonnement, prélevé automatiquement chaque mois (lien «&nbsp;Abonnement&nbsp;»).</li>
+        </ul>
+        <p>Une prestation de conseil commandée seule est payable selon les modalités prévues au devis.</p>
+        <p>Le paiement s’effectue par carte bancaire ou par prélèvement SEPA via Stripe ; le mandat SEPA se signe en ligne. Les factures sont émises par Stripe et payables à réception. Aucun escompte n’est accordé pour paiement anticipé.</p>
+        <p>Les frais de rejet d’un prélèvement SEPA sont refacturés au client. L’acompte reste acquis si le client renonce au projet.</p>
+        <p>Le prix de l’abonnement peut être révisé après 12 mois, avec un préavis de 2 mois.</p>
+    </section>
+
+    <section>
+        <h2>6. Engagement et résiliation</h2>
+        <p>L’abonnement comporte un engagement ferme de 12 mois à compter de la mise en ligne. En cas de départ anticipé, les mensualités restantes jusqu’au terme restent dues.</p>
+        <p>À l’issue de ces 12 mois, l’abonnement se poursuit de mois en mois. Il est résiliable à tout moment par écrit, avec un préavis d’un mois pour le client et de 2 mois pour Neuralab.</p>
+    </section>
+
+    <section>
+        <h2>7. Fin du contrat</h2>
+        <p>À la fin du contrat, le client récupère gratuitement :</p>
+        <ul>
+            <li>ses textes et ses photos ;</li>
+            <li>son nom de domaine, le code de transfert lui étant remis ;</li>
+            <li>le code source complet du site.</li>
+        </ul>
+        <p>Les données et les sauvegardes sont supprimées 30 jours après la fin du contrat.</p>
+    </section>
+
+    <section>
+        <h2>8. Retard de paiement</h2>
+        <p>Toute somme impayée à l’échéance entraîne de plein droit (art. L441-10 du Code de commerce) des pénalités de retard au taux de trois fois le taux d’intérêt légal, ainsi qu’une indemnité forfaitaire pour frais de recouvrement de 40 €.</p>
+        <p>Après une relance restée sans effet pendant 15 jours, le site peut être suspendu jusqu’au paiement complet, les mensualités restant dues. Le contrat peut être résilié 30 jours après la suspension.</p>
+    </section>
+
+    <section>
+        <h2>9. Propriété intellectuelle</h2>
+        <p>Après paiement complet de la mise en œuvre technique, les droits sur le site livré, code compris, sont cédés au client. Les composants tiers restent soumis à leur propre licence.</p>
+        <p>Après paiement, le client peut utiliser librement, pour les besoins de son activité, les rapports et recommandations qui lui ont été remis. Neuralab conserve ses méthodes, outils et savoir-faire.</p>
+        <p>Le client garantit détenir les droits sur les textes, images et logos qu’il fournit.</p>
+    </section>
+
+    <section>
+        <h2>10. Responsabilité</h2>
+        <p>Neuralab est tenu à une obligation de moyens. Sa responsabilité est plafonnée aux sommes payées par le client au cours des 12 derniers mois.</p>
+        <p>Le classement dans les résultats des moteurs de recherche dépend de leurs algorithmes, qui évoluent sans préavis, et de la concurrence. Aucune position, aucun volume de visites et aucun chiffre d’affaires ne sont garantis.</p>
+        <p>Le client reste libre de suivre ou non les recommandations ; il est responsable des choix qu’il fait et des modifications qu’il apporte lui-même ou fait apporter par un tiers.</p>
+    </section>
+
+    <section>
+        <h2>11. Données personnelles</h2>
+        <p>Pour les données collectées par le site du client, le client est responsable de traitement et Neuralab agit en qualité de sous-traitant.</p>
+    </section>
+
+    <section>
+        <h2>12. Acceptation des conditions</h2>
+        <p>En payant par l’un des liens Stripe, le client professionnel reconnaît avoir pris connaissance des présentes CGV et les accepter. Elles sont jointes au devis, publiées sur cette page et envoyées sur simple demande à <a href="mailto:contact@killianp-dev.fr">contact@killianp-dev.fr</a>.</p>
+    </section>
+
+    <section>
+        <h2>13. Droit applicable</h2>
+        <p>Le contrat est soumis au droit français.</p>
+    </section>
+</div>
+{% endblock %}

@@ -215,7 +215,7 @@ class PortfolioTests(TestCase):
         self.assertEqual(html.count('data-preview-info'), 6)
         self.assertEqual(html.count('class="showcase__info is-active"'), 1)
 
-    def test_accueil_presente_l_agence(self):
+    def test_accueil_presente_l_activite(self):
         html = self.client.get("/").content.decode()
         self.assertIn("Conseil informatique", html)
         self.assertIn("référencement SEO", html)

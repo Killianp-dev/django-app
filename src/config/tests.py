@@ -44,7 +44,7 @@ class StaticPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
-            "Agence de conseil et d'expertise informatique, spécialisée dans le référencement SEO",
+            "Conseil et expertise informatique, spécialisés dans le référencement SEO",
         )
 
     def test_cgv_ok(self):
@@ -189,7 +189,7 @@ class SeoTests(TestCase):
         html = self.client.get(reverse("index")).content.decode()
         titre = re.search(r'<h1 class="hero__title"[^>]*>(.*?)</h1>', html).group(1)
         self.assertEqual(titre.replace("&nbsp;", " "), "Vos clients appellent le premier qu'ils trouvent.")
-        # Une ligne dit ce que fait l'agence, sans promettre de classement.
+        # Une ligne dit ce que fait le service, sans promettre de classement.
         self.assertIn('class="hero__lead"', html)
         self.assertIn("référencement et site", html)
         self.assertNotIn("première place", html)

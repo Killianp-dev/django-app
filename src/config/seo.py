@@ -17,7 +17,7 @@ def organisation():
         "name": MARQUE,
         "alternateName": "Neuralab",
         "description": (
-            "Agence de conseil et d'expertise informatique spécialisée dans le référencement SEO, "
+            "Conseil et expertise informatique spécialisés dans le référencement SEO, "
             "pour les commerces de proximité, les artisans et les professions libérales."
         ),
         "url": f"{url}/",
