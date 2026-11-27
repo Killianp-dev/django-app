@@ -20,8 +20,6 @@ AVOCAT = _site(
     description="Cabinet d'avocats fictif à Paris. Droit de la famille, du travail, immobilier, des affaires et pénal. Honoraires annoncés par écrit. Démonstration de site vitrine.",
     hero_variant="split",
     hero_title="Un avocat qui vous explique, avant de vous défendre.",
-    # Le titre du hero, en trois morceaux : le mot du milieu est mis en valeur (italique, laiton).
-    hero_titre=_ns(avant="Un avocat qui vous", accent="explique,", apres="avant de vous défendre."),
     accroche="Nous accompagnons les particuliers et les entreprises à chaque étape : comprendre la situation, choisir une option, la suivre jusqu'au bout.",
     presentation=(
         "Solène Aubert et Julien Clerc exercent ensemble à Paris depuis 2014. "
