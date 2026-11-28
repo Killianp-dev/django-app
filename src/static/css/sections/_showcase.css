@@ -73,6 +73,8 @@ html[data-theme="dark"] .showcase {
   aspect-ratio: 3 / 2;
   overflow: hidden;
   background: var(--code-bar);
+  /* Le glissement horizontal change de démo (app.js) ; le vertical fait défiler la page. */
+  touch-action: pan-y pinch-zoom;
 }
 
 /* Reflet doux qui suit le pointeur */

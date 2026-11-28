@@ -791,6 +791,46 @@
       });
     });
 
+    // Sur écran tactile : un glissement horizontal sur la capture passe à la démo
+    // suivante (vers la gauche) ou précédente (vers la droite). Un geste surtout
+    // vertical reste un défilement de la page ; après un glissement, le lien de
+    // la capture ne s'ouvre pas.
+    if (link) {
+      const SWIPE_MIN = 40; // px
+      let startX = 0;
+      let startY = 0;
+      let tracking = false;
+      let swiped = false;
+
+      link.addEventListener('touchstart', (event) => {
+        if (event.touches.length !== 1) { tracking = false; return; }
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+        tracking = true;
+        swiped = false;
+      }, { passive: true });
+
+      link.addEventListener('touchend', (event) => {
+        if (!tracking) return;
+        tracking = false;
+        const touch = event.changedTouches[0];
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+        if (Math.abs(dx) < SWIPE_MIN || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+        swiped = true;
+        show(current + (dx < 0 ? 1 : -1));
+        start();
+      }, { passive: true });
+
+      link.addEventListener('touchcancel', () => { tracking = false; }, { passive: true });
+
+      link.addEventListener('click', (event) => {
+        if (!swiped) return;
+        swiped = false;
+        event.preventDefault();
+      });
+    }
+
     function setPaused(value) {
       paused = value;
       preview.classList.toggle('is-paused', paused);
