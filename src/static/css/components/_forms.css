@@ -243,8 +243,7 @@ html[data-theme="dark"] .contact-links a:focus-visible {
   grid-column: 1 / -1;
 }
 
-#contact-form form > div:nth-of-type(1),
-#contact-form form > div:nth-of-type(2) {
+#contact-form form > div:nth-of-type(-n + 4) {
   grid-column: auto;
   min-width: 0;
 }
@@ -260,6 +259,22 @@ html[data-theme="dark"] .contact-links a:focus-visible {
   letter-spacing: 0.01em;
   margin-bottom: 0.45rem;
   color: var(--color-ink);
+}
+
+/* Étoile des champs obligatoires (classe « required » posée par Django sur le libellé). */
+#contact-form label.required::after {
+  content: " *";
+  color: var(--color-accent);
+}
+
+html[data-theme="dark"] #contact-form label.required::after {
+  color: var(--color-accent-bright);
+}
+
+#contact-form .form-required-note {
+  margin: 0 0 1.3rem;
+  font-size: 0.82rem;
+  color: var(--color-ink-muted);
 }
 
 #contact-form .form-control {
@@ -372,8 +387,7 @@ html[data-theme="dark"] #contact-form .field-error {
     grid-template-columns: 1fr;
   }
 
-  #contact-form form > div:nth-of-type(1),
-  #contact-form form > div:nth-of-type(2) {
+  #contact-form form > div:nth-of-type(-n + 4) {
     grid-column: 1 / -1;
   }
 

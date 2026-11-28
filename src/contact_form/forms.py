@@ -8,6 +8,7 @@ RENDERED_AT_SALT = "contact_form.rendered_at"
 MIN_SUBMIT_SECONDS = 3
 MAX_SUBMIT_SECONDS = 2 * 60 * 60
 _LINK_RE = re.compile(r"https?://", re.IGNORECASE)
+_PHONE_CHARS_RE = re.compile(r"^\+?[\d\s.\-()]+$")
 
 
 def sign_rendered_at(timestamp=None):
@@ -57,8 +58,11 @@ def spam_reason(data):
 
 class ContactForm(forms.Form):
     """
-    Formulaire de contact simple avec nom, email, sujet et message.
+    Formulaire de contact : prénom, nom, email, téléphone (facultatif), sujet et message.
     """
+    # Les libellés des champs obligatoires reçoivent la classe « required » (étoile en CSS).
+    required_css_class = 'required'
+
     first_name = forms.CharField(
         label='Votre prénom',
         max_length=60,
@@ -82,7 +86,22 @@ class ContactForm(forms.Form):
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
             'autocomplete': 'email',
+            'autocapitalize': 'none',
+            'spellcheck': 'false',
+            'inputmode': 'email',
             'placeholder': 'nom@exemple.fr',
+        })
+    )
+    phone = forms.CharField(
+        label='Téléphone',
+        max_length=30,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'tel',
+            'autocomplete': 'tel',
+            'inputmode': 'tel',
+            'placeholder': '06 12 34 56 78 (facultatif)',
         })
     )
     subject = forms.CharField(
@@ -138,6 +157,15 @@ class ContactForm(forms.Form):
         if any(char.isdigit() for char in name):
             raise forms.ValidationError("Le nom ne doit pas contenir de chiffres.")
         return name
+
+    def clean_phone(self):
+        phone = (self.cleaned_data.get('phone') or '').strip()
+        if not phone:
+            return ''
+        chiffres = sum(char.isdigit() for char in phone)
+        if not _PHONE_CHARS_RE.match(phone) or not 8 <= chiffres <= 15:
+            raise forms.ValidationError("Numéro de téléphone invalide.")
+        return phone
 
     def clean_message(self):
         message = self.cleaned_data.get('message')

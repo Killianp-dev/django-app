@@ -34,6 +34,7 @@
                 {{ form.website }}
             </span>
             {{ form.non_field_errors }}
+            <p class="form-required-note"><span aria-hidden="true">*</span> Champs obligatoires</p>
             <div>
                 {{ form.first_name.label_tag }}
                 {{ form.first_name }}{{ form.first_name.errors }}
@@ -45,6 +46,10 @@
             <div>
                 {{ form.email.label_tag }}
                 {{ form.email }}{{ form.email.errors }}
+            </div>
+            <div>
+                {{ form.phone.label_tag }}
+                {{ form.phone }}{{ form.phone.errors }}
             </div>
             <div>
                 {{ form.subject.label_tag }}

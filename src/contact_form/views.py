@@ -29,15 +29,17 @@ def handle_contact(form):
     # Le modèle garde un seul champ « nom » : prénom et nom y sont réunis (pas de migration).
     name = f"{form.cleaned_data['first_name']} {form.cleaned_data['name']}".strip()
     email = form.cleaned_data['email']
+    phone = form.cleaned_data.get('phone', '')
     subject = form.cleaned_data.get('subject') or "Nouveau message de contact"
     message = form.cleaned_data['message']
 
-    Contact.objects.create(name=name, email=email, subject=subject, message=message)
+    Contact.objects.create(name=name, email=email, phone=phone, subject=subject, message=message)
 
+    telephone = f"Téléphone : {phone}\n" if phone else ""
     try:
         send_mail(
             subject=f"[Contact] {subject}",
-            message=f"De : {name} <{email}>\n\n{message}",
+            message=f"De : {name} <{email}>\n{telephone}\n{message}",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=["contact@killianp-dev.fr"],
             fail_silently=False,

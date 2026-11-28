@@ -109,6 +109,34 @@ class ContactViewTests(TestCase):
         self.assertIn("Votre prénom", html)
         self.assertIn("Votre nom", html)
 
+    def test_champs_obligatoires_marques_et_attributs_autofill(self):
+        html = self.client.get(reverse("contact_form:contact")).content.decode()
+        for champ in ("first_name", "name", "email", "message"):
+            self.assertRegex(html, rf'<label for="id_{champ}" class="required"')
+        for champ in ("phone", "subject"):
+            self.assertNotRegex(html, rf'<label for="id_{champ}" class="required"')
+        self.assertIn('autocomplete="tel"', html)
+        self.assertIn('type="tel"', html)
+        self.assertIn('autocapitalize="none"', html)
+        self.assertIn('inputmode="email"', html)
+
+    def test_telephone_facultatif_et_transmis(self):
+        self.client.post(reverse("contact_form:contact"), contact_payload())
+        self.assertEqual(Contact.objects.get().phone, "")
+        self.assertNotIn("Téléphone", mail.outbox[0].body)
+        self.client.post(
+            reverse("contact_form:contact"), contact_payload(phone="06 12 34 56 78"))
+        self.assertEqual(Contact.objects.count(), 2)
+        self.assertIn("Téléphone : 06 12 34 56 78", mail.outbox[1].body)
+
+    def test_telephone_invalide_refuse(self):
+        for valeur in ("abc", "123", "06 12 34 56 7x"):
+            with self.subTest(valeur=valeur):
+                response = self.client.post(
+                    reverse("contact_form:contact"), contact_payload(phone=valeur))
+                self.assertEqual(response.status_code, 200)
+        self.assertEqual(Contact.objects.count(), 0)
+
     def test_default_subject_when_empty(self):
         self.client.post(
             reverse("contact_form:contact"),

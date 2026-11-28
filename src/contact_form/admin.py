@@ -3,8 +3,8 @@ from .models import Contact
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'subject', 'created_at')
+    list_display = ('name', 'email', 'phone', 'subject', 'created_at')
     list_filter = ('created_at',)
-    search_fields = ('name', 'email', 'subject', 'message')
+    search_fields = ('name', 'email', 'phone', 'subject', 'message')
     readonly_fields = ('created_at',)
     date_hierarchy = 'created_at'
